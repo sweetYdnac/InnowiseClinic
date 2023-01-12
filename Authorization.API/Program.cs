@@ -1,3 +1,5 @@
+using Authorization.Business.Abstractions;
+using Authorization.Business.ServicesImplementations;
 using Authorization.Data;
 using Authorization.Data.Entities;
 using IdentityServer4.Models;
@@ -69,14 +71,17 @@ namespace Authorization.API
                 })
                 .AddOpenIdConnect(opt =>
                 {
-                    opt.Authority = "https://localhost:5001";
-                    opt.ClientId = "Authorization.API";
-                    opt.ClientSecret = "ClientSecret".Sha256();
+                    opt.Authority = "https://localhost:44306";
+                    opt.ClientId = "interactive";
+                    opt.ClientSecret = "ClientSecret1";
                     opt.ResponseType = "code";
                     opt.SaveTokens = true;
+                    opt.Scope.Add("openid");
                 });
 
             builder.Services.AddControllers();
+
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

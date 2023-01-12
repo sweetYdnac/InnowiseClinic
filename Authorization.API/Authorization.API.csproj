@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
+    <ProjectReference Include="..\Authorization.Core\Authorization.Business.csproj" />
   </ItemGroup>
 
 </Project>

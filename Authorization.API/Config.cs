@@ -8,7 +8,7 @@ namespace Authorization.API
             new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -39,9 +39,9 @@ namespace Authorization.API
                     RequirePkce = true,
                     RequireConsent= true,
                     AllowPlainTextPkce= true,
-                    RedirectUris = { "https://https://localhost:44306/signin-oidc" },
-                    FrontChannelLogoutUri = "https://https://localhost:44306/signout-oidc",
-                    PostLogoutRedirectUris= { "https://https://localhost:44306/signout-callback-oidc" },
+                    RedirectUris = { "https://localhost:44306/signin-oidc" },
+                    FrontChannelLogoutUri = "https://localhost:44306/signout-oidc",
+                    PostLogoutRedirectUris= { "https://localhost:44306/signout-callback-oidc" },
                 }
             };
 
@@ -49,7 +49,7 @@ namespace Authorization.API
             new[]
             {
                 new ApiResource("Authorization.API")
-                {
+                {                   
                     Scopes = { "AuthorizationAPI.Read", "AuthorizationAPI.Write" },
                     ApiSecrets = { new Secret("AuthSecret".Sha256()) },
                     UserClaims = { "role" }

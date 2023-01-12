@@ -6,10 +6,18 @@
     <members>
         <member name="M:Authorization.API.Controllers.AccountController.SignUp(Authorization.API.Models.Request.SignUpRequestModel)">
             <summary>
-            Create new Identity User
+            Sign up new Account
             </summary>
             <param name="request"></param>
             <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Authorization.API.Models.Request.SignInRequestModel)">
+            <summary>
+            Sign in account/>
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+            
         </member>
     </members>
 </doc>

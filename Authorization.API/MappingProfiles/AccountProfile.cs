@@ -1,6 +1,4 @@
-﻿using Authorization.API.Models.Request;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
 
 namespace Authorization.API.MappingProfiles
 {
