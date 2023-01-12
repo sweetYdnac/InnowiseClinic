@@ -48,7 +48,7 @@ namespace Authorization.API
         public static IEnumerable<ApiResource> ApiResources =>
             new[]
             {
-                new ApiResource("AuthorizationAPI")
+                new ApiResource("Authorization.API")
                 {
                     Scopes = { "AuthorizationAPI.Read", "AuthorizationAPI.Write" },
                     ApiSecrets = { new Secret("AuthSecret".Sha256()) },

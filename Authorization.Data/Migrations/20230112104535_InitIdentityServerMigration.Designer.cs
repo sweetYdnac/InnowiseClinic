@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authorization.Data.Migrations
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20230112061324_InitialIdentityServerMigration")]
-    partial class InitialIdentityServerMigration
+    [Migration("20230112104535_InitIdentityServerMigration")]
+    partial class InitIdentityServerMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

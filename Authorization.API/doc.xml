@@ -4,5 +4,12 @@
         <name>Authorization.API</name>
     </assembly>
     <members>
+        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Authorization.API.Models.Request.SignUpRequestModel)">
+            <summary>
+            Create new Identity User
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

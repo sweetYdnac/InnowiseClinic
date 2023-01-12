@@ -1,13 +1,11 @@
 using Authorization.Data;
+using Authorization.Data.Entities;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
-using System.Text;
 
 namespace Authorization.API
 {
@@ -41,11 +39,15 @@ namespace Authorization.API
                 options.UseSqlServer(connectionString,
                     b => b.MigrationsAssembly(migrationAssembly)));
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AuthorizationDbContext>();
+            builder.Services.AddIdentity<Account, IdentityRole<Guid>>()
+                .AddSignInManager<SignInManager<Account>>()
+                .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
+                .AddUserManager<UserManager<Account>>()
+                .AddEntityFrameworkStores<AuthorizationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddIdentityServer()
-                .AddAspNetIdentity<IdentityUser>()
+                .AddAspNetIdentity<Account>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b => b.UseSqlServer(connectionString,
@@ -59,24 +61,11 @@ namespace Authorization.API
                 .AddDeveloperSigningCredential();
 
             builder.Services
-                .AddAuthentication(options =>
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(opt =>
-                {
-                    opt.RequireHttpsMetadata = false;
-                    opt.SaveToken = true;
-                    opt.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = builder.Configuration["Token:Issuer"],
-                        ValidAudience = builder.Configuration["Token:Issuer"],
-                        IssuerSigningKey =
-                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:JwtSecret"])),
-                        ClockSkew = TimeSpan.Zero
-                    };
+                    options.Authority = "https://localhost:44306";
+                    options.ApiName = "Authorization.API";
                 })
                 .AddOpenIdConnect(opt =>
                 {
@@ -91,7 +80,12 @@ namespace Authorization.API
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(builder.Configuration["XmlDoc"]);
+            });
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             var app = builder.Build();
 

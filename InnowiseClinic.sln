@@ -7,11 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{72
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authorization", "Authorization", "{18D2305F-ADD7-44DD-AA5E-DE8D6253F714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.API", "Authorization.API\Authorization.API.csproj", "{B8B630C8-5333-4ADA-A1F0-974AB6D7EC23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.API", "Authorization.API\Authorization.API.csproj", "{B8B630C8-5333-4ADA-A1F0-974AB6D7EC23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Core", "Authorization.Core\Authorization.Core.csproj", "{0B8CDFDF-0FEF-4A60-B7EB-3E992AE1F8BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Business", "Authorization.Core\Authorization.Business.csproj", "{0B8CDFDF-0FEF-4A60-B7EB-3E992AE1F8BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Data", "Authorization.Data\Authorization.Data.csproj", "{21A356B3-9D09-4D31-9DC8-40FAD004AAEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Data", "Authorization.Data\Authorization.Data.csproj", "{21A356B3-9D09-4D31-9DC8-40FAD004AAEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

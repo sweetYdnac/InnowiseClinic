@@ -1,4 +1,5 @@
 ﻿using Authorization.Data;
+using Authorization.Data.Entities;
 using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
@@ -19,7 +20,7 @@ namespace Authorization.API
                 options => options.UseSqlServer(connectionString));
 
             services
-                .AddIdentity<IdentityUser, IdentityRole>()
+                .AddIdentity<Account, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<AuthorizationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -58,12 +59,12 @@ namespace Authorization.API
 
         public static void EnsureUsers(IServiceScope scope)
         {
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Account>>();
 
             var evgeny = userManager.FindByNameAsync("evgeny").Result;
             if (evgeny is null)
             {
-                evgeny = new IdentityUser
+                evgeny = new Account
                 {
                     UserName = "Evgeny",
                     Email = "evgeny@email.com",
