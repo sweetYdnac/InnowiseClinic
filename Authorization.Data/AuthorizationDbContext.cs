@@ -1,14 +1,11 @@
-﻿using Authorization.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authorization.Data
 {
-    public class AuthorizationDbContext : DbContext
+    public class AuthorizationDbContext : IdentityDbContext
     {
-        public DbSet<T_Account> Accounts { get; set; }
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
     }
 }
