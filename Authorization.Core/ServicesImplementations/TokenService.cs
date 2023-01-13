@@ -1,5 +1,6 @@
 ﻿using Authorization.Business.Abstractions;
 using IdentityModel.Client;
+using IdentityServer4;
 
 namespace Authorization.Business.ServicesImplementations
 {
@@ -7,10 +8,7 @@ namespace Authorization.Business.ServicesImplementations
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public TokenService(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory= httpClientFactory;
-        }
+        public TokenService(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
 
         public async Task<TokenResponse> GetToken(string userName, string password)
         {
@@ -19,7 +17,7 @@ namespace Authorization.Business.ServicesImplementations
             {
                 Address = "https://localhost:44306/connect/token",
                 ClientId = "machineClient",
-                Scope = "Full",
+                Scope = $"Full { IdentityServerConstants.StandardScopes.OfflineAccess }",
                 UserName = userName,
                 Password = password
             };

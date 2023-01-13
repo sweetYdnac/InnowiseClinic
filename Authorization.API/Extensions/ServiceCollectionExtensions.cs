@@ -28,7 +28,13 @@ namespace Authorization.API.Extensions
 
         public static void ConfigureAspNetIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<Account, IdentityRole<Guid>>()
+            services.AddIdentity<Account, IdentityRole<Guid>>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
                 .AddSignInManager<SignInManager<Account>>()
                 .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
                 .AddUserManager<UserManager<Account>>()
@@ -52,7 +58,7 @@ namespace Authorization.API.Extensions
             services.AddSwaggerGen(options =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
             });
         }

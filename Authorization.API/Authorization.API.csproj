@@ -6,7 +6,7 @@
     <UserSecretsId>64f3b94b-7818-417c-bd25-3da53cb10b84</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Authorization.API\doc.xml</DocumentationFile>
+    <DocumentationFile>D:\Work\InnowiseClinic\Authorization.API\Authorization.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +37,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authorization.Core\Authorization.Business.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Responce\" />
   </ItemGroup>
 
 </Project>

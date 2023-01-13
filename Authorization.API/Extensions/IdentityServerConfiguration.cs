@@ -2,7 +2,7 @@
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace Authorization.API
+namespace Authorization.API.Extensions
 {
     public static class IdentityServerConfiguration
     {
@@ -20,7 +20,7 @@ namespace Authorization.API
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new[]
-            { 
+            {
                 new ApiScope("Read", "Read"),
                 new ApiScope("Write", "Write"),
                 new ApiScope("Full", "Full"),
@@ -28,7 +28,7 @@ namespace Authorization.API
 
         public static IEnumerable<Client> Clients =>
             new[]
-            { 
+            {
                 new Client
                 {
                     ClientId = "machineClient",
@@ -64,11 +64,11 @@ namespace Authorization.API
             new[]
             {
                 new ApiResource()
-                {          
+                {
                     Name = "Full",
                     UserClaims = { JwtClaimTypes.Name, JwtClaimTypes.Role },
-                    Scopes = 
-                    { 
+                    Scopes =
+                    {
                         "Full",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,

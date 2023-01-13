@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Authorization.Data.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,26 +13,26 @@ namespace Authorization.Data.Configurations
                 new IdentityRole<Guid>
                 {
                     Id= Guid.NewGuid(),
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
+                    Name = AccountRoles.Admin.ToString(),
+                    NormalizedName = AccountRoles.Admin.ToString().ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = "User",
-                    NormalizedName = "USER",
+                    Name = AccountRoles.User.ToString(),
+                    NormalizedName = AccountRoles.User.ToString(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Doctor",
-                    NormalizedName = "DOCTOR",
+                    Name = AccountRoles.Doctor.ToString(),
+                    NormalizedName = AccountRoles.Doctor.ToString().ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Reseptionist",
-                    NormalizedName = "RESEPTIONIST",
+                    Name = AccountRoles.Receptionist.ToString(),
+                    NormalizedName = AccountRoles.Receptionist.ToString().ToUpper(),
                 }
             );
         }
