@@ -19,8 +19,8 @@ namespace Authorization.Data.Configurations
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = AccountRoles.User.ToString(),
-                    NormalizedName = AccountRoles.User.ToString(),
+                    Name = AccountRoles.Patient.ToString(),
+                    NormalizedName = AccountRoles.Patient.ToString().ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {

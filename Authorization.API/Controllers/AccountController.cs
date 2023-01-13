@@ -50,6 +50,7 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SignIn([FromQuery] SignInRequestModel request)
         {
             if (request is null)
@@ -60,6 +61,23 @@ namespace Authorization.API.Controllers
             var tokenResponce = await _accountService.SignIn(request.Email, request.Password);
 
             return Ok(tokenResponce);
+        }
+
+        /// <summary>
+        /// Sign out from account
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("SignOut")]
+        [Authorize]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public new async Task<IActionResult> SignOut()
+        {
+            await _accountService.SignOut();
+
+            return NoContent();
         }
 
         /// <summary>
@@ -74,6 +92,7 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddToRole([FromBody] AddInRoleRequestModel request)
         {
             if (request is null)
@@ -98,6 +117,7 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RemoveFromRole([FromBody] RemoveFromRoleRequestModel request)
         {
             if (request is null)

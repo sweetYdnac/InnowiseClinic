@@ -3,7 +3,7 @@
     public enum AccountRoles
     {
         Admin,
-        User,
+        Patient,
         Doctor,
         Receptionist,
     }

@@ -35,6 +35,7 @@ namespace Authorization.Business.ServicesImplementations
                 Id = id,
                 Email = email,
                 UserName = email,
+                Status = AccountStatuses.None,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = id,
                 UpdatedAt = DateTime.UtcNow,
@@ -48,7 +49,7 @@ namespace Authorization.Business.ServicesImplementations
                 throw new AccountNotCreatedException();
             }
 
-            result = await _userManager.AddToRoleAsync(user, AccountRoles.User.ToString());
+            result = await _userManager.AddToRoleAsync(user, AccountRoles.Patient.ToString());
 
             if (!result.Succeeded)
             {
@@ -118,6 +119,11 @@ namespace Authorization.Business.ServicesImplementations
             {
                 throw new NotRemovedFromRoleException();
             }
+        }
+
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
         }
     }
 }
