@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Authorization.Data.Migrations.AuthorizationDb
+namespace Authorization.Data.Migrations
 {
-    public partial class InitMicrosoftIdentityMigration : Migration
+    public partial class InitialMicrosoftIdentityMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

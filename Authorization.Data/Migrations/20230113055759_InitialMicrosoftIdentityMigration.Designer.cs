@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Authorization.Data.Migrations.AuthorizationDb
+namespace Authorization.Data.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20230112111525_InitMicrosoftIdentityMigration")]
-    partial class InitMicrosoftIdentityMigration
+    [Migration("20230113055759_InitialMicrosoftIdentityMigration")]
+    partial class InitialMicrosoftIdentityMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

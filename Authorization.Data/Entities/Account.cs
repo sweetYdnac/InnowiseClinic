@@ -2,7 +2,7 @@
 
 namespace Authorization.Data.Entities
 {
-    public class Account : IdentityUser<Guid>, ITrackable
+    public class Account : IdentityUser<Guid>
     {
         public Guid PhotoId { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -67,9 +67,9 @@ namespace Authorization.API.Controllers
                 return BadRequest(new ErrorModel() { Message = message });
             }
 
-            var result = await _accountService.SignIn(request.Email, request.Password);
+            var tokenResponce = await _accountService.SignIn(request.Email, request.Password);
 
-            return Ok();
+            return Ok(tokenResponce);
         }
     }
 }

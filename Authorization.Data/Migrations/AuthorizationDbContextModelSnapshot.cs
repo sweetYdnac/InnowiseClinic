@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Authorization.Data.Migrations.AuthorizationDb
+namespace Authorization.Data.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
     partial class AuthorizationDbContextModelSnapshot : ModelSnapshot
@@ -129,6 +129,36 @@ namespace Authorization.Data.Migrations.AuthorizationDb
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("556297c7-7e1e-4915-b88a-1352a25327b9"),
+                            ConcurrencyStamp = "39a9178d-3fdc-4540-a0a9-f327bb667c5e",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("aff5b280-9ab5-4e99-a6e0-ca4114630ac5"),
+                            ConcurrencyStamp = "eaf97cc0-c009-4b48-b52c-291c3c154e77",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = new Guid("0422c2d9-60d0-46c9-865d-faa62b87800c"),
+                            ConcurrencyStamp = "ea967295-294b-4292-b388-00cb0e1f20d5",
+                            Name = "Doctor",
+                            NormalizedName = "DOCTOR"
+                        },
+                        new
+                        {
+                            Id = new Guid("67f709f8-3407-42d8-a3cb-6a6b37fad2c1"),
+                            ConcurrencyStamp = "15bc6f28-4822-469c-ac08-82d5a49d375d",
+                            Name = "Reseptionist",
+                            NormalizedName = "RESEPTIONIST"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
