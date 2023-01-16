@@ -1,4 +1,6 @@
 ﻿using Authorization.Business.Abstractions;
+using Authorization.Data.DataTransferObjects;
+using AutoMapper;
 using IdentityModel.Client;
 using IdentityServer4;
 
@@ -7,10 +9,12 @@ namespace Authorization.Business.ServicesImplementations
     public class TokenService : ITokenService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IMapper _mapper;
 
-        public TokenService(IHttpClientFactory httpClientFactory) => _httpClientFactory = httpClientFactory;
+        public TokenService(IHttpClientFactory httpClientFactory, IMapper mapper) =>
+            (_httpClientFactory, _mapper) = (httpClientFactory, mapper);
 
-        public async Task<TokenResponse> GetToken(string userName, string password)
+        public async Task<TokenResponseDTO> GetToken(string userName, string password)
         {
             var client = _httpClientFactory.CreateClient();
             var request = new PasswordTokenRequest
@@ -22,7 +26,8 @@ namespace Authorization.Business.ServicesImplementations
                 Password = password
             };
 
-            return await client.RequestPasswordTokenAsync(request);
+            var response = await client.RequestPasswordTokenAsync(request);
+            return _mapper.Map<TokenResponseDTO>(response);
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Authorization.Business.Abstractions;
+using Authorization.Data.DataTransferObjects;
 using Authorization.Data.Entities;
 using Authorization.Data.Enums;
-using IdentityModel.Client;
 using Microsoft.AspNetCore.Identity;
 using Shared.Exceptions.Authorization;
+using System.Security.Claims;
 
 namespace Authorization.Business.ServicesImplementations
 {
@@ -18,15 +19,11 @@ namespace Authorization.Business.ServicesImplementations
             SignInManager<Account> signInManager,
             UserManager<Account> userManager,
             RoleManager<IdentityRole<Guid>> roleManager,
-            ITokenService tokenService)
-        {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _tokenService = tokenService;
-        }
+            ITokenService tokenService) =>
+            (_signInManager, _userManager, _roleManager, _tokenService) =
+            (signInManager, userManager, roleManager, tokenService);
 
-        public async Task SignUp(string email, string password)
+        public async Task SignUpAsync(string email, string password)
         {
             var id = Guid.NewGuid();
 
@@ -57,13 +54,18 @@ namespace Authorization.Business.ServicesImplementations
             }
         }
 
-        public async Task<TokenResponse> SignIn(string email, string password)
+        public async Task<TokenResponseDTO> SignInAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user is null)
             {
                 throw new AccountNotFoundException();
+            }
+
+            if (user.Status is AccountStatuses.Inactive)
+            {
+                throw new AccountInactiveException();
             }
 
             var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, password, true, true);
@@ -73,7 +75,7 @@ namespace Authorization.Business.ServicesImplementations
                 : await _tokenService.GetToken(user.UserName, password);
         }
 
-        public async Task AddToRole(string email, string roleName)
+        public async Task AddToRoleAsync(string email, string roleName)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -82,7 +84,7 @@ namespace Authorization.Business.ServicesImplementations
                 throw new AccountNotFoundException();
             }
 
-            var role = _roleManager.FindByNameAsync(roleName);
+            var role = await _roleManager.FindByNameAsync(roleName);
 
             if (role is null)
             {
@@ -97,7 +99,7 @@ namespace Authorization.Business.ServicesImplementations
             }
         }
 
-        public async Task RemoveFromRole(string email, string roleName)
+        public async Task RemoveFromRoleAsync(string email, string roleName)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -106,24 +108,54 @@ namespace Authorization.Business.ServicesImplementations
                 throw new AccountNotFoundException();
             }
 
-            var role = _roleManager.FindByNameAsync(roleName);
+            var role = await _roleManager.FindByNameAsync(roleName);
 
             if (role is null)
             {
                 throw new RoleIsNotExistException();
             }
 
-            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
-
-            if (!result.Succeeded)
+            if (await _userManager.IsInRoleAsync(user, roleName))
             {
-                throw new NotRemovedFromRoleException();
+                await _userManager.RemoveFromRoleAsync(user, roleName);
             }
         }
 
-        public async Task SignOut()
+        public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
+        }
+
+        public async Task UpdateAsync(Guid id, PatchAccountDTO dto)
+        {
+            var account = await _userManager.FindByIdAsync(id.ToString());
+
+            if (account is null)
+            {
+                throw new AccountNotFoundException();
+            }
+
+            account.Status = dto.Status;
+
+            var updaterId = dto.UpdaterClaimsPrincipal.Claims
+                .Where(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                .Select(c => c.Value)
+                .FirstOrDefault();
+
+            if (updaterId is null)
+            {
+                throw new AccountNotFoundException();
+            }
+
+            account.UpdatedBy = new Guid(updaterId);
+            account.UpdatedAt = DateTime.UtcNow;
+
+            var result = await _userManager.UpdateAsync(account);
+
+            if (!result.Succeeded)
+            {
+                throw new NotUpdatedAccountException();
+            }
         }
     }
 }

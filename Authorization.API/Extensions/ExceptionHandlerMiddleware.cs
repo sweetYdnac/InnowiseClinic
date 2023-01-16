@@ -12,11 +12,8 @@ public class ExceptionHandlerMiddleware
     private readonly RequestDelegate _next;
     private readonly IHostEnvironment _env;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next, IHostEnvironment env)
-    {
-        _next = next;
-        _env = env;
-    }
+    public ExceptionHandlerMiddleware(RequestDelegate next, IHostEnvironment env) =>
+        (_next, _env) = (next, env);
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -48,9 +45,13 @@ public class ExceptionHandlerMiddleware
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError, () => Log.Error(ex, ex.Message));
         }
-        catch (NotRemovedFromRoleException ex)
+        catch (NotUpdatedAccountException ex)
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError, () => Log.Error(ex, ex.Message));
+        }
+        catch (AccountInactiveException ex)
+        {
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Conflict, () => Log.Information(ex, ex.Message));
         }
         catch (Exception ex)
         {
@@ -82,7 +83,7 @@ public class ExceptionHandlerMiddleware
     private string GetFullMessage(Exception ex)
     {
         return ex.InnerException is not null
-            ? ex.Message + "; " + GetFullMessage(ex.InnerException)
-            : ex.Message;
+            ? $"{ex.GetType().Name} - {ex.Message}; {GetFullMessage(ex.InnerException)}"
+            : $"{ex.GetType().Name} - {ex.Message}";
     }
 }

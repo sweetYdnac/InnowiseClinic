@@ -1,6 +1,8 @@
 ﻿using Authorization.API.Models.Request;
+using Authorization.API.Models.Responce;
 using Authorization.Business.Abstractions;
-using IdentityModel.Client;
+using Authorization.Data.DataTransferObjects;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Exceptions;
@@ -13,7 +15,9 @@ namespace Authorization.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
-        public AccountController(IAccountService accountService) => _accountService = accountService;
+        private readonly IMapper _mapper;
+        public AccountController(IAccountService accountService, IMapper mapper) =>
+            (_accountService, _mapper) = (accountService, mapper);
 
         /// <summary>
         /// Sign up new Account
@@ -31,7 +35,7 @@ namespace Authorization.API.Controllers
                 throw new EmptyRequestException();
             }
 
-            await _accountService.SignUp(request.Email, request.Password);
+            await _accountService.SignUpAsync(request.Email, request.Password);
 
             return CreatedAtAction(
                     nameof(SignIn),
@@ -46,36 +50,36 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request">Contains email and password</param>
         /// <returns></returns>
-        [HttpGet("SignIn")]
-        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [HttpPost("SignIn")]
+        [ProducesResponseType(typeof(TokenResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> SignIn([FromQuery] SignInRequestModel request)
+        public async Task<IActionResult> SignIn([FromBody] SignInRequestModel request)
         {
             if (request is null)
             {
                 throw new EmptyRequestException();
             }
 
-            var tokenResponce = await _accountService.SignIn(request.Email, request.Password);
+            var tokenResponce = await _accountService.SignInAsync(request.Email, request.Password);
+            var responseModel = _mapper.Map<TokenResponseModel>(tokenResponce);
 
-            return Ok(tokenResponce);
+            return Ok(responseModel);
         }
 
         /// <summary>
-        /// Sign out from account
+        /// Sign out from an account
         /// </summary>
         /// <returns></returns>
         [HttpPost("SignOut")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public new async Task<IActionResult> SignOut()
         {
-            await _accountService.SignOut();
+            await _accountService.SignOutAsync();
 
             return NoContent();
         }
@@ -100,7 +104,7 @@ namespace Authorization.API.Controllers
                 throw new EmptyRequestException();
             }
 
-            await _accountService.AddToRole(request.Email, request.RoleName);
+            await _accountService.AddToRoleAsync(request.Email, request.RoleName);
 
             return NoContent();
         }
@@ -125,7 +129,34 @@ namespace Authorization.API.Controllers
                 throw new EmptyRequestException();
             }
 
-            await _accountService.RemoveFromRole(request.Email, request.RoleName);
+            await _accountService.RemoveFromRoleAsync(request.Email, request.RoleName);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Patch specific account
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPatch]
+        [Authorize]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PatchAccount([FromBody] PatchAccountRequestModel request)
+        {
+            if (request is null)
+            {
+                throw new EmptyRequestException();
+            }
+
+            var dto = _mapper.Map<PatchAccountDTO>(request);
+            dto.UpdaterClaimsPrincipal = HttpContext.User;
+
+            await _accountService.UpdateAsync(request.Id, dto);
 
             return NoContent();
         }

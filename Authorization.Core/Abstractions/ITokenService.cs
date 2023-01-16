@@ -1,9 +1,9 @@
-﻿using IdentityModel.Client;
+﻿using Authorization.Data.DataTransferObjects;
 
 namespace Authorization.Business.Abstractions
 {
     public interface ITokenService
     {
-        Task<TokenResponse> GetToken(string userName, string password);
+        Task<TokenResponseDTO> GetToken(string userName, string password);
     }
 }

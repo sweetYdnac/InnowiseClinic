@@ -1,6 +1,5 @@
 using Authorization.API.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
@@ -22,8 +21,8 @@ namespace Authorization.API
             builder.Services.AddServices();
             builder.Services.ConfigureDbContext(builder.Configuration);
             builder.Services.ConfigureAspNetIdentity();
-            builder.Services.ConfigureIdentityServer();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.ConfigureIdentityServer(builder.Configuration);
 
             builder.Services.AddAuthentication(options =>
             {

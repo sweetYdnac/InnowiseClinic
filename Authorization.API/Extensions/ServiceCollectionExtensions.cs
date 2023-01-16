@@ -42,7 +42,7 @@ namespace Authorization.API.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void ConfigureIdentityServer(this IServiceCollection services)
+        public static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentityServer()
                 .AddAspNetIdentity<Account>()

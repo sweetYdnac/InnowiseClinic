@@ -1,4 +1,5 @@
 ﻿using Authorization.Data.Entities;
+using Authorization.Data.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,8 @@ namespace Authorization.Data
         protected override void OnModelCreating(ModelBuilder builder) 
         {
             base.OnModelCreating(builder);
-            //builder.ApplyConfiguration(new IdentityRoleConfiguration());
+
+            builder.SeedData();
         }
     }
 }

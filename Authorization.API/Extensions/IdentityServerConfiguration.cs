@@ -32,7 +32,7 @@ namespace Authorization.API.Extensions
                 new Client
                 {
                     ClientId = "machineClient",
-                    RequireClientSecret= false,
+                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowedScopes =
@@ -47,7 +47,7 @@ namespace Authorization.API.Extensions
                 new Client
                 {
                     ClientId = "userClient",
-                    RequireClientSecret= false,
+                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowedScopes =
