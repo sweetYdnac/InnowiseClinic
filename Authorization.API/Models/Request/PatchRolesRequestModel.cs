@@ -2,12 +2,15 @@
 
 namespace Authorization.API.Models.Request
 {
-    public class AddInRoleRequestModel
+    public class PatchRolesRequestModel
     {
         [Required]
-        public string Email { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string RoleName { get; set; }
+
+        [Required]
+        public bool IsAddRole { get; set; }
     }
 }

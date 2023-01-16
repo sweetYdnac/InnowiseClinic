@@ -8,8 +8,8 @@ namespace Authorization.API.MappingProfiles
     {
         public AccountProfile()
         {
-            CreateMap<PatchAccountRequestModel, PatchAccountDTO>()
-                .ForMember(dto => dto.Status, opt => opt.MapFrom(model => model.Status));
+            CreateMap<PatchAccountRequestModel, PatchAccountDTO>();
+            CreateMap<PatchRolesRequestModel, PatchRolesDTO>();
         }
     }
 }

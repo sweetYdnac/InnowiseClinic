@@ -2,11 +2,11 @@
 using Authorization.API.Models.Responce;
 using Authorization.Business.Abstractions;
 using Authorization.Data.DataTransferObjects;
+using Authorization.Data.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Exceptions;
-using Shared.Exceptions.Shared;
 
 namespace Authorization.API.Controllers
 {
@@ -24,22 +24,18 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request">Contains email and password</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(SignInRequestModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(SignUpResponseModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequestModel request)
         {
-            if (request is null)
-            {
-                throw new EmptyRequestException();
-            }
-
             await _accountService.SignUpAsync(request.Email, request.Password);
 
             return CreatedAtAction(
-                    nameof(SignIn),
-                new SignInRequestModel {
+                nameof(SignIn),
+                new SignUpResponseModel
+                {
                             Email = request.Email,
                             Password = request.Password
                         });
@@ -57,11 +53,6 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SignIn([FromBody] SignInRequestModel request)
         {
-            if (request is null)
-            {
-                throw new EmptyRequestException();
-            }
-
             var tokenResponce = await _accountService.SignInAsync(request.Email, request.Password);
             var responseModel = _mapper.Map<TokenResponseModel>(tokenResponce);
 
@@ -85,51 +76,22 @@ namespace Authorization.API.Controllers
         }
 
         /// <summary>
-        /// Add role to specific account
+        /// Patch roles from specific Account
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("AddToRole")]
-        [Authorize(Roles = "Admin")]
+        [HttpPatch("Roles")]
+        [Authorize(Roles = nameof(AccountRoles.Admin))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddToRole([FromBody] AddInRoleRequestModel request)
+        public async Task<IActionResult> PatchRoles([FromBody] PatchRolesRequestModel request)
         {
-            if (request is null)
-            {
-                throw new EmptyRequestException();
-            }
-
-            await _accountService.AddToRoleAsync(request.Email, request.RoleName);
-
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Remove specific role from account
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpPost("RemoveFromRole")]
-        [Authorize(Roles = "Admin")]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RemoveFromRole([FromBody] RemoveFromRoleRequestModel request)
-        {
-            if (request is null)
-            {
-                throw new EmptyRequestException();
-            }
-
-            await _accountService.RemoveFromRoleAsync(request.Email, request.RoleName);
+            var dto = _mapper.Map<PatchRolesDTO>(request);
+            await _accountService.UpdateRolesAsync(request.Id, dto);
 
             return NoContent();
         }
@@ -148,11 +110,6 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PatchAccount([FromBody] PatchAccountRequestModel request)
         {
-            if (request is null)
-            {
-                throw new EmptyRequestException();
-            }
-
             var dto = _mapper.Map<PatchAccountDTO>(request);
             dto.UpdaterClaimsPrincipal = HttpContext.User;
 

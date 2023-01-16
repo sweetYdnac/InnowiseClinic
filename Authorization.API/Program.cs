@@ -1,4 +1,6 @@
 using Authorization.API.Extensions;
+using Authorization.Data.Enums;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -12,8 +14,12 @@ namespace Authorization.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            var logPath = Path.Combine(
+                Directory.GetParent(Directory.GetCurrentDirectory()).FullName, 
+                builder.Configuration["LogPath"]);
+
             builder.Host.UseSerilog((ctx, lc) => lc
-                .WriteTo.File(builder.Configuration["LogPath"], LogEventLevel.Error)
+                .WriteTo.File(logPath, LogEventLevel.Error)
                 .WriteTo.Console(LogEventLevel.Debug));
 
             // Add services to the container.
@@ -21,8 +27,9 @@ namespace Authorization.API
             builder.Services.AddServices();
             builder.Services.ConfigureDbContext(builder.Configuration);
             builder.Services.ConfigureAspNetIdentity();
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.ConfigureIdentityServer(builder.Configuration);
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddAuthentication(options =>
             {
@@ -31,7 +38,7 @@ namespace Authorization.API
             })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = "https://localhost:44306";
+                    options.Authority = builder.Configuration["JWTBearerConfiguration:Authority"];
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false

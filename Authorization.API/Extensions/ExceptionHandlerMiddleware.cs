@@ -2,7 +2,6 @@
 using Serilog;
 using Shared.Exceptions;
 using Shared.Exceptions.Authorization;
-using Shared.Exceptions.Shared;
 using System.Net;
 
 namespace Authorization.API.Extensions;
@@ -20,10 +19,6 @@ public class ExceptionHandlerMiddleware
         try
         {
             await _next.Invoke(httpContext);
-        }
-        catch (EmptyRequestException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
         }
         catch (AccountNotCreatedException ex)
         {

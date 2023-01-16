@@ -24,16 +24,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.AddToRole(Authorization.API.Models.Request.AddInRoleRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(Authorization.API.Models.Request.PatchRolesRequestModel)">
             <summary>
-            Add role to specific account
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Authorization.API.Controllers.AccountController.RemoveFromRole(Authorization.API.Models.Request.RemoveFromRoleRequestModel)">
-            <summary>
-            Remove specific role from account
+            Patch roles from specific Account
             </summary>
             <param name="request"></param>
             <returns></returns>

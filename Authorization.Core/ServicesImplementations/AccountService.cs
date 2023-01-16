@@ -75,52 +75,6 @@ namespace Authorization.Business.ServicesImplementations
                 : await _tokenService.GetToken(user.UserName, password);
         }
 
-        public async Task AddToRoleAsync(string email, string roleName)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user is null)
-            {
-                throw new AccountNotFoundException();
-            }
-
-            var role = await _roleManager.FindByNameAsync(roleName);
-
-            if (role is null)
-            {
-                throw new RoleIsNotExistException();
-            }
-
-            var result = await _userManager.AddToRoleAsync(user, roleName);
-
-            if (!result.Succeeded)
-            {
-                throw new NotAddedToRoleException();
-            }
-        }
-
-        public async Task RemoveFromRoleAsync(string email, string roleName)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user is null)
-            {
-                throw new AccountNotFoundException();
-            }
-
-            var role = await _roleManager.FindByNameAsync(roleName);
-
-            if (role is null)
-            {
-                throw new RoleIsNotExistException();
-            }
-
-            if (await _userManager.IsInRoleAsync(user, roleName))
-            {
-                await _userManager.RemoveFromRoleAsync(user, roleName);
-            }
-        }
-
         public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
@@ -155,6 +109,35 @@ namespace Authorization.Business.ServicesImplementations
             if (!result.Succeeded)
             {
                 throw new NotUpdatedAccountException();
+            }
+        }
+
+        public async Task UpdateRolesAsync(Guid id, PatchRolesDTO dto)
+        {
+            var account = await _userManager.FindByIdAsync(id.ToString());
+
+            if (account is null)
+            {
+                throw new AccountNotFoundException();
+            }
+
+            var role = await _roleManager.FindByNameAsync(dto.RoleName);
+
+            if (role is null)
+            {
+                throw new RoleIsNotExistException();
+            }
+
+            if (await _userManager.IsInRoleAsync(account, dto.RoleName))
+            {
+                if (dto.IsAddRole)
+                {
+                    await _userManager.AddToRoleAsync(account, dto.RoleName);
+                }
+                else
+                {
+                    await _userManager.RemoveFromRoleAsync(account, dto.RoleName);
+                }
             }
         }
     }
