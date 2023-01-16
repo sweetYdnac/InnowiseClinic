@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Authorization.API</name>
+    </assembly>
+    <members>
+        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Authorization.API.Models.Request.SignUpRequestModel)">
+            <summary>
+            Sign up new Account
+            </summary>
+            <param name="request">Contains email and password</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Authorization.API.Models.Request.SignInRequestModel)">
+            <summary>
+            Sign in account/>
+            </summary>
+            <param name="request">Contains email and password</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.SignOut">
+            <summary>
+            Sign out from an account
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.AddToRole(Authorization.API.Models.Request.AddInRoleRequestModel)">
+            <summary>
+            Add role to specific account
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.RemoveFromRole(Authorization.API.Models.Request.RemoveFromRoleRequestModel)">
+            <summary>
+            Remove specific role from account
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.PatchAccount(Authorization.API.Models.Request.PatchAccountRequestModel)">
+            <summary>
+            Patch specific account
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
