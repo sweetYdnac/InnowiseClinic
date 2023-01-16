@@ -1,4 +1,5 @@
 using Authorization.API.Extensions;
+using Authorization.API.Models.Request.Validators;
 using Authorization.Data.Enums;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,7 +30,7 @@ namespace Authorization.API
             builder.Services.ConfigureAspNetIdentity();
             builder.Services.ConfigureIdentityServer(builder.Configuration);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddValidatorsFromAssemblyContaining<SignUpRequestModelValidator>();
 
             builder.Services.AddAuthentication(options =>
             {
