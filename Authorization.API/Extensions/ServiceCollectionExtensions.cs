@@ -1,10 +1,14 @@
-﻿using Authorization.Business.Abstractions;
+﻿using Authorization.API.Models.Request.Validators;
+using Authorization.API.Models.Request;
+using Authorization.Business.Abstractions;
 using Authorization.Business.ServicesImplementations;
 using Authorization.Data;
 using Authorization.Data.Entities;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using FluentValidation.AspNetCore;
 
 namespace Authorization.API.Extensions
 {
@@ -61,6 +65,17 @@ namespace Authorization.API.Extensions
                 var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
             });
+        }
+
+        public static void ConfigureValidation(this IServiceCollection services)
+        {
+            services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
+
+            services.AddScoped<IValidator<SignInRequestModel>, SignInRequestModelValidator>();
+            services.AddScoped<IValidator<SignUpRequestModel>, SignUpRequestModelValidator>();
+            services.AddScoped<IValidator<PatchAccountRequestModel>, PatchAccountRequestModelValidator>();
+            services.AddScoped<IValidator<PatchRolesRequestModel>, PatchRolesRequestModelValidator>();
         }
     }
 }
