@@ -128,7 +128,7 @@ namespace Authorization.Business.ServicesImplementations
                 throw new RoleIsNotExistException();
             }
 
-            if (await _userManager.IsInRoleAsync(account, dto.RoleName))
+            if (!await _userManager.IsInRoleAsync(account, dto.RoleName))
             {
                 if (dto.IsAddRole)
                 {

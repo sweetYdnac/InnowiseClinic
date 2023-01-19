@@ -37,6 +37,7 @@ namespace Authorization.API
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.Authority = builder.Configuration["JWTBearerConfiguration:Authority"];
+                    options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false

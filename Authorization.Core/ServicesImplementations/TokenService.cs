@@ -19,7 +19,7 @@ namespace Authorization.Business.ServicesImplementations
             var client = _httpClientFactory.CreateClient();
             var request = new PasswordTokenRequest
             {
-                Address = "https://localhost:44306/connect/token",
+                Address = "http://host.docker.internal:8020/connect/token",
                 ClientId = "machineClient",
                 Scope = $"Full { IdentityServerConstants.StandardScopes.OfflineAccess }",
                 UserName = userName,
