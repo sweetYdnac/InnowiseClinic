@@ -4,14 +4,14 @@
         <name>Authorization.API</name>
     </assembly>
     <members>
-        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Authorization.API.Models.Request.SignUpRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequestModel)">
             <summary>
             Sign up new Account
             </summary>
             <param name="request">Contains email and password</param>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Authorization.API.Models.Request.SignInRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Shared.Models.Request.Authorization.SignInRequestModel)">
             <summary>
             Sign in account/>
             </summary>
@@ -24,14 +24,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(Authorization.API.Models.Request.PatchRolesRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(Shared.Models.Request.Authorization.PatchRolesRequestModel)">
             <summary>
             Patch roles from specific Account
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.PatchAccount(Authorization.API.Models.Request.PatchAccountRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.PatchAccount(Shared.Models.Request.Authorization.PatchAccountRequestModel)">
             <summary>
             Patch specific account
             </summary>

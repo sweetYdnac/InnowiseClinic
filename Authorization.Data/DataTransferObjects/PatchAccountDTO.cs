@@ -1,4 +1,4 @@
-﻿using Authorization.Data.Enums;
+﻿using Shared.Core.Enums;
 using System.Security.Claims;
 
 namespace Authorization.Data.DataTransferObjects

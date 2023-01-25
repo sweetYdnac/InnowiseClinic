@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Authorization.Data.DataTransferObjects
+﻿namespace Authorization.Data.DataTransferObjects
 {
     public class PatchRolesDTO
     {

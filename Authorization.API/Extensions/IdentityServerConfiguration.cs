@@ -7,7 +7,7 @@ namespace Authorization.API.Extensions
     public static class IdentityServerConfiguration
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
-            new IdentityResource[]
+            new[]
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),

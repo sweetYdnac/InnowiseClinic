@@ -1,14 +1,14 @@
-﻿using Authorization.API.Models.Request.Validators;
-using Authorization.API.Models.Request;
+﻿using Authorization.API.Validators;
 using Authorization.Business.Abstractions;
 using Authorization.Business.ServicesImplementations;
 using Authorization.Data;
 using Authorization.Data.Entities;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Models.Request.Authorization;
 using System.Reflection;
-using FluentValidation.AspNetCore;
 
 namespace Authorization.API.Extensions
 {
@@ -46,7 +46,7 @@ namespace Authorization.API.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureIdentityServer(this IServiceCollection services)
         {
             services.AddIdentityServer()
                 .AddAspNetIdentity<Account>()
@@ -69,13 +69,8 @@ namespace Authorization.API.Extensions
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddFluentValidationAutoValidation()
-                .AddFluentValidationClientsideAdapters();
-
-            services.AddScoped<IValidator<SignInRequestModel>, SignInRequestModelValidator>();
-            services.AddScoped<IValidator<SignUpRequestModel>, SignUpRequestModelValidator>();
-            services.AddScoped<IValidator<PatchAccountRequestModel>, PatchAccountRequestModelValidator>();
-            services.AddScoped<IValidator<PatchRolesRequestModel>, PatchRolesRequestModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<SignInRequestModelValidator>();
+            services.AddFluentValidationAutoValidation();
         }
     }
 }

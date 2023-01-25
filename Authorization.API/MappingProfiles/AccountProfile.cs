@@ -1,6 +1,6 @@
-﻿using Authorization.API.Models.Request;
-using Authorization.Data.DataTransferObjects;
+﻿using Authorization.Data.DataTransferObjects;
 using AutoMapper;
+using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.MappingProfiles
 {

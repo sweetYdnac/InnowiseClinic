@@ -37,8 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authorization.Core\Authorization.Business.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Authorization.Business\Authorization.Business.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
 
 </Project>

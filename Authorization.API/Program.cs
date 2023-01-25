@@ -20,12 +20,11 @@ namespace Authorization.API
                 .WriteTo.File(logPath, LogEventLevel.Error)
                 .WriteTo.Console(LogEventLevel.Debug));
 
-            // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddServices();
             builder.Services.ConfigureDbContext(builder.Configuration);
             builder.Services.ConfigureAspNetIdentity();
-            builder.Services.ConfigureIdentityServer(builder.Configuration);
+            builder.Services.ConfigureIdentityServer();
             builder.Services.ConfigureValidation();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -36,7 +35,7 @@ namespace Authorization.API
             })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = builder.Configuration["JWTBearerConfiguration:Authority"];
+                    options.Authority = builder.Configuration.GetValue<string>("JWTBearerConfiguration:Authority");
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -44,13 +43,11 @@ namespace Authorization.API
                     };
                 });
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.ConfigureSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

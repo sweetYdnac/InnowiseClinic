@@ -1,7 +1,7 @@
 ﻿using Authorization.Data.Entities;
-using Authorization.Data.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Core.Enums;
 
 namespace Authorization.Data.Extensions
 {
@@ -29,26 +29,26 @@ namespace Authorization.Data.Extensions
                 new IdentityRole<Guid>
                 {
                     Id = adminRoleId,
-                    Name = AccountRoles.Admin.ToString(),
-                    NormalizedName = AccountRoles.Admin.ToString().ToUpper(),
+                    Name = nameof(AccountRoles.Admin),
+                    NormalizedName = nameof(AccountRoles.Admin).ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = AccountRoles.Patient.ToString(),
-                    NormalizedName = AccountRoles.Patient.ToString().ToUpper(),
+                    Name = nameof(AccountRoles.Patient),
+                    NormalizedName = nameof(AccountRoles.Patient).ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = AccountRoles.Doctor.ToString(),
-                    NormalizedName = AccountRoles.Doctor.ToString().ToUpper(),
+                    Name = nameof(AccountRoles.Doctor),
+                    NormalizedName = nameof(AccountRoles.Doctor).ToUpper(),
                 },
                 new IdentityRole<Guid>
                 {
                     Id = Guid.NewGuid(),
-                    Name = AccountRoles.Receptionist.ToString(),
-                    NormalizedName = AccountRoles.Receptionist.ToString().ToUpper(),
+                    Name = nameof(AccountRoles.Receptionist),
+                    NormalizedName = nameof(AccountRoles.Receptionist).ToUpper(),
                 });
         }
         private static void SeedAccounts(ModelBuilder builder, Guid adminId)

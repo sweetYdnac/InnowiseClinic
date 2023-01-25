@@ -2,6 +2,7 @@
 using Serilog;
 using Shared.Exceptions;
 using Shared.Exceptions.Authorization;
+using Shared.Models.Response;
 using System.Net;
 
 namespace Authorization.API.Extensions;
@@ -20,29 +21,17 @@ public class ExceptionHandlerMiddleware
         {
             await _next.Invoke(httpContext);
         }
+        catch (NotFoundException ex)
+        {
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, () => Log.Information(ex, ex.Message));
+        }
+        catch (InvalidCredentialsException ex)
+        {
+            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
+        }
         catch (AccountNotCreatedException ex)
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
-        }
-        catch (AccountNotFoundException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, () => Log.Information(ex, ex.Message));
-        }
-        catch (InvalidPasswordException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
-        }
-        catch (RoleIsNotExistException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, () => Log.Information(ex, ex.Message));
-        }
-        catch (NotAddedToRoleException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError, () => Log.Error(ex, ex.Message));
-        }
-        catch (NotUpdatedAccountException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError, () => Log.Error(ex, ex.Message));
         }
         catch (AccountInactiveException ex)
         {
@@ -78,7 +67,7 @@ public class ExceptionHandlerMiddleware
     private string GetFullMessage(Exception ex)
     {
         return ex.InnerException is not null
-            ? $"{ex.GetType().Name} - {ex.Message}; {GetFullMessage(ex.InnerException)}"
-            : $"{ex.GetType().Name} - {ex.Message}";
+            ? $"{ex.Message}; {GetFullMessage(ex.InnerException)}"
+            : $"{ex.Message}";
     }
 }

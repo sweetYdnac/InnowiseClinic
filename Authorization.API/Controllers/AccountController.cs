@@ -1,12 +1,12 @@
-﻿using Authorization.API.Models.Request;
-using Authorization.API.Models.Responce;
-using Authorization.Business.Abstractions;
+﻿using Authorization.Business.Abstractions;
 using Authorization.Data.DataTransferObjects;
-using Authorization.Data.Enums;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.Exceptions;
+using Shared.Core.Enums;
+using Shared.Models.Request.Authorization;
+using Shared.Models.Response;
+using Shared.Models.Response.Authorization;
 
 namespace Authorization.API.Controllers
 {
@@ -36,9 +36,9 @@ namespace Authorization.API.Controllers
                 nameof(SignIn),
                 new SignUpResponseModel
                 {
-                            Email = request.Email,
-                            Password = request.Password
-                        });
+                    Email = request.Email,
+                    Password = request.Password
+                });
         }
 
         /// <summary>

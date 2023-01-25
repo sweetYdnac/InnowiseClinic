@@ -1,5 +1,5 @@
-﻿using Authorization.Data.Enums;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
+using Shared.Core.Enums;
 
 namespace Authorization.Data.Entities
 {
