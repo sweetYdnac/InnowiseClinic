@@ -31,14 +31,9 @@ namespace Authorization.API.Controllers
         public async Task<IActionResult> SignUp([FromBody] SignUpRequestModel request)
         {
             await _accountService.SignUpAsync(request.Email, request.Password);
+            var id = await _accountService.GetIdByEmailAsync(request.Email);
 
-            return CreatedAtAction(
-                nameof(SignIn),
-                new SignUpResponseModel
-                {
-                    Email = request.Email,
-                    Password = request.Password
-                });
+            return StatusCode(201, new SignUpResponseModel { Id = id });
         }
 
         /// <summary>

@@ -9,5 +9,6 @@ namespace Authorization.Business.Abstractions
         Task SignOutAsync();
         Task UpdateAsync(Guid id, PatchAccountDTO dto);
         Task UpdateRolesAsync(Guid id, PatchRolesDTO dto);
+        Task<Guid> GetIdByEmailAsync(string email);
     }
 }

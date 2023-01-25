@@ -141,5 +141,14 @@ namespace Authorization.Business.ServicesImplementations
                 }
             }
         }
+
+        public async Task<Guid> GetIdByEmailAsync(string email)
+        {
+            var account = await _userManager.FindByEmailAsync(email);
+
+            return account is null
+                ? throw new NotFoundException($"Account with email = {email} doesn't exist.") 
+                : account.Id;
+        }
     }
 }
