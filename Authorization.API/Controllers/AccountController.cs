@@ -73,9 +73,10 @@ namespace Authorization.API.Controllers
         /// <summary>
         /// Patch roles from specific Account
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPatch("roles")]
+        [HttpPatch("{id}/roles")]
         [Authorize(Roles = nameof(AccountRoles.Admin))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
@@ -83,10 +84,10 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchRoles([FromBody] PatchRolesRequestModel request)
+        public async Task<IActionResult> PatchRoles(Guid id, [FromBody] PatchRolesRequestModel request)
         {
             var dto = _mapper.Map<PatchRolesDTO>(request);
-            await _accountService.UpdateRolesAsync(request.Id, dto);
+            await _accountService.UpdateRolesAsync(id, dto);
 
             return NoContent();
         }
@@ -94,21 +95,22 @@ namespace Authorization.API.Controllers
         /// <summary>
         /// Patch specific account
         /// </summary>
+        /// <param name="id"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPatch("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchAccount([FromBody] PatchAccountRequestModel request)
+        public async Task<IActionResult> PatchAccount(Guid id, [FromBody] PatchAccountRequestModel request)
         {
             var dto = _mapper.Map<PatchAccountDTO>(request);
             dto.UpdaterClaimsPrincipal = HttpContext.User;
 
-            await _accountService.UpdateAsync(request.Id, dto);
+            await _accountService.UpdateAsync(id, dto);
 
             return NoContent();
         }

@@ -7,10 +7,6 @@ namespace Authorization.API.Validators
     {
         public PatchAccountRequestModelValidator()
         {
-            RuleFor(s => s.Id)
-                .NotEmpty()
-                .NotNull();
-
             RuleFor(s => s.Status)
                 .IsInEnum();
         }

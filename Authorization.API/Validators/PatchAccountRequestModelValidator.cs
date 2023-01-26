@@ -7,10 +7,6 @@ namespace Authorization.API.Validators
     {
         public PatchRolesRequestModelValidator()
         {
-            RuleFor(s => s.Id)
-                .NotEmpty()
-                .NotNull();
-
             RuleFor(s => s.RoleName)
                 .NotEmpty()
                 .NotNull();
