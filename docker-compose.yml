@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  authorization.api:
+    image: authorizationapi
+    build:
+      context: .
+      dockerfile: Authorization.API/Dockerfile
+    ports:
+     - 8020:80
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+     - sqlServer
+
+  sqlServer:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    user: root
+    volumes:
+     - sqlServerData:/var/opt/mssql/data
+    environment:
+    - ACCEPT_EULA=Y
+    - SA_PASSWORD=AAbbCC123
+    ports:
+     - 1442:1433
+
+volumes:
+    sqlServerData:
+  
