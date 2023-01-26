@@ -27,7 +27,7 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(SignUpResponseModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [HttpPost("SignUp")]
+        [HttpPost("signUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequestModel request)
         {
             await _accountService.SignUpAsync(request.Email, request.Password);
@@ -41,7 +41,7 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request">Contains email and password</param>
         /// <returns></returns>
-        [HttpPost("SignIn")]
+        [HttpPost("signIn")]
         [ProducesResponseType(typeof(TokenResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
@@ -58,7 +58,7 @@ namespace Authorization.API.Controllers
         /// Sign out from an account
         /// </summary>
         /// <returns></returns>
-        [HttpPost("SignOut")]
+        [HttpPost("signOut")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -75,7 +75,7 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPatch("Roles")]
+        [HttpPatch("roles")]
         [Authorize(Roles = nameof(AccountRoles.Admin))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]

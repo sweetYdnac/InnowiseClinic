@@ -14,7 +14,7 @@ namespace Authorization.API
 
             var logPath = Path.Combine(
                 Directory.GetParent(Directory.GetCurrentDirectory()).FullName, 
-                builder.Configuration["LogPath"]);
+                builder.Configuration.GetValue<string>("LogPath"));
 
             builder.Host.UseSerilog((ctx, lc) => lc
                 .WriteTo.File(logPath, LogEventLevel.Error)
