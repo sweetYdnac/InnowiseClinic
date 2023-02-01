@@ -16,5 +16,8 @@ namespace Offices.Persistence.Contexts
         }
 
         public IDbConnection CreateConnection() => new NpgsqlConnection(_connectionString);
+
+        public IDbConnection CreateMasterConnection() => 
+            new NpgsqlConnection(_configuration.GetConnectionString("MasterConnection"));
     }
 }

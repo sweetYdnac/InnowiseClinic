@@ -17,9 +17,11 @@ builder.Host.UseSerilog((ctx, lc) => lc
 
 builder.Services.AddControllers();
 builder.Services.AddServices();
-builder.Services.ConfigureDbContext();
+builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureSwaggerGen();
 builder.Services.ConfigureValidation();
+builder.Services.ConfigureMediatR();
+builder.Services.ConfigureAutoMapper();
 
 builder.Services.AddAuthentication(options =>
 {
