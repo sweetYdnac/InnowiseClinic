@@ -16,7 +16,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console(LogEventLevel.Debug));
 
 builder.Services.AddControllers();
-builder.Services.AddServices();
+builder.Services.Addrepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();
 builder.Services.ConfigureMediatR();

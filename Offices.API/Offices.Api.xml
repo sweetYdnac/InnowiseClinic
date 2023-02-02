@@ -18,5 +18,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:Offices.API.Controllers.OfficesController.CreateOffice(Shared.Models.Request.Offices.CreateOfficeRequestModel)">
+            <summary>
+            Create office
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

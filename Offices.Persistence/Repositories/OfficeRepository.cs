@@ -16,12 +16,11 @@ namespace Offices.Persistence.Repositories
 
         public async Task ChangeStatusAsync(ChangeOfficeStatusDTO dto)
         {
-            var query =
-                """
-                    UPDATE "Offices"
-                    SET "IsActive" = @IsActive
-                    WHERE "Id" = @Id;
-                """;
+            var query = """
+                            UPDATE "Offices"
+                            SET "IsActive" = @IsActive
+                            WHERE "Id" = @Id;
+                        """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", dto.Id, DbType.Guid);
@@ -40,12 +39,11 @@ namespace Offices.Persistence.Repositories
 
         public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
         {
-            var query =
-                """
-                    INSERT INTO "Offices"
-                    VALUES
-                    (@Id, @Address, @RegistryPhoneNumber, @PhotoId, @IsActive)
-                """;
+            var query = """
+                            INSERT INTO "Offices"
+                            VALUES
+                            (@Id, @Address, @RegistryPhoneNumber, @PhotoId, @IsActive)
+                        """;
 
             var id = Guid.NewGuid();
             var address = $"{dto.City}, {dto.Street}, {dto.HouseNumber}, {dto.OfficeNumber}";
@@ -75,12 +73,11 @@ namespace Offices.Persistence.Repositories
 
         public async Task<OfficeEntity> GetByIdAsync(Guid id)
         {
-            var query =
-                """
-                    SELECT "PhotoId", "Address", "IsActive", "RegistryPhoneNumber"
-                    FROM "Offices"
-                    WHERE "Id" = @Id;
-                """;
+            var query = """
+                            SELECT "PhotoId", "Address", "IsActive", "RegistryPhoneNumber"
+                            FROM "Offices"
+                            WHERE "Id" = @Id;
+                        """;
 
             using (var connection = _db.CreateConnection())
             {
@@ -90,17 +87,16 @@ namespace Offices.Persistence.Repositories
 
         public async Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOfficesAsync(GetPagedOfficesDTO dto)
         {
-            var query =
-                """
-                    SELECT "Id", "Address", "RegistryPhoneNumber", "IsActive"
-                    FROM "Offices"
-                    ORDER BY "Id"
-                        OFFSET @Offset ROWS
-                        FETCH FIRST @PageSize ROWS ONLY;
+            var query = """
+                            SELECT "Id", "Address", "RegistryPhoneNumber", "IsActive"
+                            FROM "Offices"
+                            ORDER BY "Id"
+                                OFFSET @Offset ROWS
+                                FETCH FIRST @PageSize ROWS ONLY;
 
-                    SELECT COUNT(*)
-                    FROM "Offices"
-                """;
+                            SELECT COUNT(*)
+                            FROM "Offices"
+                        """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Offset", dto.PageSize * (dto.PageNumber - 1), DbType.Int32);
@@ -114,6 +110,35 @@ namespace Offices.Persistence.Repositories
                     var count = await multi.ReadFirstAsync<int>();
 
                     return (offices, count);
+                }
+            }
+        }
+
+        public async Task UpdateAsync(UpdateOfficeDTO dto)
+        {
+            var query = """
+                            UPDATE "Offices"
+                            SET "Address" = @Address,
+                                "RegistryPhoneNumber" = @RegistryPhoneNumber,
+                                "IsActive" = @IsActive
+                            WHERE "Id" = @Id;
+                        """;
+
+            var address = $"{dto.City}, {dto.Street}, {dto.HouseNumber}, {dto.OfficeNumber}";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("Address", address, DbType.String);
+            parameters.Add("RegistryPhoneNumber", dto.RegistryPhoneNumber, DbType.String);
+            parameters.Add("IsActive", dto.IsActive, DbType.Boolean);
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+
+                if (result == 0)
+                {
+                    Log.Information("Office wasn't update. {@dto}", dto);
                 }
             }
         }

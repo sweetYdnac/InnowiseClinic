@@ -13,6 +13,7 @@ namespace Offices.Application.MappingProfiles
             CreateMap<GetOfficesQuery, GetPagedOfficesDTO>();
             CreateMap<CreateOfficeCommand, CreateOfficeDTO>();
             CreateMap<ChangeOfficeStatusCommand, ChangeOfficeStatusDTO>();
+            CreateMap<UpdateOfficeCommand, UpdateOfficeDTO>();
 
             CreateMap<OfficeEntity, OfficePreviewResponse>();
             CreateMap<OfficeEntity, OfficeDetailsResponse>();

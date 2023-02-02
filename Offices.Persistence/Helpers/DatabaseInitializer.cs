@@ -12,11 +12,10 @@ namespace Offices.Persistence.Helpers
 
         public void CreateDatabase(string dbName)
         {
-            var query =
-                """
-                    SELECT * FROM pg_database
-                    WHERE datname = @name
-                """;
+            var query = """
+                            SELECT * FROM pg_database
+                            WHERE datname = @name
+                        """;
 
             var parameters = new DynamicParameters();
             parameters.Add("name", dbName, DbType.String);
