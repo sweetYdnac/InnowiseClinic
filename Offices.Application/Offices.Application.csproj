@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Offices.Domain\Offices.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
 

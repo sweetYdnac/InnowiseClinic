@@ -23,7 +23,7 @@ namespace Offices.Application.Features.Office.Queries
 
         public async Task<GetOfficesResponseModel> Handle(GetOfficesQuery request, CancellationToken cancellationToken)
         {
-            var repositoryResponse = await _officeRepository.GetPagedOffices(_mapper.Map<GetPagedOfficesDTO>(request));
+            var repositoryResponse = await _officeRepository.GetPagedOfficesAsync(_mapper.Map<GetPagedOfficesDTO>(request));
 
             if (repositoryResponse.totalCount == 0)
             {

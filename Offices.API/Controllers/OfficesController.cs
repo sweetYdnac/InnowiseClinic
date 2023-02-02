@@ -35,5 +35,22 @@ namespace Offices.API.Controllers
             var offices = await _mediator.Send(_mapper.Map<GetOfficesQuery>(request));
             return Ok(offices);
         }
+
+        /// <summary>
+        /// Get specific office by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        [Authorize(Roles = nameof(AccountRoles.Receptionist))]
+        [ProducesResponseType(typeof(OfficeDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetOffice([FromRoute] Guid id)
+        {
+            var office = await _mediator.Send(new GetOfficeByIdQuery { Id = id });
+            return Ok(office);
+        }
     }
 }
