@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Offices.Application.DTOs;
 using Offices.Application.Interfaces.Repositories;
 using Serilog;
 using Shared.Models.Response.Offices;
@@ -22,15 +23,15 @@ namespace Offices.Application.Features.Office.Queries
 
         public async Task<GetOfficesResponseModel> Handle(GetOfficesQuery request, CancellationToken cancellationToken)
         {
-            var repositoryResponce = await _officeRepository.GetPagedOffices(request);
+            var repositoryResponse = await _officeRepository.GetPagedOffices(_mapper.Map<GetPagedOfficesDTO>(request));
 
-            if (repositoryResponce.totalCount == 0)
+            if (repositoryResponse.totalCount == 0)
             {
-                Log.Information("There ara no offices in storage");
+                Log.Information("There are no offices in storage");
             }
 
-            var offices = _mapper.Map<IEnumerable<OfficePreviewResponse>>(repositoryResponce.offices);
-            var response = new GetOfficesResponseModel(offices, request.PageNumber, request.PageSize, repositoryResponce.totalCount);
+            var offices = _mapper.Map<IEnumerable<OfficePreviewResponse>>(repositoryResponse.offices);
+            var response = new GetOfficesResponseModel(offices, request.PageNumber, request.PageSize, repositoryResponse.totalCount);
             return response;
         }
     }

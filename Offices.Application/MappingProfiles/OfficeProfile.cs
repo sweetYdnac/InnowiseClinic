@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Offices.Application.DTOs;
+using Offices.Application.Features.Office.Queries;
 using Offices.Domain.Entities;
 using Shared.Models.Response.Offices;
 
@@ -8,6 +10,7 @@ namespace Offices.Application.MappingProfiles
     {
         public OfficeProfile()
         {
+            CreateMap<GetOfficesQuery, GetPagedOfficesDTO>();
             CreateMap<OfficeEntity, OfficePreviewResponse>();
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Offices.Application.Features.Office.Queries;
+using Offices.Application.DTOs;
 using Offices.Application.Interfaces.Repositories;
 using Offices.Domain.Entities;
 using Offices.Persistence.Contexts;
@@ -13,7 +13,7 @@ namespace Offices.Persistence.Repositories
 
         public OfficeRepository(OfficesDbContext db) => _db = db;
 
-        public async Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOffices(GetOfficesQuery request)
+        public async Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOffices(GetPagedOfficesDTO dto)
         {
             var query =
                 """
@@ -28,9 +28,8 @@ namespace Offices.Persistence.Repositories
                 """;
 
             var parameters = new DynamicParameters();
-            var t = request.PageSize * (request.PageNumber - 1);
-            parameters.Add("Offset", t, DbType.Int32);
-            parameters.Add("PageSize", request.PageSize, DbType.Int32);
+            parameters.Add("Offset", dto.PageSize * (dto.PageNumber - 1), DbType.Int32);
+            parameters.Add("PageSize", dto.PageSize, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {

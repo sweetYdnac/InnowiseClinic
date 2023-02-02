@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
     <Folder Include="Features\Office\Commands\" />
     <Folder Include="ServicesImplementations\" />
     <Folder Include="Parameters\" />

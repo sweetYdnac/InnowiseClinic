@@ -1,10 +1,11 @@
-﻿using Offices.Application.Features.Office.Queries;
+﻿using Offices.Application.DTOs;
+using Offices.Application.Features.Office.Queries;
 using Offices.Domain.Entities;
 
 namespace Offices.Application.Interfaces.Repositories
 {
     public interface IOfficeRepository
     {
-        Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOffices(GetOfficesQuery request);
+        Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOffices(GetPagedOfficesDTO dto);
     }
 }
