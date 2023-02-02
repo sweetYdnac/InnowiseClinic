@@ -2,9 +2,6 @@
 using MediatR;
 using Offices.Application.DTOs;
 using Offices.Application.Interfaces.Repositories;
-using Serilog;
-using Shared.Exceptions;
-using Shared.Models.Response.Offices;
 
 namespace Offices.Application.Features.Office.Queries
 {
@@ -26,15 +23,6 @@ namespace Offices.Application.Features.Office.Queries
 
         public CreateOfficeCommandHandler(IOfficeRepository officeRepository, IMapper mapper) =>
             (_officeRepository, _mapper) = (officeRepository, mapper);
-
-        public async Task<OfficeDetailsResponse> Handle(GetOfficeByIdQuery request, CancellationToken cancellationToken)
-        {
-            var office = await _officeRepository.GetByIdAsync(request.Id);
-
-            return office is null
-                ? throw new NotFoundException($"Office with id = {request.Id} doesn't exist.")
-                : _mapper.Map<OfficeDetailsResponse>(office);
-        }
 
         public async Task<Guid?> Handle(CreateOfficeCommand request, CancellationToken cancellationToken)
         {

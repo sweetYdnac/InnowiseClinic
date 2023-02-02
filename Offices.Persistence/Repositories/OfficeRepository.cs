@@ -14,6 +14,30 @@ namespace Offices.Persistence.Repositories
 
         public OfficeRepository(OfficesDbContext db) => _db = db;
 
+        public async Task ChangeStatusAsync(ChangeOfficeStatusDTO dto)
+        {
+            var query =
+                """
+                    UPDATE "Offices"
+                    SET "IsActive" = @IsActive
+                    WHERE "Id" = @Id;
+                """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("IsActive", dto.IsActive, DbType.Boolean);
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+
+                if (result == 0)
+                {
+                    Log.Information("Office didn't update. @{dto}", dto);
+                }
+            }
+        }
+
         public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
         {
             var query =
