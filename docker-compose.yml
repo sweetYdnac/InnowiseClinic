@@ -1,29 +1,52 @@
 version: '3.4'
 
 services:
-  authorization.api:
-    image: authorizationapi
-    build:
-      context: .
-      dockerfile: Authorization.API/Dockerfile
-    ports:
-     - 8020:80
-    environment:
-    - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-     - sqlServer
+    authorization.api:
+        image: authorizationapi
+        build:
+            context: .
+            dockerfile: Authorization.API/Dockerfile
+        ports:
+            - 8020:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - sqlServer
 
-  sqlServer:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    user: root
-    volumes:
-     - sqlServerData:/var/opt/mssql/data
-    environment:
-    - ACCEPT_EULA=Y
-    - SA_PASSWORD=AAbbCC123
-    ports:
-     - 1442:1433
+    offices.api:
+        image: offices_api
+        build:
+            context: .
+            dockerfile: Offices.API/Dockerfile
+        ports:
+            - 8021:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - postgreSqlServer
+
+    sqlServer:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        user: root
+        volumes:
+            - sqlServerData:/var/opt/mssql/data
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=AAbbCC123
+        ports:
+            - 1442:1433
+
+    postgreSqlServer:
+        image: postgres:latest
+        user: postgres
+        volumes: 
+            - postgreSqlData:/var/lib/postrgesql/data/pgdata
+        environment:
+            - POSTGRES_PASSWORD=123
+        ports:
+            - 1443:5432
 
 volumes:
     sqlServerData:
+    postgreSqlData:
   

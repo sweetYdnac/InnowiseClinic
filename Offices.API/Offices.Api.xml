@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Offices.API</name>
+    </assembly>
+    <members>
+        <member name="M:Offices.API.Controllers.OfficesController.GetOffices(Shared.Models.Request.Offices.GetOfficesRequestModel)">
+            <summary>
+            Get paginated offices
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
