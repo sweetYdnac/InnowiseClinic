@@ -13,7 +13,22 @@ namespace Offices.Persistence.Repositories
 
         public OfficeRepository(OfficesDbContext db) => _db = db;
 
-        public async Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOffices(GetPagedOfficesDTO dto)
+        public async Task<OfficeEntity> GetByIdAsync(Guid id)
+        {
+            var query =
+                """
+                    SELECT "PhotoId", "Address", "IsActive", "RegistryPhoneNumber"
+                    FROM "Offices"
+                    WHERE "Id" = @Id;
+                """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<OfficeEntity>(query, new { Id = id });
+            }
+        }
+
+        public async Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOfficesAsync(GetPagedOfficesDTO dto)
         {
             var query =
                 """

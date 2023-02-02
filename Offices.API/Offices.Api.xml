@@ -11,5 +11,12 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:Offices.API.Controllers.OfficesController.GetOffice(System.Guid)">
+            <summary>
+            Get specific office by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
