@@ -11,6 +11,7 @@ namespace Offices.Application.MappingProfiles
         public OfficeProfile()
         {
             CreateMap<GetOfficesQuery, GetPagedOfficesDTO>();
+            CreateMap<CreateOfficeCommand, CreateOfficeDTO>();
 
             CreateMap<OfficeEntity, OfficePreviewResponse>();
             CreateMap<OfficeEntity, OfficeDetailsResponse>();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Offices.Application.Features.Office.Queries;
 using Shared.Core.Enums;
@@ -51,6 +52,22 @@ namespace Offices.API.Controllers
         {
             var office = await _mediator.Send(new GetOfficeByIdQuery { Id = id });
             return Ok(office);
+        }
+
+        /// <summary>
+        /// Create office
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = nameof(AccountRoles.Receptionist))]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequestModel request)
+        {
+            var id = await _mediator.Send(_mapper.Map<CreateOfficeCommand>(request));
+            return StatusCode(201, new { id });
         }
     }
 }

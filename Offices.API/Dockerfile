@@ -18,10 +18,10 @@ COPY ["Offices.Persistence/.", "./Offices.Persistence/"]
 COPY ["Offices.Domain/.", "./Offices.Domain/"]
 COPY ["Shared/.", "./Shared/"]
 WORKDIR "/src/Offices.API"
-RUN dotnet build "Offices.API.csproj" -c Release -o /app/build
+RUN dotnet build "Offices.API.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Offices.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Offices.API.csproj" -c Debug -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
