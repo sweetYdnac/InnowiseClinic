@@ -9,5 +9,6 @@ namespace Offices.Application.Interfaces.Repositories
         Task<OfficeEntity> GetByIdAsync(Guid id);
         Task<Guid?> CreateAsync(CreateOfficeDTO dto);
         Task ChangeStatusAsync(ChangeOfficeStatusDTO dto);
+        Task UpdateAsync(UpdateOfficeDTO dto);
     }
 }

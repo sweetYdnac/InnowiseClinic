@@ -29,8 +29,8 @@ namespace Offices.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(GetOfficesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOffices([FromQuery] GetOfficesRequestModel request)
         {
@@ -47,8 +47,8 @@ namespace Offices.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(OfficeDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOffice([FromRoute] Guid id)
@@ -66,8 +66,8 @@ namespace Offices.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequestModel request)
         {
@@ -78,10 +78,10 @@ namespace Offices.API.Controllers
 
         [HttpPatch("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
-        [ProducesResponseType(typeof(Guid), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
         {
@@ -95,5 +95,20 @@ namespace Offices.API.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] UpdateOfficeRequestModel request)
+        {
+            var command = _mapper.Map<UpdateOfficeCommand>(request);
+            command.Id = id;
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Offices.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        public static void Addrepositories(this IServiceCollection services)
         {
             services.AddTransient<IOfficeRepository, OfficeRepository>();
         }
