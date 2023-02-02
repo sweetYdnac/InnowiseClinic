@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Offices.Application.Features.Office.Queries;
 using Shared.Core.Enums;
@@ -27,9 +26,11 @@ namespace Offices.API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        [Authorize(Roles = nameof(AccountRoles.Receptionist))]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(GetOfficesResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOffices([FromQuery] GetOfficesRequestModel request)
         {
@@ -43,9 +44,11 @@ namespace Offices.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = nameof(AccountRoles.Receptionist))]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(OfficeDetailsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetOffice([FromRoute] Guid id)
@@ -60,14 +63,37 @@ namespace Offices.API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = nameof(AccountRoles.Receptionist))]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequestModel request)
         {
             var id = await _mediator.Send(_mapper.Map<CreateOfficeCommand>(request));
             return StatusCode(201, new { id });
         }
+
+
+        [HttpPatch("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
+        {
+            await _mediator.Send(
+                new ChangeOfficeStatusCommand 
+                { 
+                    Id = id, 
+                    IsActive = isActive 
+                });
+
+            return NoContent();
+        }
+
     }
 }

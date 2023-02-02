@@ -8,5 +8,6 @@ namespace Offices.Application.Interfaces.Repositories
         Task<(IEnumerable<OfficeEntity> offices, int totalCount)> GetPagedOfficesAsync(GetPagedOfficesDTO dto);
         Task<OfficeEntity> GetByIdAsync(Guid id);
         Task<Guid?> CreateAsync(CreateOfficeDTO dto);
+        Task ChangeStatusAsync(ChangeOfficeStatusDTO dto);
     }
 }
