@@ -9,6 +9,7 @@ namespace Offices.API.MappingProfiles
         public OfficeProfile()
         {
             CreateMap<GetOfficesRequestModel, GetOfficesQuery>();
+            CreateMap<CreateOfficeRequestModel, CreateOfficeCommand>();
         }
     }
 }

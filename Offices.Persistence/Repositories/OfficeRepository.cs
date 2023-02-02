@@ -3,6 +3,7 @@ using Offices.Application.DTOs;
 using Offices.Application.Interfaces.Repositories;
 using Offices.Domain.Entities;
 using Offices.Persistence.Contexts;
+using Serilog;
 using System.Data;
 
 namespace Offices.Persistence.Repositories
@@ -12,6 +13,41 @@ namespace Offices.Persistence.Repositories
         private readonly OfficesDbContext _db;
 
         public OfficeRepository(OfficesDbContext db) => _db = db;
+
+        public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
+        {
+            var query =
+                """
+                    INSERT INTO "Offices"
+                    VALUES
+                    (@Id, @Address, @RegistryPhoneNumber, @PhotoId, @IsActive)
+                """;
+
+            var id = Guid.NewGuid();
+            var address = $"{dto.City}, {dto.Street}, {dto.HouseNumber}, {dto.OfficeNumber}";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("Address", address, DbType.String);
+            parameters.Add("RegistryPhoneNumber", dto.RegistryPhoneNumber, DbType.String);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
+            parameters.Add("IsActive", dto.IsActive, DbType.Boolean);
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+
+                if (result == 0)
+                {
+                    Log.Information("Office wasn't created; {@dto}", dto);
+                    return null;
+                }
+                else
+                {
+                    return id;
+                }
+            }
+        }
 
         public async Task<OfficeEntity> GetByIdAsync(Guid id)
         {
