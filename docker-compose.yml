@@ -24,6 +24,18 @@ services:
     ports:
      - 1442:1433
 
+  profiles.api:
+    image: profile.api
+    build:
+      context: .
+      dockerfile: Profiles.API/Dockerfile
+    ports:
+    - 8022:80
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+     - sqlServer
+
 volumes:
     sqlServerData:
   

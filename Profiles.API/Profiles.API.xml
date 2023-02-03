@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Profiles.API</name>
+    </assembly>
+    <members>
+        <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequestModel)">
+            <summary>
+            Create new Patient profile
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
