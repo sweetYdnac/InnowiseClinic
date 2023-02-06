@@ -23,7 +23,7 @@ namespace Profiles.Application.Features.Patient.Queries
 
         public async Task<PatientDetailsResponse> Handle(GetMatchedPatientQuery request, CancellationToken cancellationToken)
         {
-            var patientEntity = await _patientRepository.GetMatch(request);
+            var patientEntity = await _patientRepository.GetMatchAsync(request);
             return _mapper.Map<PatientDetailsResponse>(patientEntity);
         }
     }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.IdentityModel.Tokens;
 using Profiles.API.Extensions;
 using Profiles.API.Middlewares;
@@ -15,7 +16,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.File(logPath, LogEventLevel.Error)
     .WriteTo.Console(LogEventLevel.Debug));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt => opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>());
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();

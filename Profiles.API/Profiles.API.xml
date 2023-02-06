@@ -4,6 +4,13 @@
         <name>Profiles.API</name>
     </assembly>
     <members>
+        <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequestModel)">
+            <summary>
+            Try find a match among the existed profiles.
+            </summary>
+            <param name="request"></param>
+            <returns>Given a match with profile has been found returns this profile. Else - returns NULL</returns>
+        </member>
         <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequestModel)">
             <summary>
             Create new Patient profile
@@ -16,6 +23,13 @@
             Get patient profile by Id
             </summary>
             <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profiles.API.Controllers.PatientsController.GetPatients(Shared.Models.Request.Profiles.Patient.GetPatientsRequestModel)">
+            <summary>
+            Get patients by filter and from specific page
+            </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
     </members>

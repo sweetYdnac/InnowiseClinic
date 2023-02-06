@@ -12,6 +12,7 @@ namespace Profiles.Application.Features.Patient.Commands
         public string MiddleName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Guid? AccountId { get; set; }
+        public bool IsLinkedToAccount { get; set; }
     }
 
     public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Guid?>
