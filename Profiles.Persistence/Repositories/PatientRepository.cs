@@ -20,7 +20,7 @@ namespace Profiles.Persistence.Repositories
             var query = """
                             INSERT Patients
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, DEFAULT)
+                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @IsLinkedToAccount)
                         """;
 
             var parameters = new DynamicParameters();
@@ -30,6 +30,7 @@ namespace Profiles.Persistence.Repositories
             parameters.Add("MiddleName", entity.MiddleName, DbType.String);
             parameters.Add("AccountId", entity.AccountId, DbType.Guid);
             parameters.Add("DateOfBirth", entity.DateOfBirth, DbType.Date);
+            parameters.Add("IsLinkedToAccount", entity.IsLinkedToAccount, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {
@@ -65,19 +66,24 @@ namespace Profiles.Persistence.Repositories
             }
         }
 
-        public async Task<PatientEntity> GetMatch(GetMatchedPatientQuery request)
+        public async Task<PatientEntity> GetMatchAsync(GetMatchedPatientQuery request)
         {
             var query = """
+                            WITH Response AS(
                             SELECT FirstName, LastName, MiddleName, DateOfBirth,
-                                (
-                                    (case when FirstName = @FirstName then 5 else 0 end) +
-                                    (case when LastName = @LastName then 5 else 0 end) +
-                                    (case when MiddleName = @MiddleName then 5 else 0 end) +
-                                    (case when DateOfBirth = @DateOfBirth then 3 else 0 end)
-                                ) AS Weight
-                            FROM Patients
-                            WHERE IsLinkedToAccount = FALSE AND Weight >= 13
-                            ORDER BY Weight DESC;
+                        	    (
+                        		    (case when FirstName = @FirstName then 5 else 0 end) +
+                        		    (case when LastName = @LastName then 5 else 0 end) +
+                        		    (case when MiddleName = @MiddleName then 5 else 0 end) +
+                        		    (case when DateOfBirth = @DateOfBirth then 3 else 0 end)
+                        	    ) AS Weight
+                        	FROM Patients
+                        	WHERE IsLinkedToAccount = 0)
+
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth
+                            FROM Response
+                            WHERE Weight >= 13
+                            ORDER BY Weight DESC
                         """;
 
             var parameters = new DynamicParameters();
@@ -92,23 +98,37 @@ namespace Profiles.Persistence.Repositories
             }
         }
 
-        //    public Task<int> DeleteAsync(Guid id)
-        //    {
+        public async Task<(IEnumerable<PatientEntity> patients, int totalCount)> GetPatients(GetPatientsQuery request)
+        {
+            var query = """
+                            SELECT FirstName, LastName, MiddleName
+                            FROM Patients
+                            WHERE FirstName LIKE @FullName OR 
+                                  LastName LIKE @FullName OR 
+                                  MiddleName LIKE @FullName
+                            ORDER BY Id
+                                OFFSET @Offset ROWS
+                                FETCH FIRST @PageSize ROWS ONLY;
 
-        //    }
+                            SELECT COUNT(*)
+                            FROM Patients
+                        """;
 
-        //    public Task<IEnumerable<PatientEntity>> GetAllAsync()
-        //    {
+            var parameters = new DynamicParameters();
+            parameters.Add("FullName", $"%{request.FullName}%", DbType.String);
+            parameters.Add("Offset", request.PageSize * (request.PageNumber - 1), DbType.Int32);
+            parameters.Add("PageSize", request.PageSize, DbType.Int32);
 
-        //    }
+            using (var connection = _db.CreateConnection())
+            {
+                using (var multi = await connection.QueryMultipleAsync(query, parameters))
+                {
+                    var offices = await multi.ReadAsync<PatientEntity>();
+                    var count = await multi.ReadFirstAsync<int>();
 
-        //    public Task<(IEnumerable<PatientEntity> data, int totalCount)> GetByPageAsync(PagedParameters parameters)
-        //    {
-
-        //    }
-
-        //    public Task<int> UpdateAsync(PatientEntity entity)
-        //    {
-
+                    return (offices, count);
+                }
+            }
+        }
     }
 }

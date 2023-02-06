@@ -21,9 +21,15 @@ namespace Profiles.API.Controllers
         public PatientsController(IMediator mediator, IMapper mapper) =>
             (_mediator, _mapper) = (mediator, mapper);
 
+        /// <summary>
+        /// Try find a match among the existed profiles.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Given a match with profile has been found returns this profile. Else - returns NULL</returns>
         [HttpGet("match")]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(PatientDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
@@ -68,6 +74,24 @@ namespace Profiles.API.Controllers
         {
             var response = await _mediator.Send(new GetPatientDetailsQuery { Id = id });
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Get patients by filter and by specific page
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(GetPatientsResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetPatients([FromQuery] GetPatientsRequestModel request)
+        {
+            var patients = await _mediator.Send(_mapper.Map<GetPatientsQuery>(request));
+            return Ok(patients);
         }
     }
 }
