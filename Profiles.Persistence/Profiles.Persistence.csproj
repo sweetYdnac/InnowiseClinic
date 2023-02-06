@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Profiles.Application\Profiles.Application.csproj" />
     <ProjectReference Include="..\Profiles.Domain\Profiles.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@ using Profiles.Application.Interfaces.Repositories;
 using Profiles.Domain.Entities;
 using Profiles.Persistence.Contexts;
 using Serilog;
+using Shared.Exceptions;
 using System.Data;
 
 namespace Profiles.Persistence.Repositories
@@ -45,17 +46,30 @@ namespace Profiles.Persistence.Repositories
             }
         }
 
+        public async Task<PatientEntity> GetByIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth
+                            FROM Patients
+                            WHERE Id = @Id;
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                var patient = await connection.QueryFirstOrDefaultAsync<PatientEntity>(query, new { Id = id });
+
+                return patient is null 
+                    ? throw new NotFoundException($"Patient profile with id = {id} doesn't exist.") 
+                    : patient;
+            }
+        }
+
         //    public Task<int> DeleteAsync(Guid id)
         //    {
 
         //    }
 
         //    public Task<IEnumerable<PatientEntity>> GetAllAsync()
-        //    {
-
-        //    }
-
-        //    public Task<PatientEntity> GetByIdAsync(Guid id)
         //    {
 
         //    }
