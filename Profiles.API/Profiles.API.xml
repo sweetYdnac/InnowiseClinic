@@ -11,5 +11,12 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:Profiles.API.Controllers.PatientsController.GetPatientById(System.Guid)">
+            <summary>
+            Get patient profile by Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
