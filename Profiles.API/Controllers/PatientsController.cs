@@ -21,11 +21,18 @@ namespace Profiles.API.Controllers
         public PatientsController(IMediator mediator, IMapper mapper) =>
             (_mediator, _mapper) = (mediator, mapper);
 
-        //[HttpGet]
-        //public async Task<bool> IsExist()
-        //{
-
-        //}
+        [HttpGet("match")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(PatientDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetMatch([FromQuery] GetMatchedPatientRequestModel request)
+        {
+            var response = await _mediator.Send(_mapper.Map<GetMatchedPatientQuery>(request));
+            return Ok(response);
+        }
 
         /// <summary>
         /// Create new Patient profile

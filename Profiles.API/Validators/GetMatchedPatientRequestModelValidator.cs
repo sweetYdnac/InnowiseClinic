@@ -3,9 +3,9 @@ using Shared.Models.Request.Profiles.Patient;
 
 namespace Profiles.API.Validators
 {
-    public class CreatePatientRequestModelValidator : AbstractValidator<CreatePatientRequestModel>
+    public class GetMatchedPatientRequestModelValidator : AbstractValidator<GetMatchedPatientRequestModel>
     {
-        public CreatePatientRequestModelValidator()
+        public GetMatchedPatientRequestModelValidator()
         {
             RuleFor(p => p.FirstName)
                 .NotEmpty()

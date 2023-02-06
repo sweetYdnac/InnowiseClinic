@@ -16,11 +16,11 @@ namespace Profiles.Application.Features.Patient.Commands
 
     public class CreatePatientCommandHandler : IRequestHandler<CreatePatientCommand, Guid?>
     {
-        private readonly IGenericRepository<PatientEntity> _patientRepository;
+        private readonly IPatientRepository _patientRepository;
         private readonly IMapper _mapper;
 
         public CreatePatientCommandHandler(
-            IGenericRepository<PatientEntity> patientRepository, 
+            IPatientRepository patientRepository, 
             IMapper mapper) => 
             (_patientRepository, _mapper) = (patientRepository, mapper);
 
