@@ -6,6 +6,7 @@ using Profiles.API.Validators.Patient;
 using Profiles.Application.Features.Patient.Commands;
 using Profiles.Application.Interfaces.Repositories;
 using Profiles.Application.MappingProfiles;
+using Profiles.Domain.Entities;
 using Profiles.Persistence.Contexts;
 using Profiles.Persistence.Helpers;
 using Profiles.Persistence.Migrations;
@@ -20,6 +21,7 @@ namespace Profiles.API.Extensions
         {
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<IDoctorRepository, DoctorRepository>();
+            services.AddTransient<IGenericRepository<DoctorSummary>, DoctorSummaryRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

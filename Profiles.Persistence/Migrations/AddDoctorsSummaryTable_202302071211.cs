@@ -19,13 +19,13 @@ namespace Profiles.Persistence.Migrations
                 .WithColumn("OfficeAddress").AsString().NotNullable();
 
             Insert.IntoTable("DoctorsSummary")
-                .Row(new
+                .Row(new DoctorSummary
                 {
                     Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
                     SpecializationName = "Therapist",
                     OfficeAddress = "Homel Belickogo 9 1"
                 })
-                .Row(new
+                .Row(new DoctorSummary
                 {
                     Id = new Guid("96C91BEE-3B1D-48B0-ABAE-116BEBBA3EFB"),
                     SpecializationName = "Dentist",
