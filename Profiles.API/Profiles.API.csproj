@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MappingProfiles\**" />
+    <Content Remove="MappingProfiles\**" />
+    <EmbeddedResource Remove="MappingProfiles\**" />
+    <None Remove="MappingProfiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentMigrator" Version="3.3.2" />

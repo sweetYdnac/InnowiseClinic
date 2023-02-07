@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Shared.Models.Request.Profiles.Patient;
 
-namespace Profiles.API.Validators
+namespace Profiles.API.Validators.Patient
 {
-    public class EditPatientRequestModelValidator : AbstractValidator<EditPatientRequestModel>
+    public class GetMatchedPatientRequestModelValidator : AbstractValidator<GetMatchedPatientRequestModel>
     {
-        public EditPatientRequestModelValidator()
+        public GetMatchedPatientRequestModelValidator()
         {
             RuleFor(p => p.FirstName)
                 .NotEmpty()

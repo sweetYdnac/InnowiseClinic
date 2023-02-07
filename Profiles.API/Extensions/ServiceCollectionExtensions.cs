@@ -2,7 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Profiles.API.Validators;
+using Profiles.API.Validators.Patient;
 using Profiles.Application.Features.Patient.Commands;
 using Profiles.Application.Interfaces.Repositories;
 using Profiles.Application.MappingProfiles;
@@ -19,6 +19,7 @@ namespace Profiles.API.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IDoctorRepository, DoctorRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
