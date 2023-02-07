@@ -6,7 +6,6 @@ namespace Profiles.Application.Interfaces.Repositories
     {
         Task<T> GetByIdAsync(Guid id);
         Task<Guid?> AddAsync(T entity);
-        //Task<int> UpdateAsync(T entity);
-        //Task<int> DeleteAsync(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

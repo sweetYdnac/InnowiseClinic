@@ -48,6 +48,24 @@ namespace Profiles.Persistence.Repositories
             }
         }
 
+        public async Task DeleteAsync(Guid id)
+        {
+            var query = """
+                            DELETE Patients
+                            WHERE Id = @id;
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, new { id });
+
+                if (result == 0)
+                {
+                    Log.Information("Entity with {id} wasn't remove", id);
+                }
+            }
+        }
+
         public async Task<PatientEntity> GetByIdAsync(Guid id)
         {
             var query = """
