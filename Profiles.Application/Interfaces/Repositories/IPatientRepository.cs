@@ -1,4 +1,5 @@
-﻿using Profiles.Application.Features.Patient.Queries;
+﻿using Profiles.Application.Features.Patient.Commands;
+using Profiles.Application.Features.Patient.Queries;
 using Profiles.Domain.Entities;
 
 namespace Profiles.Application.Interfaces.Repositories
@@ -7,5 +8,6 @@ namespace Profiles.Application.Interfaces.Repositories
     {
         Task<PatientEntity> GetMatchAsync(GetMatchedPatientQuery request);
         Task<(IEnumerable<PatientEntity> patients, int totalCount)> GetPatients(GetPatientsQuery request);
+        Task LinkToAccount(LinkToAccountCommand request);
     }
 }
