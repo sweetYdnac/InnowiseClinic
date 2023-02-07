@@ -10,7 +10,7 @@ namespace Profiles.Application.MappingProfiles
     {
         public DoctorProfile()
         {
-            CreateMap<GetDoctorsRequestModel, GetDoctorsQuery>();
+            CreateMap<GetDoctorsRequestModel, GetDoctorsInformationQuery>();
             CreateMap<CreateDoctorRequestModel, CreateDoctorCommand>();
             CreateMap<CreateDoctorCommand, DoctorEntity>()
                 .ForMember(ent => ent.Id, opt => opt.MapFrom(command => Guid.NewGuid()));

@@ -21,6 +21,7 @@ namespace Profiles.API.Extensions
         {
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<IDoctorRepository, DoctorRepository>();
+            services.AddTransient<IDoctorInformationRepository, DoctorInformationRepository>();
             services.AddTransient<IGenericRepository<DoctorSummary>, DoctorSummaryRepository>();
         }
 

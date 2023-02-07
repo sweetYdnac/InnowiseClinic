@@ -25,7 +25,7 @@ namespace Profiles.Application.Features.Doctor.Commands
         private readonly IGenericRepository<DoctorSummary> _doctorSummaryRepository;
         private readonly IMapper _mapper;
         public CreateDoctorCommandHandler(
-            IDoctorRepository doctorRepository, 
+            IDoctorRepository doctorRepository,
             IMapper mapper,
             IGenericRepository<DoctorSummary> doctorSummaryRepository) =>
             (_doctorRepository, _mapper, _doctorSummaryRepository) = (doctorRepository, mapper, doctorSummaryRepository);

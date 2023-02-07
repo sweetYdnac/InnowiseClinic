@@ -4,6 +4,20 @@
         <name>Profiles.API</name>
     </assembly>
     <members>
+        <member name="M:Profiles.API.Controllers.DoctorsController.CreateDoctor(Shared.Models.Request.Profiles.Doctor.CreateDoctorRequestModel)">
+            <summary>
+            Create new doctor's profile
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Profiles.API.Controllers.DoctorsInformationController.GetDoctors(Shared.Models.Request.Profiles.Doctor.GetDoctorsRequestModel)">
+            <summary>
+            Get doctors with paging info by filter
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequestModel)">
             <summary>
             Try find a match among the existed profiles.
