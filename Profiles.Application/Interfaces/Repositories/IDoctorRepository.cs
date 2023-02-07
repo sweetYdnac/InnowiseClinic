@@ -6,6 +6,5 @@ namespace Profiles.Application.Interfaces.Repositories
 {
     public interface IDoctorRepository : IGenericRepository<DoctorEntity>
     {
-        Task<(IEnumerable<DoctorPreviewResponse> doctors, int totalCount)> GetDoctors(GetDoctorsQuery request);
     }
 }
