@@ -93,5 +93,23 @@ namespace Profiles.API.Controllers
             var patients = await _mediator.Send(_mapper.Map<GetPatientsQuery>(request));
             return Ok(patients);
         }
+
+        /// <summary>
+        /// Delete specific patient from storage
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeletePatient([FromRoute] Guid Id)
+        {
+            await _mediator.Send(new DeletePatientCommand { Id = Id });
+            return NoContent();
+        }
     }
 }
