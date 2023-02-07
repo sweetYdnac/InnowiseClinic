@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Shared.Models.Request.Profiles.Patient;
 
-namespace Profiles.API.Validators
+namespace Profiles.API.Validators.Patient
 {
     public class GetPatientsRequestModelValidator : AbstractValidator<GetPatientsRequestModel>
     {
