@@ -41,7 +41,7 @@ namespace Profiles.API.Controllers
         }
 
         /// <summary>
-        /// Create new Patient profile
+        /// Create new patient's profile
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace Profiles.API.Controllers
         }
 
         /// <summary>
-        /// Get patient profile by Id
+        /// Get patient's profile by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -77,7 +77,7 @@ namespace Profiles.API.Controllers
         }
 
         /// <summary>
-        /// Get patients by filter and by specific page
+        /// Get patients profiles by filter and by specific page
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -95,7 +95,7 @@ namespace Profiles.API.Controllers
         }
 
         /// <summary>
-        /// Delete specific patient from storage
+        /// Delete specific patient's profile from storage
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -109,6 +109,50 @@ namespace Profiles.API.Controllers
         public async Task<IActionResult> DeletePatient([FromRoute] Guid Id)
         {
             await _mediator.Send(new DeletePatientCommand { Id = Id });
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Edit specific patient's profile
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> EditPatient([FromRoute] Guid id, [FromBody] EditPatientRequestModel request)
+        {
+            var command = _mapper.Map<UpdatePatientCommand>(request);
+            command.Id = id;
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Link specific patient's profile to account when user want to accept matched profile with this input.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [Authorize(Roles = nameof(AccountRoles.Patient))]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> LinkToAccount([FromRoute] Guid id, [FromBody] LinkToAccountRequestModel request)
+        {
+            var command = _mapper.Map<LinkToAccountCommand>(request);
+            command.Id = id;
+            await _mediator.Send(command);
+
             return NoContent();
         }
     }

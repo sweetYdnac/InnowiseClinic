@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Profiles.Application.Features.Patient.Commands;
 using Profiles.Application.Features.Patient.Queries;
 using Profiles.Application.Interfaces.Repositories;
 using Profiles.Domain.Entities;
@@ -6,6 +7,7 @@ using Profiles.Persistence.Contexts;
 using Serilog;
 using Shared.Exceptions;
 using System.Data;
+using static Dapper.SqlMapper;
 
 namespace Profiles.Persistence.Repositories
 {
@@ -145,6 +147,59 @@ namespace Profiles.Persistence.Repositories
                     var count = await multi.ReadFirstAsync<int>();
 
                     return (offices, count);
+                }
+            }
+        }
+
+        public async Task LinkToAccount(LinkToAccountCommand request)
+        {
+            var query = """
+                            UPDATE Patients
+                            SET AccountId = @accountId,
+                                IsLinkedToAccount = 1
+                            WHERE Id = @id;
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("id", request.Id, DbType.Guid);
+            parameters.Add("AccountId", request.AccountId, DbType.Guid);
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+
+                if (result == 0)
+                {
+                    Log.Information("Patient wasn't linked to account. {@request}", request);
+                }
+            }
+        }
+
+        public async Task UpdateAsync(PatientEntity entity)
+        {
+            var query = """
+                            UPDATE Patients
+                            SET FirstName = @firstName,
+                                LastName = @lastName,
+                                MiddleName = @middleName,
+                                DateOfBirth = @dateOfBirth
+                            WHERE Id = @id;
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("firstName", entity.FirstName, DbType.String);
+            parameters.Add("lastName", entity.LastName, DbType.String);
+            parameters.Add("middleName", entity.MiddleName, DbType.String);
+            parameters.Add("dateOfBirth", entity.DateOfBirth, DbType.Date);
+            parameters.Add("id", entity.Id, DbType.Guid);
+
+            using (var connection = _db.CreateConnection())
+            {
+                var result = await connection.ExecuteAsync(query, parameters);
+
+                if (result == 0)
+                {
+                    Log.Information("Patient wasn't update. {@entity}", entity);
                 }
             }
         }

@@ -56,8 +56,7 @@ namespace Profiles.API.Extensions
 
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-                    .AddAutoMapper(typeof(PatientProfile).Assembly);
+            services.AddAutoMapper(typeof(PatientProfile).Assembly);
         }
 
         private static void MigrateDatabase(this IServiceCollection services)

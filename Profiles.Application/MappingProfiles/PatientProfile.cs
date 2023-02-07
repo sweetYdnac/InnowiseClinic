@@ -11,12 +11,20 @@ namespace Profiles.Application.MappingProfiles
     {
         public PatientProfile()
         {
+            CreateMap<CreatePatientRequestModel, CreatePatientCommand>();
             CreateMap<CreatePatientCommand, PatientEntity>()
                 .ForMember(entity => entity.Id, opt => opt.MapFrom(command => Guid.NewGuid()));
-            CreateMap<GetMatchedPatientRequestModel, GetMatchedPatientQuery>();
 
+            CreateMap<GetMatchedPatientRequestModel, GetMatchedPatientQuery>(); 
+            CreateMap<GetPatientsRequestModel, GetPatientsQuery>();
+
+            CreateMap<EditPatientRequestModel, UpdatePatientCommand>();
+            CreateMap<UpdatePatientCommand, PatientEntity>();
+
+            CreateMap<LinkToAccountRequestModel, LinkToAccountCommand>();
 
             CreateMap<PatientEntity, PatientDetailsResponse>();
+            CreateMap<PatientEntity, PatientNameResponse>();
         }
     }
 }
