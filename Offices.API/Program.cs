@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Offices.API.Extensions;
 using Offices.API.Middlewares;
 using Serilog;
@@ -16,26 +14,12 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console(LogEventLevel.Debug));
 
 builder.Services.AddControllers();
-builder.Services.Addrepositories();
+builder.Services.AddServices();
+builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();
-builder.Services.ConfigureMediatR();
 builder.Services.ConfigureAutoMapper();
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-    {
-        options.Authority = builder.Configuration.GetValue<string>("JWTBearerConfiguration:Authority");
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = false
-        };
-    });
+builder.Services.ConfigureAuthentication(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwaggerGen();

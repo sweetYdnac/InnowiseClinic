@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace Shared.Models.Response
 {
@@ -14,5 +15,7 @@ namespace Shared.Models.Response
             Message = message;
             Details = details;
         }
+
+        public override string ToString() => JsonConvert.SerializeObject(this, Formatting.Indented);
     }
 }

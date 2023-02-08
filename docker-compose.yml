@@ -40,7 +40,7 @@ services:
         image: postgres:latest
         user: postgres
         volumes: 
-            - postgreSqlData:/var/lib/postrgesql/data/pgdata
+            - postgreSqlData:/var/lib/postgresql/data
         environment:
             - POSTGRES_PASSWORD=123
         ports:

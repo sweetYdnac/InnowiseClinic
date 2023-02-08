@@ -6,7 +6,7 @@
     <UserSecretsId>d0d1fa6d-8e87-4e43-b221-c2f460c49d83</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Offices.API\Offices.API.xml</DocumentationFile>
+    <DocumentationFile>F:\InnowiseClinic\Offices.API\Offices.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,8 +16,7 @@
     <PackageReference Include="FluentMigrator.Runner.Postgres" Version="3.3.2" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
-    <PackageReference Include="MediatR" Version="11.1.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
@@ -27,11 +26,11 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Offices.Application\Offices.Application.csproj" />
-    <ProjectReference Include="..\Offices.Persistence\Offices.Persistence.csproj" />
+    <ProjectReference Include="..\Offices.Business\Offices.Business.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
