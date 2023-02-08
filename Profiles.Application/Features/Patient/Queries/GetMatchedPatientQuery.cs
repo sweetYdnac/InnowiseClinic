@@ -5,7 +5,7 @@ using Shared.Models.Response.Profiles.Patient;
 
 namespace Profiles.Application.Features.Patient.Queries
 {
-    public class GetMatchedPatientQuery : IRequest<PatientDetailsResponse>
+    public class GetMatchedPatientQuery : IRequest<PatientResponse>
     {
         public string Firstname { get; set; }
         public string LastName { get; set; }
@@ -13,7 +13,7 @@ namespace Profiles.Application.Features.Patient.Queries
         public DateTime DateOfBirth { get; set; }
     }
 
-    public class GetMatchedPatientQueryHandler : IRequestHandler<GetMatchedPatientQuery, PatientDetailsResponse>
+    public class GetMatchedPatientQueryHandler : IRequestHandler<GetMatchedPatientQuery, PatientResponse>
     {
         private readonly IPatientRepository _patientRepository;
         private readonly IMapper _mapper;
@@ -21,10 +21,10 @@ namespace Profiles.Application.Features.Patient.Queries
         public GetMatchedPatientQueryHandler(IPatientRepository patientRepository, IMapper mapper) =>
            (_patientRepository, _mapper) = (patientRepository, mapper);
 
-        public async Task<PatientDetailsResponse> Handle(GetMatchedPatientQuery request, CancellationToken cancellationToken)
+        public async Task<PatientResponse> Handle(GetMatchedPatientQuery request, CancellationToken cancellationToken)
         {
             var patientEntity = await _patientRepository.GetMatchAsync(request);
-            return _mapper.Map<PatientDetailsResponse>(patientEntity);
+            return _mapper.Map<PatientResponse>(patientEntity);
         }
     }
 }

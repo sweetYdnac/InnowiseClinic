@@ -15,6 +15,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console(LogEventLevel.Debug));
 
 builder.Services.AddControllers(opt => opt.OutputFormatters.RemoveType<HttpNoContentOutputFormatter>());
+builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();

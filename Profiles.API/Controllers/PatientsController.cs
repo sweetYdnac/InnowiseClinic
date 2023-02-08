@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Profiles.Application.Features.Patient.Commands;
 using Profiles.Application.Features.Patient.Queries;
+using Profiles.Business.Interfaces.Services;
 using Shared.Core.Enums;
 using Shared.Models.Request.Profiles.Patient;
 using Shared.Models.Response;
@@ -15,20 +15,20 @@ namespace Profiles.API.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        private readonly IMediator _mediator;
+        private readonly IPatientsService _patientsService;
         private readonly IMapper _mapper;
 
-        public PatientsController(IMediator mediator, IMapper mapper) =>
-            (_mediator, _mapper) = (mediator, mapper);
+        public PatientsController(IPatientsService patientsService, IMapper mapper) =>
+            (_patientsService, _mapper) = (patientsService, mapper);
 
         /// <summary>
         /// Try find a match among the existed profiles.
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>Given a match with profile has been found returns this profile. Else - returns NULL</returns>
+        /// <returns>Given a match with profile has been found returns this profile. Else - returns null</returns>
         [HttpGet("match")]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(PatientDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
@@ -65,15 +65,15 @@ namespace Profiles.API.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         [Authorize]
-        [ProducesResponseType(typeof(PatientDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetPatientById([FromRoute] Guid id)
         {
-            var response = await _mediator.Send(new GetPatientDetailsQuery { Id = id });
-            return Ok(response);
+            var patient = await _patientsService.GetByIdAsync(id);
+            return Ok(patient);
         }
 
         /// <summary>

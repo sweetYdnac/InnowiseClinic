@@ -1,19 +1,13 @@
 ﻿using FluentMigrator.Runner;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using MediatR;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Profiles.API.Validators.Patient;
 using Profiles.Application.Features.Patient.Commands;
-using Profiles.Application.Interfaces.Repositories;
-using Profiles.Application.MappingProfiles;
-using Profiles.Domain.Entities;
-using Profiles.Persistence.Contexts;
-using Profiles.Persistence.Helpers;
-using Profiles.Persistence.Migrations;
-using Profiles.Persistence.Repositories;
+using Profiles.Business.Implementations.Services;
+using Profiles.Business.Interfaces.Services;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -23,6 +17,11 @@ namespace Profiles.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static void AddServices(this ServiceCollection services)
+        {
+            services.AddTransient<IPatientsService, PatientsService>();
+        }
+
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IPatientRepository, PatientRepository>();

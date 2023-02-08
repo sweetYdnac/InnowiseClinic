@@ -7,7 +7,7 @@ using Shared.Core.Enums;
 using Shared.Models.Request.Profiles.Doctor;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
-using Swashbuckle.AspNetCore.Examples;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.Controllers
 {
