@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Offices.Application.Features.Office.Queries;
+using Offices.Data.DTOs;
 using Shared.Models.Request.Offices;
 
 namespace Offices.API.MappingProfiles
@@ -8,9 +8,9 @@ namespace Offices.API.MappingProfiles
     {
         public OfficeProfile()
         {
-            CreateMap<GetOfficesRequestModel, GetOfficesQuery>();
-            CreateMap<CreateOfficeRequestModel, CreateOfficeCommand>();
-            CreateMap<UpdateOfficeRequestModel, UpdateOfficeCommand>();
+            CreateMap<GetOfficesRequestModel, GetPagedOfficesDTO>();
+            CreateMap<CreateOfficeRequestModel, CreateOfficeDTO>();
+            CreateMap<UpdateOfficeRequestModel, UpdateOfficeDTO>();
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Shared.Models.Request.Offices
+﻿using Shared.Models.Parameters;
+
+namespace Shared.Models.Request.Offices
 {
-    public class GetOfficesRequestModel
+    public class GetOfficesRequestModel : PagingParameters
     {
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
     }
 }
