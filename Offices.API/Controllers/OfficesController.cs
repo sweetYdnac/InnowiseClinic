@@ -45,7 +45,28 @@ namespace Offices.API.Controllers
         public async Task<IActionResult> GetOffice([FromRoute] Guid id)
         {
             var office = await _officeService.GetByIdAsync(id);
+
             return Ok(office);
+        }
+
+        /// <summary>
+        /// Get paginated offices
+        /// </summary>
+        /// <param name="request">Contains paging parameters</param>
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
+        [ProducesResponseType(typeof(GetOfficesResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(GetOfficesRequestModel), typeof(GetOfficesRequestExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetOfficesResponseExample))]
+        public async Task<IActionResult> GetOffices([FromQuery] GetOfficesRequestModel request)
+        {
+            var offices = await _officeService.GetOfficesAsync(_mapper.Map<GetPagedOfficesDTO>(request));
+
+            return Ok(offices);
         }
 
         /// <summary>
@@ -64,6 +85,7 @@ namespace Offices.API.Controllers
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequestModel request)
         {
             var response = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));
+
             return StatusCode(201, response);
         }
 
@@ -83,6 +105,7 @@ namespace Offices.API.Controllers
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
         {
             await _officeService.ChangeStatus(new ChangeOfficeStatusDTO { Id = id, IsActive = isActive });
+
             return NoContent();
         }
 
@@ -102,6 +125,7 @@ namespace Offices.API.Controllers
         public async Task<IActionResult> UpdateOffice([FromRoute] Guid id, [FromBody] UpdateOfficeRequestModel request)
         {
             await _officeService.UpdateAsync(id, _mapper.Map<UpdateOfficeDTO>(request));
+
             return NoContent();
         }
     }

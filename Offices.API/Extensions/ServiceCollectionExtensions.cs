@@ -22,13 +22,12 @@ namespace Offices.API.Extensions
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddTransient<IOfficeService, OfficeService>();
+            services.AddScoped<IOfficeService, OfficeService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IOfficeRepository, OfficeRepository>();
-            services.AddTransient<IOfficeInformationRepository, OfficeInformationRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

@@ -11,10 +11,8 @@ namespace Offices.Business.Implementations.Services
     public class OfficeService : IOfficeService
     {
         private readonly IOfficeRepository _officeRepository;
-        private readonly IOfficeInformationRepository _officeInformationRepository;
 
-        public OfficeService(IOfficeRepository officeRepository, IOfficeInformationRepository officeInformationRepository) =>
-            (_officeRepository, _officeInformationRepository) = (officeRepository, officeInformationRepository);
+        public OfficeService(IOfficeRepository officeRepository) => _officeRepository = officeRepository;
 
         public async Task ChangeStatus(ChangeOfficeStatusDTO dto)
         {
@@ -42,14 +40,20 @@ namespace Offices.Business.Implementations.Services
 
         public async Task<GetOfficesResponseModel> GetOfficesAsync(GetPagedOfficesDTO dto)
         {
-            var repositoryResponse = await _officeInformationRepository.GetPagedOfficesAsync(dto);
+            var repositoryResponse = await _officeRepository.GetPagedOfficesAsync(dto);
 
             if (repositoryResponse.totalCount == 0)
             {
                 Log.Information("There are no offices in storage");
             }
 
-            var response = new GetOfficesResponseModel(repositoryResponse.offices, dto.PageNumber, dto.PageSize, repositoryResponse.totalCount);
+            var response = new GetOfficesResponseModel(
+                repositoryResponse.offices, 
+                dto.PageNumber, 
+                dto.PageSize, 
+                repositoryResponse.totalCount
+                );
+
             return response;
         }
 
