@@ -5,4 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Profiles.Application\Profiles.Application.csproj" />
+    <ProjectReference Include="..\Profiles.Data\Profiles.Data.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
+  </ItemGroup>
+
 </Project>

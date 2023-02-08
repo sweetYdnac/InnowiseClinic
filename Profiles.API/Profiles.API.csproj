@@ -6,15 +6,8 @@
     <UserSecretsId>355a0c2e-2d0d-4258-9b23-f14645687ee7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Profiles.API\Profiles.API.xml</DocumentationFile>
+    <DocumentationFile>F:\InnowiseClinic\Profiles.API\Profiles.API.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="MappingProfiles\**" />
-    <Content Remove="MappingProfiles\**" />
-    <EmbeddedResource Remove="MappingProfiles\**" />
-    <None Remove="MappingProfiles\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
@@ -26,6 +19,7 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
@@ -39,7 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Profiles.Application\Profiles.Application.csproj" />
-    <ProjectReference Include="..\Profiles.Persistence\Profiles.Persistence.csproj" />
+    <ProjectReference Include="..\Profiles.Business\Profiles.Business.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>

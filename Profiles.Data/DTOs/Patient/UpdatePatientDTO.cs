@@ -1,6 +1,6 @@
-﻿namespace Shared.Models.Request.Profiles.Patient
+﻿namespace Profiles.Data.DTOs.Patient
 {
-    public class UpdatePatientRequestModel
+    public class UpdatePatientDTO
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

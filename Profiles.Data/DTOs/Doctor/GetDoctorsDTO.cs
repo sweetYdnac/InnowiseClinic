@@ -1,6 +1,6 @@
-﻿namespace Shared.Models.Request.Profiles.Doctor
+﻿namespace Profiles.Data.DTOs.Doctor
 {
-    public class GetDoctorsRequestModel
+    public class GetDoctorsDTO
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }

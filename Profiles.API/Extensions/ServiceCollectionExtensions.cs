@@ -5,9 +5,14 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Profiles.API.Validators.Patient;
-using Profiles.Application.Features.Patient.Commands;
+using Profiles.Business.Implementations.Repositories;
 using Profiles.Business.Implementations.Services;
+using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.Contexts;
+using Profiles.Data.Entities;
+using Profiles.Data.Helpers;
+using Profiles.Data.Migrations;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -19,14 +24,14 @@ namespace Profiles.API.Extensions
     {
         public static void AddServices(this ServiceCollection services)
         {
-            services.AddTransient<IPatientsService, PatientsService>();
+            services.AddScoped<IPatientsService, PatientsService>();
+            services.AddScoped<IDoctorsService, DoctorsService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IPatientRepository, PatientRepository>();
-            services.AddTransient<IDoctorRepository, DoctorRepository>();
-            services.AddTransient<IDoctorInformationRepository, DoctorInformationRepository>();
+            services.AddTransient<IPatientsRepository, PatientsRepository>();
+            services.AddTransient<IDoctorsRepository, DoctorsRepository>();
             services.AddTransient<IGenericRepository<DoctorSummary>, DoctorSummaryRepository>();
         }
 
@@ -62,14 +67,9 @@ namespace Profiles.API.Extensions
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureMediatR(this IServiceCollection services)
-        {
-            services.AddMediatR(typeof(CreatePatientCommand).Assembly);
-        }
-
         public static void ConfigureAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(PatientProfile).Assembly);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)

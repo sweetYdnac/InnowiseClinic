@@ -1,11 +1,7 @@
 ﻿using Dapper;
-using Profiles.Application.Features.Patient.Commands;
-using Profiles.Application.Features.Patient.Queries;
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Data.Contexts;
-using Profiles.Data.Entities;
-using Serilog;
-using Shared.Exceptions;
+using Profiles.Data.DTOs.Patient;
 using Shared.Models.Response.Profiles.Patient;
 using System.Data;
 using static Dapper.SqlMapper;
@@ -18,7 +14,57 @@ namespace Profiles.Business.Implementations.Repositories
 
         public PatientsRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<Guid?> AddAsync(PatientEntity entity)
+        public async Task<PatientResponse> GetByIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth
+                            FROM Patients
+                            WHERE Id = @id;
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<PatientResponse>(query, new { id });
+            }
+        }
+
+        public async Task<(IEnumerable<PatientInformationResponse> patients, int totalCount)> GetPatients(GetPatientsDTO dto)
+        {
+            var query = """
+                            SELECT CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName
+                            FROM Patients
+                            WHERE FirstName LIKE @FullName OR 
+                                  LastName LIKE @FullName OR 
+                                  MiddleName LIKE @FullName
+                            ORDER BY Id
+                                OFFSET @Offset ROWS
+                                FETCH FIRST @PageSize ROWS ONLY;
+
+                            SELECT COUNT(*)
+                            FROM Patients
+                            WHERE FirstName LIKE @FullName OR 
+                                      LastName LIKE @FullName OR 
+                                      MiddleName LIKE @FullName
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("FullName", $"%{dto.FullName}%", DbType.String);
+            parameters.Add("Offset", dto.PageSize * (dto.PageNumber - 1), DbType.Int32);
+            parameters.Add("PageSize", dto.PageSize, DbType.Int32);
+
+            using (var connection = _db.CreateConnection())
+            {
+                using (var multi = await connection.QueryMultipleAsync(query, parameters))
+                {
+                    var offices = await multi.ReadAsync<PatientInformationResponse>();
+                    var count = await multi.ReadFirstAsync<int>();
+
+                    return (offices, count);
+                }
+            }
+        }
+
+        public async Task<int> AddAsync(CreatePatientDTO dto)
         {
             var query = """
                             INSERT Patients
@@ -27,63 +73,21 @@ namespace Profiles.Business.Implementations.Repositories
                         """;
 
             var parameters = new DynamicParameters();
-            parameters.Add("Id", entity.Id, DbType.Guid);
-            parameters.Add("FirstName", entity.FirstName, DbType.String);
-            parameters.Add("LastName", entity.LastName, DbType.String);
-            parameters.Add("MiddleName", entity.MiddleName, DbType.String);
-            parameters.Add("AccountId", entity.AccountId, DbType.Guid);
-            parameters.Add("DateOfBirth", entity.DateOfBirth, DbType.Date);
-            parameters.Add("IsLinkedToAccount", entity.IsLinkedToAccount, DbType.Boolean);
+            parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
+            parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
+            parameters.Add("IsLinkedToAccount", dto.IsLinkedToAccount, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {
-                var result = await connection.ExecuteAsync(query, parameters);
-
-                if (result == 0)
-                {
-                    Log.Information("Entity wasn't add. {@entity}", entity);
-                    return null;
-                }
-                else
-                {
-                    return entity.Id;
-                }
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            var query = """
-                            DELETE Patients
-                            WHERE Id = @id;
-                        """;
-
-            using (var connection = _db.CreateConnection())
-            {
-                var result = await connection.ExecuteAsync(query, new { id });
-
-                if (result == 0)
-                {
-                    Log.Information("Entity with {id} wasn't remove", id);
-                }
-            }
-        }
-
-        public async Task<PatientResponse> GetByIdAsync(Guid id)
-        {
-            var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth
-                            FROM Patients
-                            WHERE Id = @Id;
-                        """;
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.QueryFirstOrDefaultAsync<PatientResponse>(query, new { Id = id });
-            }
-        }
-
-        public async Task<PatientEntity> GetMatchAsync(GetMatchedPatientQuery request)
+        public async Task<PatientResponse> GetMatchAsync(GetMatchedPatientDTO dto)
         {
             var query = """
                             WITH Response AS(
@@ -104,101 +108,72 @@ namespace Profiles.Business.Implementations.Repositories
                         """;
 
             var parameters = new DynamicParameters();
-            parameters.Add("FirstName", request.Firstname, DbType.String);
-            parameters.Add("LastName", request.LastName, DbType.String);
-            parameters.Add("MiddleName", request.MiddleName, DbType.String);
-            parameters.Add("DateOfBirth", request.DateOfBirth, DbType.Date);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<PatientEntity>(query, parameters);
+                return await connection.QueryFirstOrDefaultAsync<PatientResponse>(query, parameters);
             }
         }
 
-        public async Task<(IEnumerable<PatientEntity> patients, int totalCount)> GetPatients(GetPatientsQuery request)
+        public async Task<int> RemoveAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName
-                            FROM Patients
-                            WHERE FirstName LIKE @FullName OR 
-                                  LastName LIKE @FullName OR 
-                                  MiddleName LIKE @FullName
-                            ORDER BY Id
-                                OFFSET @Offset ROWS
-                                FETCH FIRST @PageSize ROWS ONLY;
-
-                            SELECT COUNT(*)
-                            FROM Patients
+                            DELETE Patients
+                            WHERE Id = @id;
                         """;
-
-            var parameters = new DynamicParameters();
-            parameters.Add("FullName", $"%{request.FullName}%", DbType.String);
-            parameters.Add("Offset", request.PageSize * (request.PageNumber - 1), DbType.Int32);
-            parameters.Add("PageSize", request.PageSize, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {
-                using (var multi = await connection.QueryMultipleAsync(query, parameters))
-                {
-                    var offices = await multi.ReadAsync<PatientEntity>();
-                    var count = await multi.ReadFirstAsync<int>();
-
-                    return (offices, count);
-                }
+                return await connection.ExecuteAsync(query, new { id });
             }
         }
 
-        public async Task LinkToAccount(LinkToAccountCommand request)
+        public async Task<int> UpdateAsync(Guid id, UpdatePatientDTO dto)
         {
             var query = """
                             UPDATE Patients
-                            SET AccountId = @accountId,
+                            SET FirstName = @FirstName,
+                                LastName = @LastName,
+                                MiddleName = @MiddleName,
+                                DateOfBirth = @DateOfBirth
+                            WHERE Id = @Id;
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
+
+        public async Task<int> LinkToAccount(Guid id, Guid accountId)
+        {
+            var query = """
+                            UPDATE Patients
+                            SET AccountId = @AccountId,
                                 IsLinkedToAccount = 1
-                            WHERE Id = @id;
+                            WHERE Id = @Id;
                         """;
 
             var parameters = new DynamicParameters();
-            parameters.Add("id", request.Id, DbType.Guid);
-            parameters.Add("AccountId", request.AccountId, DbType.Guid);
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("AccountId", accountId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
             {
-                var result = await connection.ExecuteAsync(query, parameters);
-
-                if (result == 0)
-                {
-                    Log.Information("Patient wasn't linked to account. {@request}", request);
-                }
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task UpdateAsync(PatientEntity entity)
-        {
-            var query = """
-                            UPDATE Patients
-                            SET FirstName = @firstName,
-                                LastName = @lastName,
-                                MiddleName = @middleName,
-                                DateOfBirth = @dateOfBirth
-                            WHERE Id = @id;
-                        """;
-
-            var parameters = new DynamicParameters();
-            parameters.Add("firstName", entity.FirstName, DbType.String);
-            parameters.Add("lastName", entity.LastName, DbType.String);
-            parameters.Add("middleName", entity.MiddleName, DbType.String);
-            parameters.Add("dateOfBirth", entity.DateOfBirth, DbType.Date);
-            parameters.Add("id", entity.Id, DbType.Guid);
-
-            using (var connection = _db.CreateConnection())
-            {
-                var result = await connection.ExecuteAsync(query, parameters);
-
-                if (result == 0)
-                {
-                    Log.Information("Patient wasn't update. {@entity}", entity);
-                }
-            }
-        }
     }
 }

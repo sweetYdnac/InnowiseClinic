@@ -1,7 +1,11 @@
-﻿using Profiles.Business.Interfaces.Repositories;
+﻿using Azure.Core;
+using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.DTOs.Patient;
+using Serilog;
 using Shared.Exceptions;
 using Shared.Models.Response.Profiles.Patient;
+using static Dapper.SqlMapper;
 
 namespace Profiles.Business.Implementations.Services
 {
@@ -15,8 +19,74 @@ namespace Profiles.Business.Implementations.Services
             var patient = await _patientsRepository.GetByIdAsync(id);
 
             return patient is null 
-                ? throw new NotFoundException($"Patient profile with id = {id} doesn't exist.") 
+                ? throw new NotFoundException($"Patient's profile with id = {id} doesn't exist.") 
                 : patient;
+        }
+
+        public async Task<GetPatientsResponseModel> GetPagedAndFilteredAsync(GetPatientsDTO dto)
+        {
+            var repositoryResponse = await _patientsRepository.GetPatients(dto);
+
+            if (repositoryResponse.totalCount == 0)
+            {
+                Log.Information("There are no patients in storage.");
+            }
+
+            return new GetPatientsResponseModel(
+                repositoryResponse.patients, 
+                dto.PageNumber, 
+                dto.PageSize, 
+                repositoryResponse.totalCount);
+        }
+
+        public async Task<Guid?> CreateAsync(CreatePatientDTO dto)
+        {
+            var result = await _patientsRepository.AddAsync(dto);
+
+            if (result == 0)
+            {
+                Log.Information("Entity wasn't created. {@entity}", dto);
+                return null;
+            }
+            else
+            {
+                return dto.Id;
+            }
+        }
+
+        public async Task<PatientResponse> GetMatchedPatientAsync(GetMatchedPatientDTO dto)
+        {
+            return await _patientsRepository.GetMatchAsync(dto);
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var result = await _patientsRepository.RemoveAsync(id);
+
+            if (result == 0)
+            {
+                Log.Information("Patient with {id} wasn't remove", id);
+            }
+        }
+
+        public async Task UpdateAsync(Guid id, UpdatePatientDTO dto)
+        {
+            var result = await _patientsRepository.UpdateAsync(id, dto);
+
+            if (result == 0)
+            {
+                Log.Information("Patient wasn't updated. {@id} {@entity}", id, dto);
+            }
+        }
+
+        public async Task LinkToAccount(Guid id, Guid accountId)
+        {
+            var result = await _patientsRepository.LinkToAccount(id, accountId);
+
+            if (result == 0)
+            {
+                Log.Information("Patient wasn't linked to account. {@id} {@request}", id, accountId);
+            }
         }
     }
 }
