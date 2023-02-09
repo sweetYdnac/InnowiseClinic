@@ -25,6 +25,7 @@ namespace Profiles.API.Extensions
         {
             services.AddScoped<IPatientsService, PatientsService>();
             services.AddScoped<IDoctorsService, DoctorsService>();
+            services.AddScoped<IReceptionistsService, ReceptionistsService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -32,6 +33,7 @@ namespace Profiles.API.Extensions
             services.AddTransient<IPatientsRepository, PatientsRepository>();
             services.AddTransient<IDoctorsRepository, DoctorsRepository>();
             services.AddTransient<IDoctorSummaryRepository, DoctorSummaryRepository>();
+            services.AddTransient<IReceptionistsRepository, ReceptionistsRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
