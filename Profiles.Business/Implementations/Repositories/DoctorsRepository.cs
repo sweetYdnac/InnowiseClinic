@@ -2,6 +2,7 @@
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Doctor;
+using Shared.Core.Enums;
 using Shared.Models.Response.Profiles.Doctor;
 using System.Data;
 
@@ -30,11 +31,16 @@ namespace Profiles.Business.Implementations.Repositories
 
         public async Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto)
         {
-            var query = """
+            var statusFilter = dto.OnlyAtWork 
+                ? $"AND Status = {(int)AccountStatuses.AtWork}" 
+                : string.Empty;
+
+            var query = $"""
                             SELECT CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
                                    SpecializationName,
                                    OfficeAddress,
-                                   DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience
+                                   DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience,
+                                   Status
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE (FirstName LIKE @FullName OR 
@@ -42,6 +48,7 @@ namespace Profiles.Business.Implementations.Repositories
                                   MiddleName LIKE @FullName) AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
+                                  {statusFilter}
                             ORDER BY Doctors.Id
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
@@ -54,6 +61,7 @@ namespace Profiles.Business.Implementations.Repositories
                                   MiddleName LIKE @FullName) AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
+                                  {statusFilter}
                         """;
 
             var parameters = new DynamicParameters();

@@ -1,4 +1,5 @@
-﻿using Shared.Models.Response.Profiles.Doctor;
+﻿using Shared.Core.Enums;
+using Shared.Models.Response.Profiles.Doctor;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.SwaggerExamples.Responses.Doctor
@@ -14,14 +15,16 @@ namespace Profiles.API.SwaggerExamples.Responses.Doctor
                         FullName = "Holly Molly Polly",
                         SpecializationName = "Dantist",
                         OfficeAddress = "Homel Barisenko 15 6",
-                        Experience = 15
+                        Experience = 15,
+                        Status = AccountStatuses.AtWork
                     },
                     new DoctorInformationResponse
                     {
                         FullName = "Jeff Besos Arg",
                         SpecializationName = "Therapist",
                         OfficeAddress = "New York Test 10 31",
-                        Experience = 4
+                        Experience = 4,
+                        Status = AccountStatuses.SickDay
                     }
                 },
                 4,

@@ -2,6 +2,7 @@
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.DoctorSummary;
+using Shared.Core.Enums;
 using System.Data;
 
 namespace Profiles.Business.Implementations.Repositories
@@ -17,7 +18,7 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT DoctorsSummary
                             VALUES
-                            (@Id, @SpecializationName, @OfficeAddress);
+                            (@Id, @SpecializationName, @OfficeAddress, DEFAULT);
                         """;
 
             var parameters = new DynamicParameters();
@@ -61,6 +62,24 @@ namespace Profiles.Business.Implementations.Repositories
             using (var connection = _db.CreateConnection())
             {
                 return await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+        public async Task<int> ChangeStatus(Guid id, AccountStatuses status)
+        {
+            var query = """
+                            UPDATE DoctorsSummary
+                            SET Status = @Status
+                            WHERE Id = @Id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("Status", status, DbType.Int32);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
     }

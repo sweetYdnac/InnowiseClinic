@@ -1,4 +1,5 @@
 ﻿using Profiles.Data.DTOs.Doctor;
+using Shared.Core.Enums;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Interfaces.Services
@@ -10,5 +11,6 @@ namespace Profiles.Business.Interfaces.Services
         Task<Guid?> CreateAsync(CreateDoctorDTO dto);
         Task UpdateAsync(Guid id, UpdateDoctorDTO dto);
         Task RemoveAsync(Guid id);
+        Task ChangeStatus(Guid id, AccountStatuses status);
     }
 }

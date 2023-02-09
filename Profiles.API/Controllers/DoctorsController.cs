@@ -51,7 +51,6 @@ namespace Profiles.API.Controllers
         /// </summary>
         /// <param name="request">Contains properties for paging and filtering among doctors</param>
         [HttpGet]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetDoctorsResponseModel))]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(GetDoctorsResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -120,6 +119,26 @@ namespace Profiles.API.Controllers
         public async Task<IActionResult> DeleteDoctor([FromRoute] Guid id)
         {
             await _doctorsService.RemoveAsync(id);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Change doctor's status
+        /// </summary>
+        /// <param name="id">Doctor's profile unique identifier</param>
+        /// <param name="request">Contains new doctor'status</param>
+        [HttpPatch("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromBody] ChangeStatusRequestModel request)
+        {
+            await _doctorsService.ChangeStatus(id, request.Status);
 
             return NoContent();
         }
