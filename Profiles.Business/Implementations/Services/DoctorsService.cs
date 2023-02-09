@@ -85,5 +85,24 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("Doctor wasn't updated. {@id} {@dto}", id, dto);
             }
         }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            var result = await _doctorsRepository.RemoveAsync(id);
+
+            if (result > 0)
+            {
+                result = await _doctorSummaryRepository.RemoveAsync(id);
+
+                if (result == 0)
+                {
+                    Log.Information("DoctorSummary wasn't deleted. {@id}", id);
+                }
+            }
+            else
+            {
+                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+            }
+        }
     }
 }

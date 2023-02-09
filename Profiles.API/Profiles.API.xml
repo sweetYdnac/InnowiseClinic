@@ -34,6 +34,12 @@
             <param name="id">Doctor's profile unique identifier</param>
             <param name="request">Contains new values for all doctor's profile entity properties</param>
         </member>
+        <member name="M:Profiles.API.Controllers.DoctorsController.DeleteDoctor(System.Guid)">
+            <summary>
+            Remove specific doctor's profile from storage
+            </summary>
+            <param name="id">Doctor's profile unique identifier</param>
+        </member>
         <member name="T:Profiles.API.Controllers.PatientsController">
             <summary>
             This controller used to work with Patient's profiles
