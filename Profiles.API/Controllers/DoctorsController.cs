@@ -14,7 +14,7 @@ using Swashbuckle.AspNetCore.Filters;
 namespace Profiles.API.Controllers
 {
     /// <summary>
-    /// This controller used to work with doctors's profiles
+    /// This controller used to work with doctors' profiles
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
