@@ -9,5 +9,6 @@ namespace Profiles.Business.Interfaces.Services
         Task<GetDoctorsResponseModel> GetPagedAndFilteredAsync(GetDoctorsDTO dto);
         Task<Guid?> CreateAsync(CreateDoctorDTO dto);
         Task UpdateAsync(Guid id, UpdateDoctorDTO dto);
+        Task RemoveAsync(Guid id);
     }
 }

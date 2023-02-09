@@ -50,5 +50,18 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, parameters);
             }
         }
+
+        public async Task<int> RemoveAsync(Guid id)
+        {
+            var query = """
+                            DELETE DoctorsSummary
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, new { id });
+            }
+        }
     }
 }

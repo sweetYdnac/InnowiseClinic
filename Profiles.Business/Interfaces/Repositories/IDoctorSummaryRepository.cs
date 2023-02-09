@@ -6,5 +6,6 @@ namespace Profiles.Business.Interfaces.Repositories
     {
         Task<int> AddAsync(CreateDoctorSummaryDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateDoctorSummaryDTO dto);
+        Task<int> RemoveAsync(Guid id);
     }
 }
