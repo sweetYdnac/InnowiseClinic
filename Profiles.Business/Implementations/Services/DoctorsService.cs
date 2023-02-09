@@ -4,6 +4,7 @@ using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Doctor;
 using Profiles.Data.DTOs.DoctorSummary;
 using Serilog;
+using Shared.Core.Enums;
 using Shared.Exceptions;
 using Shared.Models.Response.Profiles.Doctor;
 
@@ -100,6 +101,16 @@ namespace Profiles.Business.Implementations.Services
                 }
             }
             else
+            {
+                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+            }
+        }
+
+        public async Task ChangeStatus(Guid id, AccountStatuses status)
+        {
+            var result = await _doctorSummaryRepository.ChangeStatus(id, status);
+
+            if (result == 0)
             {
                 throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
             }

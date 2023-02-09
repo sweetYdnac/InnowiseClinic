@@ -7,5 +7,6 @@
         public Guid? OfficeId { get; set; }
         public Guid? SpecializationId { get; set; }
         public string FullName { get; set; }
+        public bool OnlyAtWork { get; set; }
     }
 }

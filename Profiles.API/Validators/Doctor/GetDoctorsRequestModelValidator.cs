@@ -14,6 +14,9 @@ namespace Profiles.API.Validators.Doctor
             RuleFor(p => p.PageSize)
                 .NotNull()
                 .InclusiveBetween(1, 50);
+
+            RuleFor(p => p.OnlyAtWork)
+                .NotNull();
         }
     }
 }

@@ -40,6 +40,13 @@
             </summary>
             <param name="id">Doctor's profile unique identifier</param>
         </member>
+        <member name="M:Profiles.API.Controllers.DoctorsController.ChangeStatus(System.Guid,Shared.Models.Request.Profiles.Doctor.ChangeStatusRequestModel)">
+            <summary>
+            Change doctor's status
+            </summary>
+            <param name="id">Doctor's profile unique identifier</param>
+            <param name="request">Contains new doctor'status</param>
+        </member>
         <member name="T:Profiles.API.Controllers.PatientsController">
             <summary>
             This controller used to work with Patient's profiles
