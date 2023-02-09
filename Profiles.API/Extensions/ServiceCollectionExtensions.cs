@@ -10,7 +10,6 @@ using Profiles.Business.Implementations.Services;
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.Contexts;
-using Profiles.Data.Entities;
 using Profiles.Data.Helpers;
 using Profiles.Data.Migrations;
 using Shared.Models.Response;
@@ -22,7 +21,7 @@ namespace Profiles.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddServices(this ServiceCollection services)
+        public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IPatientsService, PatientsService>();
             services.AddScoped<IDoctorsService, DoctorsService>();
@@ -32,7 +31,7 @@ namespace Profiles.API.Extensions
         {
             services.AddTransient<IPatientsRepository, PatientsRepository>();
             services.AddTransient<IDoctorsRepository, DoctorsRepository>();
-            services.AddTransient<IGenericRepository<DoctorSummary>, DoctorSummaryRepository>();
+            services.AddTransient<IDoctorSummaryRepository, DoctorSummaryRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

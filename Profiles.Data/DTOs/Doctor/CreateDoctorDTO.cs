@@ -1,7 +1,8 @@
-﻿namespace Shared.Models.Request.Profiles.Doctor
+﻿namespace Profiles.Data.DTOs.Doctor
 {
-    public class CreateDoctorRequestModel
+    public class CreateDoctorDTO
     {
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }

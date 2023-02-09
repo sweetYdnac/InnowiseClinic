@@ -1,19 +1,18 @@
 ﻿using Dapper;
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Data.Contexts;
-using Profiles.Data.Entities;
-using Serilog;
+using Profiles.Data.DTOs.DoctorSummary;
 using System.Data;
 
 namespace Profiles.Business.Implementations.Repositories
 {
-    public class DoctorSummaryRepository : IGenericRepository<DoctorSummary>
+    public class DoctorSummaryRepository : IDoctorSummaryRepository
     {
         private readonly ProfilesDbContext _db;
 
         public DoctorSummaryRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<Guid?> AddAsync(DoctorSummary entity)
+        public async Task<int> AddAsync(DoctorSummaryDTO dto)
         {
             var query = """
                             INSERT DoctorsSummary
@@ -22,27 +21,14 @@ namespace Profiles.Business.Implementations.Repositories
                         """;
 
             var parameters = new DynamicParameters();
-            parameters.Add("Id", entity.Id, DbType.Guid);
-            parameters.Add("SpecializationName", entity.SpecializationName, DbType.String);
-            parameters.Add("OfficeAddress", entity.OfficeAddress, DbType.String);
+            parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("SpecializationName", dto.SpecializationName, DbType.String);
+            parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
 
             using (var connection = _db.CreateConnection())
             {
-                var result = await connection.ExecuteAsync(query, parameters);
-
-                if (result == 0)
-                {
-                    Log.Information("DoctorSummary wasn't added. {@entity}", entity);
-                    return null;
-                }
-                else
-                {
-                    return entity.Id;
-                }
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
-        public Task DeleteAsync(Guid id) => throw new NotImplementedException();
-        public Task<DoctorSummary> GetByIdAsync(Guid id) => throw new NotImplementedException();
-        public Task UpdateAsync(DoctorSummary entity) => throw new NotImplementedException();
     }
 }

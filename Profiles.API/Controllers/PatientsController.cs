@@ -58,7 +58,6 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(GetPatientsRequestModel), typeof(GetPatientsRequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetPatientsResponseExample))]
         public async Task<IActionResult> GetPatients([FromQuery] GetPatientsRequestModel request)
         {
@@ -94,12 +93,10 @@ namespace Profiles.API.Controllers
         [HttpGet("match")]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(GetMatchedPatientRequestModel), typeof(GetMatchedPatientRequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(PatientResponseExample))]
         public async Task<IActionResult> GetMatch([FromQuery] GetMatchedPatientRequestModel request)
         {

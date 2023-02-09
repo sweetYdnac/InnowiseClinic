@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Profiles.Application.Features.Doctor.Commands;
-using Profiles.Application.Features.Doctor.Queries;
+using Profiles.API.SwaggerExamples.Requests.Doctor;
+using Profiles.API.SwaggerExamples.Responses.Doctor;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Doctor;
 using Shared.Core.Enums;
@@ -32,13 +32,13 @@ namespace Profiles.API.Controllers
         /// </summary>
         /// <param name="id">Doctor's profile unique identifier</param>
         [HttpGet("{id}")]
-        [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(DoctorInformationResponse), StatusCodes.Status200OK)]
+        [Authorize]
+        [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DoctorInformationResponseExample))]
         public async Task<IActionResult> GetDoctorById([FromRoute] Guid id)
         {
             var response = await _doctorsService.GetByIdAsync(id);
@@ -58,6 +58,7 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetDoctorsResponseExample))]
         public async Task<IActionResult> GetDoctors([FromQuery] GetDoctorsRequestModel request)
         {
             var response = await _doctorsService.GetPagedAndFilteredAsync(_mapper.Map<GetDoctorsDTO>(request));
@@ -68,19 +69,18 @@ namespace Profiles.API.Controllers
         /// <summary>
         /// Create new doctor's profile
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">Contains all data that need to create doctor's profile entity</param>
         [HttpPost]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(CreateDoctorRequestModel), typeof(CreateDoctorRequestExample))]
         public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorRequestModel request)
         {
-            var id = await _mediator.Send(_mapper.Map<CreateDoctorCommand>(request));
+            var id = await _doctorsService.CreateAsync(_mapper.Map<CreateDoctorDTO>(request));
             return StatusCode(201, new { id });
         }
     }

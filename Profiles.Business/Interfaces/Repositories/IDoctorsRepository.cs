@@ -1,11 +1,12 @@
-﻿using Profiles.Application.Features.Doctor.Queries;
+﻿using Profiles.Data.DTOs.Doctor;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Interfaces.Repositories
 {
     public interface IDoctorsRepository
     {
-        Task<DoctorInformationResponse> GetByIdAsync(Guid Id);
-        Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsInformationQuery request);
+        Task<DoctorResponse> GetByIdAsync(Guid Id);
+        Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto);
+        Task<int> AddAsync(CreateDoctorDTO dto);
     }
 }

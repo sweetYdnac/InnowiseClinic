@@ -1,7 +1,8 @@
-﻿namespace Profiles.Data.Entities
+﻿namespace Profiles.Data.DTOs.DoctorSummary
 {
-    public class DoctorSummary : BaseEntity
+    public class DoctorSummaryDTO
     {
+        public Guid Id { get; set; }
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
     }

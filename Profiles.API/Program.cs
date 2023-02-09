@@ -19,7 +19,6 @@ builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();
-builder.Services.ConfigureMediatR();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 
