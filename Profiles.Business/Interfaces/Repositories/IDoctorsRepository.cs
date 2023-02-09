@@ -8,5 +8,6 @@ namespace Profiles.Business.Interfaces.Repositories
         Task<DoctorResponse> GetByIdAsync(Guid Id);
         Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto);
         Task<int> AddAsync(CreateDoctorDTO dto);
+        Task<int> UpdateAsync(Guid id, UpdateDoctorDTO dto);
     }
 }

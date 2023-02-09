@@ -12,7 +12,10 @@ namespace Profiles.API.MappingProfiles
             CreateMap<GetDoctorsRequestModel, GetDoctorsDTO>();
             CreateMap<CreateDoctorRequestModel, CreateDoctorDTO>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
-            CreateMap<CreateDoctorDTO, DoctorSummaryDTO>();
+            CreateMap<UpdateDoctorRequestModel, UpdateDoctorDTO>();
+
+            CreateMap<CreateDoctorDTO, CreateDoctorSummaryDTO>();
+            CreateMap<UpdateDoctorDTO, UpdateDoctorSummaryDTO>();
         }
     }
 }

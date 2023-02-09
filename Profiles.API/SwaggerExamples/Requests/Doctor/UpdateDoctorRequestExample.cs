@@ -3,10 +3,10 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.SwaggerExamples.Requests.Doctor
 {
-    public class CreateDoctorRequestExample : IExamplesProvider<CreateDoctorRequestModel>
+    public class UpdateDoctorRequestExample : IExamplesProvider<UpdateDoctorRequestModel>
     {
-        public CreateDoctorRequestModel GetExamples() =>
-            new CreateDoctorRequestModel
+        public UpdateDoctorRequestModel GetExamples() =>
+            new UpdateDoctorRequestModel
             {
                 FirstName = "Mark",
                 LastName = "Cello",
@@ -16,8 +16,7 @@ namespace Profiles.API.SwaggerExamples.Requests.Doctor
                 OfficeId = Guid.NewGuid(),
                 CareerStartYear = new DateTime(2010, 10, 26),
                 SpecializationName = "Dentist",
-                OfficeAddress = "Minesota SomeStreet 22, 2",
-                AccountId = Guid.NewGuid()
+                OfficeAddress = "Minesota SomeStreet 22, 2"
             };
     }
 }

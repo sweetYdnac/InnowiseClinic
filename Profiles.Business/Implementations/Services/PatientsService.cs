@@ -43,14 +43,14 @@ namespace Profiles.Business.Implementations.Services
         {
             var result = await _patientsRepository.AddAsync(dto);
 
-            if (result == 0)
+            if (result > 0)
             {
-                Log.Information("Entity wasn't created. {@entity}", dto);
-                return null;
+                return dto.Id;
             }
             else
             {
-                return dto.Id;
+                Log.Information("Entity wasn't created. {@entity}", dto);
+                return null;
             }
         }
 
