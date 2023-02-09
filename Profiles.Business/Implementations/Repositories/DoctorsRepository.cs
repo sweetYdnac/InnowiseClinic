@@ -99,5 +99,35 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, parameters);
             }
         }
+
+        public async Task<int> UpdateAsync(Guid id, UpdateDoctorDTO dto)
+        {
+            var query = """
+                            UPDATE Doctors
+                            SET FirstName = @FirstName,
+                                LastName = @LastName,
+                                MiddleName = @MiddleName,
+                                DateOfBirth = @DateOfBirth,
+                                SpecializationId = @SpecializationId,
+                                OfficeId = @OfficeId,
+                                CareerStartYear = @CareerStartYear
+                            WHERE Id = @Id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
+            parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
+            parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
+            parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Date);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
     }
 }

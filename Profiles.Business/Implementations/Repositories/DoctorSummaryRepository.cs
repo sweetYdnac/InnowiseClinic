@@ -12,7 +12,7 @@ namespace Profiles.Business.Implementations.Repositories
 
         public DoctorSummaryRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<int> AddAsync(DoctorSummaryDTO dto)
+        public async Task<int> AddAsync(CreateDoctorSummaryDTO dto)
         {
             var query = """
                             INSERT DoctorsSummary
@@ -22,6 +22,26 @@ namespace Profiles.Business.Implementations.Repositories
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("SpecializationName", dto.SpecializationName, DbType.String);
+            parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
+
+        public async Task<int> UpdateAsync(Guid id, UpdateDoctorSummaryDTO dto)
+        {
+            var query = """
+                            UPDATE DoctorsSummary
+                            SET SpecializationName = @SpecializationName,
+                                OfficeAddress = @OfficeAddress
+                            WHERE Id = @Id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
             parameters.Add("SpecializationName", dto.SpecializationName, DbType.String);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
 

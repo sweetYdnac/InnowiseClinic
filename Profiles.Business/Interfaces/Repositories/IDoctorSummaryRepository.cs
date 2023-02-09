@@ -4,6 +4,7 @@ namespace Profiles.Business.Interfaces.Repositories
 {
     public interface IDoctorSummaryRepository
     {
-        Task<int> AddAsync(DoctorSummaryDTO dto);
+        Task<int> AddAsync(CreateDoctorSummaryDTO dto);
+        Task<int> UpdateAsync(Guid id, UpdateDoctorSummaryDTO dto);
     }
 }

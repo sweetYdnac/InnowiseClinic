@@ -47,22 +47,42 @@ namespace Profiles.Business.Implementations.Services
         {
             var result = await _doctorsRepository.AddAsync(dto);
 
-            if (result == 0)
+            if (result > 0)
             {
-                Log.Information("Doctor wasn't added. {@dto}", dto);
-                return null;
-            }
-            else
-            {
-                var doctorSummary = _mapper.Map<DoctorSummaryDTO>(dto);
+                var doctorSummary = _mapper.Map<CreateDoctorSummaryDTO>(dto);
                 result = await _doctorSummaryRepository.AddAsync(doctorSummary);
 
                 if (result == 0)
                 {
-                    Log.Information("DoctorSummary wasn't added. {@dto}", dto);
+                    Log.Information("DoctorSummary wasn't added. {@doctorSummary}", doctorSummary);
                 }
 
                 return dto.Id;
+            }
+            else
+            {
+                Log.Information("Doctor wasn't added. {@dto}", dto);
+                return null;
+            }
+        }
+
+        public async Task UpdateAsync(Guid id, UpdateDoctorDTO dto)
+        {
+            var result = await _doctorsRepository.UpdateAsync(id, dto);
+
+            if (result > 0)
+            {
+                var doctorSummary = _mapper.Map<UpdateDoctorSummaryDTO>(dto);
+                result = await _doctorSummaryRepository.UpdateAsync(id, doctorSummary);
+
+                if (result == 0)
+                {
+                    Log.Information("DoctorSummary wasn't updated. {@id} {@doctorSummary}", id, doctorSummary);
+                }
+            }
+            else
+            {
+                Log.Information("Doctor wasn't updated. {@id} {@dto}", id, dto);
             }
         }
     }
