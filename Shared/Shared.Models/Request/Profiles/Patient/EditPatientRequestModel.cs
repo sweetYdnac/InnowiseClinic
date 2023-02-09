@@ -1,6 +1,6 @@
 ﻿namespace Shared.Models.Request.Profiles.Patient
 {
-    public class EditPatientRequestModel
+    public class UpdatePatientRequestModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

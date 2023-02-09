@@ -4,70 +4,78 @@
         <name>Profiles.API</name>
     </assembly>
     <members>
+        <member name="T:Profiles.API.Controllers.DoctorsController">
+            <summary>
+            This controller used to work with doctors's profiles
+            </summary>
+        </member>
+        <member name="M:Profiles.API.Controllers.DoctorsController.GetDoctorById(System.Guid)">
+            <summary>
+            Get doctor's profile by Id
+            </summary>
+            <param name="id">Doctor's profile unique identifier</param>
+        </member>
+        <member name="M:Profiles.API.Controllers.DoctorsController.GetDoctors(Shared.Models.Request.Profiles.Doctor.GetDoctorsRequestModel)">
+            <summary>
+            Get paged doctors profiles by filter
+            </summary>
+            <param name="request">Contains properties for paging and filtering among doctors</param>
+        </member>
         <member name="M:Profiles.API.Controllers.DoctorsController.CreateDoctor(Shared.Models.Request.Profiles.Doctor.CreateDoctorRequestModel)">
             <summary>
             Create new doctor's profile
             </summary>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="request">Contains all data that need to create doctor's profile entity</param>
         </member>
-        <member name="M:Profiles.API.Controllers.DoctorsInformationController.GetDoctors(Shared.Models.Request.Profiles.Doctor.GetDoctorsRequestModel)">
+        <member name="T:Profiles.API.Controllers.PatientsController">
             <summary>
-            Get doctors with paging info by filter
+            This controller used to work with Patient's profiles
             </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequestModel)">
-            <summary>
-            Try find a match among the existed profiles.
-            </summary>
-            <param name="request"></param>
-            <returns>Given a match with profile has been found returns this profile. Else - returns NULL</returns>
-        </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequestModel)">
-            <summary>
-            Create new patient's profile
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="M:Profiles.API.Controllers.PatientsController.GetPatientById(System.Guid)">
             <summary>
             Get patient's profile by Id
             </summary>
-            <param name="id"></param>
-            <returns></returns>
+            <param name="id">Patient's profile unique identifier</param>
         </member>
         <member name="M:Profiles.API.Controllers.PatientsController.GetPatients(Shared.Models.Request.Profiles.Patient.GetPatientsRequestModel)">
             <summary>
-            Get patients profiles by filter and by specific page
+            Get paged patients profiles by filter
             </summary>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="request">Contains properties for paging and filtering among patients</param>
+        </member>
+        <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequestModel)">
+            <summary>
+            Create new patient's profile
+            </summary>
+            <param name="request">Contains all data that need to create patient's profile entity</param>
+        </member>
+        <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequestModel)">
+            <summary>
+            Try find a match among the existed profiles.
+            </summary>
+            <param name="request">Contains properties for filtering among profiles and find a match</param>
+            <returns>Given a match with profile has been found returns founded profile. Otherwise - returns null</returns>
         </member>
         <member name="M:Profiles.API.Controllers.PatientsController.DeletePatient(System.Guid)">
             <summary>
-            Delete specific patient's profile from storage
+            Remove specific patient's profile from storage
             </summary>
-            <param name="Id"></param>
-            <returns></returns>
+            <param name="id">Patient's profile unique identifier</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.EditPatient(System.Guid,Shared.Models.Request.Profiles.Patient.EditPatientRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.UpdatePatient(System.Guid,Shared.Models.Request.Profiles.Patient.UpdatePatientRequestModel)">
             <summary>
             Edit specific patient's profile
             </summary>
-            <param name="id"></param>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="id">Patient's profile unique identifier</param>
+            <param name="request">Contains new values for all patient's profile entity properties</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.LinkToAccount(System.Guid,Shared.Models.Request.Profiles.Patient.LinkToAccountRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.LinkToAccount(System.Guid,System.Guid)">
             <summary>
             Link specific patient's profile to account when user want to accept matched profile with this input.
             </summary>
             <param name="id"></param>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="accountId"></param>
         </member>
     </members>
 </doc>
