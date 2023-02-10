@@ -3,9 +3,9 @@ using Shared.Models.Request.Profiles.Patient;
 
 namespace Profiles.API.Validators.Patient
 {
-    public class GetPatientsRequestModelValidator : AbstractValidator<GetPatientsRequestModel>
+    public class GetPatientsRequestValidator : AbstractValidator<GetPatientsRequestModel>
     {
-        public GetPatientsRequestModelValidator()
+        public GetPatientsRequestValidator()
         {
             RuleFor(p => p.PageNumber)
                 .NotNull()

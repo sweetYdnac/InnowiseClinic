@@ -4,7 +4,6 @@ using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Patient;
 using Shared.Models.Response.Profiles.Patient;
 using System.Data;
-using static Dapper.SqlMapper;
 
 namespace Profiles.Business.Implementations.Repositories
 {
@@ -174,6 +173,5 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, parameters);
             }
         }
-
     }
 }

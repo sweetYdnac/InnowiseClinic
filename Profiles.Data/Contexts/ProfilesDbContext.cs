@@ -20,6 +20,7 @@ namespace Profiles.Data.Contexts
         public IDbConnection CreateMasterConnection()
         {
             var connectionString = _configuration.GetConnectionString("MasterConnection");
+
             return new SqlConnection(connectionString);
         }
     }

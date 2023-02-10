@@ -4,9 +4,9 @@ using Shared.Models.Request.Profiles.Doctor;
 
 namespace Profiles.API.Validators.Doctor
 {
-    public class UpdateDoctorRequestModelValidator : AbstractValidator<UpdateDoctorRequestModel>
+    public class CreateDoctorRequestValidator : AbstractValidator<CreateDoctorRequestModel>
     {
-        public UpdateDoctorRequestModelValidator()
+        public CreateDoctorRequestValidator()
         {
             RuleFor(p => p.FirstName).Required();
             RuleFor(p => p.LastName).Required();

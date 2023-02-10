@@ -1,5 +1,4 @@
 ﻿using Profiles.Data.DTOs.Doctor;
-using Shared.Core.Enums;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Interfaces.Repositories
