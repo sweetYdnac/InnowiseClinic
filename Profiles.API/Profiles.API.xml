@@ -108,5 +108,17 @@
             </summary>
             <param name="id">Receptionist's profile unique identifier</param>
         </member>
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.GetReceptionists(Shared.Models.Request.Profiles.Receptionist.GetReceptionistsRequestModel)">
+            <summary>
+            Get paged receptionists profiles by filter
+            </summary>
+            <param name="request">Contains properties for paging among receptionists</param>
+        </member>
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.CreateReceptionist(Shared.Models.Request.Profiles.Receptionist.CreateReceptionistRequestModel)">
+            <summary>
+            Create new receptionist's profile
+            </summary>
+            <param name="request">Contains all data that need to create receptionist's profile entity</param>
+        </member>
     </members>
 </doc>
