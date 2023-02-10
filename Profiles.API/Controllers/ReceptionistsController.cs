@@ -104,5 +104,24 @@ namespace Profiles.API.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Remove specific receptionist's profile from storage
+        /// </summary>
+        /// <param name="id">Receptionist's profile unique identifier</param>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteReceptionist([FromRoute] Guid id)
+        {
+            await _receptionistsService.RemoveAsync(id);
+
+            return NoContent();
+        }
     }
 }
