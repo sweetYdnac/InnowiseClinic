@@ -66,6 +66,7 @@ namespace Profiles.Business.Implementations.Services
             else
             {
                 Log.Information("Receptionist wasn't added. {@dto}", dto);
+
                 return null;
             }
         }

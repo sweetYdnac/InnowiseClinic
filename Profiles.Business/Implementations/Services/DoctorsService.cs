@@ -63,6 +63,7 @@ namespace Profiles.Business.Implementations.Services
             else
             {
                 Log.Information("Doctor wasn't added. {@dto}", dto);
+
                 return null;
             }
         }

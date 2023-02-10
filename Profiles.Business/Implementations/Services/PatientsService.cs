@@ -1,11 +1,9 @@
-﻿using Azure.Core;
-using Profiles.Business.Interfaces.Repositories;
+﻿using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Models.Response.Profiles.Patient;
-using static Dapper.SqlMapper;
 
 namespace Profiles.Business.Implementations.Services
 {
@@ -50,6 +48,7 @@ namespace Profiles.Business.Implementations.Services
             else
             {
                 Log.Information("Entity wasn't created. {@entity}", dto);
+
                 return null;
             }
         }

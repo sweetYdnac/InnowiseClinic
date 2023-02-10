@@ -46,6 +46,7 @@ namespace Profiles.API.Extensions
                 .AddSqlServer()
                 .WithGlobalConnectionString(configuration.GetConnectionString("ProfilesDbConnection"))
                 .ScanIn(typeof(InitialTables_202302034110).Assembly));
+
             services.MigrateDatabase();
         }
 
@@ -65,7 +66,7 @@ namespace Profiles.API.Extensions
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<CreatePatientRequestModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<CreatePatientRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 

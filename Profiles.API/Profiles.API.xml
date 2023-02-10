@@ -120,5 +120,18 @@
             </summary>
             <param name="request">Contains all data that need to create receptionist's profile entity</param>
         </member>
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.UpdateReceptionist(System.Guid,Shared.Models.Request.Profiles.Receptionist.UpdateReceptionistRequestModel)">
+            <summary>
+            Edit specific receptionist's profile
+            </summary>
+            <param name="id">Receptionist's profile unique identifier</param>
+            <param name="request">Contains new values for all receptionist's profile entity properties</param>
+        </member>
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.DeleteReceptionist(System.Guid)">
+            <summary>
+            Remove specific receptionist's profile from storage
+            </summary>
+            <param name="id">Receptionist's profile unique identifier</param>
+        </member>
     </members>
 </doc>
