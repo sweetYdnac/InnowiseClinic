@@ -84,5 +84,25 @@ namespace Profiles.API.Controllers
 
             return StatusCode(201, new { id });
         }
+
+        /// <summary>
+        /// Edit specific receptionist's profile
+        /// </summary>
+        /// <param name="id">Receptionist's profile unique identifier</param>
+        /// <param name="request">Contains new values for all receptionist's profile entity properties</param>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(UpdateReceptionistRequestModel), typeof(UpdateReceptionistRequestExample))]
+        public async Task<IActionResult> UpdateReceptionist([FromRoute] Guid id, [FromBody] UpdateReceptionistRequestModel request)
+        {
+            await _receptionistsService.UpdateAsync(id, _mapper.Map<UpdateReceptionistDTO>(request));
+
+            return NoContent();
+        }
     }
 }

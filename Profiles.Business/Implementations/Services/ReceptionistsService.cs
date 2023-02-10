@@ -69,5 +69,25 @@ namespace Profiles.Business.Implementations.Services
                 return null;
             }
         }
+
+        public async Task UpdateAsync(Guid id, UpdateReceptionistDTO dto)
+        {
+            var result = await _receptionistsRepository.UpdateAsync(id, dto);
+
+            if (result > 0)
+            {
+                var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
+                result = await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
+
+                if (result == 0)
+                {
+                    Log.Information("ReceptionistSummary wasn't updated. {@id} {@receptionistSummary}", id, receptionistSummary);
+                }
+            }
+            else
+            {
+                Log.Information("Receptionist wasn't updated. {@id} {@dto}", id, dto);
+            }
+        }
     }
 }

@@ -29,5 +29,23 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, parameters);
             }
         }
+
+        public async Task<int> UpdateAsync(Guid id, UpdateReceptionistSummaryDTO dto)
+        {
+            var query = """
+                            UPDATE ReceptionistsSummary
+                            SET OfficeAddress = @OfficeAddress
+                            WHERE Id = @id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
     }
 }

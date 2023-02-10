@@ -13,6 +13,8 @@ namespace Profiles.API.MappingProfiles
             CreateMap<CreateReceptionistRequestModel, CreateReceptionistDTO>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
             CreateMap<CreateReceptionistDTO, CreateReceptionistSummaryDTO>();
+            CreateMap<UpdateReceptionistRequestModel, UpdateReceptionistDTO>();
+            CreateMap<UpdateReceptionistDTO, UpdateReceptionistSummaryDTO>();
         }
     }
 }
