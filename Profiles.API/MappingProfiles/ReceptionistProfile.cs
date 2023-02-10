@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Profiles.Data.DTOs.Receptionist;
+using Profiles.Data.DTOs.ReceptionistSummary;
 using Shared.Models.Request.Profiles.Receptionist;
 
 namespace Profiles.API.MappingProfiles
@@ -9,6 +10,9 @@ namespace Profiles.API.MappingProfiles
         public ReceptionistProfile()
         {
             CreateMap<GetReceptionistsRequestModel, GetReceptionistsDTO>();
+            CreateMap<CreateReceptionistRequestModel, CreateReceptionistDTO>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
+            CreateMap<CreateReceptionistDTO, CreateReceptionistSummaryDTO>();
         }
     }
 }

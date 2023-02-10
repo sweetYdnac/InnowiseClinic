@@ -34,6 +34,7 @@ namespace Profiles.API.Extensions
             services.AddTransient<IDoctorsRepository, DoctorsRepository>();
             services.AddTransient<IDoctorSummaryRepository, DoctorSummaryRepository>();
             services.AddTransient<IReceptionistsRepository, ReceptionistsRepository>();
+            services.AddTransient<IReceptionistSummaryRepository, ReceptionistSummaryRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)

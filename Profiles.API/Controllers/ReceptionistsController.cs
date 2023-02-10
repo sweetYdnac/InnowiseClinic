@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Profiles.API.SwaggerExamples.Requests.Receptionist;
 using Profiles.API.SwaggerExamples.Responses.Receptionist;
-using Profiles.API.Validators.Receptionist;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Receptionist;
 using Shared.Core.Enums;
@@ -64,6 +64,25 @@ namespace Profiles.API.Controllers
             var response = await _receptionistsService.GetPagedAsync(_mapper.Map<GetReceptionistsDTO>(request));
 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Create new receptionist's profile
+        /// </summary>
+        /// <param name="request">Contains all data that need to create receptionist's profile entity</param>
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(CreateReceptionistRequestModel), typeof(CreateReceptionistRequestExample))]
+        public async Task<IActionResult> CreateReceptionist([FromBody] CreateReceptionistRequestModel request)
+        {
+            var id = await _receptionistsService.CreateAsync(_mapper.Map<CreateReceptionistDTO>(request));
+
+            return StatusCode(201, new { id });
         }
     }
 }

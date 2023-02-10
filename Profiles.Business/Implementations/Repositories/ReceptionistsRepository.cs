@@ -58,5 +58,27 @@ namespace Profiles.Business.Implementations.Repositories
                 }
             }
         }
+
+        public async Task<int> CreateAsync(CreateReceptionistDTO dto)
+        {
+            var query = """
+                            INSERT Receptionists
+                            VALUES
+                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @OfficeId)
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", dto.Id, DbType.Guid);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
+            parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
     }
 }

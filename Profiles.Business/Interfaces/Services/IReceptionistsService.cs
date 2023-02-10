@@ -7,5 +7,6 @@ namespace Profiles.Business.Interfaces.Services
     {
         Task<ReceptionistResponse> GetByIdAsync(Guid id);
         Task<GetReceptionistsResponseModel> GetPagedAsync(GetReceptionistsDTO dto);
+        Task<Guid?> CreateAsync(CreateReceptionistDTO dto);
     }
 }
