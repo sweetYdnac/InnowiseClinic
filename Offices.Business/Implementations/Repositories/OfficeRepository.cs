@@ -2,8 +2,6 @@
 using Offices.Business.Interfaces.Repositories;
 using Offices.Data.Contexts;
 using Offices.Data.DTOs;
-using Serilog;
-using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 using System.Data;
 
@@ -33,7 +31,7 @@ namespace Offices.Business.Implementations.Repositories
             }
         }
 
-        public async Task<Status201Response> CreateAsync(CreateOfficeDTO dto)
+        public async Task<int> CreateAsync(CreateOfficeDTO dto)
         {
             var query = """
                             INSERT INTO "Offices"
@@ -41,11 +39,10 @@ namespace Offices.Business.Implementations.Repositories
                             (@Id, @Address, @RegistryPhoneNumber, @PhotoId, @IsActive)
                         """;
 
-            var id = Guid.NewGuid();
             var address = $"{dto.City}, {dto.Street}, {dto.HouseNumber}, {dto.OfficeNumber}";
 
             var parameters = new DynamicParameters();
-            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("Id", dto.Id, DbType.Guid);
             parameters.Add("Address", address, DbType.String);
             parameters.Add("RegistryPhoneNumber", dto.RegistryPhoneNumber, DbType.String);
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
@@ -53,17 +50,7 @@ namespace Offices.Business.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                var result = await connection.ExecuteAsync(query, parameters);
-
-                if (result == 0)
-                {
-                    Log.Information("Office wasn't created; {@dto}", dto);
-                    return null;
-                }
-                else
-                {
-                    return new Status201Response { Id = id };
-                }
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
 

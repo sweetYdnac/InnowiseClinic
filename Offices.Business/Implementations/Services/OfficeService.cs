@@ -3,7 +3,6 @@ using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 
 namespace Offices.Business.Implementations.Services
@@ -24,9 +23,19 @@ namespace Offices.Business.Implementations.Services
             }
         }
 
-        public async Task<Status201Response> CreateAsync(CreateOfficeDTO dto)
+        public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
         {
-            return await _officeRepository.CreateAsync(dto);
+            var result = await _officeRepository.CreateAsync(dto);
+
+            if (result == 0)
+            {
+                Log.Information("Office wasn't created; {@dto}", dto);
+                return null;
+            }
+            else
+            {
+                return dto.Id;
+            }
         }
 
         public async Task<OfficeResponse> GetByIdAsync(Guid id)

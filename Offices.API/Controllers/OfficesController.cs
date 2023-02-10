@@ -9,7 +9,6 @@ using Shared.Core.Enums;
 using Shared.Models.Request.Offices;
 using Shared.Models.Response;
 using Shared.Models.Response.Offices;
-using Shared.Models.SwaggerExamples.Responses;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Offices.API.Controllers
@@ -75,13 +74,12 @@ namespace Offices.API.Controllers
         /// <param name="request">Contains all data that need to create new office</param>
         [HttpPost]
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
-        [ProducesResponseType(typeof(Status201Response), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         [SwaggerRequestExample(typeof(CreateOfficeRequestModel), typeof(CreateOfficeRequestExample))]
-        [SwaggerResponseExample(StatusCodes.Status201Created, typeof(Status201Example))]
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequestModel request)
         {
             var response = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));

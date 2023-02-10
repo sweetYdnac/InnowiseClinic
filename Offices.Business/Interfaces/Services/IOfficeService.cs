@@ -8,7 +8,7 @@ namespace Offices.Business.Interfaces.Services
     {
         Task<GetOfficesResponseModel> GetOfficesAsync(GetPagedOfficesDTO dto);
         Task<OfficeResponse> GetByIdAsync(Guid id);
-        Task<Status201Response> CreateAsync(CreateOfficeDTO dto);
+        Task<Guid?> CreateAsync(CreateOfficeDTO dto);
         Task ChangeStatus(ChangeOfficeStatusDTO dto);
         Task UpdateAsync(Guid id, UpdateOfficeDTO dto);
     }
