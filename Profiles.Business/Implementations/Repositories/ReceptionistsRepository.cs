@@ -80,5 +80,29 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, parameters);
             }
         }
+
+        public async Task<int> UpdateAsync(Guid id, UpdateReceptionistDTO dto)
+        {
+            var query = """
+                            UPDATE Receptionists
+                            SET FirstName = @FirstName,
+                                LastName = @LastName,
+                                MiddleName = @MiddleName,
+                                OfficeId = @OfficeId
+                            WHERE Id = @Id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("FirstName", dto.FirstName, DbType.String);
+            parameters.Add("LastName", dto.LastName, DbType.String);
+            parameters.Add("MiddleName", dto.MiddleName, DbType.String);
+            parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
     }
 }
