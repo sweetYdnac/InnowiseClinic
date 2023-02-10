@@ -89,5 +89,24 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("Receptionist wasn't updated. {@id} {@dto}", id, dto);
             }
         }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            var result = await _receptionistsRepository.RemoveAsync(id);
+
+            if (result > 0)
+            {
+                result = await _receptionistSummaryRepository.RemoveAsync(id);
+
+                if (result == 0)
+                {
+                    Log.Information("ReceptionistSummary wasn't removed. {@id}", id);
+                }
+            }
+            else
+            {
+                throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
+            }
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace Profiles.Business.Interfaces.Repositories
     {
         Task<int> CreateAsync(CreateReceptionistSummaryDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateReceptionistSummaryDTO dto);
+        Task<int> RemoveAsync(Guid id);
     }
 }

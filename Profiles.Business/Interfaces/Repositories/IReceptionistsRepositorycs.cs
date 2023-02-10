@@ -9,5 +9,6 @@ namespace Profiles.Business.Interfaces.Repositories
         Task<(IEnumerable<ReceptionistInformationResponse> receptionists, int totalCount)> GetPagedAsync(GetReceptionistsDTO dto);
         Task<int> CreateAsync(CreateReceptionistDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateReceptionistDTO dto);
+        Task<int> RemoveAsync(Guid id);
     }
 }
