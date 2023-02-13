@@ -24,6 +24,18 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - postgreSqlServer
+            
+    profiles.api:
+        image: profile.api
+        build:
+              context: .
+              dockerfile: Profiles.API/Dockerfile
+        ports:
+            - 8022:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - sqlServer
 
     sqlServer:
         image: mcr.microsoft.com/mssql/server:2022-latest
@@ -45,18 +57,6 @@ services:
             - POSTGRES_PASSWORD=123
         ports:
             - 1443:5432
-
-  profiles.api:
-    image: profile.api
-    build:
-      context: .
-      dockerfile: Profiles.API/Dockerfile
-    ports:
-    - 8022:80
-    environment:
-    - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-     - sqlServer
 
 volumes:
     sqlServerData:
