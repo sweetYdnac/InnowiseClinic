@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Responses.Receptionist
     public class ReceptionistResponseExample : IExamplesProvider<ReceptionistResponse>
     {
         public ReceptionistResponse GetExamples() =>
-            new ReceptionistResponse
+            new()
             {
                 FirstName = "Jack",
                 LastName = "Sparrow",

@@ -16,6 +16,9 @@ namespace Profiles.API.Validators.Doctor
             RuleFor(p => p.SpecializationName).Required();
             RuleFor(p => p.OfficeId).Required();
             RuleFor(p => p.OfficeAddress).Required();
+            RuleFor(p => p.Status)
+                .Required()
+                .IsInEnum();
         }
     }
 }

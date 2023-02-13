@@ -1,4 +1,6 @@
-﻿namespace Shared.Models.Request.Profiles.Doctor
+﻿using Shared.Core.Enums;
+
+namespace Shared.Models.Request.Profiles.Doctor
 {
     public class UpdateDoctorRequestModel
     {
@@ -11,5 +13,6 @@
         public DateTime CareerStartYear { get; set; }
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
+        public AccountStatuses Status { get; set; }
     }
 }

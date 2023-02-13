@@ -17,10 +17,10 @@ namespace Profiles.Business.Implementations.Repositories
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                        SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeAddress, CareerStartYear
-                        FROM Doctors
-                        JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                        WHERE Doctors.Id = @id
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeAddress, CareerStartYear, PhotoId, Status
+                            FROM Doctors
+                            JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
+                            WHERE Doctors.Id = @id
                         """;
 
             using (var connection = _db.CreateConnection())
@@ -36,11 +36,13 @@ namespace Profiles.Business.Implementations.Repositories
                 : string.Empty;
 
             var query = $"""
-                            SELECT CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
+                            SELECT Doctors.Id,
+                                   CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
                                    SpecializationName,
                                    OfficeAddress,
                                    DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience,
-                                   Status
+                                   Status,
+                                   PhotoId
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE (FirstName LIKE @FullName OR 
@@ -88,7 +90,7 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT Doctors
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear);
+                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear, @PhotoId);
                         """;
 
             var parameters = new DynamicParameters();
@@ -101,6 +103,7 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
             parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Date);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
             {

@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Requests.Patient
     public class CreatePatientRequestExample : IExamplesProvider<CreatePatientRequestModel>
     {
         public CreatePatientRequestModel GetExamples() =>
-            new CreatePatientRequestModel
+            new()
             {
                 FirstName = "Scarlet",
                 LastName = "Johansson",

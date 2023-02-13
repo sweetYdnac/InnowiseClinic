@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Responses.Patient
     public class PatientResponseExample : IExamplesProvider<PatientResponse>
     {
         public PatientResponse GetExamples() =>
-            new PatientResponse
+            new()
             {
                 FirstName = "Evgeny",
                 LastName = "Koreba",

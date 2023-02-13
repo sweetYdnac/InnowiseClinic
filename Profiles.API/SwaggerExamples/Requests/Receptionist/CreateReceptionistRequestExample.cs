@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Requests.Receptionist
     public class CreateReceptionistRequestExample : IExamplesProvider<CreateReceptionistRequestModel>
     {
         public CreateReceptionistRequestModel GetExamples() =>
-            new CreateReceptionistRequestModel
+            new()
             {
                 FirstName = "Jenna",
                 LastName = "Ortega",

@@ -1,4 +1,6 @@
-﻿namespace Profiles.Data.DTOs.Doctor
+﻿using Shared.Core.Enums;
+
+namespace Profiles.Data.DTOs.Doctor
 {
     public class UpdateDoctorDTO
     {
@@ -11,5 +13,6 @@
         public DateTime CareerStartYear { get; set; }
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
+        public AccountStatuses Status { get; set; }
     }
 }

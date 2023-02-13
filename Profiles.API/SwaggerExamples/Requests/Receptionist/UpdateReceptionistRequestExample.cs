@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Requests.Receptionist
     public class UpdateReceptionistRequestExample : IExamplesProvider<UpdateReceptionistRequestModel>
     {
         public UpdateReceptionistRequestModel GetExamples() =>
-            new UpdateReceptionistRequestModel
+            new()
             {
                 FirstName = "Jenna",
                 LastName = "Ortega",

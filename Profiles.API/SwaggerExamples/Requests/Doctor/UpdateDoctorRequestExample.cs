@@ -1,4 +1,5 @@
-﻿using Shared.Models.Request.Profiles.Doctor;
+﻿using Shared.Core.Enums;
+using Shared.Models.Request.Profiles.Doctor;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.SwaggerExamples.Requests.Doctor
@@ -6,7 +7,7 @@ namespace Profiles.API.SwaggerExamples.Requests.Doctor
     public class UpdateDoctorRequestExample : IExamplesProvider<UpdateDoctorRequestModel>
     {
         public UpdateDoctorRequestModel GetExamples() =>
-            new UpdateDoctorRequestModel
+            new()
             {
                 FirstName = "Mark",
                 LastName = "Cello",
@@ -16,7 +17,8 @@ namespace Profiles.API.SwaggerExamples.Requests.Doctor
                 OfficeId = Guid.NewGuid(),
                 CareerStartYear = new DateTime(2010, 10, 26),
                 SpecializationName = "Dentist",
-                OfficeAddress = "Minesota SomeStreet 22, 2"
+                OfficeAddress = "Minesota SomeStreet 22, 2",
+                Status = AccountStatuses.AtWork,
             };
     }
 }

@@ -6,7 +6,7 @@ namespace Profiles.API.SwaggerExamples.Responses.Patient
     public class GetPatientsResponseExample : IExamplesProvider<GetPatientsResponseModel>
     {
         public GetPatientsResponseModel GetExamples() =>
-            new GetPatientsResponseModel(
+            new(
                 new[]
                 {
                     new PatientInformationResponse
