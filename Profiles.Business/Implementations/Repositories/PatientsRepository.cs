@@ -16,7 +16,7 @@ namespace Profiles.Business.Implementations.Repositories
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId
                             FROM Patients
                             WHERE Id = @id;
                         """;
@@ -30,7 +30,9 @@ namespace Profiles.Business.Implementations.Repositories
         public async Task<(IEnumerable<PatientInformationResponse> patients, int totalCount)> GetPatients(GetPatientsDTO dto)
         {
             var query = """
-                            SELECT CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName
+                            SELECT Id,
+                                   CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
+                                   PhoneNumber
                             FROM Patients
                             WHERE FirstName LIKE @FullName OR 
                                   LastName LIKE @FullName OR 
@@ -68,7 +70,7 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT Patients
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @IsLinkedToAccount)
+                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @IsLinkedToAccount, @PhotoId, @PhoneNumber)
                         """;
 
             var parameters = new DynamicParameters();
@@ -77,6 +79,8 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
             parameters.Add("AccountId", dto.AccountId, DbType.Guid);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
+            parameters.Add("PhoneNumber", dto.PhoneNumber, DbType.String);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
             parameters.Add("IsLinkedToAccount", dto.IsLinkedToAccount, DbType.Boolean);
 
@@ -138,7 +142,8 @@ namespace Profiles.Business.Implementations.Repositories
                             SET FirstName = @FirstName,
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
-                                DateOfBirth = @DateOfBirth
+                                DateOfBirth = @DateOfBirth,
+                                PhoneNumber = @PhoneNumber
                             WHERE Id = @Id;
                         """;
 
@@ -148,6 +153,7 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
+            parameters.Add("PhoneNumber", dto.PhoneNumber, DbType.String);
 
             using (var connection = _db.CreateConnection())
             {

@@ -13,6 +13,8 @@ namespace Profiles.API.SwaggerExamples.Requests.Patient
                 MiddleName = "nvm",
                 DateOfBirth = new DateTime(1985, 10, 19),
                 AccountId = Guid.NewGuid(),
+                PhotoId = Guid.NewGuid(),
+                PhoneNumber = "123321123",
                 IsLinkedToAccount = true
             };
     }

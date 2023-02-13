@@ -11,7 +11,8 @@ namespace Profiles.API.SwaggerExamples.Requests.Patient
                 FirstName = "Jack",
                 LastName = "Sparrow",
                 MiddleName = "None",
-                DateOfBirth = new DateTime(1976, 04, 14)
+                DateOfBirth = new DateTime(1976, 04, 14),
+                PhoneNumber = "1234567890",
             };
     }
 }
