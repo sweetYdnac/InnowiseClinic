@@ -6,6 +6,7 @@ using Profiles.API.SwaggerExamples.Responses.Receptionist;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Receptionist;
 using Shared.Core.Enums;
+using Shared.Models.Request.Profiles;
 using Shared.Models.Request.Profiles.Receptionist;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
@@ -52,7 +53,7 @@ namespace Profiles.API.Controllers
         /// </summary>
         /// <param name="request">Contains properties for paging among receptionists</param>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]   
         [ProducesResponseType(typeof(GetReceptionistsResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
@@ -120,6 +121,26 @@ namespace Profiles.API.Controllers
         public async Task<IActionResult> DeleteReceptionist([FromRoute] Guid id)
         {
             await _receptionistsService.RemoveAsync(id);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Change receptionist's status
+        /// </summary>
+        /// <param name="id">Receptionist's profile unique identifier</param>
+        /// <param name="request">Contains new receptionist's status</param>
+        [HttpPatch("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromBody] ChangeStatusRequestModel request)
+        {
+            await _receptionistsService.ChangeStatus(id, request.Status);
 
             return NoContent();
         }

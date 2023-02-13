@@ -2,6 +2,7 @@
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.ReceptionistSummary;
+using Shared.Core.Enums;
 using System.Data;
 
 namespace Profiles.Business.Implementations.Repositories
@@ -17,12 +18,13 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT ReceptionistsSummary
                             VALUES
-                            (@Id, @OfficeAddress)
+                            (@Id, @OfficeAddress, @Status)
                         """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", dto.Id, DbType.Guid);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+            parameters.Add("Status", (int)dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {
@@ -34,13 +36,15 @@ namespace Profiles.Business.Implementations.Repositories
         {
             var query = """
                             UPDATE ReceptionistsSummary
-                            SET OfficeAddress = @OfficeAddress
+                            SET OfficeAddress = @OfficeAddress,
+                                Status = @Status
                             WHERE Id = @id
                         """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", id, DbType.Guid);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+            parameters.Add("Status", (int)dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {
@@ -58,6 +62,24 @@ namespace Profiles.Business.Implementations.Repositories
             using (var connection = _db.CreateConnection())
             {
                 return await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+        public async Task<int> ChangeStatus(Guid id, AccountStatuses status)
+        {
+            var query = """
+                            UPDATE ReceptionistsSummary
+                            SET Status = @Status
+                            WHERE Id = @Id
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("Status", status, DbType.Int32);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
             }
         }
     }

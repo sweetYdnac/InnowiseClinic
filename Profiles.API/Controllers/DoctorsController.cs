@@ -6,6 +6,7 @@ using Profiles.API.SwaggerExamples.Responses.Doctor;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Doctor;
 using Shared.Core.Enums;
+using Shared.Models.Request.Profiles;
 using Shared.Models.Request.Profiles.Doctor;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
@@ -127,7 +128,7 @@ namespace Profiles.API.Controllers
         /// Change doctor's status
         /// </summary>
         /// <param name="id">Doctor's profile unique identifier</param>
-        /// <param name="request">Contains new doctor'status</param>
+        /// <param name="request">Contains new doctor's status</param>
         [HttpPatch("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]

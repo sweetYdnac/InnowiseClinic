@@ -12,6 +12,9 @@ namespace Profiles.API.Validators.Receptionist
             RuleFor(p => p.LastName).Required();
             RuleFor(p => p.OfficeId).Required();
             RuleFor(p => p.OfficeAddress).Required();
+            RuleFor(p => p.Status)
+                .Required()
+                .IsInEnum();
         }
     }
 }

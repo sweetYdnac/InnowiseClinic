@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Shared.Models.Request.Profiles.Doctor;
+using Shared.Models.Request.Profiles;
 
 namespace Profiles.API.Validators.Doctor
 {

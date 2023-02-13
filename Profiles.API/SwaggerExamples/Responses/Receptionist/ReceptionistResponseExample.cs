@@ -8,6 +8,7 @@ namespace Profiles.API.SwaggerExamples.Responses.Receptionist
         public ReceptionistResponse GetExamples() =>
             new()
             {
+                PhotoId = Guid.NewGuid(),
                 FirstName = "Jack",
                 LastName = "Sparrow",
                 MiddleName = "Some middlename",

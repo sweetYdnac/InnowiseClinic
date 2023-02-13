@@ -1,4 +1,5 @@
-﻿using Shared.Models.Request.Profiles.Receptionist;
+﻿using Shared.Core.Enums;
+using Shared.Models.Request.Profiles.Receptionist;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.SwaggerExamples.Requests.Receptionist
@@ -12,7 +13,8 @@ namespace Profiles.API.SwaggerExamples.Requests.Receptionist
                 LastName = "Ortega",
                 MiddleName = "Some middle name",
                 OfficeId = Guid.NewGuid(),
-                OfficeAddress = "New York somestreet 10 6"
+                OfficeAddress = "New York somestreet 10 6",
+                Status = AccountStatuses.SickLeave,
             };
     }
 }
