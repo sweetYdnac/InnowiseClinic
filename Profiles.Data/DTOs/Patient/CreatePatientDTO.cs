@@ -10,6 +10,5 @@
         public Guid? AccountId { get; set; }
         public Guid? PhotoId { get; set; }
         public string PhoneNumber { get; set; }
-        public bool IsLinkedToAccount { get; set; }
     }
 }

@@ -15,7 +15,6 @@ namespace Profiles.API.SwaggerExamples.Requests.Patient
                 AccountId = Guid.NewGuid(),
                 PhotoId = Guid.NewGuid(),
                 PhoneNumber = "123321123",
-                IsLinkedToAccount = true
             };
     }
 }

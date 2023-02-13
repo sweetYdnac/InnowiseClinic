@@ -1,6 +1,7 @@
 ﻿using FluentMigrator.Runner;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -112,6 +113,21 @@ namespace Profiles.API.Extensions
                             ).ToString());
                     }
                 };
+            });
+        }
+
+        public static void ConfigureMassTransit(this IServiceCollection services)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host("localhost", "/", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });   
+                });
             });
         }
 
