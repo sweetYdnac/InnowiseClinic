@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Offices.API</name>
+    </assembly>
+    <members>
+        <member name="T:Offices.API.Controllers.OfficesController">
+            <summary>
+            This controller used to work with office resourse
+            </summary>
+        </member>
+        <member name="M:Offices.API.Controllers.OfficesController.GetOffice(System.Guid)">
+            <summary>
+            Get specific office by id
+            </summary>
+            <param name="id">Office's unique identifier</param>
+        </member>
+        <member name="M:Offices.API.Controllers.OfficesController.GetOffices(Shared.Models.Request.Offices.GetOfficesRequestModel)">
+            <summary>
+            Get paginated offices
+            </summary>
+            <param name="request">Contains paging parameters</param>
+        </member>
+        <member name="M:Offices.API.Controllers.OfficesController.CreateOffice(Shared.Models.Request.Offices.CreateOfficeRequestModel)">
+            <summary>
+            Create new office
+            </summary>
+            <param name="request">Contains all data that need to create new office</param>
+        </member>
+        <member name="M:Offices.API.Controllers.OfficesController.ChangeStatus(System.Guid,System.Boolean)">
+            <summary>
+            Change status of specific office
+            </summary>
+            <param name="id">Office's unique identifier</param>
+            <param name="isActive">New Office's status</param>
+        </member>
+        <member name="M:Offices.API.Controllers.OfficesController.UpdateOffice(System.Guid,Shared.Models.Request.Offices.UpdateOfficeRequestModel)">
+            <summary>
+            Update existed office
+            </summary>
+            <param name="id">Office's unique identifier</param>
+            <param name="request">Contains all office's entity properties</param>
+        </member>
+    </members>
+</doc>
