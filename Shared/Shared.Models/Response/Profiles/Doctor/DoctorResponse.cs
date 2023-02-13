@@ -1,4 +1,6 @@
-﻿namespace Shared.Models.Response.Profiles.Doctor
+﻿using Shared.Core.Enums;
+
+namespace Shared.Models.Response.Profiles.Doctor
 {
     public class DoctorResponse
     {
@@ -9,5 +11,7 @@
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
         public DateTime CareerStartYear { get; set; }
+        public Guid? PhotoId { get; set; }
+        public AccountStatuses Status { get; set; }
     }
 }

@@ -18,13 +18,14 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT DoctorsSummary
                             VALUES
-                            (@Id, @SpecializationName, @OfficeAddress, DEFAULT);
+                            (@Id, @SpecializationName, @OfficeAddress, @Status);
                         """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", dto.Id, DbType.Guid);
             parameters.Add("SpecializationName", dto.SpecializationName, DbType.String);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+            parameters.Add("Status", (int)dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {
@@ -37,7 +38,8 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             UPDATE DoctorsSummary
                             SET SpecializationName = @SpecializationName,
-                                OfficeAddress = @OfficeAddress
+                                OfficeAddress = @OfficeAddress,
+                                Status = @Status
                             WHERE Id = @Id
                         """;
 
@@ -45,6 +47,7 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("Id", id, DbType.Guid);
             parameters.Add("SpecializationName", dto.SpecializationName, DbType.String);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
+            parameters.Add("Status", (int)dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {

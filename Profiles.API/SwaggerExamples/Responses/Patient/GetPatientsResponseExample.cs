@@ -6,20 +6,24 @@ namespace Profiles.API.SwaggerExamples.Responses.Patient
     public class GetPatientsResponseExample : IExamplesProvider<GetPatientsResponseModel>
     {
         public GetPatientsResponseModel GetExamples() =>
-            new GetPatientsResponseModel(
+            new(
                 new[]
                 {
                     new PatientInformationResponse
                     {
-                        FullName = "David Guetta"
+                        Id = Guid.NewGuid(),
+                        FullName = "David Guetta",
+                        PhoneNumber = "1234567890",
                     },
                     new PatientInformationResponse
                     {
-                        FullName = "Martin Garrix NVM"
+                        Id = Guid.NewGuid(),
+                        FullName = "Martin Garrix NVM",
+                        PhoneNumber = "123123123"
                     }
                 },
                 3,
-                15,
-                100);
+                2,
+                50);
     }
 }

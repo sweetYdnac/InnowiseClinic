@@ -1,4 +1,5 @@
 ﻿using Profiles.Data.DTOs.Receptionist;
+using Shared.Core.Enums;
 using Shared.Models.Response.Profiles.Receptionist;
 
 namespace Profiles.Business.Interfaces.Services
@@ -10,5 +11,6 @@ namespace Profiles.Business.Interfaces.Services
         Task<Guid?> CreateAsync(CreateReceptionistDTO dto);
         Task UpdateAsync(Guid id, UpdateReceptionistDTO dto);
         Task RemoveAsync(Guid id);
+        Task ChangeStatus(Guid id, AccountStatuses status);
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace Shared.Models.Request.Profiles.Doctor
+﻿using Shared.Core.Enums;
+
+namespace Shared.Models.Request.Profiles.Doctor
 {
     public class CreateDoctorRequestModel
     {
+        public Guid? PhotoId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -12,5 +15,6 @@
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
         public Guid AccountId { get; set; }
+        public AccountStatuses Status { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
 using Serilog;
+using Shared.Core.Enums;
 using Shared.Exceptions;
 using Shared.Models.Response.Profiles.Receptionist;
 
@@ -105,6 +106,16 @@ namespace Profiles.Business.Implementations.Services
                 }
             }
             else
+            {
+                throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
+            }
+        }
+
+        public async Task ChangeStatus(Guid id, AccountStatuses status)
+        {
+            var result = await _receptionistSummaryRepository.ChangeStatus(id, status);
+
+            if (result == 0)
             {
                 throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
             }

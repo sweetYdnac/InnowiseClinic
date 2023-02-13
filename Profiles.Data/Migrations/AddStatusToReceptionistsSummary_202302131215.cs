@@ -3,19 +3,19 @@ using Shared.Core.Enums;
 
 namespace Profiles.Data.Migrations
 {
-    [Migration(202302091515)]
-    public class AddStatusToDoctorsSumary_202302091515 : Migration
+    [Migration(202302131215)]
+    public class AddStatusToReceptionistsSummary_202302131215 : Migration
     {
         public override void Down()
         {
             Delete.Column("Status")
-                .FromTable("DoctorsSummary");
+                .FromTable("ReceptionistsSummary");
         }
 
         public override void Up()
         {
             Create.Column("Status")
-                .OnTable("DoctorsSummary")
+                .OnTable("ReceptionistsSummary")
                 .AsInt32()
                 .NotNullable()
                 .WithDefaultValue((int)AccountStatuses.Inactive);

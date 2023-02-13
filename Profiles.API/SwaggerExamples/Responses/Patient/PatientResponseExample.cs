@@ -6,12 +6,13 @@ namespace Profiles.API.SwaggerExamples.Responses.Patient
     public class PatientResponseExample : IExamplesProvider<PatientResponse>
     {
         public PatientResponse GetExamples() =>
-            new PatientResponse
+            new()
             {
                 FirstName = "Evgeny",
                 LastName = "Koreba",
                 MiddleName = "Sergeevich",
-                DateOfBirth = new DateTime(1998, 07, 16)
+                DateOfBirth = new DateTime(1998, 07, 16),
+                PhotoId = Guid.NewGuid()
             };
     }
 }

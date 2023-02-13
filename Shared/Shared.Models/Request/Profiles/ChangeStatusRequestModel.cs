@@ -1,6 +1,6 @@
 ﻿using Shared.Core.Enums;
 
-namespace Shared.Models.Request.Profiles.Doctor
+namespace Shared.Models.Request.Profiles
 {
     public class ChangeStatusRequestModel
     {

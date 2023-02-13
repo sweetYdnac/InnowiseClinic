@@ -8,6 +8,8 @@
         public string MiddleName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Guid? AccountId { get; set; }
+        public Guid? PhotoId { get; set; }
+        public string PhoneNumber { get; set; }
         public bool IsLinkedToAccount { get; set; }
     }
 }

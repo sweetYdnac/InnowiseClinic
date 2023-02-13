@@ -16,7 +16,7 @@ namespace Profiles.Business.Implementations.Repositories
         public async Task<ReceptionistResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, OfficeAddress
+                            SELECT FirstName, LastName, MiddleName, PhotoId, OfficeAddress
                             FROM Receptionists
                             JOIN ReceptionistsSummary On Receptionists.Id = ReceptionistsSummary.Id
                             WHERE Receptionists.Id = @id
@@ -31,8 +31,10 @@ namespace Profiles.Business.Implementations.Repositories
         public async Task<(IEnumerable<ReceptionistInformationResponse> receptionists, int totalCount)> GetPagedAsync(GetReceptionistsDTO dto)
         {
             var query = $"""
-                            SELECT CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
-                                   OfficeAddress
+                            SELECT Receptionists.Id,
+                                   CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
+                                   OfficeAddress,
+                                   Status
                             FROM Receptionists
                             JOIN ReceptionistsSummary On Receptionists.Id = ReceptionistsSummary.Id
                             ORDER BY Receptionists.Id
@@ -64,7 +66,7 @@ namespace Profiles.Business.Implementations.Repositories
             var query = """
                             INSERT Receptionists
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @OfficeId)
+                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @OfficeId, @PhotoId)
                         """;
 
             var parameters = new DynamicParameters();
@@ -74,6 +76,7 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
             parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
             {

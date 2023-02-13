@@ -1,4 +1,5 @@
-﻿using Shared.Models.Request.Profiles.Receptionist;
+﻿using Shared.Core.Enums;
+using Shared.Models.Request.Profiles.Receptionist;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.SwaggerExamples.Requests.Receptionist
@@ -6,14 +7,16 @@ namespace Profiles.API.SwaggerExamples.Requests.Receptionist
     public class CreateReceptionistRequestExample : IExamplesProvider<CreateReceptionistRequestModel>
     {
         public CreateReceptionistRequestModel GetExamples() =>
-            new CreateReceptionistRequestModel
+            new()
             {
+                PhotoId = Guid.NewGuid(),
                 FirstName = "Jenna",
                 LastName = "Ortega",
                 MiddleName = "Some middle name",
                 AccountId = Guid.NewGuid(),
                 OfficeId = Guid.NewGuid(),
-                OfficeAddress = "New York somestreet 10 6"
+                OfficeAddress = "New York somestreet 10 6",
+                Status = AccountStatuses.SickDay,
             };
     }
 }
