@@ -10,5 +10,9 @@ namespace Profiles.Business.Interfaces.Repositories
         Task<int> AddAsync(CreateDoctorDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateDoctorDTO dto);
         Task<int> RemoveAsync(Guid id);
+        Task<Guid> GetPhotoIdAsync(Guid id);
+        Task<Guid> GetAccountIdAsync(Guid id);
+        Task<int> SetInactiveStatusAsync(Guid specializationId);
+        Task<int> UpdateSpecializationName(Guid specializationId, string specializationName);
     }
 }

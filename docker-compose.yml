@@ -12,6 +12,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - sqlServer
+            - rabbitMQ
 
     offices.api:
         image: offices_api
@@ -24,6 +25,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - postgreSqlServer
+            - rabbitMQ
             
     profiles.api:
         image: profile.api
@@ -60,7 +62,7 @@ services:
             - 1443:5432
 
     rabbitMQ:
-        image: masstransit/rabbitmq:latest
+        image: rabbitmq:management
         ports:
             - 5672:5672
             - 15672:15672
@@ -68,7 +70,7 @@ services:
             - RABBITMQ_DEFAULT_USER=guest
             - RABBITMQ_DEFAULT_PASS=guest
         volumes:
-            - rabbitMQ:/var/lib/rabbitMQ
+            - rabbitMQ:/var/lib/rabbitmq
         hostname: rabbit
 
 volumes:

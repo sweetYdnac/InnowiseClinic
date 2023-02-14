@@ -5,7 +5,7 @@ namespace Profiles.Business.Interfaces.Repositories
 {
     public interface IReceptionistSummaryRepository
     {
-        Task<int> CreateAsync(CreateReceptionistSummaryDTO dto);
+        Task<int> AddAsync(CreateReceptionistSummaryDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateReceptionistSummaryDTO dto);
         Task<int> RemoveAsync(Guid id);
         Task<int> ChangeStatus(Guid id, AccountStatuses status);

@@ -13,7 +13,7 @@ namespace Profiles.Business.Implementations.Repositories
 
         public ReceptionistSummaryRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<int> CreateAsync(CreateReceptionistSummaryDTO dto)
+        public async Task<int> AddAsync(CreateReceptionistSummaryDTO dto)
         {
             var query = """
                             INSERT ReceptionistsSummary
@@ -24,7 +24,7 @@ namespace Profiles.Business.Implementations.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("Id", dto.Id, DbType.Guid);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
-            parameters.Add("Status", (int)dto.Status, DbType.Int32);
+            parameters.Add("Status", dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {
@@ -44,7 +44,7 @@ namespace Profiles.Business.Implementations.Repositories
             var parameters = new DynamicParameters();
             parameters.Add("Id", id, DbType.Guid);
             parameters.Add("OfficeAddress", dto.OfficeAddress, DbType.String);
-            parameters.Add("Status", (int)dto.Status, DbType.Int32);
+            parameters.Add("Status", dto.Status, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {

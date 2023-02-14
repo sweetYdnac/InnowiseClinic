@@ -6,7 +6,6 @@ using Serilog;
 using Shared.Core.Enums;
 using Shared.Exceptions;
 using Shared.Exceptions.Authorization;
-using System.Security.Claims;
 
 namespace Authorization.Business.ServicesImplementations
 {
@@ -93,16 +92,12 @@ namespace Authorization.Business.ServicesImplementations
 
             account.Status = dto.Status;
 
-            var updaterId = dto.UpdaterClaimsPrincipal.Claims
-                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
-                ?.Value;
-
-            if (updaterId is null)
+            if (dto.UpdaterId is null)
             {
                 Log.Warning($"Invalid updater account id recieved from access token.");
             }
 
-            account.UpdatedBy = updaterId is null ? default : new Guid(updaterId);
+            account.UpdatedBy = dto.UpdaterId is null ? default : new Guid(dto.UpdaterId);
             account.UpdatedAt = DateTime.UtcNow;
 
             var result = await _userManager.UpdateAsync(account);

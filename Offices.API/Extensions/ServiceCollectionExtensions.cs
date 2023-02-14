@@ -1,6 +1,7 @@
 ﻿using FluentMigrator.Runner;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -106,6 +107,9 @@ namespace Offices.API.Extensions
                 };
             });
         }
+
+        public static void ConfigureMassTransit(this IServiceCollection services) =>
+            services.AddMassTransit(x => x.UsingRabbitMq());
 
         private static void MigrateDatabase(this IServiceCollection services)
         {

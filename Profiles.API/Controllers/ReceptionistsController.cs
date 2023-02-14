@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Profiles.API.SwaggerExamples.Requests.Receptionist;
 using Profiles.API.SwaggerExamples.Responses.Receptionist;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
 using Shared.Core.Enums;
 using Shared.Models.Request.Profiles;
@@ -11,6 +12,7 @@ using Shared.Models.Request.Profiles.Receptionist;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 using Swashbuckle.AspNetCore.Filters;
+using System.Security.Claims;
 
 namespace Profiles.API.Controllers
 {
@@ -101,7 +103,12 @@ namespace Profiles.API.Controllers
         [SwaggerRequestExample(typeof(UpdateReceptionistRequestModel), typeof(UpdateReceptionistRequestExample))]
         public async Task<IActionResult> UpdateReceptionist([FromRoute] Guid id, [FromBody] UpdateReceptionistRequestModel request)
         {
-            await _receptionistsService.UpdateAsync(id, _mapper.Map<UpdateReceptionistDTO>(request));
+            var dto = _mapper.Map<UpdateReceptionistDTO>(request);
+            dto.UpdaterId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                ?.Value;
+
+            await _receptionistsService.UpdateAsync(id, dto);
 
             return NoContent();
         }
@@ -140,7 +147,12 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromBody] ChangeStatusRequestModel request)
         {
-            await _receptionistsService.ChangeStatus(id, request.Status);
+            var dto = _mapper.Map<ChangeStatusDTO>(request);
+            dto.UpdaterId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                ?.Value;
+
+            await _receptionistsService.ChangeStatus(id, dto);
 
             return NoContent();
         }

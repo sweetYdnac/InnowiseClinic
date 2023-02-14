@@ -180,7 +180,7 @@ namespace Profiles.Business.Implementations.Repositories
             }
         }
 
-        public async Task<Guid> GetPhotoId(Guid id)
+        public async Task<Guid> GetPhotoIdAsync(Guid id)
         {
             var query = """
                             SELECT PhotoId

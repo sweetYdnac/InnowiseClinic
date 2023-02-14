@@ -7,6 +7,7 @@ using Shared.Core.Enums;
 using Shared.Models.Request.Authorization;
 using Shared.Models.Response;
 using Shared.Models.Response.Authorization;
+using System.Security.Claims;
 
 namespace Authorization.API.Controllers
 {
@@ -108,7 +109,9 @@ namespace Authorization.API.Controllers
         public async Task<IActionResult> PatchAccount(Guid id, [FromBody] PatchAccountRequestModel request)
         {
             var dto = _mapper.Map<PatchAccountDTO>(request);
-            dto.UpdaterClaimsPrincipal = HttpContext.User;
+            dto.UpdaterId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                ?.Value;
 
             await _accountService.UpdateAsync(id, dto);
 

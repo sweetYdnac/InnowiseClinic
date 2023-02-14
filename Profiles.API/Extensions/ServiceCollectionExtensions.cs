@@ -5,6 +5,7 @@ using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Profiles.API.Consumers;
 using Profiles.API.Validators.Patient;
 using Profiles.Business.Implementations.Repositories;
 using Profiles.Business.Implementations.Services;
@@ -27,6 +28,7 @@ namespace Profiles.API.Extensions
             services.AddScoped<IPatientsService, PatientsService>();
             services.AddScoped<IDoctorsService, DoctorsService>();
             services.AddScoped<IReceptionistsService, ReceptionistsService>();
+            services.AddScoped<IProfilesService, ProfilesService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -36,6 +38,7 @@ namespace Profiles.API.Extensions
             services.AddTransient<IDoctorSummaryRepository, DoctorSummaryRepository>();
             services.AddTransient<IReceptionistsRepository, ReceptionistsRepository>();
             services.AddTransient<IReceptionistSummaryRepository, ReceptionistSummaryRepository>();
+            services.AddTransient<IProfilesRepository, ProfilesRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -118,16 +121,14 @@ namespace Profiles.API.Extensions
 
         public static void ConfigureMassTransit(this IServiceCollection services)
         {
-            services.AddMassTransit(x =>
+            services.AddMassTransit(x => 
             {
-                x.UsingRabbitMq((ctx, cfg) =>
-                {
-                    cfg.Host("localhost", "/", h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });   
-                });
+                x.AddConsumer<OfficeDisabledConsumer>();
+                x.AddConsumer<OfficeUpdatedConsumer>();
+                x.AddConsumer<SpecializationDisabledConsumer>();
+                x.AddConsumer<SpecializationUpdatedConsumer>();
+
+                x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
         }
 

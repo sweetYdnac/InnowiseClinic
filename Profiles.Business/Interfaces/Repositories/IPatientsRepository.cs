@@ -12,6 +12,6 @@ namespace Profiles.Business.Interfaces.Repositories
         Task<int> RemoveAsync(Guid id);
         Task<int> UpdateAsync(Guid id, UpdatePatientDTO dto);
         Task<int> LinkToAccount(Guid id, Guid accountId);
-        Task<Guid> GetPhotoId(Guid id);
+        Task<Guid> GetPhotoIdAsync(Guid id);
     }
 }

@@ -17,10 +17,10 @@ COPY ["Authorization.Business/.", "./Authorization.Business/"]
 COPY ["Authorization.Data/.", "./Authorization.Data/"]
 COPY ["Shared/.", "./Shared/"]
 WORKDIR "/src/Authorization.API"
-RUN dotnet build "Authorization.API.csproj" -c Release -o /app/build
+RUN dotnet build "Authorization.API.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Authorization.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Authorization.API.csproj" -c Debug -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

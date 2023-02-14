@@ -64,16 +64,16 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task DeleteAsync(Guid id)
         {
-            var photoId = await _patientsRepository.GetPhotoId(id);
+            var photoId = await _patientsRepository.GetPhotoIdAsync(id);
             var result = await _patientsRepository.RemoveAsync(id);
 
-            if (result == 0)
+            if (result > 0)
             {
-                Log.Information("Patient with {id} wasn't remove", id);
+                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
             }
             else
             {
-                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+                Log.Information("Patient with {id} wasn't remove", id);
             }
         }
 
