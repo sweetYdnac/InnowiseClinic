@@ -72,7 +72,7 @@ namespace Authorization.API.Extensions
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<SignInRequestModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<SignInRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 

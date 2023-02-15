@@ -3,9 +3,9 @@ using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.Validators
 {
-    public class PatchRolesRequestModelValidator : AbstractValidator<PatchRolesRequestModel>
+    public class PatchRolesRequestValidator : AbstractValidator<PatchRolesRequestModel>
     {
-        public PatchRolesRequestModelValidator()
+        public PatchRolesRequestValidator()
         {
             RuleFor(s => s.RoleName)
                 .NotEmpty()
