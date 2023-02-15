@@ -10,5 +10,6 @@ namespace Profiles.Data.DTOs.Receptionist
         public Guid OfficeId { get; set; }
         public string OfficeAddress { get; set; }
         public AccountStatuses Status { get; set; }
+        public string UpdaterId { get; set; }
     }
 }

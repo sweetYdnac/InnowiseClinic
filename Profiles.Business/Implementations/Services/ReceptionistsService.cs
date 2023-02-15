@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
 using Serilog;
-using Shared.Core.Enums;
 using Shared.Exceptions;
+using Shared.Models.Messages;
 using Shared.Models.Response.Profiles.Receptionist;
 
 namespace Profiles.Business.Implementations.Services
@@ -15,13 +17,15 @@ namespace Profiles.Business.Implementations.Services
         private readonly IReceptionistsRepository _receptionistsRepository;
         private readonly IReceptionistSummaryRepository _receptionistSummaryRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public ReceptionistsService(
             IReceptionistsRepository receptionistsRepository,
             IReceptionistSummaryRepository receptionistSummaryRepository,
-            IMapper mapper) =>
-            (_receptionistsRepository, _receptionistSummaryRepository, _mapper) = 
-            (receptionistsRepository, receptionistSummaryRepository, mapper);
+            IMapper mapper,
+            IPublishEndpoint publishEndpoint) =>
+            (_receptionistsRepository, _receptionistSummaryRepository, _mapper, _publishEndpoint) =
+            (receptionistsRepository, receptionistSummaryRepository, mapper, publishEndpoint);
 
         public async Task<ReceptionistResponse> GetByIdAsync(Guid id)
         {
@@ -50,12 +54,12 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task<Guid?> CreateAsync(CreateReceptionistDTO dto)
         {
-            var result = await _receptionistsRepository.CreateAsync(dto);
+            var result = await _receptionistsRepository.AddAsync(dto);
 
             if (result > 0)
             {
                 var receptionistSummary = _mapper.Map<CreateReceptionistSummaryDTO>(dto);
-                result = await _receptionistSummaryRepository.CreateAsync(receptionistSummary);
+                result = await _receptionistSummaryRepository.AddAsync(receptionistSummary);
 
                 if (result == 0)
                 {
@@ -85,6 +89,17 @@ namespace Profiles.Business.Implementations.Services
                 {
                     Log.Information("ReceptionistSummary wasn't updated. {@id} {@receptionistSummary}", id, receptionistSummary);
                 }
+                else
+                {
+                    var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
+
+                    await _publishEndpoint.Publish(new AccountStatusUpdated
+                    {
+                        AccountId = accountId,
+                        Status = dto.Status,
+                        UpdaterId = dto.UpdaterId,
+                    });
+                }
             }
             else
             {
@@ -94,10 +109,13 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task RemoveAsync(Guid id)
         {
+            var photoId = await _receptionistsRepository.GetPhotoIdAsync(id);
             var result = await _receptionistsRepository.RemoveAsync(id);
 
             if (result > 0)
             {
+                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+
                 result = await _receptionistSummaryRepository.RemoveAsync(id);
 
                 if (result == 0)
@@ -111,11 +129,22 @@ namespace Profiles.Business.Implementations.Services
             }
         }
 
-        public async Task ChangeStatus(Guid id, AccountStatuses status)
+        public async Task ChangeStatus(Guid id, ChangeStatusDTO dto)
         {
-            var result = await _receptionistSummaryRepository.ChangeStatus(id, status);
+            var result = await _receptionistSummaryRepository.ChangeStatus(id, dto.Status);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
+
+                await _publishEndpoint.Publish(new AccountStatusUpdated
+                {
+                    AccountId = accountId,
+                    Status = dto.Status,
+                    UpdaterId = dto.UpdaterId,
+                });
+            }
+            else
             {
                 throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
             }

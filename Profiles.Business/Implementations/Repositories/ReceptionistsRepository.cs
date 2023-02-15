@@ -61,7 +61,7 @@ namespace Profiles.Business.Implementations.Repositories
             }
         }
 
-        public async Task<int> CreateAsync(CreateReceptionistDTO dto)
+        public async Task<int> AddAsync(CreateReceptionistDTO dto)
         {
             var query = """
                             INSERT Receptionists
@@ -118,6 +118,34 @@ namespace Profiles.Business.Implementations.Repositories
             using (var connection = _db.CreateConnection())
             {
                 return await connection.ExecuteAsync(query, new { id });
+            }
+        }
+
+        public async Task<Guid> GetAccountIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT AccountId
+                            FROM Receptionists
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+            }
+        }
+
+        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT PhotoId
+                            FROM Receptionists
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Authorization.API
             builder.Services.ConfigureIdentityServer();
             builder.Services.ConfigureValidation();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.ConfigureMassTransit();
 
             builder.Services.AddAuthentication(options =>
             {

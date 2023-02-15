@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
+using MassTransit;
 using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Doctor;
 using Profiles.Data.DTOs.DoctorSummary;
 using Serilog;
-using Shared.Core.Enums;
 using Shared.Exceptions;
+using Shared.Models.Messages;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Implementations.Services
@@ -15,9 +17,15 @@ namespace Profiles.Business.Implementations.Services
         private readonly IDoctorsRepository _doctorsRepository;
         private readonly IDoctorSummaryRepository _doctorSummaryRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public DoctorsService(IDoctorsRepository doctorsRepository, IDoctorSummaryRepository doctorSummaryRepository, IMapper mapper) =>
-            (_doctorsRepository, _doctorSummaryRepository, _mapper) = (doctorsRepository, doctorSummaryRepository, mapper);
+        public DoctorsService(
+            IDoctorsRepository doctorsRepository, 
+            IDoctorSummaryRepository doctorSummaryRepository, 
+            IMapper mapper, 
+            IPublishEndpoint publishEndpoint) =>
+            (_doctorsRepository, _doctorSummaryRepository, _mapper, _publishEndpoint) = 
+            (doctorsRepository, doctorSummaryRepository, mapper, publishEndpoint);
 
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
@@ -74,6 +82,15 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
+                var accountId = await _doctorsRepository.GetAccountIdAsync(id);
+
+                await _publishEndpoint.Publish(new AccountStatusUpdated
+                {
+                    AccountId = accountId,
+                    Status = dto.Status,
+                    UpdaterId = dto.UpdaterId,
+                });
+
                 var doctorSummary = _mapper.Map<UpdateDoctorSummaryDTO>(dto);
                 result = await _doctorSummaryRepository.UpdateAsync(id, doctorSummary);
 
@@ -94,6 +111,10 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
+                var photoId = await _doctorsRepository.GetPhotoIdAsync(id);
+
+                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+
                 result = await _doctorSummaryRepository.RemoveAsync(id);
 
                 if (result == 0)
@@ -107,13 +128,44 @@ namespace Profiles.Business.Implementations.Services
             }
         }
 
-        public async Task ChangeStatus(Guid id, AccountStatuses status)
+        public async Task ChangeStatusAsync(Guid id, ChangeStatusDTO dto)
         {
-            var result = await _doctorSummaryRepository.ChangeStatus(id, status);
+            var result = await _doctorSummaryRepository.ChangeStatus(id, dto.Status);
+
+            if (result > 0)
+            {
+                var accountId = await _doctorsRepository.GetAccountIdAsync(id);
+
+                await _publishEndpoint.Publish(new AccountStatusUpdated
+                {
+                    AccountId = accountId,
+                    Status = dto.Status,
+                    UpdaterId = dto.UpdaterId,
+                });
+            }
+            else
+            {
+                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+            }
+        }
+
+        public async Task SetInactiveStatusAsync(Guid specializationId)
+        {
+            var result = await _doctorsRepository.SetInactiveStatusAsync(specializationId);
 
             if (result == 0)
             {
-                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+                Log.Information("There are no doctors with {@specializationId}.", specializationId);
+            }
+        }
+
+        public async Task UpdateSpecializationName(Guid specializationId, string specializationName)
+        {
+            var result = await _doctorsRepository.UpdateSpecializationName(specializationId, specializationName);
+
+            if (result == 0)
+            {
+                Log.Information("There are no doctors with {@specializationId}.", specializationId);
             }
         }
     }

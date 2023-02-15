@@ -1,12 +1,15 @@
-﻿using Authorization.API.Validators;
+﻿using Authorization.API.Consumers;
+using Authorization.API.Validators;
 using Authorization.Business.Abstractions;
 using Authorization.Business.ServicesImplementations;
 using Authorization.Data;
 using Authorization.Data.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Models.Messages;
 using Shared.Models.Request.Authorization;
 using System.Reflection;
 
@@ -69,8 +72,18 @@ namespace Authorization.API.Extensions
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<SignInRequestModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<SignInRequestValidator>();
             services.AddFluentValidationAutoValidation();
+        }
+
+        public static void ConfigureMassTransit(this IServiceCollection services)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<StatusUpdatedConsumer>();
+
+                x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
+            });
         }
     }
 }

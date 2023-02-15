@@ -1,8 +1,8 @@
 ﻿using Shared.Core.Enums;
 
-namespace Authorization.Data.DataTransferObjects
+namespace Profiles.Data.DTOs
 {
-    public class PatchAccountDTO
+    public class ChangeStatusDTO
     {
         public AccountStatuses Status { get; set; }
         public string UpdaterId { get; set; }

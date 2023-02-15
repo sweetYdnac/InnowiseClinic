@@ -1,8 +1,10 @@
-﻿using Profiles.Business.Interfaces.Repositories;
+﻿using MassTransit;
+using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Models.Messages;
 using Shared.Models.Response.Profiles.Patient;
 
 namespace Profiles.Business.Implementations.Services
@@ -10,7 +12,9 @@ namespace Profiles.Business.Implementations.Services
     public class PatientsService : IPatientsService
     {
         private readonly IPatientsRepository _patientsRepository;
-        public PatientsService(IPatientsRepository patientRepository) => _patientsRepository = patientRepository;
+        private readonly IPublishEndpoint _publishEndpoint;
+        public PatientsService(IPatientsRepository patientRepository, IPublishEndpoint publishEndpoint) => 
+            (_patientsRepository, _publishEndpoint) = (patientRepository, publishEndpoint);
 
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
@@ -60,9 +64,14 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task DeleteAsync(Guid id)
         {
+            var photoId = await _patientsRepository.GetPhotoIdAsync(id);
             var result = await _patientsRepository.RemoveAsync(id);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+            }
+            else
             {
                 Log.Information("Patient with {id} wasn't remove", id);
             }

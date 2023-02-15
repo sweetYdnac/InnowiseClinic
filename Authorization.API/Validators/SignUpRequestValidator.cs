@@ -3,9 +3,9 @@ using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.Validators
 {
-    public class SignUpRequestModelValidator : AbstractValidator<SignUpRequestModel>
+    public class SignUpRequestValidator : AbstractValidator<SignUpRequestModel>
     {
-        public SignUpRequestModelValidator()
+        public SignUpRequestValidator()
         {
             RuleFor(s => s.Email)
                 .NotEmpty()

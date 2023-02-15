@@ -1,9 +1,10 @@
 ﻿using Shared.Core.Enums;
 
-namespace Authorization.Data.DataTransferObjects
+namespace Shared.Models.Messages
 {
-    public class PatchAccountDTO
+    public class AccountStatusUpdated
     {
+        public Guid AccountId { get; set; }
         public AccountStatuses Status { get; set; }
         public string UpdaterId { get; set; }
     }

@@ -82,7 +82,7 @@ namespace Profiles.Business.Implementations.Repositories
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
             parameters.Add("PhoneNumber", dto.PhoneNumber, DbType.String);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
-            parameters.Add("IsLinkedToAccount", dto.IsLinkedToAccount, DbType.Boolean);
+            parameters.Add("IsLinkedToAccount", dto.AccountId is not null, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {
@@ -177,6 +177,20 @@ namespace Profiles.Business.Implementations.Repositories
             using (var connection = _db.CreateConnection())
             {
                 return await connection.ExecuteAsync(query, parameters);
+            }
+        }
+
+        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT PhotoId
+                            FROM Patients
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
             }
         }
     }

@@ -153,5 +153,74 @@ namespace Profiles.Business.Implementations.Repositories
                 return await connection.ExecuteAsync(query, new { id });
             }
         }
+
+        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT PhotoId
+                            FROM Doctors
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+            }
+        }
+
+        public async Task<Guid> GetAccountIdAsync(Guid id)
+        {
+            var query = """
+                            SELECT AccountId
+                            FROM Doctors
+                            WHERE Id = @id
+                        """;
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+            }
+        }
+
+        public async Task<int> SetInactiveStatusAsync(Guid specializationId)
+        {
+            var query = """
+                            UPDATE DoctorsSummary
+                            SET Status = @Status
+                            FROM DoctorsSummary
+                                JOIN Doctors ON Doctors.Id = DoctorsSummary.Id
+                            WHERE SpecializationId = @SpecializationId
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("SpecializationId", specializationId, DbType.Guid);
+            parameters.Add("Status", AccountStatuses.Inactive, DbType.Int32);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+        }
+
+        public async Task<int> UpdateSpecializationName(Guid specializationId, string specializationName)
+        {
+            var query = """
+                            UPDATE DoctorsSummary
+                            SET SpecializationName = @SpecializationName
+                            FROM DoctorsSummary
+                                JOIN Doctors ON Doctors.Id = DoctorsSummary.Id
+                            WHERE SpecializationId = @SpecializationId
+                        """;
+
+            var parameters = new DynamicParameters();
+            parameters.Add("SpecializationId", specializationId, DbType.Guid);
+            parameters.Add("SpecializationName", specializationName, DbType.String);
+
+            using (var connection = _db.CreateConnection())
+            {
+                return await connection.ExecuteAsync(query, parameters);
+            }
+
+        }
     }
 }

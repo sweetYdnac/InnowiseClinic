@@ -91,28 +91,5 @@ namespace Authorization.API.Controllers
 
             return NoContent();
         }
-
-        /// <summary>
-        /// Patch specific account
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpPatch("{id}")]
-        [Authorize]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchAccount(Guid id, [FromBody] PatchAccountRequestModel request)
-        {
-            var dto = _mapper.Map<PatchAccountDTO>(request);
-            dto.UpdaterClaimsPrincipal = HttpContext.User;
-
-            await _accountService.UpdateAsync(id, dto);
-
-            return NoContent();
-        }
     }
 }

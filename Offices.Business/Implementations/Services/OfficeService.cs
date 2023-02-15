@@ -1,8 +1,11 @@
-﻿using Offices.Business.Interfaces.Repositories;
+﻿using AutoMapper;
+using MassTransit;
+using Offices.Business.Interfaces.Repositories;
 using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Models.Messages;
 using Shared.Models.Response.Offices;
 
 namespace Offices.Business.Implementations.Services
@@ -10,14 +13,24 @@ namespace Offices.Business.Implementations.Services
     public class OfficeService : IOfficeService
     {
         private readonly IOfficeRepository _officeRepository;
+        private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public OfficeService(IOfficeRepository officeRepository) => _officeRepository = officeRepository;
+        public OfficeService(IOfficeRepository officeRepository, IMapper mapper , IPublishEndpoint publishEndpoint) =>
+            (_officeRepository, _mapper, _publishEndpoint) = (officeRepository, mapper, publishEndpoint);
 
         public async Task ChangeStatus(ChangeOfficeStatusDTO dto)
         {
             var result = await _officeRepository.ChangeStatusAsync(dto);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                if (!dto.IsActive)
+                {
+                    await _publishEndpoint.Publish(new OfficeDisabled { OfficeId = dto.Id });
+                }
+            }
+            else
             {
                 throw new NotFoundException($"Office with id = {dto.Id} doesn't exist.");
             }
@@ -70,7 +83,14 @@ namespace Offices.Business.Implementations.Services
         {
             var result = await _officeRepository.UpdateAsync(id, dto);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                var message = _mapper.Map<OfficeUpdated>(dto);
+                message.OfficeId = id;
+
+                await _publishEndpoint.Publish(message);
+            }
+            else
             {
                 throw new NotFoundException($"Office with id = {id} doesn't exist.");
             }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Profiles.API.SwaggerExamples.Requests.Doctor;
 using Profiles.API.SwaggerExamples.Responses.Doctor;
 using Profiles.Business.Interfaces.Services;
+using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Doctor;
 using Shared.Core.Enums;
 using Shared.Models.Request.Profiles;
@@ -11,6 +12,7 @@ using Shared.Models.Request.Profiles.Doctor;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
 using Swashbuckle.AspNetCore.Filters;
+using System.Security.Claims;
 
 namespace Profiles.API.Controllers
 {
@@ -35,7 +37,7 @@ namespace Profiles.API.Controllers
         [HttpGet("{id}")]
         [Authorize]
         [ProducesResponseType(typeof(DoctorResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
@@ -54,7 +56,7 @@ namespace Profiles.API.Controllers
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(GetDoctorsResponseModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
@@ -73,7 +75,7 @@ namespace Profiles.API.Controllers
         [HttpPost]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
@@ -93,14 +95,19 @@ namespace Profiles.API.Controllers
         [HttpPut("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Doctor)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         [SwaggerRequestExample(typeof(UpdateDoctorRequestModel), typeof(UpdateDoctorRequestExample))]
         public async Task<IActionResult> UpdateDoctor([FromRoute] Guid id, [FromBody] UpdateDoctorRequestModel request)
         {
-            await _doctorsService.UpdateAsync(id, _mapper.Map<UpdateDoctorDTO>(request));
+            var dto = _mapper.Map<UpdateDoctorDTO>(request);
+            dto.UpdaterId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                ?.Value;
+
+            await _doctorsService.UpdateAsync(id, dto);
 
             return NoContent();
         }
@@ -112,7 +119,7 @@ namespace Profiles.API.Controllers
         [HttpDelete("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
@@ -132,14 +139,19 @@ namespace Profiles.API.Controllers
         [HttpPatch("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromBody] ChangeStatusRequestModel request)
         {
-            await _doctorsService.ChangeStatus(id, request.Status);
+            var dto = _mapper.Map<ChangeStatusDTO>(request);
+            dto.UpdaterId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
+                ?.Value;
+
+            await _doctorsService.ChangeStatusAsync(id, dto);
 
             return NoContent();
         }
