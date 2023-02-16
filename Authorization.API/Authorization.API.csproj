@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authorization.Business\Authorization.Business.csproj" />
+    <ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
     <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>

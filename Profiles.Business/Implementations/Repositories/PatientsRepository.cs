@@ -34,8 +34,8 @@ namespace Profiles.Business.Implementations.Repositories
                                    CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
                                    PhoneNumber
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR 
-                                  LastName LIKE @FullName OR 
+                            WHERE FirstName LIKE @FullName OR
+                                  LastName LIKE @FullName OR
                                   MiddleName LIKE @FullName
                             ORDER BY Id
                                 OFFSET @Offset ROWS
@@ -43,8 +43,8 @@ namespace Profiles.Business.Implementations.Repositories
 
                             SELECT COUNT(*)
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR 
-                                      LastName LIKE @FullName OR 
+                            WHERE FirstName LIKE @FullName OR
+                                      LastName LIKE @FullName OR
                                       MiddleName LIKE @FullName
                         """;
 

@@ -13,7 +13,7 @@ namespace Authorization.Data.Extensions
             var adminRoleId = Guid.NewGuid();
 
             SeedRoles(builder, adminRoleId);
-            SeedAccounts(builder, adminId);           
+            SeedAccounts(builder, adminId);
 
             builder.Entity<IdentityUserRole<Guid>>().HasData(
                 new IdentityUserRole<Guid>

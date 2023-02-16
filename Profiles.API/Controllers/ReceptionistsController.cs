@@ -55,7 +55,7 @@ namespace Profiles.API.Controllers
         /// </summary>
         /// <param name="request">Contains properties for paging among receptionists</param>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]   
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(GetReceptionistsResponseModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]

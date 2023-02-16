@@ -31,8 +31,8 @@ namespace Profiles.Business.Implementations.Repositories
 
         public async Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto)
         {
-            var statusFilter = dto.OnlyAtWork 
-                ? $"AND Status = {(int)AccountStatuses.AtWork}" 
+            var statusFilter = dto.OnlyAtWork
+                ? $"AND Status = {(int)AccountStatuses.AtWork}"
                 : string.Empty;
 
             var query = $"""
@@ -45,8 +45,8 @@ namespace Profiles.Business.Implementations.Repositories
                                    PhotoId
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR 
-                                  LastName LIKE @FullName OR 
+                            WHERE (FirstName LIKE @FullName OR
+                                  LastName LIKE @FullName OR
                                   MiddleName LIKE @FullName) AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
@@ -54,12 +54,12 @@ namespace Profiles.Business.Implementations.Repositories
                             ORDER BY Doctors.Id
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
-                        
+
                             SELECT COUNT(*)
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR 
-                                  LastName LIKE @FullName OR 
+                            WHERE (FirstName LIKE @FullName OR
+                                  LastName LIKE @FullName OR
                                   MiddleName LIKE @FullName) AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId

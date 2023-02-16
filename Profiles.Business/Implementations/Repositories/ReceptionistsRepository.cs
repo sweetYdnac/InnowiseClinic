@@ -40,7 +40,7 @@ namespace Profiles.Business.Implementations.Repositories
                             ORDER BY Receptionists.Id
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
-                        
+
                             SELECT COUNT(*)
                             FROM Receptionists
                         """;

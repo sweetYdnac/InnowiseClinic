@@ -11,7 +11,7 @@ namespace Authorization.Data
         public AuthorizationDbContext(DbContextOptions<AuthorizationDbContext> options)
             : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder builder) 
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 

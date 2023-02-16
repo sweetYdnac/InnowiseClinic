@@ -1,6 +1,6 @@
 ﻿namespace Shared.Models.Response.Offices
 {
-    public class OfficeDetailsResponse 
+    public class OfficeDetailsResponse
     {
         public Guid PhotoId { get; set; }
         public string Address { get; set; }

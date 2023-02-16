@@ -11,7 +11,7 @@ namespace Authorization.API.Consumers
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
 
-        public StatusUpdatedConsumer(IAccountService accountService, IMapper mapper) => 
+        public StatusUpdatedConsumer(IAccountService accountService, IMapper mapper) =>
             (_accountService, _mapper) = (accountService, mapper);
 
         public async Task Consume(ConsumeContext<AccountStatusUpdatedMessage> context)

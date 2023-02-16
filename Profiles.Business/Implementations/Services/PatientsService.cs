@@ -13,15 +13,15 @@ namespace Profiles.Business.Implementations.Services
     {
         private readonly IPatientsRepository _patientsRepository;
         private readonly IPublishEndpoint _publishEndpoint;
-        public PatientsService(IPatientsRepository patientRepository, IPublishEndpoint publishEndpoint) => 
+        public PatientsService(IPatientsRepository patientRepository, IPublishEndpoint publishEndpoint) =>
             (_patientsRepository, _publishEndpoint) = (patientRepository, publishEndpoint);
 
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
             var patient = await _patientsRepository.GetByIdAsync(id);
 
-            return patient is null 
-                ? throw new NotFoundException($"Patient's profile with id = {id} doesn't exist.") 
+            return patient is null
+                ? throw new NotFoundException($"Patient's profile with id = {id} doesn't exist.")
                 : patient;
         }
 
@@ -35,9 +35,9 @@ namespace Profiles.Business.Implementations.Services
             }
 
             return new GetPatientsResponseModel(
-                repositoryResponse.patients, 
-                dto.PageNumber, 
-                dto.PageSize, 
+                repositoryResponse.patients,
+                dto.PageNumber,
+                dto.PageSize,
                 repositoryResponse.totalCount);
         }
 

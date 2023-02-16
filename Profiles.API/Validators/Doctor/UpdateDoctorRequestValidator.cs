@@ -19,7 +19,6 @@ namespace Profiles.API.Validators.Doctor
             RuleFor(p => p.Status)
                 .Required()
                 .IsInEnum();
-
         }
     }
 }

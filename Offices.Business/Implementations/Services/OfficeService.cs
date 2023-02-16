@@ -70,9 +70,9 @@ namespace Offices.Business.Implementations.Services
             }
 
             var response = new GetOfficesResponseModel(
-                repositoryResponse.offices, 
-                dto.PageNumber, 
-                dto.PageSize, 
+                repositoryResponse.offices,
+                dto.PageNumber,
+                dto.PageSize,
                 repositoryResponse.totalCount
                 );
 

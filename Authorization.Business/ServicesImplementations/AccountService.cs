@@ -142,7 +142,7 @@ namespace Authorization.Business.ServicesImplementations
             var account = await _userManager.FindByEmailAsync(email);
 
             return account is null
-                ? throw new NotFoundException($"Account with email = {email} doesn't exist.") 
+                ? throw new NotFoundException($"Account with email = {email} doesn't exist.")
                 : account.Id;
         }
     }

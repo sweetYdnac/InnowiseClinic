@@ -20,11 +20,11 @@ namespace Profiles.Business.Implementations.Services
         private readonly IPublishEndpoint _publishEndpoint;
 
         public DoctorsService(
-            IDoctorsRepository doctorsRepository, 
-            IDoctorSummaryRepository doctorSummaryRepository, 
-            IMapper mapper, 
+            IDoctorsRepository doctorsRepository,
+            IDoctorSummaryRepository doctorSummaryRepository,
+            IMapper mapper,
             IPublishEndpoint publishEndpoint) =>
-            (_doctorsRepository, _doctorSummaryRepository, _mapper, _publishEndpoint) = 
+            (_doctorsRepository, _doctorSummaryRepository, _mapper, _publishEndpoint) =
             (doctorsRepository, doctorSummaryRepository, mapper, publishEndpoint);
 
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
@@ -46,9 +46,9 @@ namespace Profiles.Business.Implementations.Services
             }
 
             return new GetDoctorsResponseModel(
-                repositoryResponse.doctors, 
-                dto.PageNumber, 
-                dto.PageSize, 
+                repositoryResponse.doctors,
+                dto.PageNumber,
+                dto.PageSize,
                 repositoryResponse.totalCount);
         }
 

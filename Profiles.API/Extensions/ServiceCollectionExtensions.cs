@@ -121,7 +121,7 @@ namespace Profiles.API.Extensions
 
         public static void ConfigureMassTransit(this IServiceCollection services)
         {
-            services.AddMassTransit(x => 
+            services.AddMassTransit(x =>
             {
                 x.AddConsumer<OfficeDisabledConsumer>();
                 x.AddConsumer<OfficeUpdatedConsumer>();
