@@ -1,6 +1,6 @@
 ﻿using Authorization.Data.DataTransferObjects;
 using AutoMapper;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.MappingProfiles
@@ -10,7 +10,7 @@ namespace Authorization.API.MappingProfiles
         public AccountProfile()
         {
             CreateMap<PatchRolesRequestModel, PatchRolesDTO>();
-            CreateMap<AccountStatusUpdated, PatchAccountDTO>();
+            CreateMap<AccountStatusUpdatedMessage, PatchAccountDTO>();
         }
     }
 }

@@ -7,7 +7,7 @@ using Profiles.Data.DTOs.Doctor;
 using Profiles.Data.DTOs.DoctorSummary;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Implementations.Services
@@ -84,7 +84,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
-                await _publishEndpoint.Publish(new AccountStatusUpdated
+                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
                 {
                     AccountId = accountId,
                     Status = dto.Status,
@@ -113,7 +113,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var photoId = await _doctorsRepository.GetPhotoIdAsync(id);
 
-                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+                await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
 
                 result = await _doctorSummaryRepository.RemoveAsync(id);
 
@@ -136,7 +136,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
-                await _publishEndpoint.Publish(new AccountStatusUpdated
+                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
                 {
                     AccountId = accountId,
                     Status = dto.Status,

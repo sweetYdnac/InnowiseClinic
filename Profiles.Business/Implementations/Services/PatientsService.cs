@@ -4,7 +4,7 @@ using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Response.Profiles.Patient;
 
 namespace Profiles.Business.Implementations.Services
@@ -69,7 +69,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+                await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
             }
             else
             {

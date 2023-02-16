@@ -2,11 +2,11 @@
 using Authorization.Data.DataTransferObjects;
 using AutoMapper;
 using MassTransit;
-using Shared.Models.Messages;
+using Shared.Messages;
 
 namespace Authorization.API.Consumers
 {
-    public class StatusUpdatedConsumer : IConsumer<AccountStatusUpdated>
+    public class StatusUpdatedConsumer : IConsumer<AccountStatusUpdatedMessage>
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
@@ -14,7 +14,7 @@ namespace Authorization.API.Consumers
         public StatusUpdatedConsumer(IAccountService accountService, IMapper mapper) => 
             (_accountService, _mapper) = (accountService, mapper);
 
-        public async Task Consume(ConsumeContext<AccountStatusUpdated> context)
+        public async Task Consume(ConsumeContext<AccountStatusUpdatedMessage> context)
         {
             await _accountService.UpdateAsync(context.Message.AccountId, _mapper.Map<PatchAccountDTO>(context.Message));
         }

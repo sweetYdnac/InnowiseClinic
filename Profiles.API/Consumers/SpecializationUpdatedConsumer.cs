@@ -1,16 +1,16 @@
 ﻿using MassTransit;
 using Profiles.Business.Interfaces.Services;
-using Shared.Models.Messages;
+using Shared.Messages;
 
 namespace Profiles.API.Consumers
 {
-    public class SpecializationUpdatedConsumer : IConsumer<SpecializationUpdated>
+    public class SpecializationUpdatedConsumer : IConsumer<SpecializationUpdatedMessage>
     {
         private readonly IDoctorsService _doctorService;
 
         public SpecializationUpdatedConsumer(IDoctorsService doctorService) => _doctorService = doctorService;
 
-        public async Task Consume(ConsumeContext<SpecializationUpdated> context)
+        public async Task Consume(ConsumeContext<SpecializationUpdatedMessage> context)
         {
             var message = context.Message;
 

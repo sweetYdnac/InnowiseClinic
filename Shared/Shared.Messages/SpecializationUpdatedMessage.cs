@@ -1,6 +1,6 @@
-﻿namespace Shared.Models.Messages
+﻿namespace Shared.Messages
 {
-    public class SpecializationUpdated
+    public class SpecializationUpdatedMessage
     {
         public Guid SpecializationId { get; set; }
         public string Name { get; set; }

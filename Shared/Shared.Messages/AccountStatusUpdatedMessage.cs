@@ -1,8 +1,8 @@
 ﻿using Shared.Core.Enums;
 
-namespace Shared.Models.Messages
+namespace Shared.Messages
 {
-    public class AccountStatusUpdated
+    public class AccountStatusUpdatedMessage
     {
         public Guid AccountId { get; set; }
         public AccountStatuses Status { get; set; }

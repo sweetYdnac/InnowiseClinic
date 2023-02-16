@@ -5,7 +5,7 @@ using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Response.Offices;
 
 namespace Offices.Business.Implementations.Services
@@ -27,7 +27,7 @@ namespace Offices.Business.Implementations.Services
             {
                 if (!dto.IsActive)
                 {
-                    await _publishEndpoint.Publish(new OfficeDisabled { OfficeId = dto.Id });
+                    await _publishEndpoint.Publish(new OfficeDisabledMessage { OfficeId = dto.Id });
                 }
             }
             else
@@ -85,7 +85,7 @@ namespace Offices.Business.Implementations.Services
 
             if (result > 0)
             {
-                var message = _mapper.Map<OfficeUpdated>(dto);
+                var message = _mapper.Map<OfficeUpdatedMessage>(dto);
                 message.OfficeId = id;
 
                 await _publishEndpoint.Publish(message);

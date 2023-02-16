@@ -1,16 +1,16 @@
 ﻿using MassTransit;
 using Profiles.Business.Interfaces.Services;
-using Shared.Models.Messages;
+using Shared.Messages;
 
 namespace Profiles.API.Consumers
 {
-    public class OfficeUpdatedConsumer : IConsumer<OfficeUpdated>
+    public class OfficeUpdatedConsumer : IConsumer<OfficeUpdatedMessage>
     {
         private readonly IProfilesService _profilesService;
 
         public OfficeUpdatedConsumer(IProfilesService profilesService) => _profilesService = profilesService;
 
-        public async Task Consume(ConsumeContext<OfficeUpdated> context)
+        public async Task Consume(ConsumeContext<OfficeUpdatedMessage> context)
         {
             var message = context.Message;
 

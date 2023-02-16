@@ -10,6 +10,7 @@ COPY ["Profiles.Business/Profiles.Business.csproj", "Profiles.Business/"]
 COPY ["Profiles.Data/Profiles.Data.csproj", "Profiles.Data/"]
 COPY ["Shared/Shared.Core/Shared.Core.csproj", "Shared/Shared.Core/"]
 COPY ["Shared/Shared.Exceptions/Shared.Exceptions.csproj", "Shared/Shared.Exceptions/"]
+COPY ["Shared/Shared.Messages/Shared.Messages.csproj", "Shared/Shared.Messages/"]
 COPY ["Shared/Shared.Models/Shared.Models.csproj", "Shared/Shared.Models/"]
 RUN dotnet restore "Profiles.API/Profiles.API.csproj"
 COPY ["Profiles.API/.", "./Profiles.API/"]

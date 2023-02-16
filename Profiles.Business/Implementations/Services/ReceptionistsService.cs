@@ -7,7 +7,7 @@ using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Response.Profiles.Receptionist;
 
 namespace Profiles.Business.Implementations.Services
@@ -93,7 +93,7 @@ namespace Profiles.Business.Implementations.Services
                 {
                     var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
 
-                    await _publishEndpoint.Publish(new AccountStatusUpdated
+                    await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
                     {
                         AccountId = accountId,
                         Status = dto.Status,
@@ -114,7 +114,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _publishEndpoint.Publish(new ProfileDeleted { PhotoId = photoId });
+                await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
 
                 result = await _receptionistSummaryRepository.RemoveAsync(id);
 
@@ -137,7 +137,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
 
-                await _publishEndpoint.Publish(new AccountStatusUpdated
+                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
                 {
                     AccountId = accountId,
                     Status = dto.Status,

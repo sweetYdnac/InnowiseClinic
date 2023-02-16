@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Offices.Data.DTOs;
-using Shared.Models.Messages;
+using Shared.Messages;
 using Shared.Models.Request.Offices;
 
 namespace Offices.API.MappingProfiles
@@ -14,7 +14,7 @@ namespace Offices.API.MappingProfiles
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
             CreateMap<UpdateOfficeRequestModel, UpdateOfficeDTO>();
 
-            CreateMap<UpdateOfficeDTO, OfficeUpdated>()
+            CreateMap<UpdateOfficeDTO, OfficeUpdatedMessage>()
                 .ForMember(message => message.OfficeAddress, 
                            opt => opt.MapFrom(dto => $"{dto.City} {dto.Street} {dto.HouseNumber} {dto.OfficeNumber}"));
         }

@@ -9,8 +9,6 @@ using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shared.Models.Messages;
-using Shared.Models.Request.Authorization;
 using System.Reflection;
 
 namespace Authorization.API.Extensions

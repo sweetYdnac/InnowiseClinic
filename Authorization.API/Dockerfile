@@ -10,6 +10,7 @@ COPY ["Authorization.Business/Authorization.Business.csproj", "Authorization.Bus
 COPY ["Authorization.Data/Authorization.Data.csproj", "Authorization.Data/"]
 COPY ["Shared/Shared.Core/Shared.Core.csproj", "Shared/Shared.Core/"]
 COPY ["Shared/Shared.Exceptions/Shared.Exceptions.csproj", "Shared/Shared.Exceptions/"]
+COPY ["Shared/Shared.Messages/Shared.Messages.csproj", "Shared/Shared.Messages/"]
 COPY ["Shared/Shared.Models/Shared.Models.csproj", "Shared/Shared.Models/"]
 RUN dotnet restore "Authorization.API/Authorization.API.csproj"
 COPY ["Authorization.API/.", "./Authorization.API/"]
