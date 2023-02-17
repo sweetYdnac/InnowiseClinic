@@ -9,7 +9,7 @@ namespace Authorization.API.MappingProfiles
     {
         public AccountProfile()
         {
-            CreateMap<PatchRolesRequestModel, PatchRolesDTO>();
+            CreateMap<PatchRolesRequest, PatchRolesDTO>();
             CreateMap<AccountStatusUpdatedMessage, PatchAccountDTO>();
         }
     }

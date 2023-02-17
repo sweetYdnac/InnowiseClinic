@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MassTransit;
-using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
+using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
@@ -36,7 +36,7 @@ namespace Profiles.Business.Implementations.Services
                     : response;
         }
 
-        public async Task<GetReceptionistsResponseModel> GetPagedAsync(GetReceptionistsDTO dto)
+        public async Task<GetReceptionistsResponse> GetPagedAsync(GetReceptionistsDTO dto)
         {
             var repositoryResponse = await _receptionistsRepository.GetPagedAsync(dto);
 
@@ -45,7 +45,7 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("There are no receptionists in storage.");
             }
 
-            return new GetReceptionistsResponseModel(
+            return new GetReceptionistsResponse(
                 repositoryResponse.receptionists,
                 dto.PageNumber,
                 dto.PageSize,

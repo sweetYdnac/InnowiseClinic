@@ -42,7 +42,7 @@ public class ExceptionHandlerMiddleware
         var details = _env.IsDevelopment() ? ex.StackTrace : string.Empty;
 
         await response.WriteAsync(JsonConvert.SerializeObject(
-            new BaseResponseModel(
+            new BaseResponse(
                 code,
                 allMessageText,
                 string.IsNullOrEmpty(details)

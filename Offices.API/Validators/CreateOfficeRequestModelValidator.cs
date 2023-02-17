@@ -3,7 +3,7 @@ using Shared.Models.Request.Offices;
 
 namespace Offices.API.Validators
 {
-    public class CreateOfficeRequestModelValidator : AbstractValidator<CreateOfficeRequestModel>
+    public class CreateOfficeRequestModelValidator : AbstractValidator<CreateOfficeRequest>
     {
         public CreateOfficeRequestModelValidator()
         {

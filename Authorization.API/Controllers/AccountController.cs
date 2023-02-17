@@ -24,16 +24,16 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request">Contains email and password</param>
         /// <returns></returns>
-        [ProducesResponseType(typeof(SignUpResponseModel), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(SignUpResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost("signUp")]
-        public async Task<IActionResult> SignUp([FromBody] SignUpRequestModel request)
+        public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
             await _accountService.SignUpAsync(request.Email, request.Password);
             var id = await _accountService.GetIdByEmailAsync(request.Email);
 
-            return StatusCode(201, new SignUpResponseModel { Id = id });
+            return StatusCode(201, new SignUpResponse { Id = id });
         }
 
         /// <summary>
@@ -42,14 +42,14 @@ namespace Authorization.API.Controllers
         /// <param name="request">Contains email and password</param>
         /// <returns></returns>
         [HttpPost("signIn")]
-        [ProducesResponseType(typeof(TokenResponseModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> SignIn([FromBody] SignInRequestModel request)
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
             var tokenResponce = await _accountService.SignInAsync(request.Email, request.Password);
-            var responseModel = _mapper.Map<TokenResponseModel>(tokenResponce);
+            var responseModel = _mapper.Map<TokenResponse>(tokenResponce);
 
             return Ok(responseModel);
         }
@@ -62,7 +62,7 @@ namespace Authorization.API.Controllers
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public new async Task<IActionResult> SignOut()
         {
             await _accountService.SignOutAsync();
@@ -79,12 +79,12 @@ namespace Authorization.API.Controllers
         [HttpPatch("{id}/roles")]
         [Authorize(Roles = nameof(AccountRoles.Admin))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchRoles(Guid id, [FromBody] PatchRolesRequestModel request)
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PatchRoles(Guid id, [FromBody] PatchRolesRequest request)
         {
             var dto = _mapper.Map<PatchRolesDTO>(request);
             await _accountService.UpdateRolesAsync(id, dto);

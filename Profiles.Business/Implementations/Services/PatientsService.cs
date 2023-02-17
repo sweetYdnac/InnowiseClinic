@@ -1,7 +1,7 @@
 ﻿using MassTransit;
-using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
+using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
@@ -25,7 +25,7 @@ namespace Profiles.Business.Implementations.Services
                 : patient;
         }
 
-        public async Task<GetPatientsResponseModel> GetPagedAndFilteredAsync(GetPatientsDTO dto)
+        public async Task<GetPatientsResponse> GetPagedAndFilteredAsync(GetPatientsDTO dto)
         {
             var repositoryResponse = await _patientsRepository.GetPatients(dto);
 
@@ -34,7 +34,7 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("There are no patients in storage.");
             }
 
-            return new GetPatientsResponseModel(
+            return new GetPatientsResponse(
                 repositoryResponse.patients,
                 dto.PageNumber,
                 dto.PageSize,

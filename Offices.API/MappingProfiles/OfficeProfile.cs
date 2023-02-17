@@ -9,10 +9,10 @@ namespace Offices.API.MappingProfiles
     {
         public OfficeProfile()
         {
-            CreateMap<GetOfficesRequestModel, GetPagedOfficesDTO>();
-            CreateMap<CreateOfficeRequestModel, CreateOfficeDTO>()
+            CreateMap<GetOfficesRequest, GetPagedOfficesDTO>();
+            CreateMap<CreateOfficeRequest, CreateOfficeDTO>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
-            CreateMap<UpdateOfficeRequestModel, UpdateOfficeDTO>();
+            CreateMap<UpdateOfficeRequest, UpdateOfficeDTO>();
 
             CreateMap<UpdateOfficeDTO, OfficeUpdatedMessage>()
                 .ForMember(message => message.OfficeAddress,

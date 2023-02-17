@@ -9,10 +9,10 @@ namespace Profiles.API.MappingProfiles
     {
         public DoctorProfile()
         {
-            CreateMap<GetDoctorsRequestModel, GetDoctorsDTO>();
-            CreateMap<CreateDoctorRequestModel, CreateDoctorDTO>()
+            CreateMap<GetDoctorsRequest, GetDoctorsDTO>();
+            CreateMap<CreateDoctorRequest, CreateDoctorDTO>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
-            CreateMap<UpdateDoctorRequestModel, UpdateDoctorDTO>();
+            CreateMap<UpdateDoctorRequest, UpdateDoctorDTO>();
 
             CreateMap<CreateDoctorDTO, CreateDoctorSummaryDTO>();
             CreateMap<UpdateDoctorDTO, UpdateDoctorSummaryDTO>();

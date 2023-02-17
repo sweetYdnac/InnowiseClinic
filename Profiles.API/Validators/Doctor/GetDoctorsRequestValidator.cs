@@ -3,7 +3,7 @@ using Shared.Models.Request.Profiles.Doctor;
 
 namespace Profiles.API.Validators.Doctor
 {
-    public class GetDoctorsRequestValidator : AbstractValidator<GetDoctorsRequestModel>
+    public class GetDoctorsRequestValidator : AbstractValidator<GetDoctorsRequest>
     {
         public GetDoctorsRequestValidator()
         {

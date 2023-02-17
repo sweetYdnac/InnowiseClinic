@@ -6,12 +6,12 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Offices.API.Validators;
-using Offices.Business.Implementations.Repositories;
 using Offices.Business.Implementations.Services;
-using Offices.Business.Interfaces.Repositories;
 using Offices.Business.Interfaces.Services;
 using Offices.Data.Contexts;
 using Offices.Data.Helpers;
+using Offices.Data.Implementations.Repositories;
+using Offices.Data.Interfaces.Repositories;
 using Offices.Data.Migrations;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -89,7 +89,7 @@ namespace Offices.API.Extensions
                     {
                         context.HandleResponse();
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync(new BaseResponseModel(
+                        await context.Response.WriteAsync(new BaseResponse(
                             HttpStatusCode.Unauthorized,
                             "Unauthorized",
                             "Please, check your token."
@@ -98,7 +98,7 @@ namespace Offices.API.Extensions
                     OnForbidden = async context =>
                     {
                         context.Response.StatusCode = 403;
-                        await context.Response.WriteAsync(new BaseResponseModel(
+                        await context.Response.WriteAsync(new BaseResponse(
                             HttpStatusCode.Forbidden,
                             "Forbidden",
                             "Please, check your token."

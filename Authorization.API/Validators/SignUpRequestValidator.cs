@@ -3,7 +3,7 @@ using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.Validators
 {
-    public class SignUpRequestValidator : AbstractValidator<SignUpRequestModel>
+    public class SignUpRequestValidator : AbstractValidator<SignUpRequest>
     {
         public SignUpRequestValidator()
         {

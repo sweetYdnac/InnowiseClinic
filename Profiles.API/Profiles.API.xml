@@ -15,19 +15,19 @@
             </summary>
             <param name="id">Doctor's profile unique identifier</param>
         </member>
-        <member name="M:Profiles.API.Controllers.DoctorsController.GetDoctors(Shared.Models.Request.Profiles.Doctor.GetDoctorsRequestModel)">
+        <member name="M:Profiles.API.Controllers.DoctorsController.GetDoctors(Shared.Models.Request.Profiles.Doctor.GetDoctorsRequest)">
             <summary>
             Get paged doctors profiles by filter
             </summary>
             <param name="request">Contains properties for paging and filtering among doctors</param>
         </member>
-        <member name="M:Profiles.API.Controllers.DoctorsController.CreateDoctor(Shared.Models.Request.Profiles.Doctor.CreateDoctorRequestModel)">
+        <member name="M:Profiles.API.Controllers.DoctorsController.CreateDoctor(Shared.Models.Request.Profiles.Doctor.CreateDoctorRequest)">
             <summary>
             Create new doctor's profile
             </summary>
             <param name="request">Contains all data that need to create doctor's profile entity</param>
         </member>
-        <member name="M:Profiles.API.Controllers.DoctorsController.UpdateDoctor(System.Guid,Shared.Models.Request.Profiles.Doctor.UpdateDoctorRequestModel)">
+        <member name="M:Profiles.API.Controllers.DoctorsController.UpdateDoctor(System.Guid,Shared.Models.Request.Profiles.Doctor.UpdateDoctorRequest)">
             <summary>
             Edit specific doctor's profile
             </summary>
@@ -58,19 +58,19 @@
             </summary>
             <param name="id">Patient's profile unique identifier</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.GetPatients(Shared.Models.Request.Profiles.Patient.GetPatientsRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.GetPatients(Shared.Models.Request.Profiles.Patient.GetPatientsRequest)">
             <summary>
             Get paged patients profiles by filter
             </summary>
             <param name="request">Contains properties for paging and filtering among patients</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.CreatePatient(Shared.Models.Request.Profiles.Patient.CreatePatientRequest)">
             <summary>
             Create new patient's profile
             </summary>
             <param name="request">Contains all data that need to create patient's profile entity</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.GetMatch(Shared.Models.Request.Profiles.Patient.GetMatchedPatientRequest)">
             <summary>
             Try find a match among the existed profiles.
             </summary>
@@ -83,7 +83,7 @@
             </summary>
             <param name="id">Patient's profile unique identifier</param>
         </member>
-        <member name="M:Profiles.API.Controllers.PatientsController.UpdatePatient(System.Guid,Shared.Models.Request.Profiles.Patient.UpdatePatientRequestModel)">
+        <member name="M:Profiles.API.Controllers.PatientsController.UpdatePatient(System.Guid,Shared.Models.Request.Profiles.Patient.UpdatePatientRequest)">
             <summary>
             Edit specific patient's profile
             </summary>
@@ -108,19 +108,19 @@
             </summary>
             <param name="id">Receptionist's profile unique identifier</param>
         </member>
-        <member name="M:Profiles.API.Controllers.ReceptionistsController.GetReceptionists(Shared.Models.Request.Profiles.Receptionist.GetReceptionistsRequestModel)">
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.GetReceptionists(Shared.Models.Request.Profiles.Receptionist.GetReceptionistsRequest)">
             <summary>
             Get paged receptionists profiles by filter
             </summary>
             <param name="request">Contains properties for paging among receptionists</param>
         </member>
-        <member name="M:Profiles.API.Controllers.ReceptionistsController.CreateReceptionist(Shared.Models.Request.Profiles.Receptionist.CreateReceptionistRequestModel)">
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.CreateReceptionist(Shared.Models.Request.Profiles.Receptionist.CreateReceptionistRequest)">
             <summary>
             Create new receptionist's profile
             </summary>
             <param name="request">Contains all data that need to create receptionist's profile entity</param>
         </member>
-        <member name="M:Profiles.API.Controllers.ReceptionistsController.UpdateReceptionist(System.Guid,Shared.Models.Request.Profiles.Receptionist.UpdateReceptionistRequestModel)">
+        <member name="M:Profiles.API.Controllers.ReceptionistsController.UpdateReceptionist(System.Guid,Shared.Models.Request.Profiles.Receptionist.UpdateReceptionistRequest)">
             <summary>
             Edit specific receptionist's profile
             </summary>

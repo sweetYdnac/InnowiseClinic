@@ -1,0 +1,18 @@
+﻿using Shared.Core.Enums;
+
+namespace Shared.Models.Request.Profiles.Doctor
+{
+    public class UpdateDoctorRequest
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string MiddleName { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public Guid SpecializationId { get; set; }
+        public Guid OfficeId { get; set; }
+        public DateTime CareerStartYear { get; set; }
+        public string SpecializationName { get; set; }
+        public string OfficeAddress { get; set; }
+        public AccountStatuses Status { get; set; }
+    }
+}

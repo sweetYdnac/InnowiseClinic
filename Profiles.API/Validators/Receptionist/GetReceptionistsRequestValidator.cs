@@ -3,7 +3,7 @@ using Shared.Models.Request.Profiles.Receptionist;
 
 namespace Profiles.API.Validators.Receptionist
 {
-    public class GetReceptionistsRequestValidator : AbstractValidator<GetReceptionistsRequestModel>
+    public class GetReceptionistsRequestValidator : AbstractValidator<GetReceptionistsRequest>
     {
         public GetReceptionistsRequestValidator()
         {

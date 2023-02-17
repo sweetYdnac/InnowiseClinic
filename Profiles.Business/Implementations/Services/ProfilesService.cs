@@ -1,5 +1,5 @@
-﻿using Profiles.Business.Interfaces.Repositories;
-using Profiles.Business.Interfaces.Services;
+﻿using Profiles.Business.Interfaces.Services;
+using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 
 namespace Profiles.Business.Implementations.Services

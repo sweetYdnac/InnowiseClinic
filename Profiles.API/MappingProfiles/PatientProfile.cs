@@ -8,11 +8,11 @@ namespace Profiles.API.MappingProfiles
     {
         public PatientProfile()
         {
-            CreateMap<GetPatientsRequestModel, GetPatientsDTO>();
-            CreateMap<CreatePatientRequestModel, CreatePatientDTO>()
+            CreateMap<GetPatientsRequest, GetPatientsDTO>();
+            CreateMap<CreatePatientRequest, CreatePatientDTO>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
-            CreateMap<GetMatchedPatientRequestModel, GetMatchedPatientDTO>();
-            CreateMap<UpdatePatientRequestModel, UpdatePatientDTO>();
+            CreateMap<GetMatchedPatientRequest, GetMatchedPatientDTO>();
+            CreateMap<UpdatePatientRequest, UpdatePatientDTO>();
         }
     }
 }

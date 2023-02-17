@@ -4,7 +4,7 @@ using Shared.Models.Request.Profiles.Patient;
 
 namespace Profiles.API.Validators.Patient
 {
-    public class UpdatePatientRequestValidator : AbstractValidator<UpdatePatientRequestModel>
+    public class UpdatePatientRequestValidator : AbstractValidator<UpdatePatientRequest>
     {
         public UpdatePatientRequestValidator()
         {

@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Profiles.API.SwaggerExamples.Requests.Patient;
-using Profiles.API.SwaggerExamples.Responses.Patient;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
 using Shared.Core.Enums;
 using Shared.Models.Request.Profiles.Patient;
+using Shared.Models.Request.Profiles.Patient.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
+using Shared.Models.Response.Profiles.Patient.SwaggerExamples;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.Controllers
@@ -36,9 +36,9 @@ namespace Profiles.API.Controllers
         [Authorize]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(PatientResponseExample))]
         public async Task<IActionResult> GetPatientById([FromRoute] Guid id)
         {
@@ -53,13 +53,13 @@ namespace Profiles.API.Controllers
         /// <param name="request">Contains properties for paging and filtering among patients</param>
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(GetPatientsResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetPatientsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetPatientsResponseExample))]
-        public async Task<IActionResult> GetPatients([FromQuery] GetPatientsRequestModel request)
+        public async Task<IActionResult> GetPatients([FromQuery] GetPatientsRequest request)
         {
             var patients = await _patientsService.GetPagedAndFilteredAsync(_mapper.Map<GetPatientsDTO>(request));
 
@@ -74,11 +74,11 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(CreatePatientRequestModel), typeof(CreatePatientRequestExample))]
-        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequestModel request)
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(CreatePatientRequest), typeof(CreatePatientRequestExample))]
+        public async Task<IActionResult> CreatePatient([FromBody] CreatePatientRequest request)
         {
             var id = await _patientsService.CreateAsync(_mapper.Map<CreatePatientDTO>(request));
 
@@ -94,11 +94,11 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(PatientResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(PatientResponseExample))]
-        public async Task<IActionResult> GetMatch([FromQuery] GetMatchedPatientRequestModel request)
+        public async Task<IActionResult> GetMatch([FromQuery] GetMatchedPatientRequest request)
         {
             var response = await _patientsService.GetMatchedPatientAsync(_mapper.Map<GetMatchedPatientDTO>(request));
 
@@ -113,9 +113,9 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id)
         {
             await _patientsService.DeleteAsync(id);
@@ -132,11 +132,11 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(UpdatePatientRequestModel), typeof(UpdatePatientRequestExample))]
-        public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequestModel request)
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(UpdatePatientRequest), typeof(UpdatePatientRequestExample))]
+        public async Task<IActionResult> UpdatePatient([FromRoute] Guid id, [FromBody] UpdatePatientRequest request)
         {
             await _patientsService.UpdateAsync(id, _mapper.Map<UpdatePatientDTO>(request));
 
@@ -152,9 +152,9 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = nameof(AccountRoles.Patient))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> LinkToAccount([FromRoute] Guid id, [FromBody] Guid accountId)
         {
             await _patientsService.LinkToAccount(id, accountId);

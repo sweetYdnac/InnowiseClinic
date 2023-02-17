@@ -4,14 +4,14 @@
         <name>Authorization.API</name>
     </assembly>
     <members>
-        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequest)">
             <summary>
             Sign up new Account
             </summary>
             <param name="request">Contains email and password</param>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Shared.Models.Request.Authorization.SignInRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Shared.Models.Request.Authorization.SignInRequest)">
             <summary>
             Sign in account/>
             </summary>
@@ -24,7 +24,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(System.Guid,Shared.Models.Request.Authorization.PatchRolesRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(System.Guid,Shared.Models.Request.Authorization.PatchRolesRequest)">
             <summary>
             Patch roles from specific Account
             </summary>

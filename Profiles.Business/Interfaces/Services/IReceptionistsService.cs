@@ -7,7 +7,7 @@ namespace Profiles.Business.Interfaces.Services
     public interface IReceptionistsService
     {
         Task<ReceptionistResponse> GetByIdAsync(Guid id);
-        Task<GetReceptionistsResponseModel> GetPagedAsync(GetReceptionistsDTO dto);
+        Task<GetReceptionistsResponse> GetPagedAsync(GetReceptionistsDTO dto);
         Task<Guid?> CreateAsync(CreateReceptionistDTO dto);
         Task UpdateAsync(Guid id, UpdateReceptionistDTO dto);
         Task RemoveAsync(Guid id);

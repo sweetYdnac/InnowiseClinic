@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MassTransit;
-using Offices.Business.Interfaces.Repositories;
 using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
+using Offices.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
@@ -60,21 +60,20 @@ namespace Offices.Business.Implementations.Services
                 : office;
         }
 
-        public async Task<GetOfficesResponseModel> GetOfficesAsync(GetPagedOfficesDTO dto)
+        public async Task<GetOfficesResponse> GetOfficesAsync(GetPagedOfficesDTO dto)
         {
-            var repositoryResponse = await _officeRepository.GetPagedOfficesAsync(dto);
+            var result = await _officeRepository.GetPagedOfficesAsync(dto);
 
-            if (repositoryResponse.totalCount == 0)
+            if (result.TotalCount == 0)
             {
                 Log.Information("There are no offices in storage");
             }
 
-            var response = new GetOfficesResponseModel(
-                repositoryResponse.offices,
-                dto.PageNumber,
+            var response = new GetOfficesResponse(
+                result.Items,
+                dto.CurrentPage,
                 dto.PageSize,
-                repositoryResponse.totalCount
-                );
+                result.TotalCount);
 
             return response;
         }

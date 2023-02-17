@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MassTransit;
-using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Doctor;
 using Profiles.Data.DTOs.DoctorSummary;
+using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
@@ -36,7 +36,7 @@ namespace Profiles.Business.Implementations.Services
                 : response;
         }
 
-        public async Task<GetDoctorsResponseModel> GetPagedAndFilteredAsync(GetDoctorsDTO dto)
+        public async Task<GetDoctorsResponse> GetPagedAndFilteredAsync(GetDoctorsDTO dto)
         {
             var repositoryResponse = await _doctorsRepository.GetDoctors(dto);
 
@@ -45,7 +45,7 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("There are no doctors in storage.");
             }
 
-            return new GetDoctorsResponseModel(
+            return new GetDoctorsResponse(
                 repositoryResponse.doctors,
                 dto.PageNumber,
                 dto.PageSize,

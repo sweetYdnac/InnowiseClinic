@@ -9,8 +9,8 @@ namespace Authorization.API.MappingProfiles
     {
         public TokenProfile()
         {
-            CreateMap<TokenResponse, TokenResponseDTO>();
-            CreateMap<TokenResponseDTO, TokenResponseModel>();
+            CreateMap<IdentityModel.Client.TokenResponse, TokenResponseDTO>();
+            CreateMap<TokenResponseDTO, Shared.Models.Response.Authorization.TokenResponse>();
         }
     }
 }

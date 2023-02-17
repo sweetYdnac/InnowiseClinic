@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Profiles.API.SwaggerExamples.Requests.Receptionist;
-using Profiles.API.SwaggerExamples.Responses.Receptionist;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
 using Shared.Core.Enums;
 using Shared.Models.Request.Profiles;
 using Shared.Models.Request.Profiles.Receptionist;
+using Shared.Models.Request.Profiles.Receptionist.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
+using Shared.Models.Response.Profiles.Receptionist.SwaggerExamples;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 
@@ -38,10 +38,10 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(ReceptionistResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(ReceptionistResponseExample))]
         public async Task<IActionResult> GetReceptionistById([FromRoute] Guid id)
         {
@@ -56,13 +56,13 @@ namespace Profiles.API.Controllers
         /// <param name="request">Contains properties for paging among receptionists</param>
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(GetReceptionistsResponseModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetReceptionistsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetReceptionistsResponseExample))]
-        public async Task<IActionResult> GetReceptionists([FromQuery] GetReceptionistsRequestModel request)
+        public async Task<IActionResult> GetReceptionists([FromQuery] GetReceptionistsRequest request)
         {
             var response = await _receptionistsService.GetPagedAsync(_mapper.Map<GetReceptionistsDTO>(request));
 
@@ -77,11 +77,11 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(CreateReceptionistRequestModel), typeof(CreateReceptionistRequestExample))]
-        public async Task<IActionResult> CreateReceptionist([FromBody] CreateReceptionistRequestModel request)
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(CreateReceptionistRequest), typeof(CreateReceptionistRequestExample))]
+        public async Task<IActionResult> CreateReceptionist([FromBody] CreateReceptionistRequest request)
         {
             var id = await _receptionistsService.CreateAsync(_mapper.Map<CreateReceptionistDTO>(request));
 
@@ -97,11 +97,11 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(UpdateReceptionistRequestModel), typeof(UpdateReceptionistRequestExample))]
-        public async Task<IActionResult> UpdateReceptionist([FromRoute] Guid id, [FromBody] UpdateReceptionistRequestModel request)
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(UpdateReceptionistRequest), typeof(UpdateReceptionistRequestExample))]
+        public async Task<IActionResult> UpdateReceptionist([FromRoute] Guid id, [FromBody] UpdateReceptionistRequest request)
         {
             var dto = _mapper.Map<UpdateReceptionistDTO>(request);
             dto.UpdaterId = HttpContext.User.Claims
@@ -121,10 +121,10 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteReceptionist([FromRoute] Guid id)
         {
             await _receptionistsService.RemoveAsync(id);
@@ -141,10 +141,10 @@ namespace Profiles.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseResponseModel), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromBody] ChangeStatusRequestModel request)
         {
             var dto = _mapper.Map<ChangeStatusDTO>(request);

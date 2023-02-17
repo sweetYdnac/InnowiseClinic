@@ -4,7 +4,7 @@ using Shared.Models.Request.Profiles.Receptionist;
 
 namespace Profiles.API.Validators.Receptionist
 {
-    public class UpdateReceptionistRequestValidator : AbstractValidator<UpdateReceptionistRequestModel>
+    public class UpdateReceptionistRequestValidator : AbstractValidator<UpdateReceptionistRequest>
     {
         public UpdateReceptionistRequestValidator()
         {

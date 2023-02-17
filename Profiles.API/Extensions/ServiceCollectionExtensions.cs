@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Profiles.API.Consumers;
 using Profiles.API.Validators.Patient;
-using Profiles.Business.Implementations.Repositories;
 using Profiles.Business.Implementations.Services;
-using Profiles.Business.Interfaces.Repositories;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.Contexts;
 using Profiles.Data.Helpers;
+using Profiles.Data.Implementations.Repositories;
+using Profiles.Data.Interfaces.Repositories;
 using Profiles.Data.Migrations;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -100,7 +100,7 @@ namespace Profiles.API.Extensions
                     {
                         context.HandleResponse();
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync(new BaseResponseModel(
+                        await context.Response.WriteAsync(new BaseResponse(
                             HttpStatusCode.Unauthorized,
                             "Unauthorized",
                             "Please, check your token."
@@ -109,7 +109,7 @@ namespace Profiles.API.Extensions
                     OnForbidden = async context =>
                     {
                         context.Response.StatusCode = 403;
-                        await context.Response.WriteAsync(new BaseResponseModel(
+                        await context.Response.WriteAsync(new BaseResponse(
                             HttpStatusCode.Forbidden,
                             "Forbidden",
                             "Please, check your token."

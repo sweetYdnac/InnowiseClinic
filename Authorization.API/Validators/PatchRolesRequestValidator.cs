@@ -3,7 +3,7 @@ using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.Validators
 {
-    public class PatchRolesRequestValidator : AbstractValidator<PatchRolesRequestModel>
+    public class PatchRolesRequestValidator : AbstractValidator<PatchRolesRequest>
     {
         public PatchRolesRequestValidator()
         {
