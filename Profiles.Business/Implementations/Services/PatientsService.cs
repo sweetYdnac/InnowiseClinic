@@ -27,18 +27,18 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task<GetPatientsResponse> GetPagedAndFilteredAsync(GetPatientsDTO dto)
         {
-            var repositoryResponse = await _patientsRepository.GetPatients(dto);
+            var result = await _patientsRepository.GetPatients(dto);
 
-            if (repositoryResponse.totalCount == 0)
+            if (result.TotalCount == 0)
             {
                 Log.Information("There are no patients in storage.");
             }
 
             return new GetPatientsResponse(
-                repositoryResponse.patients,
+                result.Items,
                 dto.PageNumber,
                 dto.PageSize,
-                repositoryResponse.totalCount);
+                result.TotalCount);
         }
 
         public async Task<Guid?> CreateAsync(CreatePatientDTO dto)

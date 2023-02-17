@@ -13,7 +13,7 @@ namespace Profiles.Data.Implementations.Repositories
 
         public DoctorSummaryRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<int> AddAsync(CreateDoctorSummaryDTO dto)
+        public async Task AddAsync(CreateDoctorSummaryDTO dto)
         {
             var query = """
                             INSERT DoctorsSummary
@@ -29,11 +29,11 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task<int> UpdateAsync(Guid id, UpdateDoctorSummaryDTO dto)
+        public async Task UpdateAsync(Guid id, UpdateDoctorSummaryDTO dto)
         {
             var query = """
                             UPDATE DoctorsSummary
@@ -51,11 +51,11 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task<int> RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var query = """
                             DELETE DoctorsSummary
@@ -64,7 +64,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, new { id });
+                await connection.ExecuteAsync(query, new { id });
             }
         }
 

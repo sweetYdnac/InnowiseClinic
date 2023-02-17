@@ -8,7 +8,7 @@ namespace Offices.Data.Interfaces.Repositories
     {
         Task<OfficeResponse> GetByIdAsync(Guid id);
         Task<PagedResult<OfficeInformationResponse>> GetPagedOfficesAsync(GetPagedOfficesDTO dto);
-        Task<int> CreateAsync(CreateOfficeDTO dto);
+        Task AddAsync(CreateOfficeDTO dto);
         Task<int> ChangeStatusAsync(ChangeOfficeStatusDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateOfficeDTO dto);
     }

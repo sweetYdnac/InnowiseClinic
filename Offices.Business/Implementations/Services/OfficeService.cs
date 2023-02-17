@@ -3,7 +3,6 @@ using MassTransit;
 using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
 using Offices.Data.Interfaces.Repositories;
-using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
 using Shared.Models.Response.Offices;
@@ -36,46 +35,29 @@ namespace Offices.Business.Implementations.Services
             }
         }
 
-        public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
+        public async Task<Guid> CreateAsync(CreateOfficeDTO dto)
         {
-            var result = await _officeRepository.CreateAsync(dto);
+            await _officeRepository.AddAsync(dto);
 
-            if (result == 0)
-            {
-                Log.Information("Office wasn't created; {@dto}", dto);
-                return null;
-            }
-            else
-            {
-                return dto.Id;
-            }
+            return dto.Id;
         }
 
         public async Task<OfficeResponse> GetByIdAsync(Guid id)
         {
             var office = await _officeRepository.GetByIdAsync(id);
 
-            return office is null
-                ? throw new NotFoundException($"Office with id = {id} doesn't exist.")
-                : office;
+            return office ?? throw new NotFoundException($"Office with id = {id} doesn't exist.");
         }
 
         public async Task<GetOfficesResponse> GetOfficesAsync(GetPagedOfficesDTO dto)
         {
             var result = await _officeRepository.GetPagedOfficesAsync(dto);
 
-            if (result.TotalCount == 0)
-            {
-                Log.Information("There are no offices in storage");
-            }
-
-            var response = new GetOfficesResponse(
+            return new GetOfficesResponse(
                 result.Items,
                 dto.CurrentPage,
                 dto.PageSize,
                 result.TotalCount);
-
-            return response;
         }
 
         public async Task UpdateAsync(Guid id, UpdateOfficeDTO dto)

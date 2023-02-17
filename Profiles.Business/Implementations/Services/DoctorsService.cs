@@ -31,49 +31,26 @@ namespace Profiles.Business.Implementations.Services
         {
             var response = await _doctorsRepository.GetByIdAsync(id);
 
-            return response is null
-                ? throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.")
-                : response;
+            return response ?? throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
         }
 
         public async Task<GetDoctorsResponse> GetPagedAndFilteredAsync(GetDoctorsDTO dto)
         {
-            var repositoryResponse = await _doctorsRepository.GetDoctors(dto);
-
-            if (repositoryResponse.totalCount == 0)
-            {
-                Log.Information("There are no doctors in storage.");
-            }
+            var result = await _doctorsRepository.GetDoctors(dto);
 
             return new GetDoctorsResponse(
-                repositoryResponse.doctors,
+                result.Items,
                 dto.PageNumber,
                 dto.PageSize,
-                repositoryResponse.totalCount);
+                result.TotalCount);
         }
 
-        public async Task<Guid?> CreateAsync(CreateDoctorDTO dto)
+        public async Task<Guid> CreateAsync(CreateDoctorDTO dto)
         {
-            var result = await _doctorsRepository.AddAsync(dto);
+            await _doctorsRepository.AddAsync(dto);
+            await _doctorSummaryRepository.AddAsync(_mapper.Map<CreateDoctorSummaryDTO>(dto));
 
-            if (result > 0)
-            {
-                var doctorSummary = _mapper.Map<CreateDoctorSummaryDTO>(dto);
-                result = await _doctorSummaryRepository.AddAsync(doctorSummary);
-
-                if (result == 0)
-                {
-                    Log.Information("DoctorSummary wasn't added. {@doctorSummary}", doctorSummary);
-                }
-
-                return dto.Id;
-            }
-            else
-            {
-                Log.Information("Doctor wasn't added. {@dto}", dto);
-
-                return null;
-            }
+            return dto.Id;
         }
 
         public async Task UpdateAsync(Guid id, UpdateDoctorDTO dto)
@@ -91,40 +68,27 @@ namespace Profiles.Business.Implementations.Services
                     UpdaterId = dto.UpdaterId,
                 });
 
-                var doctorSummary = _mapper.Map<UpdateDoctorSummaryDTO>(dto);
-                result = await _doctorSummaryRepository.UpdateAsync(id, doctorSummary);
-
-                if (result == 0)
-                {
-                    Log.Information("DoctorSummary wasn't updated. {@id} {@doctorSummary}", id, doctorSummary);
-                }
+                await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
             }
             else
             {
-                Log.Information("Doctor wasn't updated. {@id} {@dto}", id, dto);
+                Log.Warning("Doctor wasn't updated. {@Id} {@Dto}", id, dto);
             }
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            var photoId = await _doctorsRepository.GetPhotoIdAsync(id);
             var result = await _doctorsRepository.RemoveAsync(id);
 
             if (result > 0)
             {
-                var photoId = await _doctorsRepository.GetPhotoIdAsync(id);
-
                 await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
-
-                result = await _doctorSummaryRepository.RemoveAsync(id);
-
-                if (result == 0)
-                {
-                    Log.Information("DoctorSummary wasn't deleted. {@id}", id);
-                }
+                await _doctorSummaryRepository.RemoveAsync(id);
             }
             else
             {
-                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+                throw new NotFoundException("Doctor's profile with id = {id} doesn't exist.");
             }
         }
 
@@ -145,7 +109,7 @@ namespace Profiles.Business.Implementations.Services
             }
             else
             {
-                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
+                throw new NotFoundException("Doctor's profile with id = {id} doesn't exist.");
             }
         }
 
@@ -155,7 +119,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result == 0)
             {
-                Log.Information("There are no doctors with {@specializationId}.", specializationId);
+                Log.Warning("There are no doctors with {@SpecializationId}", specializationId);
             }
         }
 
@@ -165,7 +129,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result == 0)
             {
-                Log.Information("There are no doctors with {@specializationId}.", specializationId);
+                Log.Warning("There are no doctors with {@SpecializationId}.", specializationId);
             }
         }
     }

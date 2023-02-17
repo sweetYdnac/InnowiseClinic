@@ -13,7 +13,7 @@ namespace Profiles.Data.Implementations.Repositories
 
         public ReceptionistSummaryRepository(ProfilesDbContext db) => _db = db;
 
-        public async Task<int> AddAsync(CreateReceptionistSummaryDTO dto)
+        public async Task AddAsync(CreateReceptionistSummaryDTO dto)
         {
             var query = """
                             INSERT ReceptionistsSummary
@@ -28,11 +28,11 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task<int> UpdateAsync(Guid id, UpdateReceptionistSummaryDTO dto)
+        public async Task UpdateAsync(Guid id, UpdateReceptionistSummaryDTO dto)
         {
             var query = """
                             UPDATE ReceptionistsSummary
@@ -48,11 +48,11 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 
-        public async Task<int> RemoveAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var query = """
                             DELETE ReceptionistsSummary
@@ -61,7 +61,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, new { id });
+                await connection.ExecuteAsync(query, new { id });
             }
         }
 

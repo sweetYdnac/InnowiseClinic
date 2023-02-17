@@ -1,4 +1,5 @@
 ﻿using Profiles.Data.DTOs.Doctor;
+using Shared.Models;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Data.Interfaces.Repositories
@@ -6,8 +7,8 @@ namespace Profiles.Data.Interfaces.Repositories
     public interface IDoctorsRepository
     {
         Task<DoctorResponse> GetByIdAsync(Guid Id);
-        Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto);
-        Task<int> AddAsync(CreateDoctorDTO dto);
+        Task<PagedResult<DoctorInformationResponse>> GetDoctors(GetDoctorsDTO dto);
+        Task AddAsync(CreateDoctorDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateDoctorDTO dto);
         Task<int> RemoveAsync(Guid id);
         Task<Guid> GetPhotoIdAsync(Guid id);

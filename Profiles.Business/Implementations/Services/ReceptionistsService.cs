@@ -31,49 +31,26 @@ namespace Profiles.Business.Implementations.Services
         {
             var response = await _receptionistsRepository.GetByIdAsync(id);
 
-            return response is null
-                    ? throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.")
-                    : response;
+            return response ?? throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
         }
 
         public async Task<GetReceptionistsResponse> GetPagedAsync(GetReceptionistsDTO dto)
         {
-            var repositoryResponse = await _receptionistsRepository.GetPagedAsync(dto);
-
-            if (repositoryResponse.totalCount == 0)
-            {
-                Log.Information("There are no receptionists in storage.");
-            }
+            var result = await _receptionistsRepository.GetPagedAsync(dto);
 
             return new GetReceptionistsResponse(
-                repositoryResponse.receptionists,
+                result.Items,
                 dto.PageNumber,
                 dto.PageSize,
-                repositoryResponse.totalCount);
+                result.TotalCount);
         }
 
-        public async Task<Guid?> CreateAsync(CreateReceptionistDTO dto)
+        public async Task<Guid> CreateAsync(CreateReceptionistDTO dto)
         {
-            var result = await _receptionistsRepository.AddAsync(dto);
+            await _receptionistsRepository.AddAsync(dto);
+            await _receptionistSummaryRepository.AddAsync(_mapper.Map<CreateReceptionistSummaryDTO>(dto));
 
-            if (result > 0)
-            {
-                var receptionistSummary = _mapper.Map<CreateReceptionistSummaryDTO>(dto);
-                result = await _receptionistSummaryRepository.AddAsync(receptionistSummary);
-
-                if (result == 0)
-                {
-                    Log.Information("ReceptionistSummary wasn't added. {@receptionistSummary}", receptionistSummary);
-                }
-
-                return dto.Id;
-            }
-            else
-            {
-                Log.Information("Receptionist wasn't added. {@dto}", dto);
-
-                return null;
-            }
+            return dto.Id;
         }
 
         public async Task UpdateAsync(Guid id, UpdateReceptionistDTO dto)
@@ -83,27 +60,20 @@ namespace Profiles.Business.Implementations.Services
             if (result > 0)
             {
                 var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
-                result = await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
 
-                if (result == 0)
+                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
+                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
                 {
-                    Log.Information("ReceptionistSummary wasn't updated. {@id} {@receptionistSummary}", id, receptionistSummary);
-                }
-                else
-                {
-                    var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
+                    AccountId = accountId,
+                    Status = dto.Status,
+                    UpdaterId = dto.UpdaterId,
+                });
 
-                    await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
-                    {
-                        AccountId = accountId,
-                        Status = dto.Status,
-                        UpdaterId = dto.UpdaterId,
-                    });
-                }
+                await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
             }
             else
             {
-                Log.Information("Receptionist wasn't updated. {@id} {@dto}", id, dto);
+                Log.Warning("Receptionist wasn't updated. {@Id} {@Dto}", id, dto);
             }
         }
 
@@ -115,13 +85,7 @@ namespace Profiles.Business.Implementations.Services
             if (result > 0)
             {
                 await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
-
-                result = await _receptionistSummaryRepository.RemoveAsync(id);
-
-                if (result == 0)
-                {
-                    Log.Information("ReceptionistSummary wasn't removed. {@id}", id);
-                }
+                await _receptionistSummaryRepository.RemoveAsync(id);
             }
             else
             {

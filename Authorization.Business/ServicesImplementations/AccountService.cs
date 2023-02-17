@@ -51,7 +51,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (!result.Succeeded)
             {
-                Log.Warning("Default role for user with {email} didn't set.", email);
+                Log.Warning("Default role for user with {email} didn't set", email);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (user is null)
             {
-                throw new InvalidCredentialsException("Invalid email or password");
+                throw new InvalidCredentialsException("Invalid email or password.");
             }
 
             if (user.Status is AccountStatuses.Inactive)
@@ -72,7 +72,7 @@ namespace Authorization.Business.ServicesImplementations
             var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, password, true, true);
 
             return !signInResult.Succeeded
-                ? throw new InvalidCredentialsException("Invalid email or password")
+                ? throw new InvalidCredentialsException("Invalid email or password.")
                 : await _tokenService.GetToken(user.UserName, password);
         }
 
@@ -94,7 +94,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (dto.UpdaterId is null)
             {
-                Log.Warning($"Invalid updater account id recieved from access token.");
+                Log.Warning($"Invalid updater account id received from access token");
             }
 
             account.UpdatedBy = dto.UpdaterId is null ? default : new Guid(dto.UpdaterId);
@@ -104,7 +104,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (!result.Succeeded)
             {
-                Log.Warning($"Account with id = {id} wasn't updated.");
+                Log.Warning($"Account with id = {id} wasn't updated");
             }
         }
 
@@ -121,7 +121,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (role is null)
             {
-                Log.Information($"Role with name = {dto.RoleName} doesn't exist.");
+                Log.Information($"Role with name = {dto.RoleName} doesn't exist");
             }
 
             if (!await _userManager.IsInRoleAsync(account, dto.RoleName))

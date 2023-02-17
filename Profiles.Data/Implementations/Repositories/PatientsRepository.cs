@@ -2,6 +2,8 @@
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Patient;
 using Profiles.Data.Interfaces.Repositories;
+using Shared.Models;
+using Shared.Models.Extensions;
 using Shared.Models.Response.Profiles.Patient;
 using System.Data;
 
@@ -27,7 +29,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<(IEnumerable<PatientInformationResponse> patients, int totalCount)> GetPatients(GetPatientsDTO dto)
+        public async Task<PagedResult<PatientInformationResponse>> GetPatients(GetPatientsDTO dto)
         {
             var query = """
                             SELECT Id,
@@ -55,13 +57,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                using (var multi = await connection.QueryMultipleAsync(query, parameters))
-                {
-                    var offices = await multi.ReadAsync<PatientInformationResponse>();
-                    var count = await multi.ReadFirstAsync<int>();
-
-                    return (offices, count);
-                }
+                return await connection.QueryPagedResultAsync<PatientInformationResponse>(query, parameters);
             }
         }
 

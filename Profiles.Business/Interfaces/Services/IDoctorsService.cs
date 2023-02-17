@@ -8,7 +8,7 @@ namespace Profiles.Business.Interfaces.Services
     {
         Task<DoctorResponse> GetByIdAsync(Guid id);
         Task<GetDoctorsResponse> GetPagedAndFilteredAsync(GetDoctorsDTO dto);
-        Task<Guid?> CreateAsync(CreateDoctorDTO dto);
+        Task<Guid> CreateAsync(CreateDoctorDTO dto);
         Task UpdateAsync(Guid id, UpdateDoctorDTO dto);
         Task RemoveAsync(Guid id);
         Task ChangeStatusAsync(Guid id, ChangeStatusDTO dto);

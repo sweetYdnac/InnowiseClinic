@@ -33,7 +33,7 @@ namespace Offices.Data.Implementations.Repositories
             }
         }
 
-        public async Task<int> CreateAsync(CreateOfficeDTO dto)
+        public async Task AddAsync(CreateOfficeDTO dto)
         {
             var query = """
                             INSERT INTO "Offices"
@@ -52,7 +52,7 @@ namespace Offices.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 

@@ -3,6 +3,8 @@ using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Doctor;
 using Profiles.Data.Interfaces.Repositories;
 using Shared.Core.Enums;
+using Shared.Models;
+using Shared.Models.Extensions;
 using Shared.Models.Response.Profiles.Doctor;
 using System.Data;
 
@@ -29,7 +31,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<(IEnumerable<DoctorInformationResponse> doctors, int totalCount)> GetDoctors(GetDoctorsDTO dto)
+        public async Task<PagedResult<DoctorInformationResponse>> GetDoctors(GetDoctorsDTO dto)
         {
             var statusFilter = dto.OnlyAtWork
                 ? $"AND Status = {(int)AccountStatuses.AtWork}"
@@ -75,17 +77,11 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                using (var multi = await connection.QueryMultipleAsync(query, parameters))
-                {
-                    var doctors = await multi.ReadAsync<DoctorInformationResponse>();
-                    var totalCount = await multi.ReadFirstAsync<int>();
-
-                    return (doctors, totalCount);
-                }
+                return await connection.QueryPagedResultAsync<DoctorInformationResponse>(query, parameters);
             }
         }
 
-        public async Task<int> AddAsync(CreateDoctorDTO dto)
+        public async Task AddAsync(CreateDoctorDTO dto)
         {
             var query = """
                             INSERT Doctors
@@ -107,7 +103,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 

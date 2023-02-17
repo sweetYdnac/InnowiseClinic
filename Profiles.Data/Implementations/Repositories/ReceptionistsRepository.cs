@@ -2,6 +2,8 @@
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.Interfaces.Repositories;
+using Shared.Models;
+using Shared.Models.Extensions;
 using Shared.Models.Response.Profiles.Receptionist;
 using System.Data;
 
@@ -28,7 +30,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<(IEnumerable<ReceptionistInformationResponse> receptionists, int totalCount)> GetPagedAsync(GetReceptionistsDTO dto)
+        public async Task<PagedResult<ReceptionistInformationResponse>> GetPagedAsync(GetReceptionistsDTO dto)
         {
             var query = $"""
                             SELECT Receptionists.Id,
@@ -51,13 +53,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                using (var multi = await connection.QueryMultipleAsync(query, parameters))
-                {
-                    var receptionists = await multi.ReadAsync<ReceptionistInformationResponse>();
-                    var totalCount = await multi.ReadFirstAsync<int>();
-
-                    return (receptionists, totalCount);
-                }
+                return await connection.QueryPagedResultAsync<ReceptionistInformationResponse>(query, parameters);
             }
         }
 

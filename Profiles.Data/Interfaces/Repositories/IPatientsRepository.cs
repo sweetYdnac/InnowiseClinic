@@ -1,4 +1,5 @@
 ﻿using Profiles.Data.DTOs.Patient;
+using Shared.Models;
 using Shared.Models.Response.Profiles.Patient;
 
 namespace Profiles.Data.Interfaces.Repositories
@@ -6,7 +7,7 @@ namespace Profiles.Data.Interfaces.Repositories
     public interface IPatientsRepository
     {
         Task<PatientResponse> GetByIdAsync(Guid id);
-        Task<(IEnumerable<PatientInformationResponse> patients, int totalCount)> GetPatients(GetPatientsDTO dto);
+        Task<PagedResult<PatientInformationResponse>> GetPatients(GetPatientsDTO dto);
         Task<int> AddAsync(CreatePatientDTO dto);
         Task<PatientResponse> GetMatchAsync(GetMatchedPatientDTO dto);
         Task<int> RemoveAsync(Guid id);
