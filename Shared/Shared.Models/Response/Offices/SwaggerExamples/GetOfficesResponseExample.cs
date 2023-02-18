@@ -2,9 +2,9 @@
 
 namespace Shared.Models.Response.Offices.SwaggerExamples
 {
-    public class GetOfficesResponseExample : IExamplesProvider<GetOfficesResponse>
+    public class GetOfficesResponseExample : IExamplesProvider<PagedResponse<OfficeInformationResponse>>
     {
-        public GetOfficesResponse GetExamples() =>
+        public PagedResponse<OfficeInformationResponse> GetExamples() =>
             new(
                 new[]
                 {

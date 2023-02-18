@@ -1,5 +1,6 @@
 ﻿using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Doctor;
+using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Interfaces.Services
@@ -7,7 +8,7 @@ namespace Profiles.Business.Interfaces.Services
     public interface IDoctorsService
     {
         Task<DoctorResponse> GetByIdAsync(Guid id);
-        Task<GetDoctorsResponse> GetPagedAndFilteredAsync(GetDoctorsDTO dto);
+        Task<PagedResponse<DoctorInformationResponse>> GetPagedAndFilteredAsync(GetDoctorsDTO dto);
         Task<Guid> CreateAsync(CreateDoctorDTO dto);
         Task UpdateAsync(Guid id, UpdateDoctorDTO dto);
         Task RemoveAsync(Guid id);

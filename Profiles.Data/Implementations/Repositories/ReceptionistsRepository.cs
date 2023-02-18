@@ -57,7 +57,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<int> AddAsync(CreateReceptionistDTO dto)
+        public async Task AddAsync(CreateReceptionistDTO dto)
         {
             var query = """
                             INSERT Receptionists
@@ -76,7 +76,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 

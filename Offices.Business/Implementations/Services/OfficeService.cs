@@ -5,6 +5,7 @@ using Offices.Data.DTOs;
 using Offices.Data.Interfaces.Repositories;
 using Shared.Exceptions;
 using Shared.Messages;
+using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 
 namespace Offices.Business.Implementations.Services
@@ -49,11 +50,11 @@ namespace Offices.Business.Implementations.Services
             return office ?? throw new NotFoundException($"Office with id = {id} doesn't exist.");
         }
 
-        public async Task<GetOfficesResponse> GetOfficesAsync(GetPagedOfficesDTO dto)
+        public async Task<PagedResponse<OfficeInformationResponse>> GetOfficesAsync(GetPagedOfficesDTO dto)
         {
             var result = await _officeRepository.GetPagedOfficesAsync(dto);
 
-            return new GetOfficesResponse(
+            return new PagedResponse<OfficeInformationResponse>(
                 result.Items,
                 dto.CurrentPage,
                 dto.PageSize,

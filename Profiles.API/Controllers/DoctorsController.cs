@@ -55,7 +55,7 @@ namespace Profiles.API.Controllers
         /// <param name="request">Contains properties for paging and filtering among doctors</param>
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Patient)}, {nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(GetDoctorsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<DoctorInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]

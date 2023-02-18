@@ -6,7 +6,7 @@ namespace Offices.Business.Interfaces.Services
 {
     public interface IOfficeService
     {
-        Task<GetOfficesResponse> GetOfficesAsync(GetPagedOfficesDTO dto);
+        Task<PagedResponse<OfficeInformationResponse>> GetOfficesAsync(GetPagedOfficesDTO dto);
         Task<OfficeResponse> GetByIdAsync(Guid id);
         Task<Guid> CreateAsync(CreateOfficeDTO dto);
         Task ChangeStatus(ChangeOfficeStatusDTO dto);

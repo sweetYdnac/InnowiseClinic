@@ -2,9 +2,9 @@
 
 namespace Shared.Models.Response.Profiles.Patient.SwaggerExamples
 {
-    public class GetPatientsResponseExample : IExamplesProvider<GetPatientsResponse>
+    public class GetPatientsResponseExample : IExamplesProvider<PagedResponse<PatientInformationResponse>>
     {
-        public GetPatientsResponse GetExamples() =>
+        public PagedResponse<PatientInformationResponse> GetExamples() =>
             new(
                 new[]
                 {

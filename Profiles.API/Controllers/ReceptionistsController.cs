@@ -56,7 +56,7 @@ namespace Profiles.API.Controllers
         /// <param name="request">Contains properties for paging among receptionists</param>
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(GetReceptionistsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<ReceptionistInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]

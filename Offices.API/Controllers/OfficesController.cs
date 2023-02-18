@@ -55,7 +55,7 @@ namespace Offices.API.Controllers
         /// <param name="request">Contains paging parameters</param>
         [HttpGet]
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
-        [ProducesResponseType(typeof(GetOfficesResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PagedResponse<OfficeInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]

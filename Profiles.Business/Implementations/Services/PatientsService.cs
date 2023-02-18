@@ -5,6 +5,7 @@ using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
+using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
 
 namespace Profiles.Business.Implementations.Services
@@ -25,7 +26,7 @@ namespace Profiles.Business.Implementations.Services
                 : patient;
         }
 
-        public async Task<GetPatientsResponse> GetPagedAndFilteredAsync(GetPatientsDTO dto)
+        public async Task<PagedResponse<PatientInformationResponse>> GetPagedAndFilteredAsync(GetPatientsDTO dto)
         {
             var result = await _patientsRepository.GetPatients(dto);
 
@@ -34,7 +35,7 @@ namespace Profiles.Business.Implementations.Services
                 Log.Information("There are no patients in storage.");
             }
 
-            return new GetPatientsResponse(
+            return new PagedResponse<PatientInformationResponse>(
                 result.Items,
                 dto.PageNumber,
                 dto.PageSize,

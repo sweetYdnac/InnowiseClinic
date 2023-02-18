@@ -8,6 +8,7 @@ using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
+using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
 
 namespace Profiles.Business.Implementations.Services
@@ -34,11 +35,11 @@ namespace Profiles.Business.Implementations.Services
             return response ?? throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
         }
 
-        public async Task<GetDoctorsResponse> GetPagedAndFilteredAsync(GetDoctorsDTO dto)
+        public async Task<PagedResponse<DoctorInformationResponse>> GetPagedAndFilteredAsync(GetDoctorsDTO dto)
         {
             var result = await _doctorsRepository.GetDoctors(dto);
 
-            return new GetDoctorsResponse(
+            return new PagedResponse<DoctorInformationResponse>(
                 result.Items,
                 dto.PageNumber,
                 dto.PageSize,

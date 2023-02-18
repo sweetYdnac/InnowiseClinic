@@ -8,6 +8,7 @@ using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
 using Shared.Messages;
+using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 
 namespace Profiles.Business.Implementations.Services
@@ -34,11 +35,11 @@ namespace Profiles.Business.Implementations.Services
             return response ?? throw new NotFoundException($"Receptionist's profile with id = {id} doesn't exist.");
         }
 
-        public async Task<GetReceptionistsResponse> GetPagedAsync(GetReceptionistsDTO dto)
+        public async Task<PagedResponse<ReceptionistInformationResponse>> GetPagedAsync(GetReceptionistsDTO dto)
         {
             var result = await _receptionistsRepository.GetPagedAsync(dto);
 
-            return new GetReceptionistsResponse(
+            return new PagedResponse<ReceptionistInformationResponse>(
                 result.Items,
                 dto.PageNumber,
                 dto.PageSize,

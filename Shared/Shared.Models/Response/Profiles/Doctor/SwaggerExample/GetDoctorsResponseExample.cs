@@ -3,9 +3,9 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Shared.Models.Response.Profiles.Doctor.SwaggerExample
 {
-    public class GetDoctorsResponseExample : IExamplesProvider<GetDoctorsResponse>
+    public class GetDoctorsResponseExample : IExamplesProvider<PagedResponse<DoctorInformationResponse>>
     {
-        public GetDoctorsResponse GetExamples() =>
+        public PagedResponse<DoctorInformationResponse> GetExamples() =>
             new(
                 new[]
                 {
