@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MassTransit;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Doctor;
@@ -7,7 +6,6 @@ using Profiles.Data.DTOs.DoctorSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
 
@@ -17,16 +15,16 @@ namespace Profiles.Business.Implementations.Services
     {
         private readonly IDoctorsRepository _doctorsRepository;
         private readonly IDoctorSummaryRepository _doctorSummaryRepository;
+        private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publishEndpoint;
 
         public DoctorsService(
             IDoctorsRepository doctorsRepository,
             IDoctorSummaryRepository doctorSummaryRepository,
-            IMapper mapper,
-            IPublishEndpoint publishEndpoint) =>
-            (_doctorsRepository, _doctorSummaryRepository, _mapper, _publishEndpoint) =
-            (doctorsRepository, doctorSummaryRepository, mapper, publishEndpoint);
+            IMessageService messageService,
+            IMapper mapper) =>
+        (_doctorsRepository, _doctorSummaryRepository, _messageService, _mapper) =
+        (doctorsRepository, doctorSummaryRepository, messageService, mapper);
 
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
@@ -62,13 +60,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
-                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
-                {
-                    AccountId = accountId,
-                    Status = dto.Status,
-                    UpdaterId = dto.UpdaterId,
-                });
-
+                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
                 await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
             }
             else
@@ -84,7 +76,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
+                await _messageService.SendProfileDeletedMessageAsync(photoId);
                 await _doctorSummaryRepository.RemoveAsync(id);
             }
             else
@@ -100,13 +92,7 @@ namespace Profiles.Business.Implementations.Services
             if (result > 0)
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
-
-                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
-                {
-                    AccountId = accountId,
-                    Status = dto.Status,
-                    UpdaterId = dto.UpdaterId,
-                });
+                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }
             else
             {

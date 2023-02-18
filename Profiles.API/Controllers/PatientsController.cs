@@ -118,7 +118,7 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeletePatient([FromRoute] Guid id)
         {
-            await _patientsService.DeleteAsync(id);
+            await _patientsService.RemoveAsync(id);
 
             return NoContent();
         }

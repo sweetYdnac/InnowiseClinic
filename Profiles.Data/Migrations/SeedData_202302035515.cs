@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using Profiles.Data.Entities;
 
 namespace Profiles.Data.Migrations
 {
@@ -9,7 +8,7 @@ namespace Profiles.Data.Migrations
         public override void Down()
         {
             Delete.FromTable("Patients")
-                .Row(new PatientEntity
+                .Row(new
                 {
                     Id = new Guid("B2957690-4D76-468C-A449-FB9529283857"),
                     FirstName = "Evgeny",
@@ -19,19 +18,19 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 })
-                .Row(new PatientEntity
+                .Row(new
                 {
                     Id = new Guid("EA1AFB83-5DA9-4B81-AD94-B6A62EB25D43"),
                     FirstName = "Alex",
                     LastName = "Lorem",
-                    MiddleName = null,
+                    MiddleName = "",
                     AccountId = new Guid("{2730FDE4-FD40-405C-9AB7-799BF189FA98}"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 });
 
             Delete.FromTable("Doctors")
-                .Row(new DoctorEntity
+                .Row(new
                 {
                     Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
                     FirstName = "Test",
@@ -43,7 +42,7 @@ namespace Profiles.Data.Migrations
                     OfficeId = new Guid("FC489D02-19A0-4D3C-B790-297FA9B4A143"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 })
-                .Row(new DoctorEntity
+                .Row(new
                 {
                     Id = new Guid("96C91BEE-3B1D-48B0-ABAE-116BEBBA3EFB"),
                     FirstName = "Test",
@@ -57,7 +56,7 @@ namespace Profiles.Data.Migrations
                 });
 
             Delete.FromTable("Receptionists")
-                .Row(new ReceptionistEntity
+                .Row(new
                 {
                     Id = new Guid("A315F9D1-C385-4665-920C-D03896D626CA"),
                     FirstName = "123",
@@ -66,7 +65,7 @@ namespace Profiles.Data.Migrations
                     AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
                     OfficeId = new Guid("187311D1-86D3-4DDC-BFA0-4AE85FAD6C05")
                 })
-                .Row(new ReceptionistEntity
+                .Row(new
                 {
                     Id = new Guid("15363968-9924-4FEC-8A6C-B843CC4524FC"),
                     FirstName = "321",
@@ -80,7 +79,7 @@ namespace Profiles.Data.Migrations
         public override void Up()
         {
             Insert.IntoTable("Patients")
-                .Row(new PatientEntity
+                .Row(new
                 {
                     Id = new Guid("B2957690-4D76-468C-A449-FB9529283857"),
                     FirstName = "Evgeny",
@@ -90,19 +89,19 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 })
-                .Row(new PatientEntity
+                .Row(new
                 {
                     Id = new Guid("EA1AFB83-5DA9-4B81-AD94-B6A62EB25D43"),
                     FirstName = "Alex",
                     LastName = "Lorem",
-                    MiddleName = null,
+                    MiddleName = "",
                     AccountId = new Guid("{2730FDE4-FD40-405C-9AB7-799BF189FA98}"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 });
 
             Insert.IntoTable("Doctors")
-                .Row(new DoctorEntity
+                .Row(new
                 {
                     Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
                     FirstName = "Test",
@@ -114,7 +113,7 @@ namespace Profiles.Data.Migrations
                     OfficeId = new Guid("FC489D02-19A0-4D3C-B790-297FA9B4A143"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 })
-                .Row(new DoctorEntity
+                .Row(new
                 {
                     Id = new Guid("96C91BEE-3B1D-48B0-ABAE-116BEBBA3EFB"),
                     FirstName = "Test",
@@ -128,7 +127,7 @@ namespace Profiles.Data.Migrations
                 });
 
             Insert.IntoTable("Receptionists")
-                .Row(new ReceptionistEntity
+                .Row(new
                 {
                     Id = new Guid("A315F9D1-C385-4665-920C-D03896D626CA"),
                     FirstName = "123",
@@ -137,7 +136,7 @@ namespace Profiles.Data.Migrations
                     AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
                     OfficeId = new Guid("187311D1-86D3-4DDC-BFA0-4AE85FAD6C05")
                 })
-                .Row(new ReceptionistEntity
+                .Row(new
                 {
                     Id = new Guid("15363968-9924-4FEC-8A6C-B843CC4524FC"),
                     FirstName = "321",

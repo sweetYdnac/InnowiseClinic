@@ -29,6 +29,7 @@ namespace Profiles.API.Extensions
             services.AddScoped<IDoctorsService, DoctorsService>();
             services.AddScoped<IReceptionistsService, ReceptionistsService>();
             services.AddScoped<IProfilesService, ProfilesService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
@@ -139,7 +140,7 @@ namespace Profiles.API.Extensions
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var databaseInitializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
-                databaseInitializer.CreateDatabase("InnowiseClinic.ProfilesAPI");
+                databaseInitializer.CreateDatabase("InnowiseClinic.ProfilesDb");
 
                 var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
                 migrationService.MigrateUp();

@@ -8,7 +8,7 @@ namespace Profiles.Data.Interfaces.Repositories
     {
         Task<PatientResponse> GetByIdAsync(Guid id);
         Task<PagedResult<PatientInformationResponse>> GetPatients(GetPatientsDTO dto);
-        Task<int> AddAsync(CreatePatientDTO dto);
+        Task AddAsync(CreatePatientDTO dto);
         Task<PatientResponse> GetMatchAsync(GetMatchedPatientDTO dto);
         Task<int> RemoveAsync(Guid id);
         Task<int> UpdateAsync(Guid id, UpdatePatientDTO dto);

@@ -61,7 +61,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<int> AddAsync(CreatePatientDTO dto)
+        public async Task AddAsync(CreatePatientDTO dto)
         {
             var query = """
                             INSERT Patients
@@ -82,7 +82,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.ExecuteAsync(query, parameters);
+                await connection.ExecuteAsync(query, parameters);
             }
         }
 

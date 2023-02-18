@@ -16,7 +16,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result == 0)
             {
-                Log.Information("There are no personal with {@officeId}.", officeId);
+                Log.Warning("There are no personal with {@OfficeId}", officeId);
             }
         }
 
@@ -26,7 +26,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result == 0)
             {
-                Log.Information("There are no personal with {@officeId}.", officeId);
+                Log.Warning("There are no personal with {@OfficeId}", officeId);
             }
         }
     }

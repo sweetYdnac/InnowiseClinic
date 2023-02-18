@@ -8,9 +8,9 @@ namespace Profiles.Business.Interfaces.Services
     {
         Task<PatientResponse> GetByIdAsync(Guid id);
         Task<PagedResponse<PatientInformationResponse>> GetPagedAndFilteredAsync(GetPatientsDTO dto);
-        Task<Guid?> CreateAsync(CreatePatientDTO dto);
+        Task<Guid> CreateAsync(CreatePatientDTO dto);
         Task<PatientResponse> GetMatchedPatientAsync(GetMatchedPatientDTO dto);
-        Task DeleteAsync(Guid id);
+        Task RemoveAsync(Guid id);
         Task UpdateAsync(Guid id, UpdatePatientDTO dto);
         Task LinkToAccount(Guid id, Guid accountId);
     }

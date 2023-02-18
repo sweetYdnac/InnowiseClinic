@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using MassTransit;
-using Offices.Business.Interfaces.Services;
+﻿using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
 using Offices.Data.Interfaces.Repositories;
 using Shared.Exceptions;
-using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 
@@ -13,11 +10,10 @@ namespace Offices.Business.Implementations.Services
     public class OfficeService : IOfficeService
     {
         private readonly IOfficeRepository _officeRepository;
-        private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IMessageService _messageService;
 
-        public OfficeService(IOfficeRepository officeRepository, IMapper mapper , IPublishEndpoint publishEndpoint) =>
-            (_officeRepository, _mapper, _publishEndpoint) = (officeRepository, mapper, publishEndpoint);
+        public OfficeService(IOfficeRepository officeRepository, IMessageService messageService) =>
+            (_officeRepository, _messageService) = (officeRepository, messageService);
 
         public async Task ChangeStatus(ChangeOfficeStatusDTO dto)
         {
@@ -27,7 +23,7 @@ namespace Offices.Business.Implementations.Services
             {
                 if (!dto.IsActive)
                 {
-                    await _publishEndpoint.Publish(new OfficeDisabledMessage { OfficeId = dto.Id });
+                    await _messageService.SendOfficeDisabledMessageAsync(dto.Id);
                 }
             }
             else
@@ -67,10 +63,7 @@ namespace Offices.Business.Implementations.Services
 
             if (result > 0)
             {
-                var message = _mapper.Map<OfficeUpdatedMessage>(dto);
-                message.OfficeId = id;
-
-                await _publishEndpoint.Publish(message);
+                await _messageService.SendOfficeUpdatedMessageAsync(id, dto.City, dto.Street, dto.HouseNumber, dto.OfficeNumber, dto.IsActive);
             }
             else
             {

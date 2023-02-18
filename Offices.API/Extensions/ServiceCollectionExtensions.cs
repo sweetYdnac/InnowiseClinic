@@ -24,6 +24,7 @@ namespace Offices.API.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IOfficeService, OfficeService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)

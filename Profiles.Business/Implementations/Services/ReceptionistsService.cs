@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MassTransit;
 using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
@@ -7,7 +6,6 @@ using Profiles.Data.DTOs.ReceptionistSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 
@@ -17,16 +15,16 @@ namespace Profiles.Business.Implementations.Services
     {
         private readonly IReceptionistsRepository _receptionistsRepository;
         private readonly IReceptionistSummaryRepository _receptionistSummaryRepository;
+        private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
-        private readonly IPublishEndpoint _publishEndpoint;
 
         public ReceptionistsService(
             IReceptionistsRepository receptionistsRepository,
             IReceptionistSummaryRepository receptionistSummaryRepository,
-            IMapper mapper,
-            IPublishEndpoint publishEndpoint) =>
-            (_receptionistsRepository, _receptionistSummaryRepository, _mapper, _publishEndpoint) =
-            (receptionistsRepository, receptionistSummaryRepository, mapper, publishEndpoint);
+            IMessageService messageService,
+            IMapper mapper) =>
+        (_receptionistsRepository, _receptionistSummaryRepository, _messageService, _mapper) =
+        (receptionistsRepository, receptionistSummaryRepository, messageService, mapper);
 
         public async Task<ReceptionistResponse> GetByIdAsync(Guid id)
         {
@@ -60,16 +58,10 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
-
                 var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
-                {
-                    AccountId = accountId,
-                    Status = dto.Status,
-                    UpdaterId = dto.UpdaterId,
-                });
+                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
 
+                var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
                 await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
             }
             else
@@ -85,7 +77,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _publishEndpoint.Publish(new ProfileDeletedMessage { PhotoId = photoId });
+                await _messageService.SendProfileDeletedMessageAsync(photoId);
                 await _receptionistSummaryRepository.RemoveAsync(id);
             }
             else
@@ -101,13 +93,7 @@ namespace Profiles.Business.Implementations.Services
             if (result > 0)
             {
                 var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-
-                await _publishEndpoint.Publish(new AccountStatusUpdatedMessage
-                {
-                    AccountId = accountId,
-                    Status = dto.Status,
-                    UpdaterId = dto.UpdaterId,
-                });
+                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }
             else
             {
