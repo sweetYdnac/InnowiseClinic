@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages
 {
-    public class ProfileDeletedMessage
+    public class DeletePhotoMessage
     {
         public Guid PhotoId { get; set; }
     }

@@ -23,7 +23,7 @@ namespace Offices.Business.Implementations.Services
             {
                 if (!dto.IsActive)
                 {
-                    await _messageService.SendOfficeDisabledMessageAsync(dto.Id);
+                    await _messageService.SendDisableOfficeMessageAsync(dto.Id);
                 }
             }
             else
@@ -63,7 +63,7 @@ namespace Offices.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendOfficeUpdatedMessageAsync(id, dto.City, dto.Street, dto.HouseNumber, dto.OfficeNumber, dto.IsActive);
+                await _messageService.SendUpdateOfficeMessageAsync(id, dto.City, dto.Street, dto.HouseNumber, dto.OfficeNumber, dto.IsActive);
             }
             else
             {

@@ -2,7 +2,7 @@
 {
     public interface IMessageService
     {
-        Task SendOfficeDisabledMessageAsync(Guid officeId);
-        Task SendOfficeUpdatedMessageAsync(Guid officeId, string city, string street, string houseNumber, string officeNumber, bool isActive);
+        Task SendDisableOfficeMessageAsync(Guid officeId);
+        Task SendUpdateOfficeMessageAsync(Guid officeId, string city, string street, string houseNumber, string officeNumber, bool isActive);
     }
 }

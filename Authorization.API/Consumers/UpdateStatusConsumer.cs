@@ -6,15 +6,15 @@ using Shared.Messages;
 
 namespace Authorization.API.Consumers
 {
-    public class StatusUpdatedConsumer : IConsumer<AccountStatusUpdatedMessage>
+    public class UpdateAccountStatusConsumer : IConsumer<UpdateAccountStatusMessage>
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
 
-        public StatusUpdatedConsumer(IAccountService accountService, IMapper mapper) =>
+        public UpdateAccountStatusConsumer(IAccountService accountService, IMapper mapper) =>
             (_accountService, _mapper) = (accountService, mapper);
 
-        public async Task Consume(ConsumeContext<AccountStatusUpdatedMessage> context)
+        public async Task Consume(ConsumeContext<UpdateAccountStatusMessage> context)
         {
             await _accountService.UpdateAsync(context.Message.AccountId, _mapper.Map<PatchAccountDTO>(context.Message));
         }

@@ -4,13 +4,13 @@ using Shared.Messages;
 
 namespace Profiles.API.Consumers
 {
-    public class SpecializationUpdatedConsumer : IConsumer<SpecializationUpdatedMessage>
+    public class UpdateSpecializationConsumer : IConsumer<UpdateSpecializationMessage>
     {
         private readonly IDoctorsService _doctorService;
 
-        public SpecializationUpdatedConsumer(IDoctorsService doctorService) => _doctorService = doctorService;
+        public UpdateSpecializationConsumer(IDoctorsService doctorService) => _doctorService = doctorService;
 
-        public async Task Consume(ConsumeContext<SpecializationUpdatedMessage> context)
+        public async Task Consume(ConsumeContext<UpdateSpecializationMessage> context)
         {
             var message = context.Message;
 

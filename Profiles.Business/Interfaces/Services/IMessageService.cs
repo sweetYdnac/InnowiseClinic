@@ -4,7 +4,7 @@ namespace Profiles.Business.Interfaces.Services
 {
     public interface IMessageService
     {
-        Task SendAccountStatusUpdatedMessageAsync(Guid accountId, AccountStatuses status, string updaterId);
-        Task SendProfileDeletedMessageAsync(Guid photoId);
+        Task SendUpdateAccountStatusMessageAsync(Guid accountId, AccountStatuses status, string updaterId);
+        Task SendDeletePhotoMessageAsync(Guid photoId);
     }
 }

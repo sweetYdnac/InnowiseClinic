@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages
 {
-    public class OfficeUpdatedMessage
+    public class UpdateOfficeMessage
     {
         public Guid OfficeId { get; set; }
         public string OfficeAddress { get; set; }

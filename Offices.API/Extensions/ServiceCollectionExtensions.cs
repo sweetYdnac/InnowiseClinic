@@ -13,6 +13,7 @@ using Offices.Data.Helpers;
 using Offices.Data.Implementations.Repositories;
 using Offices.Data.Interfaces.Repositories;
 using Offices.Data.Migrations;
+using Shared.Messages;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -109,8 +110,13 @@ namespace Offices.API.Extensions
             });
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services) =>
+        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddMassTransit(x => x.UsingRabbitMq());
+
+            EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateDisableEndpoint")));
+            EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateOfficeEndpoint")));
+        }
 
         private static void MigrateDatabase(this IServiceCollection services)
         {

@@ -2,7 +2,7 @@
 
 namespace Shared.Messages
 {
-    public class AccountStatusUpdatedMessage
+    public class UpdateAccountStatusMessage
     {
         public Guid AccountId { get; set; }
         public AccountStatuses Status { get; set; }

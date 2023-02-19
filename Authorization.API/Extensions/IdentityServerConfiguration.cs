@@ -33,7 +33,7 @@ namespace Authorization.API.Extensions
                 {
                     ClientId = "machineClient",
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
@@ -48,7 +48,7 @@ namespace Authorization.API.Extensions
                 {
                     ClientId = "userClient",
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {

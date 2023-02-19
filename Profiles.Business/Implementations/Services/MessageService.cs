@@ -11,9 +11,9 @@ namespace Profiles.Business.Implementations.Services
 
         public MessageService(ISendEndpointProvider sendEndpointProvider) => _sendEndpointProvider = sendEndpointProvider;
 
-        public async Task SendAccountStatusUpdatedMessageAsync(Guid accountId, AccountStatuses status, string updaterId)
+        public async Task SendUpdateAccountStatusMessageAsync(Guid accountId, AccountStatuses status, string updaterId)
         {
-            var message = new AccountStatusUpdatedMessage
+            var message = new UpdateAccountStatusMessage
             {
                 AccountId = accountId,
                 Status = status,
@@ -23,9 +23,9 @@ namespace Profiles.Business.Implementations.Services
             await _sendEndpointProvider.Send(message);
         }
 
-        public async Task SendProfileDeletedMessageAsync(Guid photoId)
+        public async Task SendDeletePhotoMessageAsync(Guid photoId)
         {
-            await _sendEndpointProvider.Send(new ProfileDeletedMessage { PhotoId = photoId });
+            await _sendEndpointProvider.Send(new DeletePhotoMessage { PhotoId = photoId });
         }
     }
 }

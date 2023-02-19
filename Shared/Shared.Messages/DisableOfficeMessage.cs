@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages
 {
-    public class OfficeDisabledMessage
+    public class DisableOfficeMessage
     {
         public Guid OfficeId { get; set; }
     }

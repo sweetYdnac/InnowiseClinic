@@ -4,13 +4,13 @@ using Shared.Messages;
 
 namespace Profiles.API.Consumers
 {
-    public class OfficeUpdatedConsumer : IConsumer<OfficeUpdatedMessage>
+    public class UpdateOfficeConsumer : IConsumer<UpdateOfficeMessage>
     {
         private readonly IProfilesService _profilesService;
 
-        public OfficeUpdatedConsumer(IProfilesService profilesService) => _profilesService = profilesService;
+        public UpdateOfficeConsumer(IProfilesService profilesService) => _profilesService = profilesService;
 
-        public async Task Consume(ConsumeContext<OfficeUpdatedMessage> context)
+        public async Task Consume(ConsumeContext<UpdateOfficeMessage> context)
         {
             var message = context.Message;
 

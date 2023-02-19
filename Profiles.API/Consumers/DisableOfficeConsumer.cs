@@ -4,13 +4,13 @@ using Shared.Messages;
 
 namespace Profiles.API.Consumers
 {
-    public class OfficeDisabledConsumer : IConsumer<OfficeDisabledMessage>
+    public class DisableOfficeConsumer : IConsumer<DisableOfficeMessage>
     {
         private readonly IProfilesService _profilesService;
 
-        public OfficeDisabledConsumer(IProfilesService profilesService) => _profilesService = profilesService;
+        public DisableOfficeConsumer(IProfilesService profilesService) => _profilesService = profilesService;
 
-        public async Task Consume(ConsumeContext<OfficeDisabledMessage> context)
+        public async Task Consume(ConsumeContext<DisableOfficeMessage> context)
         {
             await _profilesService.SetInactiveStatusToPersonalAsync(context.Message.OfficeId);
         }

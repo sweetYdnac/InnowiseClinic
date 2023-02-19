@@ -50,7 +50,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendProfileDeletedMessageAsync(photoId);
+                await _messageService.SendDeletePhotoMessageAsync(photoId);
             }
             else
             {

@@ -14,6 +14,7 @@ using Profiles.Data.Helpers;
 using Profiles.Data.Implementations.Repositories;
 using Profiles.Data.Interfaces.Repositories;
 using Profiles.Data.Migrations;
+using Shared.Messages;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -120,16 +121,19 @@ namespace Profiles.API.Extensions
             });
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services)
+        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<OfficeDisabledConsumer>();
-                x.AddConsumer<OfficeUpdatedConsumer>();
-                x.AddConsumer<SpecializationDisabledConsumer>();
-                x.AddConsumer<SpecializationUpdatedConsumer>();
+                x.AddConsumer<DisableOfficeConsumer>();
+                x.AddConsumer<UpdateOfficeConsumer>();
+                x.AddConsumer<DisableSpecializationConsumer>();
+                x.AddConsumer<UpdateSpecializationConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
+
+                EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateAccountStatusEndpoint")));
+                EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:DeletePhotoEndpoint")));
             });
         }
 

@@ -78,7 +78,7 @@ namespace Authorization.API.Extensions
         {
             services.AddMassTransit(x =>
             {
-                x.AddConsumer<StatusUpdatedConsumer>();
+                x.AddConsumer<UpdateAccountStatusConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });

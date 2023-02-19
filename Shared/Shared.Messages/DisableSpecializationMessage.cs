@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messages
 {
-    public class SpecializationDisabledMessage
+    public class DisableSpecializationMessage
     {
         public Guid SpecializationId { get; set; }
     }

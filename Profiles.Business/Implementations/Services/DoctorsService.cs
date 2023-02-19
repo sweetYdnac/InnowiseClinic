@@ -60,7 +60,7 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
-                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
                 await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
             }
             else
@@ -76,7 +76,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendProfileDeletedMessageAsync(photoId);
+                await _messageService.SendDeletePhotoMessageAsync(photoId);
                 await _doctorSummaryRepository.RemoveAsync(id);
             }
             else
@@ -92,7 +92,7 @@ namespace Profiles.Business.Implementations.Services
             if (result > 0)
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
-                await _messageService.SendAccountStatusUpdatedMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }
             else
             {
