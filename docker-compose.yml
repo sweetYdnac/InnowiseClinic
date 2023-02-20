@@ -26,7 +26,7 @@ services:
         depends_on:
             - postgreSqlServer
             - rabbitMQ
-            
+
     profiles.api:
         image: profile.api
         build:
@@ -54,7 +54,7 @@ services:
     postgreSqlServer:
         image: postgres:latest
         user: postgres
-        volumes: 
+        volumes:
             - postgreSqlData:/var/lib/postgresql/data
         environment:
             - POSTGRES_PASSWORD=123
@@ -77,4 +77,3 @@ volumes:
     sqlServerData:
     postgreSqlData:
     rabbitMQ:
-  
