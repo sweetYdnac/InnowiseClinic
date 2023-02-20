@@ -24,7 +24,7 @@ namespace Authorization.Business.ServicesImplementations
         (_signInManager, _userManager, _roleManager, _tokenService) =
         (signInManager, userManager, roleManager, tokenService);
 
-        public async Task SignUpAsync(string email, string password)
+        public async Task<Guid> SignUpAsync(string email, string password)
         {
             var id = Guid.NewGuid();
 
@@ -51,8 +51,14 @@ namespace Authorization.Business.ServicesImplementations
 
             if (!result.Succeeded)
             {
-                Log.Warning("Default role for user with {email} didn't set", email);
+                Log.Warning("Default role for user with {@Email} didn't set", email);
             }
+
+            var account = await _userManager.FindByEmailAsync(email);
+
+            return account is null
+                ? throw new NotFoundException($"Account with email = {email} doesn't exist.")
+                : account.Id;
         }
 
         public async Task<TokenResponseDTO> SignInAsync(string email, string password)
@@ -104,7 +110,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (!result.Succeeded)
             {
-                Log.Warning($"Account with id = {id} wasn't updated");
+                Log.Warning("Account with {@Id} wasn't updated", id);
             }
         }
 
@@ -121,7 +127,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (role is null)
             {
-                Log.Information($"Role with name = {dto.RoleName} doesn't exist");
+                Log.Information("Role with {@Dto.RoleName} doesn't exist", dto.RoleName);
             }
 
             if (!await _userManager.IsInRoleAsync(account, dto.RoleName))
@@ -135,15 +141,6 @@ namespace Authorization.Business.ServicesImplementations
                     await _userManager.RemoveFromRoleAsync(account, dto.RoleName);
                 }
             }
-        }
-
-        public async Task<Guid> GetIdByEmailAsync(string email)
-        {
-            var account = await _userManager.FindByEmailAsync(email);
-
-            return account is null
-                ? throw new NotFoundException($"Account with email = {email} doesn't exist.")
-                : account.Id;
         }
     }
 }

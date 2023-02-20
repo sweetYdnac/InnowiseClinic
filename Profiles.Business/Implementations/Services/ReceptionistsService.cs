@@ -66,7 +66,7 @@ namespace Profiles.Business.Implementations.Services
             }
             else
             {
-                Log.Warning("Receptionist wasn't updated. {@Id} {@Dto}", id, dto);
+                Log.Warning("Receptionist wasn't updated {@Id} {@Dto}", id, dto);
             }
         }
 

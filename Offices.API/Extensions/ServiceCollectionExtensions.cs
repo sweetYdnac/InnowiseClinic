@@ -114,7 +114,7 @@ namespace Offices.API.Extensions
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
 
-            EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateDisableEndpoint")));
+            EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:DisableOfficeEndpoint")));
             EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateOfficeEndpoint")));
         }
 

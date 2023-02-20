@@ -148,7 +148,7 @@ namespace Profiles.API.Extensions
 
                 var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
                 migrationService.MigrateUp();
-            };
+            }
         }
     }
 }

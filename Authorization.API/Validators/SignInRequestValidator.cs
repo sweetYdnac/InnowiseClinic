@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Shared.Models.Extensions;
 using Shared.Models.Request.Authorization;
 
 namespace Authorization.API.Validators
@@ -8,13 +9,11 @@ namespace Authorization.API.Validators
         public SignInRequestValidator()
         {
             RuleFor(s => s.Email)
-                .NotEmpty()
-                .NotNull()
+                .Required()
                 .EmailAddress();
 
             RuleFor(s => s.Password)
-                .NotEmpty()
-                .NotNull()
+                .Required()
                 .Length(6, 15);
         }
     }

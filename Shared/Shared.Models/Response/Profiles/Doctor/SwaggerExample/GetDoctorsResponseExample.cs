@@ -7,9 +7,9 @@ namespace Shared.Models.Response.Profiles.Doctor.SwaggerExample
     {
         public PagedResponse<DoctorInformationResponse> GetExamples() =>
             new(
-                new[]
+                new DoctorInformationResponse[]
                 {
-                    new DoctorInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Holly Molly Polly",
@@ -19,7 +19,7 @@ namespace Shared.Models.Response.Profiles.Doctor.SwaggerExample
                         Status = AccountStatuses.AtWork,
                         PhotoId = Guid.NewGuid(),
                     },
-                    new DoctorInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Jeff Besos Arg",

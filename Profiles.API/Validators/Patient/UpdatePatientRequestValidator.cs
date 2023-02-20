@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Profiles.API.Extensions;
+using Shared.Models.Extensions;
 using Shared.Models.Request.Profiles.Patient;
 
 namespace Profiles.API.Validators.Patient

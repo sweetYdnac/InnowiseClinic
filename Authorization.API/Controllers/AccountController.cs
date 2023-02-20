@@ -10,8 +10,13 @@ using Shared.Models.Response.Authorization;
 
 namespace Authorization.API.Controllers
 {
+    /// <summary>
+    /// This controller used to work with accounts
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Consumes("application/json")]
+    [Produces("application/json")]
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -23,15 +28,13 @@ namespace Authorization.API.Controllers
         /// Sign up new Account
         /// </summary>
         /// <param name="request">Contains email and password</param>
-        /// <returns></returns>
         [ProducesResponseType(typeof(SignUpResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost("signUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
-            await _accountService.SignUpAsync(request.Email, request.Password);
-            var id = await _accountService.GetIdByEmailAsync(request.Email);
+            var id = await _accountService.SignUpAsync(request.Email, request.Password);
 
             return StatusCode(201, new SignUpResponse { Id = id });
         }
@@ -40,7 +43,6 @@ namespace Authorization.API.Controllers
         /// Sign in account/>
         /// </summary>
         /// <param name="request">Contains email and password</param>
-        /// <returns></returns>
         [HttpPost("signIn")]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
@@ -57,7 +59,6 @@ namespace Authorization.API.Controllers
         /// <summary>
         /// Sign out from an account
         /// </summary>
-        /// <returns></returns>
         [HttpPost("signOut")]
         [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
@@ -73,9 +74,8 @@ namespace Authorization.API.Controllers
         /// <summary>
         /// Patch roles from specific Account
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="id">Account's unique identifier</param>
+        /// <param name="request">Contains options for work with account's roles</param>
         [HttpPatch("{id}/roles")]
         [Authorize(Roles = nameof(AccountRoles.Admin))]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Profiles.API.Extensions
+namespace Shared.Models.Extensions
 {
     public static class ValidatorExtensions
     {

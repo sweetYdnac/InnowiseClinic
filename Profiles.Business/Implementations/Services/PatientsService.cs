@@ -64,7 +64,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result == 0)
             {
-                Log.Warning("Patient wasn't updated. {@Id} {@Dto}", id, dto);
+                Log.Warning("Patient wasn't updated {@Id} {@Dto}", id, dto);
             }
         }
 

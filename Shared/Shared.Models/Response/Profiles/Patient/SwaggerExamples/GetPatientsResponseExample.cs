@@ -6,15 +6,15 @@ namespace Shared.Models.Response.Profiles.Patient.SwaggerExamples
     {
         public PagedResponse<PatientInformationResponse> GetExamples() =>
             new(
-                new[]
+                new PatientInformationResponse[]
                 {
-                    new PatientInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "David Guetta",
                         PhoneNumber = "1234567890",
                     },
-                    new PatientInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Martin Garrix NVM",

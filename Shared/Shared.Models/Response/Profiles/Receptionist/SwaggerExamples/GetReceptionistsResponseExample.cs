@@ -7,16 +7,16 @@ namespace Shared.Models.Response.Profiles.Receptionist.SwaggerExamples
     {
         public PagedResponse<ReceptionistInformationResponse> GetExamples() =>
             new(
-                new[]
+                new ReceptionistInformationResponse[]
                 {
-                    new ReceptionistInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Jonny Cage someMiddleName",
                         OfficeAddress = "Boston somestreet 10 9",
                         Status = AccountStatuses.AtWork,
                     },
-                    new ReceptionistInformationResponse
+                    new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Will Smith someMiddleName",
