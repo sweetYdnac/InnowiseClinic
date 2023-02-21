@@ -132,8 +132,8 @@ namespace Profiles.API.Extensions
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
 
-                EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateAccountStatusEndpoint")));
-                EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:DeletePhotoEndpoint")));
+                EndpointConvention.Map<UpdateAccountStatusMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateAccountStatusEndpoint")));
+                EndpointConvention.Map<DeletePhotoMessage>(new Uri(configuration.GetValue<string>("Messages:DeletePhotoEndpoint")));
             });
         }
 
