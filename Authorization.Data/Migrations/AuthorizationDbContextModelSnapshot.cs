@@ -71,9 +71,6 @@ namespace Authorization.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PhotoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -108,24 +105,23 @@ namespace Authorization.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d19cfb12-79ab-45da-875b-9c977c0a9f8d"),
+                            Id = new Guid("53f65394-62df-41fa-aa43-3ed70b50943e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d352c37c-dc6b-4777-9428-f17f659932da",
-                            CreatedAt = new DateTime(2023, 1, 16, 11, 8, 57, 171, DateTimeKind.Utc).AddTicks(3530),
-                            CreatedBy = new Guid("d19cfb12-79ab-45da-875b-9c977c0a9f8d"),
+                            ConcurrencyStamp = "a5ef99ec-9907-45dc-8ef0-4ece3ddb7692",
+                            CreatedAt = new DateTime(2023, 2, 13, 10, 25, 15, 128, DateTimeKind.Utc).AddTicks(9864),
+                            CreatedBy = new Guid("53f65394-62df-41fa-aa43-3ed70b50943e"),
                             Email = "admin@admin",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMrbti06Qfg2gyUBDBsWGe6MnX0rwNtnNc7hoNyBhdpRdSFjs0nBaBIPCksL8tuOhQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELsbVIJYBG8e8CYvEWK/vhmo27J1TokDEHNFjD9QFakGhNsE0E1PQdkpEmOB94Kn4g==",
                             PhoneNumberConfirmed = false,
-                            PhotoId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            SecurityStamp = "f8afd8ec-7aca-49c8-af4c-5558935c46b0",
+                            SecurityStamp = "f8c0794c-a343-442c-b4cf-fc1b2e7e7a57",
                             Status = 0,
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2023, 1, 16, 11, 8, 57, 171, DateTimeKind.Utc).AddTicks(3531),
-                            UpdatedBy = new Guid("d19cfb12-79ab-45da-875b-9c977c0a9f8d"),
+                            UpdatedAt = new DateTime(2023, 2, 13, 10, 25, 15, 128, DateTimeKind.Utc).AddTicks(9866),
+                            UpdatedBy = new Guid("53f65394-62df-41fa-aa43-3ed70b50943e"),
                             UserName = "admin"
                         });
                 });
@@ -160,29 +156,29 @@ namespace Authorization.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("175d3061-c995-4216-93e0-29e3555a1386"),
-                            ConcurrencyStamp = "6e1bcfda-3cf7-48d8-b91d-49a8f9d08bb2",
+                            Id = new Guid("ffb45a54-a42d-451a-bf00-2e227e78cb25"),
+                            ConcurrencyStamp = "6e1d8bab-12b2-4f67-982c-b74975df446b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("da111f9f-21f7-4c9b-95f7-82b9a4e79969"),
-                            ConcurrencyStamp = "82f625e3-aaa0-4f0e-b16c-8d553f3aac0c",
+                            Id = new Guid("a40f8c3e-6227-4618-b6ba-97dd8cf661c7"),
+                            ConcurrencyStamp = "a29c5f32-c39d-42ea-b89c-1fd5d0065ae9",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = new Guid("712a10c4-2c72-4f78-9601-af3d617acfd2"),
-                            ConcurrencyStamp = "0a992d35-4501-4493-a8f0-6c57599a3530",
+                            Id = new Guid("151c0f9a-dd5d-47cf-8c0e-bd5bf7d85423"),
+                            ConcurrencyStamp = "a6079475-ebf7-4435-ad21-8a6bf46a173a",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = new Guid("8d94b0d5-ac37-4f25-8363-1583f8f5544b"),
-                            ConcurrencyStamp = "f7fd077d-dd57-4de1-b68f-c2450ff3fb7b",
+                            Id = new Guid("d0f93dea-5518-441c-873e-344cce2c84aa"),
+                            ConcurrencyStamp = "7220df3a-7d9a-4820-9cfa-7ab66c3f5ac3",
                             Name = "Receptionist",
                             NormalizedName = "RECEPTIONIST"
                         });
@@ -274,8 +270,8 @@ namespace Authorization.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("d19cfb12-79ab-45da-875b-9c977c0a9f8d"),
-                            RoleId = new Guid("175d3061-c995-4216-93e0-29e3555a1386")
+                            UserId = new Guid("53f65394-62df-41fa-aa43-3ed70b50943e"),
+                            RoleId = new Guid("ffb45a54-a42d-451a-bf00-2e227e78cb25")
                         });
                 });
 

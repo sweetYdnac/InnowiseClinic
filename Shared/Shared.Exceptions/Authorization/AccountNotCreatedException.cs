@@ -2,7 +2,7 @@
 {
     public class AccountNotCreatedException : ApplicationException
     {
-        public AccountNotCreatedException(string message) 
+        public AccountNotCreatedException(string message)
             : base(message) { }
     }
 }

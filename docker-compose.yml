@@ -12,6 +12,7 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - sqlServer
+            - rabbitMQ
 
     offices.api:
         image: offices_api
@@ -24,6 +25,20 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - postgreSqlServer
+            - rabbitMQ
+
+    profiles.api:
+        image: profile.api
+        build:
+              context: .
+              dockerfile: Profiles.API/Dockerfile
+        ports:
+            - 8022:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - sqlServer
+            - rabbitMQ
 
     sqlServer:
         image: mcr.microsoft.com/mssql/server:2022-latest
@@ -39,14 +54,26 @@ services:
     postgreSqlServer:
         image: postgres:latest
         user: postgres
-        volumes: 
+        volumes:
             - postgreSqlData:/var/lib/postgresql/data
         environment:
             - POSTGRES_PASSWORD=123
         ports:
             - 1443:5432
 
+    rabbitMQ:
+        image: rabbitmq:management
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
+        volumes:
+            - rabbitMQ:/var/lib/rabbitmq
+        hostname: rabbit
+
 volumes:
     sqlServerData:
     postgreSqlData:
-  
+    rabbitMQ:

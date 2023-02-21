@@ -1,0 +1,19 @@
+﻿using FluentValidation;
+using Shared.Models.Request.Profiles.Receptionist;
+
+namespace Profiles.API.Validators.Receptionist
+{
+    public class GetReceptionistsRequestValidator : AbstractValidator<GetReceptionistsRequest>
+    {
+        public GetReceptionistsRequestValidator()
+        {
+            RuleFor(p => p.CurrentPage)
+                .NotNull()
+                .GreaterThan(0);
+
+            RuleFor(p => p.PageSize)
+                .NotNull()
+                .InclusiveBetween(1, 50);
+        }
+    }
+}

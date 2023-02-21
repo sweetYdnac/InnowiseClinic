@@ -6,7 +6,7 @@
     <members>
         <member name="T:Offices.API.Controllers.OfficesController">
             <summary>
-            This controller used to work with office resourse
+            This controller used to work with office resource
             </summary>
         </member>
         <member name="M:Offices.API.Controllers.OfficesController.GetOffice(System.Guid)">
@@ -15,13 +15,13 @@
             </summary>
             <param name="id">Office's unique identifier</param>
         </member>
-        <member name="M:Offices.API.Controllers.OfficesController.GetOffices(Shared.Models.Request.Offices.GetOfficesRequestModel)">
+        <member name="M:Offices.API.Controllers.OfficesController.GetOffices(Shared.Models.Request.Offices.GetOfficesRequest)">
             <summary>
             Get paginated offices
             </summary>
             <param name="request">Contains paging parameters</param>
         </member>
-        <member name="M:Offices.API.Controllers.OfficesController.CreateOffice(Shared.Models.Request.Offices.CreateOfficeRequestModel)">
+        <member name="M:Offices.API.Controllers.OfficesController.CreateOffice(Shared.Models.Request.Offices.CreateOfficeRequest)">
             <summary>
             Create new office
             </summary>
@@ -34,7 +34,7 @@
             <param name="id">Office's unique identifier</param>
             <param name="isActive">New Office's status</param>
         </member>
-        <member name="M:Offices.API.Controllers.OfficesController.UpdateOffice(System.Guid,Shared.Models.Request.Offices.UpdateOfficeRequestModel)">
+        <member name="M:Offices.API.Controllers.OfficesController.UpdateOffice(System.Guid,Shared.Models.Request.Offices.UpdateOfficeRequest)">
             <summary>
             Update existed office
             </summary>

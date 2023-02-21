@@ -6,7 +6,6 @@ using Serilog;
 using Shared.Core.Enums;
 using Shared.Exceptions;
 using Shared.Exceptions.Authorization;
-using System.Security.Claims;
 
 namespace Authorization.Business.ServicesImplementations
 {
@@ -25,7 +24,7 @@ namespace Authorization.Business.ServicesImplementations
         (_signInManager, _userManager, _roleManager, _tokenService) =
         (signInManager, userManager, roleManager, tokenService);
 
-        public async Task SignUpAsync(string email, string password)
+        public async Task<Guid> SignUpAsync(string email, string password)
         {
             var id = Guid.NewGuid();
 
@@ -52,8 +51,14 @@ namespace Authorization.Business.ServicesImplementations
 
             if (!result.Succeeded)
             {
-                Log.Warning("Default role for user with {email} didn't set.", email);
+                Log.Warning("Default role for user with {@Email} didn't set", email);
             }
+
+            var account = await _userManager.FindByEmailAsync(email);
+
+            return account is null
+                ? throw new NotFoundException($"Account with email = {email} doesn't exist.")
+                : account.Id;
         }
 
         public async Task<TokenResponseDTO> SignInAsync(string email, string password)
@@ -62,7 +67,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (user is null)
             {
-                throw new InvalidCredentialsException("Invalid email or password");
+                throw new InvalidCredentialsException("Invalid email or password.");
             }
 
             if (user.Status is AccountStatuses.Inactive)
@@ -73,7 +78,7 @@ namespace Authorization.Business.ServicesImplementations
             var signInResult = await _signInManager.PasswordSignInAsync(user.UserName, password, true, true);
 
             return !signInResult.Succeeded
-                ? throw new InvalidCredentialsException("Invalid email or password")
+                ? throw new InvalidCredentialsException("Invalid email or password.")
                 : await _tokenService.GetToken(user.UserName, password);
         }
 
@@ -93,23 +98,19 @@ namespace Authorization.Business.ServicesImplementations
 
             account.Status = dto.Status;
 
-            var updaterId = dto.UpdaterClaimsPrincipal.Claims
-                .FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier))
-                ?.Value;
-
-            if (updaterId is null)
+            if (dto.UpdaterId is null)
             {
-                Log.Warning($"Invalid updater account id recieved from access token.");
+                Log.Warning($"Invalid updater account id received from access token");
             }
 
-            account.UpdatedBy = updaterId is null ? default : new Guid(updaterId);
+            account.UpdatedBy = dto.UpdaterId is null ? default : new Guid(dto.UpdaterId);
             account.UpdatedAt = DateTime.UtcNow;
 
             var result = await _userManager.UpdateAsync(account);
 
             if (!result.Succeeded)
             {
-                Log.Warning($"Account with id = {id} wasn't updated.");
+                Log.Warning("Account with {@Id} wasn't updated", id);
             }
         }
 
@@ -126,7 +127,7 @@ namespace Authorization.Business.ServicesImplementations
 
             if (role is null)
             {
-                Log.Information($"Role with name = {dto.RoleName} doesn't exist.");
+                Log.Information("Role with {@Dto.RoleName} doesn't exist", dto.RoleName);
             }
 
             if (!await _userManager.IsInRoleAsync(account, dto.RoleName))
@@ -140,15 +141,6 @@ namespace Authorization.Business.ServicesImplementations
                     await _userManager.RemoveFromRoleAsync(account, dto.RoleName);
                 }
             }
-        }
-
-        public async Task<Guid> GetIdByEmailAsync(string email)
-        {
-            var account = await _userManager.FindByEmailAsync(email);
-
-            return account is null
-                ? throw new NotFoundException($"Account with email = {email} doesn't exist.") 
-                : account.Id;
         }
     }
 }

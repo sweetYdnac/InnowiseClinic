@@ -3,11 +3,11 @@ using Shared.Models.Request.Offices;
 
 namespace Offices.API.Validators
 {
-    public class GetOfficesRequestModelValidator : AbstractValidator<GetOfficesRequestModel>
+    public class GetOfficesRequestModelValidator : AbstractValidator<GetOfficesRequest>
     {
         public GetOfficesRequestModelValidator()
         {
-            RuleFor(r => r.PageNumber)
+            RuleFor(r => r.CurrentPage)
                 .NotNull()
                 .GreaterThan(0);
 

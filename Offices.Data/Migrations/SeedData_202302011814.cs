@@ -1,5 +1,4 @@
 ﻿using FluentMigrator;
-using Offices.Data.Entities;
 
 namespace Offices.Data.Migrations
 {
@@ -9,7 +8,7 @@ namespace Offices.Data.Migrations
         public override void Down()
         {
             Delete.FromTable("Offices")
-                .Row(new OfficeEntity
+                .Row(new
                 {
                     Id = new Guid("09F72BA6-FB72-4B76-BE2E-549D45296629"),
                     Address = "Homel Belickogo 9 1",
@@ -17,7 +16,7 @@ namespace Offices.Data.Migrations
                     PhotoId = new Guid("842AE760-69CB-4240-B9C5-D5C601407D42"),
                     IsActive = true,
                 })
-                .Row(new OfficeEntity
+                .Row(new
                 {
                     Id = new Guid("864FF8C2-56C6-49CD-A8FF-BA827FF5B91C"),
                     Address = "Minsk Test 22 10",
@@ -29,7 +28,7 @@ namespace Offices.Data.Migrations
         public override void Up()
         {
             Insert.IntoTable("Offices")
-                .Row(new OfficeEntity
+                .Row(new
                 {
                     Id = new Guid("09F72BA6-FB72-4B76-BE2E-549D45296629"),
                     Address = "Homel Belickogo 9 1",
@@ -37,7 +36,7 @@ namespace Offices.Data.Migrations
                     PhotoId = new Guid("842AE760-69CB-4240-B9C5-D5C601407D42"),
                     IsActive = true,
                 })
-                .Row(new OfficeEntity
+                .Row(new
                 {
                     Id = new Guid("864FF8C2-56C6-49CD-A8FF-BA827FF5B91C"),
                     Address = "Minsk Test 22 10",

@@ -4,41 +4,34 @@
         <name>Authorization.API</name>
     </assembly>
     <members>
-        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequestModel)">
+        <member name="T:Authorization.API.Controllers.AccountController">
+            <summary>
+            This controller used to work with accounts
+            </summary>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequest)">
             <summary>
             Sign up new Account
             </summary>
             <param name="request">Contains email and password</param>
-            <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Shared.Models.Request.Authorization.SignInRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.SignIn(Shared.Models.Request.Authorization.SignInRequest)">
             <summary>
             Sign in account/>
             </summary>
             <param name="request">Contains email and password</param>
-            <returns></returns>
         </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignOut">
             <summary>
             Sign out from an account
             </summary>
-            <returns></returns>
         </member>
-        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(System.Guid,Shared.Models.Request.Authorization.PatchRolesRequestModel)">
+        <member name="M:Authorization.API.Controllers.AccountController.PatchRoles(System.Guid,Shared.Models.Request.Authorization.PatchRolesRequest)">
             <summary>
             Patch roles from specific Account
             </summary>
-            <param name="id"></param>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Authorization.API.Controllers.AccountController.PatchAccount(System.Guid,Shared.Models.Request.Authorization.PatchAccountRequestModel)">
-            <summary>
-            Patch specific account
-            </summary>
-            <param name="id"></param>
-            <param name="request"></param>
-            <returns></returns>
+            <param name="id">Account's unique identifier</param>
+            <param name="request">Contains options for work with account's roles</param>
         </member>
     </members>
 </doc>

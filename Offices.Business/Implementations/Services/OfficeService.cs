@@ -1,8 +1,8 @@
-﻿using Offices.Business.Interfaces.Repositories;
-using Offices.Business.Interfaces.Services;
+﻿using Offices.Business.Interfaces.Services;
 using Offices.Data.DTOs;
-using Serilog;
+using Offices.Data.Interfaces.Repositories;
 using Shared.Exceptions;
+using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 
 namespace Offices.Business.Implementations.Services
@@ -10,67 +10,62 @@ namespace Offices.Business.Implementations.Services
     public class OfficeService : IOfficeService
     {
         private readonly IOfficeRepository _officeRepository;
+        private readonly IMessageService _messageService;
 
-        public OfficeService(IOfficeRepository officeRepository) => _officeRepository = officeRepository;
+        public OfficeService(IOfficeRepository officeRepository, IMessageService messageService) =>
+            (_officeRepository, _messageService) = (officeRepository, messageService);
 
         public async Task ChangeStatus(ChangeOfficeStatusDTO dto)
         {
             var result = await _officeRepository.ChangeStatusAsync(dto);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                if (!dto.IsActive)
+                {
+                    await _messageService.SendDisableOfficeMessageAsync(dto.Id);
+                }
+            }
+            else
             {
                 throw new NotFoundException($"Office with id = {dto.Id} doesn't exist.");
             }
         }
 
-        public async Task<Guid?> CreateAsync(CreateOfficeDTO dto)
+        public async Task<Guid> CreateAsync(CreateOfficeDTO dto)
         {
-            var result = await _officeRepository.CreateAsync(dto);
+            await _officeRepository.AddAsync(dto);
 
-            if (result == 0)
-            {
-                Log.Information("Office wasn't created; {@dto}", dto);
-                return null;
-            }
-            else
-            {
-                return dto.Id;
-            }
+            return dto.Id;
         }
 
         public async Task<OfficeResponse> GetByIdAsync(Guid id)
         {
             var office = await _officeRepository.GetByIdAsync(id);
 
-            return office is null
-                ? throw new NotFoundException($"Office with id = {id} doesn't exist.")
-                : office;
+            return office ?? throw new NotFoundException($"Office with id = {id} doesn't exist.");
         }
 
-        public async Task<GetOfficesResponseModel> GetOfficesAsync(GetPagedOfficesDTO dto)
+        public async Task<PagedResponse<OfficeInformationResponse>> GetOfficesAsync(GetPagedOfficesDTO dto)
         {
-            var repositoryResponse = await _officeRepository.GetPagedOfficesAsync(dto);
+            var result = await _officeRepository.GetPagedOfficesAsync(dto);
 
-            if (repositoryResponse.totalCount == 0)
-            {
-                Log.Information("There are no offices in storage");
-            }
-
-            var response = new GetOfficesResponseModel(
-                repositoryResponse.offices, 
-                dto.PageNumber, 
-                dto.PageSize, 
-                repositoryResponse.totalCount
-                );
-
-            return response;
+            return new PagedResponse<OfficeInformationResponse>(
+                result.Items,
+                dto.CurrentPage,
+                dto.PageSize,
+                result.TotalCount);
         }
 
         public async Task UpdateAsync(Guid id, UpdateOfficeDTO dto)
         {
             var result = await _officeRepository.UpdateAsync(id, dto);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                await _messageService.SendUpdateOfficeMessageAsync(id, dto.City, dto.Street, dto.HouseNumber, dto.OfficeNumber, dto.IsActive);
+            }
+            else
             {
                 throw new NotFoundException($"Office with id = {id} doesn't exist.");
             }

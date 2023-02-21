@@ -2,7 +2,7 @@
 {
     public class AccountInactiveException : ApplicationException
     {
-        public AccountInactiveException(string message) 
+        public AccountInactiveException(string message)
             : base(message) { }
     }
 }

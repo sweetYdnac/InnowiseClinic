@@ -5,7 +5,6 @@ namespace Authorization.Data.Entities
 {
     public class Account : IdentityUser<Guid>
     {
-        public Guid PhotoId { get; set; }
         public AccountStatuses Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid CreatedBy { get; set; }

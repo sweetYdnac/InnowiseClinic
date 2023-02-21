@@ -2,7 +2,7 @@
 {
     public class InvalidCredentialsException : ApplicationException
     {
-        public InvalidCredentialsException(string message) 
+        public InvalidCredentialsException(string message)
             : base(message) { }
     }
 }
