@@ -2,7 +2,7 @@
 {
     public class GetReceptionistsDTO
     {
-        public int PageNumber { get; set; }
+        public int CurrentPage { get; set; }
         public int PageSize { get; set; }
     }
 }

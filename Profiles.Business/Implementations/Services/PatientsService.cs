@@ -28,7 +28,7 @@ namespace Profiles.Business.Implementations.Services
 
             return new PagedResponse<PatientInformationResponse>(
                 result.Items,
-                dto.PageNumber,
+                dto.CurrentPage,
                 dto.PageSize,
                 result.TotalCount);
         }

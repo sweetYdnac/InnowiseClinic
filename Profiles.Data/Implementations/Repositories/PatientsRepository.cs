@@ -52,7 +52,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             var parameters = new DynamicParameters();
             parameters.Add("FullName", $"%{dto.FullName}%", DbType.String);
-            parameters.Add("Offset", dto.PageSize * (dto.PageNumber - 1), DbType.Int32);
+            parameters.Add("Offset", dto.PageSize * (dto.CurrentPage - 1), DbType.Int32);
             parameters.Add("PageSize", dto.PageSize, DbType.Int32);
 
             using (var connection = _db.CreateConnection())

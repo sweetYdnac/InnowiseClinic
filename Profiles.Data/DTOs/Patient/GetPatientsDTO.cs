@@ -2,7 +2,7 @@
 {
     public class GetPatientsDTO
     {
-        public int PageNumber { get; set; }
+        public int CurrentPage { get; set; }
         public int PageSize { get; set; }
         public string FullName { get; set; }
     }

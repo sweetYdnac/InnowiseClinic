@@ -39,7 +39,7 @@ namespace Profiles.Business.Implementations.Services
 
             return new PagedResponse<DoctorInformationResponse>(
                 result.Items,
-                dto.PageNumber,
+                dto.CurrentPage,
                 dto.PageSize,
                 result.TotalCount);
         }

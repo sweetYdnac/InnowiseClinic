@@ -47,9 +47,11 @@ namespace Authorization.API.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void ConfigureIdentityServer(this IServiceCollection services)
+        public static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentityServer()
+            services
+                .AddIdentityServer(options => options.IssuerUri =
+                    configuration.GetValue<string>("JWTBearerConfiguration:Issuer"))
                 .AddAspNetIdentity<Account>()
                 .AddInMemoryApiResources(IdentityServerConfiguration.ApiResources)
                 .AddInMemoryClients(IdentityServerConfiguration.Clients)

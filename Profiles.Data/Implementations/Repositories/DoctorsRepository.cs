@@ -72,7 +72,7 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FullName", $"%{dto.FullName}%", DbType.String);
             parameters.Add("OfficeId", $"%{dto.OfficeId}%", DbType.String);
             parameters.Add("SpecializationId", $"%{dto.SpecializationId}%", DbType.String);
-            parameters.Add("Offset", dto.PageSize * (dto.PageNumber - 1), DbType.Int32);
+            parameters.Add("Offset", dto.PageSize * (dto.CurrentPage - 1), DbType.Int32);
             parameters.Add("PageSize", dto.PageSize, DbType.Int32);
 
             using (var connection = _db.CreateConnection())

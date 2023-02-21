@@ -8,7 +8,7 @@ namespace Offices.API.SwaggerExamples.Requests
         public GetOfficesRequest GetExamples() =>
             new()
             {
-                PageNumber = 1,
+                CurrentPage = 1,
                 PageSize = 10
             };
     }

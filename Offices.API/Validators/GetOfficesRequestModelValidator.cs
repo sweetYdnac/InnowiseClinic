@@ -7,7 +7,7 @@ namespace Offices.API.Validators
     {
         public GetOfficesRequestModelValidator()
         {
-            RuleFor(r => r.PageNumber)
+            RuleFor(r => r.CurrentPage)
                 .NotNull()
                 .GreaterThan(0);
 

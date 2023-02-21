@@ -7,7 +7,7 @@ namespace Profiles.API.Validators.Doctor
     {
         public GetDoctorsRequestValidator()
         {
-            RuleFor(p => p.PageNumber)
+            RuleFor(p => p.CurrentPage)
                 .NotNull()
                 .GreaterThan(0);
 

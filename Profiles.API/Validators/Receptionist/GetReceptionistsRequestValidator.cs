@@ -7,7 +7,7 @@ namespace Profiles.API.Validators.Receptionist
     {
         public GetReceptionistsRequestValidator()
         {
-            RuleFor(p => p.PageNumber)
+            RuleFor(p => p.CurrentPage)
                 .NotNull()
                 .GreaterThan(0);
 

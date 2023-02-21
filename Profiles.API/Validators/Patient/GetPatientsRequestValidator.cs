@@ -7,7 +7,7 @@ namespace Profiles.API.Validators.Patient
     {
         public GetPatientsRequestValidator()
         {
-            RuleFor(p => p.PageNumber)
+            RuleFor(p => p.CurrentPage)
                 .NotNull()
                 .GreaterThan(0);
 

@@ -24,7 +24,7 @@ namespace Authorization.API
             builder.Services.AddServices();
             builder.Services.ConfigureDbContext(builder.Configuration);
             builder.Services.ConfigureAspNetIdentity();
-            builder.Services.ConfigureIdentityServer();
+            builder.Services.ConfigureIdentityServer(builder.Configuration);
             builder.Services.ConfigureValidation();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.ConfigureMassTransit();
