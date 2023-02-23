@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Authorization.API.Extensions;
 
-public class ExceptionHandlerMiddleware
+internal class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHostEnvironment _env;

@@ -1,49 +1,36 @@
-﻿using FluentMigrator.Runner;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Offices.API.Validators;
-using Offices.Business.Implementations.Services;
-using Offices.Business.Interfaces.Services;
-using Offices.Data.Contexts;
-using Offices.Data.Helpers;
-using Offices.Data.Implementations.Repositories;
-using Offices.Data.Interfaces.Repositories;
-using Offices.Data.Migrations;
-using Shared.Messages;
+using Services.Data.Contexts;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
 using System.Reflection;
 
-namespace Offices.API.Extensions
+namespace Services.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IOfficeService, OfficeService>();
-            services.AddScoped<IMessageService, MessageService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IOfficeRepository, OfficeRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<OfficesDbContext>();
-            services.AddScoped<DatabaseInitializer>();
-            services.AddFluentMigratorCore()
-                .ConfigureRunner(r => r
-                .AddPostgres()
-                .WithGlobalConnectionString(configuration.GetConnectionString("OfficesDbConnection"))
-                .ScanIn(typeof(InitialTables_202302010714).Assembly));
-            services.MigrateDatabase();
+            var connectionString = configuration.GetConnectionString("ServicesDbConnection");
+            var migrationAssembly = typeof(ServicesDbContext).Assembly.GetName().Name;
+
+            services.AddDbContext<ServicesDbContext>(options =>
+                options.UseSqlServer(connectionString,
+                    b => b.MigrationsAssembly(migrationAssembly)));
         }
 
         public static void ConfigureSwaggerGen(this IServiceCollection services)
@@ -62,7 +49,8 @@ namespace Offices.API.Extensions
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<GetOfficesRequestModelValidator>();
+            // TODO : enter validator type as generic
+            services.AddValidatorsFromAssemblyContaining<Program>();
             services.AddFluentValidationAutoValidation();
         }
 
@@ -114,23 +102,6 @@ namespace Offices.API.Extensions
         public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
-
-            EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:DisableOfficeEndpoint")));
-            EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateOfficeEndpoint")));
-        }
-
-        private static void MigrateDatabase(this IServiceCollection services)
-        {
-            var serviceProvider = services.BuildServiceProvider();
-
-            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var databaseInitializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
-                databaseInitializer.CreateDatabase("innowiseclinic_officesapi");
-
-                var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-                migrationService.MigrateUp();
-            };
         }
     }
 }

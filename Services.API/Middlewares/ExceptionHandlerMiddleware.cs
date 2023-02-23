@@ -4,7 +4,7 @@ using Shared.Exceptions;
 using Shared.Models.Response;
 using System.Net;
 
-namespace Offices.API.Middlewares;
+namespace Services.API.Middlewares;
 
 internal class ExceptionHandlerMiddleware
 {
