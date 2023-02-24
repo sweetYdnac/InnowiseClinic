@@ -4,5 +4,16 @@
         <name>Services.API</name>
     </assembly>
     <members>
+        <member name="T:Services.API.Controllers.SpecializationsController">
+            <summary>
+            This controller used to work with specializations
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.CreateSpecialization(Shared.Models.Request.Services.Specialization.CreateSpecializationRequest)">
+            <summary>
+            Create new specialization
+            </summary>
+            <param name="request">Contains all data that need to create specialization entity</param>
+        </member>
     </members>
 </doc>
