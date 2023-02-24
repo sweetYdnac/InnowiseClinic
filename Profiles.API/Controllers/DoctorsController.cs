@@ -41,7 +41,7 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DoctorInformationResponseExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DoctorResponseExample))]
         public async Task<IActionResult> GetDoctorById([FromRoute] Guid id)
         {
             var response = await _doctorsService.GetByIdAsync(id);

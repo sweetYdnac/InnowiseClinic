@@ -3,16 +3,27 @@ using Services.Business.Interfaces;
 using Services.Data.DTOs;
 using Services.Data.Entities;
 using Services.Data.Interfaces;
+using Shared.Exceptions;
+using Shared.Models.Response.Services.Specialization;
 
 namespace Services.Business.Implementations
 {
     public class SpecializationService : ISpecializationService
     {
-        private readonly IGenericRepository<Specialization> _specializationRepository;
+        private readonly IRepository<Specialization> _specializationRepository;
         private readonly IMapper _mapper;
 
-        public SpecializationService(IGenericRepository<Specialization> specializationRepository, IMapper mapper) =>
+        public SpecializationService(IRepository<Specialization> specializationRepository, IMapper mapper) =>
             (_specializationRepository, _mapper) = (specializationRepository, mapper);
+
+        public async Task<SpecializationResponse> GetByIdAsync(Guid id)
+        {
+            var response = await _specializationRepository.GetByIdAsync(id);
+
+            return response is null
+                ? throw new NotFoundException($"Specialization with id = {id} doesn't exist.")
+                : _mapper.Map<SpecializationResponse>(response);
+        }
 
         public async Task<Guid> CreateAsync(CreateSpecializationDTO dto)
         {

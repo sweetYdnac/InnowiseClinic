@@ -2,8 +2,9 @@
 
 namespace Services.Data.Interfaces
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IRepository<T> where T : BaseEntity
     {
+        Task<T> GetByIdAsync(Guid id);
         Task AddAsync(T entity);
     }
 }
