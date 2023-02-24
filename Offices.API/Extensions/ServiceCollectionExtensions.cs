@@ -14,6 +14,7 @@ using Offices.Data.Implementations.Repositories;
 using Offices.Data.Interfaces.Repositories;
 using Offices.Data.Migrations;
 using Shared.Messages;
+using Shared.Models.Request.Offices.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -57,7 +58,7 @@ namespace Offices.API.Extensions
             });
 
             services.AddFluentValidationRulesToSwagger();
-            services.AddSwaggerExamplesFromAssemblyOf<Program>();
+            services.AddSwaggerExamplesFromAssemblyOf<CreateOfficeRequestExample>();
         }
 
         public static void ConfigureValidation(this IServiceCollection services)

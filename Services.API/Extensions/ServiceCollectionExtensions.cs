@@ -5,7 +5,14 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Services.API.Validators.Specialization;
+using Services.Business.Implementations;
+using Services.Business.Interfaces;
 using Services.Data.Contexts;
+using Services.Data.Entities;
+using Services.Data.Implementations;
+using Services.Data.Interfaces;
+using Shared.Models.Request.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -17,10 +24,12 @@ namespace Services.API.Extensions
     {
         public static void AddServices(this IServiceCollection services)
         {
+            services.AddScoped<ISpecializationService, SpecializationService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddTransient<IGenericRepository<Specialization>, SpecializationRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -44,20 +53,17 @@ namespace Services.API.Extensions
             });
 
             services.AddFluentValidationRulesToSwagger();
-            services.AddSwaggerExamplesFromAssemblyOf<Program>();
+            services.AddSwaggerExamplesFromAssemblyOf<CreateSpecializationRequestExample>();
         }
 
         public static void ConfigureValidation(this IServiceCollection services)
         {
-            // TODO : enter validator type as generic
-            services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddValidatorsFromAssemblyContaining<CreateSpecializationRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureAutoMapper(this IServiceCollection services)
-        {
+        public static void ConfigureAutoMapper(this IServiceCollection services) =>
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        }
 
         public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {

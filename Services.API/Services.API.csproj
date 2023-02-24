@@ -35,15 +35,11 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="MappingProfiles\" />
-    <Folder Include="Validators\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Services.Business\Services.Business.csproj" />
     <ProjectReference Include="..\Services.Data\Services.Data.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
