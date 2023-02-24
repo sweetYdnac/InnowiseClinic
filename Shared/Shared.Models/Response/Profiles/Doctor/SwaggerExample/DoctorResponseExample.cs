@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Shared.Models.Response.Profiles.Doctor.SwaggerExample
 {
-    public class DoctorInformationResponseExample : IExamplesProvider<DoctorResponse>
+    public class DoctorResponseExample : IExamplesProvider<DoctorResponse>
     {
         public DoctorResponse GetExamples() =>
             new()

@@ -9,6 +9,12 @@
             This controller used to work with specializations
             </summary>
         </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.GetSpecialization(System.Guid)">
+            <summary>
+            Get specialization by Id
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+        </member>
         <member name="M:Services.API.Controllers.SpecializationsController.CreateSpecialization(Shared.Models.Request.Services.Specialization.CreateSpecializationRequest)">
             <summary>
             Create new specialization

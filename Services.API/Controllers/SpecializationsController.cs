@@ -7,6 +7,7 @@ using Shared.Core.Enums;
 using Shared.Models.Request.Services.Specialization;
 using Shared.Models.Request.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response;
+using Shared.Models.Response.Services.Specialization;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Services.API.Controllers
@@ -25,6 +26,25 @@ namespace Services.API.Controllers
 
         public SpecializationsController(ISpecializationService specializationService, IMapper mapper) =>
             (_specializationService, _mapper) = (specializationService, mapper);
+
+        /// <summary>
+        /// Get specialization by Id
+        /// </summary>
+        /// <param name="id">Specialization's unique identifier</param>
+        [HttpGet("{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(SpecializationResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(SpecializationResponseExample))]
+        public async Task<IActionResult> GetSpecialization([FromRoute] Guid id)
+        {
+            var response = await _specializationService.GetByIdAsync(id);
+
+            return Ok(response);
+        }
 
         /// <summary>
         /// Create new specialization

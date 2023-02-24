@@ -29,7 +29,7 @@ namespace Services.API.Extensions
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IGenericRepository<Specialization>, SpecializationRepository>();
+            services.AddTransient<IRepository<Specialization>, SpecializationRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
