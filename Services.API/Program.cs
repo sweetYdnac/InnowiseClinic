@@ -1,7 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Services.API.Extensions;
 using Services.API.Middlewares;
+using Services.Data.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,5 +41,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.ApplyMigrations();
 
 app.Run();

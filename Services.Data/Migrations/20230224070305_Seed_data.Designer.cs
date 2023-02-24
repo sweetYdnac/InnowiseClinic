@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Services.Data.Contexts;
 
@@ -11,9 +12,11 @@ using Services.Data.Contexts;
 namespace Services.Data.Migrations
 {
     [DbContext(typeof(ServicesDbContext))]
-    partial class ServicesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230224070305_Seed_data")]
+    partial class Seed_data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

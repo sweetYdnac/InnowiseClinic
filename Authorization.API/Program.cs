@@ -65,6 +65,8 @@ namespace Authorization.API
 
             app.MapControllers();
 
+            app.ApplyMigrations();
+
             app.Run();
         }
     }
