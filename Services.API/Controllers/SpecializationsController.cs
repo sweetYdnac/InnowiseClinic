@@ -11,6 +11,7 @@ using Shared.Models.Response.Services.Specialization;
 using Shared.Models.Response.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
+using System.Runtime.CompilerServices;
 
 namespace Services.API.Controllers
 {
