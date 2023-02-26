@@ -9,7 +9,12 @@ namespace Authorization.API.Extensions
         {
             using (var scope = app.Services.CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>().Database.Migrate();
+                var context = scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
+
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    context.Database.Migrate();
+                }
             }
         }
     }

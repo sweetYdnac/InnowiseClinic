@@ -9,7 +9,12 @@ namespace Services.API.Extensions
         {
             using (var scope = app.Services.CreateScope())
             {
-                scope.ServiceProvider.GetRequiredService<ServicesDbContext>().Database.Migrate();
+                var context = scope.ServiceProvider.GetRequiredService<ServicesDbContext>();
+
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    context.Database.Migrate();
+                }
             }
         }
     }
