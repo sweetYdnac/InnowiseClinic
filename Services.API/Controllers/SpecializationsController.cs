@@ -11,7 +11,6 @@ using Shared.Models.Response.Services.Specialization;
 using Shared.Models.Response.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
-using System.Runtime.CompilerServices;
 
 namespace Services.API.Controllers
 {
@@ -86,6 +85,26 @@ namespace Services.API.Controllers
             var response = await _specializationService.GetPagedAsync(_mapper.Map<GetSpecializationsDTO>(request));
 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Change status of specific specialization
+        /// </summary>
+        /// <param name="id">Specialization's unique identifier</param>
+        /// <param name="isActive">New specialization's status</param>
+        [HttpPatch("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
+        {
+            await _specializationService.ChangeStatus(id, isActive);
+
+            return NoContent();
         }
     }
 }

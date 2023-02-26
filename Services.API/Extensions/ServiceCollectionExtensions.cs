@@ -12,6 +12,7 @@ using Services.Data.Contexts;
 using Services.Data.Entities;
 using Services.Data.Implementations;
 using Services.Data.Interfaces;
+using Shared.Messages;
 using Shared.Models.Request.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -25,11 +26,13 @@ namespace Services.API.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IRepository<Specialization>, Repository<Specialization>>();
+            services.AddTransient<IServicesRepository, ServicesRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -108,6 +111,10 @@ namespace Services.API.Extensions
         public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
+
+            EndpointConvention.Map<DisableSpecializationMessage>(
+                new Uri(configuration.GetValue<string>("Messages:DisableSpecializationEndpoint")));
+
         }
     }
 }

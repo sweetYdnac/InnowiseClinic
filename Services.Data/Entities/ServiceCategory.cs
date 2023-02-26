@@ -1,7 +1,8 @@
 ﻿namespace Services.Data.Entities
 {
-    public class ServiceCategory : BaseEntity
+    public class ServiceCategory : IBaseEntity
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public int TimeSlotSize { get; set; }
 

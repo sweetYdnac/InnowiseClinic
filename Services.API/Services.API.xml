@@ -27,5 +27,12 @@
             </summary>
             <param name="request">Contains properties for paging among specializations</param>
         </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.ChangeStatus(System.Guid,System.Boolean)">
+            <summary>
+            Change status of specific specialization
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+            <param name="isActive">New specialization's status</param>
+        </member>
     </members>
 </doc>
