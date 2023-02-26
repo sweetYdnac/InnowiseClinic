@@ -8,6 +8,8 @@ using Shared.Models.Request.Services.Specialization;
 using Shared.Models.Request.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Services.Specialization;
+using Shared.Models.Response.Services.Specialization.SwaggerExamples;
+using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Services.API.Controllers
@@ -63,6 +65,26 @@ namespace Services.API.Controllers
             var id = await _specializationService.CreateAsync(_mapper.Map<CreateSpecializationDTO>(request));
 
             return StatusCode(201, new { id });
+        }
+
+        /// <summary>
+        /// Get paged specializations
+        /// </summary>
+        /// <param name="request">Contains properties for paging among specializations</param>
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(PagedResponse<SpecializationResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetSpecializationsResponseExample))]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
+        public async Task<IActionResult> GetSpecializations([FromQuery] GetSpecializationsRequest request)
+        {
+            var response = await _specializationService.GetPagedAsync(_mapper.Map<GetSpecializationsDTO>(request));
+
+            return Ok(response);
         }
     }
 }
