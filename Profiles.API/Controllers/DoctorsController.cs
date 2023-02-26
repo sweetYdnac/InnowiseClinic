@@ -10,7 +10,7 @@ using Shared.Models.Request.Profiles.Doctor;
 using Shared.Models.Request.Profiles.Doctor.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
-using Shared.Models.Response.Profiles.Doctor.SwaggerExample;
+using Shared.Models.Response.Profiles.Doctor.SwaggerExamples;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 

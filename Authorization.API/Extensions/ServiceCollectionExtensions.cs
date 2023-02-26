@@ -29,14 +29,6 @@ namespace Authorization.API.Extensions
             services.AddDbContext<AuthorizationDbContext>(options =>
                 options.UseSqlServer(connectionString,
                     b => b.MigrationsAssembly(migrationAssembly)));
-
-            var serviceProvider = services.BuildServiceProvider();
-
-            using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var db = scope.ServiceProvider.GetRequiredService<AuthorizationDbContext>();
-                db.Database.Migrate();
-            }
         }
 
         public static void ConfigureAspNetIdentity(this IServiceCollection services)

@@ -1,7 +1,7 @@
 ﻿using Shared.Core.Enums;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace Shared.Models.Response.Profiles.Doctor.SwaggerExample
+namespace Shared.Models.Response.Profiles.Doctor.SwaggerExamples
 {
     public class GetDoctorsResponseExample : IExamplesProvider<PagedResponse<DoctorInformationResponse>>
     {

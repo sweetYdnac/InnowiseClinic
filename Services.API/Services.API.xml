@@ -21,5 +21,11 @@
             </summary>
             <param name="request">Contains all data that need to create specialization entity</param>
         </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.GetSpecializations(Shared.Models.Request.Services.Specialization.GetSpecializationsRequest)">
+            <summary>
+            Get paged specializations
+            </summary>
+            <param name="request">Contains properties for paging among specializations</param>
+        </member>
     </members>
 </doc>
