@@ -10,6 +10,7 @@ using Shared.Models.Request.Offices.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Offices;
 using Shared.Models.Response.Offices.SwaggerExamples;
+using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Offices.API.Controllers
@@ -21,6 +22,7 @@ namespace Offices.API.Controllers
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class OfficesController : ControllerBase
     {
         private readonly IOfficeService _officeService;
@@ -57,8 +59,8 @@ namespace Offices.API.Controllers
         [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
         [ProducesResponseType(typeof(PagedResponse<OfficeInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerRequestExample(typeof(GetOfficesRequest), typeof(GetOfficesRequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetOfficesResponseExample))]
