@@ -3,6 +3,7 @@ using Services.Data.Contexts;
 using Services.Data.Entities;
 using Services.Data.Interfaces;
 using Shared.Models;
+using System.Linq.Expressions;
 
 namespace Services.Data.Implementations
 {
@@ -23,13 +24,15 @@ namespace Services.Data.Implementations
             return await _db.Specializations.FirstOrDefaultAsync(s => s.Id.Equals(id));
         }
 
-        public async Task<PagedResult<Specialization>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Func<Specialization, bool>[] filters)
+        public async Task<PagedResult<Specialization>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<Specialization, bool>>[] filters)
         {
-            var response = _db.Specializations.AsQueryable();
+            var response = _db.Specializations
+                .AsNoTracking()
+                .AsQueryable();
 
             foreach (var filter in filters)
             {
-                response.Where(filter);
+                response = response.Where(filter);
             }
 
             var items = await response

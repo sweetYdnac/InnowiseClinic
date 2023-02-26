@@ -21,6 +21,7 @@ namespace Services.API.Controllers
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class SpecializationsController : ControllerBase
     {
         private readonly ISpecializationService _specializationService;
@@ -79,7 +80,6 @@ namespace Services.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetSpecializationsResponseExample))]
-        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
         public async Task<IActionResult> GetSpecializations([FromQuery] GetSpecializationsRequest request)
         {
             var response = await _specializationService.GetPagedAsync(_mapper.Map<GetSpecializationsDTO>(request));

@@ -11,6 +11,7 @@ using Shared.Models.Request.Profiles.Receptionist.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 using Shared.Models.Response.Profiles.Receptionist.SwaggerExamples;
+using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 
@@ -23,6 +24,7 @@ namespace Profiles.API.Controllers
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class ReceptionistsController : ControllerBase
     {
         private readonly IReceptionistsService _receptionistsService;
