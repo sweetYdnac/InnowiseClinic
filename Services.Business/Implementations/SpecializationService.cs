@@ -12,10 +12,17 @@ namespace Services.Business.Implementations
     public class SpecializationService : ISpecializationService
     {
         private readonly IRepository<Specialization> _specializationRepository;
+        private readonly IServicesRepository _servicesRepository;
+        private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public SpecializationService(IRepository<Specialization> specializationRepository, IMapper mapper) =>
-            (_specializationRepository, _mapper) = (specializationRepository, mapper);
+        public SpecializationService(
+            IRepository<Specialization> specializationRepository, 
+            IServicesRepository servicesRepository,
+            IMessageService messageService,
+            IMapper mapper) =>
+        (_specializationRepository, _servicesRepository, _messageService, _mapper) = 
+        (specializationRepository, servicesRepository, messageService, mapper);
 
         public async Task<SpecializationResponse> GetByIdAsync(Guid id)
         {
@@ -43,6 +50,17 @@ namespace Services.Business.Implementations
                 dto.CurrentPage,
                 dto.PageSize,
                 response.TotalCount);
+        }
+
+        public async Task ChangeStatus(Guid id, bool isActive)
+        {
+            await _specializationRepository.ChangeStatusAsync(id, isActive);
+
+            if (!isActive)
+            {
+                await _messageService.SendDisableSpecializationMessageAsync(id);
+                await _servicesRepository.DisableAsync(id);
+            }
         }
     }
 }

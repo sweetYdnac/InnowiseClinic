@@ -55,5 +55,12 @@ namespace Services.Data.Implementations
             await DbSet.AddAsync(entity);
             await Database.SaveChangesAsync();
         }
+
+        public async Task ChangeStatusAsync(Guid id, bool isActive)
+        {
+            await DbSet
+                .Where(e => e.Id.Equals(id))
+                .ExecuteUpdateAsync(e => e.SetProperty(n => n.IsActive, n => isActive));
+        }
     }
 }
