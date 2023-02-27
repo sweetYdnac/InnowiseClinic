@@ -10,5 +10,6 @@ namespace Services.Business.Interfaces
         Task<PagedResponse<ServiceResponse>> GetPagedAsync(GetServicesDTO dto);
         Task<Guid> CreateAsync(CreateServiceDTO dto);
         Task ChangeStatusAsync(Guid id, bool isActive);
+        Task UpdateAsync(Guid id, UpdateServiceDTO dto);
     }
 }
