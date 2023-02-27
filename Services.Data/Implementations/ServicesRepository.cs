@@ -7,7 +7,7 @@ namespace Services.Data.Implementations
 {
     public class ServicesRepository : Repository<Service>, IServicesRepository
     {
-        public ServicesRepository(ServicesDbContext database) 
+        public ServicesRepository(ServicesDbContext database)
             : base(database) { }
 
         public async Task DisableAsync(Guid specializationId)

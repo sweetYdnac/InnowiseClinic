@@ -7,6 +7,7 @@ namespace Shared.Models.Response.Services.Specialization.SwaggerExamples
         public SpecializationResponse GetExamples() =>
             new()
             {
+                Id = Guid.NewGuid(),
                 Title = "Dentist",
                 IsActive = true,
             };

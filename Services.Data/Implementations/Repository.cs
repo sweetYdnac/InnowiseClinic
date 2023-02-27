@@ -21,6 +21,23 @@ namespace Services.Data.Implementations
                 .FirstOrDefaultAsync(s => s.Id.Equals(id));
         }
 
+        public async Task<T> GetByIdAsync<T1>(Guid id, Expression<Func<T, T1>> include1)
+        {
+            return await DbSet
+                .AsNoTracking()
+                .Include(include1)
+                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+        }
+
+        public async Task<T> GetByIdAsync<T1, T2>(Guid id, Expression<Func<T, T1>> include1, Expression<Func<T, T2>> include2)
+        {
+            return await DbSet
+                .AsNoTracking()
+                .Include(include1)
+                .Include(include2)
+                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+        }
+
         public async Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
             var response = DbSet

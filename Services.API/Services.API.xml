@@ -4,6 +4,17 @@
         <name>Services.API</name>
     </assembly>
     <members>
+        <member name="T:Services.API.Controllers.ServicesController">
+            <summary>
+            This controller used to work with services
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.GetService(System.Guid)">
+            <summary>
+            Get service by id
+            </summary>
+            <param name="id">Service's unique identifier</param>
+        </member>
         <member name="T:Services.API.Controllers.SpecializationsController">
             <summary>
             This controller used to work with specializations
