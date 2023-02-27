@@ -35,7 +35,7 @@ namespace Services.API.Controllers
         /// </summary>
         /// <param name="id">Specialization's unique identifier</param>
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(SpecializationResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

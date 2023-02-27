@@ -26,6 +26,7 @@ namespace Services.API.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<IServicesService, ServicesService>();
             services.AddScoped<IMessageService, MessageService>();
         }
 
