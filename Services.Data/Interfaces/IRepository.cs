@@ -10,5 +10,6 @@ namespace Services.Data.Interfaces
         Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters);
         Task AddAsync(T entity);
         Task ChangeStatusAsync(Guid id, bool isActive);
+        Task UpdateAsync(T entity);
     }
 }

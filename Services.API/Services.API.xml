@@ -34,5 +34,12 @@
             <param name="id">Specialization's unique identifier</param>
             <param name="isActive">New specialization's status</param>
         </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.UpdateSpecialization(System.Guid,Shared.Models.Request.Services.Specialization.UpdateSpecializationRequest)">
+            <summary>
+            Edit specific specialization
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+            <param name="request"></param>
+        </member>
     </members>
 </doc>

@@ -12,11 +12,7 @@ namespace Services.Data.Implementations
         protected readonly ServicesDbContext Database;
         protected readonly DbSet<T> DbSet;
 
-        public Repository(ServicesDbContext database)
-        {
-            Database = database;
-            DbSet = database.Set<T>();
-        }
+        public Repository(ServicesDbContext database) => (Database, DbSet) = (database, database.Set<T>());
 
         public async Task<T> GetByIdAsync(Guid id)
         {
@@ -61,6 +57,12 @@ namespace Services.Data.Implementations
             await DbSet
                 .Where(e => e.Id.Equals(id))
                 .ExecuteUpdateAsync(e => e.SetProperty(n => n.IsActive, n => isActive));
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            DbSet.Update(entity);
+            await Database.SaveChangesAsync();
         }
     }
 }

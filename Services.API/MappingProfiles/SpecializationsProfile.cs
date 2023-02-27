@@ -14,7 +14,8 @@ namespace Services.API.MappingProfiles
             CreateMap<CreateSpecializationDTO, Specialization>()
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
             CreateMap<GetSpecializationsRequest, GetSpecializationsDTO>();
-
+            CreateMap<UpdateSpecializationRequest, UpdateSpecializationDTO>();
+            CreateMap<UpdateSpecializationDTO, Specialization>();
 
             CreateMap<Specialization, SpecializationResponse>();
         }

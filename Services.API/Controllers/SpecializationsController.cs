@@ -98,11 +98,30 @@ namespace Services.API.Controllers
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
         {
-            await _specializationService.ChangeStatus(id, isActive);
+            await _specializationService.ChangeStatusAsync(id, isActive);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Edit specific specialization
+        /// </summary>
+        /// <param name="id">Specialization's unique identifier</param>
+        /// <param name="request"></param>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(UpdateSpecializationRequest), typeof(UpdateSpecializationRequestExample))]
+        public async Task<IActionResult> UpdateSpecialization([FromRoute] Guid id, [FromBody] UpdateSpecializationRequest request)
+        {
+            await _specializationService.UpdateAsync(id, _mapper.Map<UpdateSpecializationDTO>(request));
 
             return NoContent();
         }
