@@ -17,11 +17,11 @@ namespace Services.Business.Implementations
         private readonly IMapper _mapper;
 
         public SpecializationService(
-            IRepository<Specialization> specializationRepository, 
+            IRepository<Specialization> specializationRepository,
             IServicesRepository servicesRepository,
             IMessageService messageService,
             IMapper mapper) =>
-        (_specializationRepository, _servicesRepository, _messageService, _mapper) = 
+        (_specializationRepository, _servicesRepository, _messageService, _mapper) =
         (specializationRepository, servicesRepository, messageService, mapper);
 
         public async Task<SpecializationResponse> GetByIdAsync(Guid id)
@@ -52,15 +52,33 @@ namespace Services.Business.Implementations
                 response.TotalCount);
         }
 
-        public async Task ChangeStatus(Guid id, bool isActive)
+        public async Task ChangeStatusAsync(Guid id, bool isActive)
         {
             await _specializationRepository.ChangeStatusAsync(id, isActive);
 
             if (!isActive)
             {
-                await _messageService.SendDisableSpecializationMessageAsync(id);
-                await _servicesRepository.DisableAsync(id);
+                await DisableServicesAndDoctors(id);
             }
+        }
+
+        public async Task UpdateAsync(Guid id, UpdateSpecializationDTO dto)
+        {
+            var entity = _mapper.Map<Specialization>(dto);
+            entity.Id = id;
+
+            await _specializationRepository.UpdateAsync(entity);
+
+            if (!dto.IsActive)
+            {
+                await DisableServicesAndDoctors(id);
+            }
+        }
+
+        private async Task DisableServicesAndDoctors(Guid specializationId)
+        {
+            await _servicesRepository.DisableAsync(specializationId);
+            await _messageService.SendDisableSpecializationMessageAsync(specializationId);
         }
     }
 }
