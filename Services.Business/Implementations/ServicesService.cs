@@ -50,5 +50,13 @@ namespace Services.Business.Implementations
 
         public async Task ChangeStatusAsync(Guid id, bool isActive) =>
             await _servicesRepository.ChangeStatusAsync(id, isActive);
+
+        public async Task UpdateAsync(Guid id, UpdateServiceDTO dto)
+        {
+            var entity = _mapper.Map<Service>(dto);
+            entity.Id = id;
+
+            await _servicesRepository.UpdateAsync(entity);
+        }
     }
 }

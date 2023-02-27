@@ -14,6 +14,8 @@ namespace Services.API.MappingProfiles
             CreateMap<CreateServiceRequest, CreateServiceDTO>();
             CreateMap<CreateServiceDTO, Service>()
                 .ForMember(s => s.Id, opt => opt.MapFrom(dto => Guid.NewGuid()));
+            CreateMap<UpdateServiceRequest, UpdateServiceDTO>();
+            CreateMap<UpdateServiceDTO, Service>();
 
             CreateMap<Service, ServiceResponse>()
                 .ForMember(r => r.CategoryTitle, opt => opt.MapFrom(s => s.Category.Title));

@@ -110,7 +110,7 @@ namespace Services.API.Controllers
         /// Edit specific specialization
         /// </summary>
         /// <param name="id">Specialization's unique identifier</param>
-        /// <param name="request"></param>
+        /// <param name="request">Contains all data that need to update specialization entity</param>
         [HttpPut("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]

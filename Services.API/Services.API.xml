@@ -15,6 +15,32 @@
             </summary>
             <param name="id">Service's unique identifier</param>
         </member>
+        <member name="M:Services.API.Controllers.ServicesController.GetServices(Shared.Models.Request.Services.Service.GetServicesRequest)">
+            <summary>
+            Get paged services
+            </summary>
+            <param name="request">Contains properties for paging among services</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.CreateService(Shared.Models.Request.Services.Service.CreateServiceRequest)">
+            <summary>
+            Create new service
+            </summary>
+            <param name="request">Contains all data that need to create service entity</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.ChangeStatus(System.Guid,System.Boolean)">
+            <summary>
+            Change status of specific service
+            </summary>
+            <param name="id">Service's unique identifier</param>
+            <param name="isActive">New services's status</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.UpdateService(System.Guid,Shared.Models.Request.Services.Service.UpdateServiceRequest)">
+            <summary>
+            Edit specific service
+            </summary>
+            <param name="id">Service's unique identifier</param>
+            <param name="request">Contains all data that need to update service entity</param>
+        </member>
         <member name="T:Services.API.Controllers.SpecializationsController">
             <summary>
             This controller used to work with specializations
@@ -50,7 +76,7 @@
             Edit specific specialization
             </summary>
             <param name="id">Specialization's unique identifier</param>
-            <param name="request"></param>
+            <param name="request">Contains all data that need to update specialization entity</param>
         </member>
     </members>
 </doc>

@@ -88,7 +88,11 @@ namespace Services.API.Controllers
             return StatusCode(201, new { id });
         }
 
-
+        /// <summary>
+        /// Change status of specific service
+        /// </summary>
+        /// <param name="id">Service's unique identifier</param>
+        /// <param name="isActive">New services's status</param>
         [HttpPatch("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
@@ -99,6 +103,26 @@ namespace Services.API.Controllers
         public async Task<IActionResult> ChangeStatus([FromRoute] Guid id, [FromQuery] bool isActive)
         {
             await _servicesService.ChangeStatusAsync(id, isActive);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Edit specific service
+        /// </summary>
+        /// <param name="id">Service's unique identifier</param>
+        /// <param name="request">Contains all data that need to update service entity</param>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(UpdateServiceRequest), typeof(UpdateServiceRequestExample))]
+        public async Task<IActionResult> UpdateService([FromRoute] Guid id, UpdateServiceRequest request)
+        {
+            await _servicesService.UpdateAsync(id, _mapper.Map<UpdateServiceDTO>(request));
 
             return NoContent();
         }

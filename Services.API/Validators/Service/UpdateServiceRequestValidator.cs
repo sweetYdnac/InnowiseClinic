@@ -4,9 +4,9 @@ using Shared.Models.Request.Services.Service;
 
 namespace Services.API.Validators.Service
 {
-    public class CreateServiceRequestValidator : AbstractValidator<CreateServiceRequest>
+    public class UpdateServiceRequestValidator : AbstractValidator<UpdateServiceRequest>
     {
-        public CreateServiceRequestValidator()
+        public UpdateServiceRequestValidator()
         {
             RuleFor(s => s.Title).Required();
             RuleFor(s => s.Price).Required().GreaterThan(0);
