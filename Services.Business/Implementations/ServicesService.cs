@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Services.Business.Interfaces;
+using Services.Data.DTOs;
 using Services.Data.Interfaces;
 using Shared.Exceptions;
+using Shared.Models.Response;
 using Shared.Models.Response.Services.Service;
 
 namespace Services.Business.Implementations
@@ -21,6 +23,20 @@ namespace Services.Business.Implementations
             return response is null
                 ? throw new NotFoundException($"Service with id = {id} doesn't exist.")
                 : _mapper.Map<ServiceResponse>(response);
+        }
+
+        public async Task<PagedResponse<ServiceResponse>> GetPagedAsync(GetServicesDTO dto)
+        {
+            var response = await _servicesRepository.GetPagedAndFilteredAsync(
+                dto.CurrentPage,
+                dto.PageSize,
+                s => s.Category);
+
+            return new(
+            _mapper.Map<IEnumerable<ServiceResponse>>(response.Items),
+            dto.CurrentPage,
+            dto.PageSize,
+            response.TotalCount);
         }
     }
 }

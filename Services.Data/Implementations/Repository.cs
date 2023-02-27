@@ -40,27 +40,32 @@ namespace Services.Data.Implementations
 
         public async Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
-            var response = DbSet
+            var query = DbSet
                 .AsNoTracking()
                 .AsQueryable();
 
-            foreach (var filter in filters)
-            {
-                response = response.Where(filter);
-            }
+            return await FilterAndPageAsync(query, currentPage, pageSize, filters);
+        }
 
-            var items = await response
-                .Skip(pageSize * (currentPage - 1))
-                .Take(pageSize)
-                .ToArrayAsync();
+        public async Task<PagedResult<T>> GetPagedAndFilteredAsync<T1>(int currentPage, int pageSize, Expression<Func<T, T1>> include1, params Expression<Func<T, bool>>[] filters)
+        {
+            var query = DbSet
+                .AsNoTracking()
+                .Include(include1)
+                .AsQueryable();
 
-            var totalCount = await response.CountAsync();
+            return await FilterAndPageAsync(query, currentPage, pageSize, filters);
+        }
 
-            return new()
-            {
-                Items = items,
-                TotalCount = totalCount
-            };
+        public async Task<PagedResult<T>> GetPagedAndFilteredAsync<T1, T2>(int currentPage, int pageSize, Expression<Func<T, T1>> include1, Expression<Func<T, T2>> include2, params Expression<Func<T, bool>>[] filters)
+        {
+            var query = DbSet
+                .AsNoTracking()
+                .Include(include1)
+                .Include(include2)
+                .AsQueryable();
+
+            return await FilterAndPageAsync(query, currentPage, pageSize, filters);
         }
 
         public async Task AddAsync(T entity)
@@ -80,6 +85,27 @@ namespace Services.Data.Implementations
         {
             DbSet.Update(entity);
             await Database.SaveChangesAsync();
+        }
+
+        private static async Task<PagedResult<T>> FilterAndPageAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
+        {
+            foreach (var filter in filters)
+            {
+                query = query.Where(filter);
+            }
+
+            var items = await query
+                .Skip(pageSize * (currentPage - 1))
+                .Take(pageSize)
+                .ToArrayAsync();
+
+            var totalCount = await query.CountAsync();
+
+            return new()
+            {
+                Items = items,
+                TotalCount = totalCount
+            };
         }
     }
 }
