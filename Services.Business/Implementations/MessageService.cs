@@ -10,9 +10,10 @@ namespace Services.Business.Implementations
 
         public MessageService(ISendEndpointProvider sendEndpointProvider) => _sendEndpointProvider = sendEndpointProvider;
 
-        public async Task SendDisableSpecializationMessageAsync(Guid specializationId)
-        {
-            await _sendEndpointProvider.Send(new DisableSpecializationMessage() { SpecializationId = specializationId });
-        }
+        public async Task SendDisableSpecializationMessageAsync(Guid specializationId) =>
+            await _sendEndpointProvider.Send(new DisableSpecializationMessage()
+            {
+                SpecializationId = specializationId,
+            });
     }
 }

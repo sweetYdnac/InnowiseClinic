@@ -6,7 +6,7 @@ using Shared.Models.Response.Services.Service;
 
 namespace Services.API.MappingProfiles
 {
-    public class ServicesProfile : Profile
+    internal class ServicesProfile : Profile
     {
         public ServicesProfile()
         {

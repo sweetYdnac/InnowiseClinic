@@ -4,7 +4,7 @@ using Shared.Models.Response.Services.ServiceCategories;
 
 namespace Services.API.MappingProfiles
 {
-    public class ServiceCategoriesProfile : Profile
+    internal class ServiceCategoriesProfile : Profile
     {
         public ServiceCategoriesProfile()
         {

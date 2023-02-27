@@ -21,9 +21,9 @@ using System.Reflection;
 
 namespace Services.API.Extensions
 {
-    public static class ServiceCollectionExtensions
+    internal static class ServiceCollectionExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        internal static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IServicesService, ServicesService>();
@@ -31,14 +31,14 @@ namespace Services.API.Extensions
             services.AddScoped<IMessageService, MessageService>();
         }
 
-        public static void AddRepositories(this IServiceCollection services)
+        internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IRepository<Specialization>, Repository<Specialization>>();
             services.AddTransient<IServicesRepository, ServicesRepository>();
             services.AddTransient<IServiceCategoriesRepository, ServiceCategoriesRepository>();
         }
 
-        public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("ServicesDbConnection");
             var migrationAssembly = typeof(ServicesDbContext).Assembly.GetName().Name;
@@ -48,7 +48,7 @@ namespace Services.API.Extensions
                     b => b.MigrationsAssembly(migrationAssembly)));
         }
 
-        public static void ConfigureSwaggerGen(this IServiceCollection services)
+        internal static void ConfigureSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -62,16 +62,16 @@ namespace Services.API.Extensions
             services.AddSwaggerExamplesFromAssemblyOf<CreateSpecializationRequestExample>();
         }
 
-        public static void ConfigureValidation(this IServiceCollection services)
+        internal static void ConfigureValidation(this IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<CreateSpecializationRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureAutoMapper(this IServiceCollection services) =>
+        internal static void ConfigureAutoMapper(this IServiceCollection services) =>
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
             {
@@ -111,7 +111,7 @@ namespace Services.API.Extensions
             });
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
 

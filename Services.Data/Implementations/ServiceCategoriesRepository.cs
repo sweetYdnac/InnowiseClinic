@@ -11,12 +11,10 @@ namespace Services.Data.Implementations
 
         public ServiceCategoriesRepository(ServicesDbContext db) => _db = db;
 
-        public async Task<ServiceCategory> GetByIdAsync(Guid id)
-        {
-            return await _db.ServiceCategories
+        public async Task<ServiceCategory> GetByIdAsync(Guid id) =>
+            await _db.ServiceCategories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id.Equals(id));
-        }
 
         public async Task<IEnumerable<ServiceCategory>> GetAllAsync() =>
             await _db.ServiceCategories

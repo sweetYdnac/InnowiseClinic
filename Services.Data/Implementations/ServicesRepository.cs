@@ -10,11 +10,9 @@ namespace Services.Data.Implementations
         public ServicesRepository(ServicesDbContext database)
             : base(database) { }
 
-        public async Task DisableAsync(Guid specializationId)
-        {
+        public async Task DisableAsync(Guid specializationId) =>
             await DbSet
                 .Where(s => s.SpecializationId.Equals(specializationId))
                 .ExecuteUpdateAsync(e => e.SetProperty(s => s.IsActive, s => false));
-        }
     }
 }

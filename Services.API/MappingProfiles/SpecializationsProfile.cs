@@ -6,7 +6,7 @@ using Shared.Models.Response.Services.Specialization;
 
 namespace Services.API.MappingProfiles
 {
-    public class SpecializationsProfile : Profile
+    internal class SpecializationsProfile : Profile
     {
         public SpecializationsProfile()
         {

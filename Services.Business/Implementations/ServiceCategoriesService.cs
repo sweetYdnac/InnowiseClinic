@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using Services.Business.Interfaces;
 using Services.Data.Interfaces;
 using Shared.Exceptions;
 using Shared.Models.Response.Services.ServiceCategories;
 
-namespace Services.Business.Interfaces
+namespace Services.Business.Implementations
 {
     public class ServiceCategoriesService : IServiceCategoriesService
     {
