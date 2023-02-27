@@ -4,6 +4,22 @@
         <name>Services.API</name>
     </assembly>
     <members>
+        <member name="T:Services.API.Controllers.ServiceCategoriesController">
+            <summary>
+            This controller used to work with service categories
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.ServiceCategoriesController.GetCategory(System.Guid)">
+            <summary>
+            Get service category by id
+            </summary>
+            <param name="id">Service category's unique identifier</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServiceCategoriesController.GetAll">
+            <summary>
+            Get all service categories
+            </summary>
+        </member>
         <member name="T:Services.API.Controllers.ServicesController">
             <summary>
             This controller used to work with services
