@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Services.Business.Interfaces;
-using Services.Data.DTOs;
+using Services.Data.DTOs.Service;
+using Services.Data.Entities;
 using Services.Data.Interfaces;
 using Shared.Exceptions;
 using Shared.Models.Response;
@@ -37,6 +38,14 @@ namespace Services.Business.Implementations
             dto.CurrentPage,
             dto.PageSize,
             response.TotalCount);
+        }
+
+        public async Task<Guid> CreateAsync(CreateServiceDTO dto)
+        {
+            var entity = _mapper.Map<Service>(dto);
+            await _servicesRepository.AddAsync(entity);
+
+            return entity.Id;
         }
     }
 }

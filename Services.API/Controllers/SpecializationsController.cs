@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Business.Interfaces;
-using Services.Data.DTOs;
+using Services.Data.DTOs.Specialization;
 using Shared.Core.Enums;
 using Shared.Models.Request.Services.Specialization;
 using Shared.Models.Request.Services.Specialization.SwaggerExamples;
