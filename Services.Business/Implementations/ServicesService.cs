@@ -47,5 +47,8 @@ namespace Services.Business.Implementations
 
             return entity.Id;
         }
+
+        public async Task ChangeStatusAsync(Guid id, bool isActive) =>
+            await _servicesRepository.ChangeStatusAsync(id, isActive);
     }
 }
