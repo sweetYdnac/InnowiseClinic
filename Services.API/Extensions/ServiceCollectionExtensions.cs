@@ -27,6 +27,7 @@ namespace Services.API.Extensions
         {
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IServicesService, ServicesService>();
+            services.AddScoped<IServiceCategoriesService, ServiceCategoriesService>();
             services.AddScoped<IMessageService, MessageService>();
         }
 
@@ -34,6 +35,7 @@ namespace Services.API.Extensions
         {
             services.AddTransient<IRepository<Specialization>, Repository<Specialization>>();
             services.AddTransient<IServicesRepository, ServicesRepository>();
+            services.AddTransient<IServiceCategoriesRepository, ServiceCategoriesRepository>();
         }
 
         public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
