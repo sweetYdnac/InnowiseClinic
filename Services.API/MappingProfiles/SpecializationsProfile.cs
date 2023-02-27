@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Services.Data.DTOs;
+using Services.Data.DTOs.Specialization;
 using Services.Data.Entities;
 using Shared.Models.Request.Services.Specialization;
 using Shared.Models.Response.Services.Specialization;

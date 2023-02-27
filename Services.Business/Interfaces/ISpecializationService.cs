@@ -1,4 +1,4 @@
-﻿using Services.Data.DTOs;
+﻿using Services.Data.DTOs.Specialization;
 using Shared.Models.Response;
 using Shared.Models.Response.Services.Specialization;
 

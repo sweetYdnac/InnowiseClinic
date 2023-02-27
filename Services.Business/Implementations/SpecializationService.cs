@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Services.Business.Interfaces;
-using Services.Data.DTOs;
+using Services.Data.DTOs.Specialization;
 using Services.Data.Entities;
 using Services.Data.Interfaces;
 using Shared.Exceptions;

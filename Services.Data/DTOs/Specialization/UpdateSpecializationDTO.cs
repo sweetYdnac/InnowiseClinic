@@ -1,4 +1,4 @@
-﻿namespace Services.Data.DTOs
+﻿namespace Services.Data.DTOs.Specialization
 {
     public class UpdateSpecializationDTO
     {

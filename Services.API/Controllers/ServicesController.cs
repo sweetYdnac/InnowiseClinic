@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Business.Interfaces;
-using Services.Data.DTOs;
+using Services.Data.DTOs.Service;
 using Shared.Core.Enums;
 using Shared.Models.Request.Services.Service;
+using Shared.Models.Request.Services.Service.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Services.Service;
 using Shared.Models.Response.Services.Service.SwaggerExamples;
@@ -66,6 +67,25 @@ namespace Services.API.Controllers
             var response = await _servicesService.GetPagedAsync(_mapper.Map<GetServicesDTO>(request));
 
             return Ok(response);
+        }
+
+        /// <summary>
+        /// Create new service
+        /// </summary>
+        /// <param name="request">Contains all data that need to create service entity</param>
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(CreateServiceRequest), typeof(CreateServiceRequestExample))]
+        public async Task<IActionResult> CreateService([FromBody] CreateServiceRequest request)
+        {
+            var id = await _servicesService.CreateAsync(_mapper.Map<CreateServiceDTO>(request));
+
+            return StatusCode(201, new { id });
         }
     }
 }

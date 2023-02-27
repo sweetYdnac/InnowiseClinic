@@ -1,6 +1,6 @@
-﻿namespace Services.Data.DTOs
+﻿namespace Services.Data.DTOs.Specialization
 {
-    public class GetServicesDTO
+    public class GetSpecializationsDTO
     {
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
