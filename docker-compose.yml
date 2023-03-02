@@ -10,6 +10,7 @@ services:
             - 8020:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - sqlServer
             - rabbitMQ
@@ -49,6 +50,7 @@ services:
             - 8023:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - sqlServer
             - rabbitMQ
