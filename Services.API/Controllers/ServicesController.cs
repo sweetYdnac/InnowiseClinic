@@ -43,7 +43,7 @@ namespace Services.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(ServiceResponseExample))]
-        public async Task<IActionResult> GetService([FromRoute] Guid id)
+        public async Task<IActionResult> GetServiceById([FromRoute] Guid id)
         {
             var response = await _servicesService.GetByIdAsync(id);
 

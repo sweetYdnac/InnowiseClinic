@@ -57,7 +57,7 @@ namespace Services.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetCategoriesResponseExample))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetCatigories()
         {
             var response = await _serviceCategoriesService.GetAllAsync();
 

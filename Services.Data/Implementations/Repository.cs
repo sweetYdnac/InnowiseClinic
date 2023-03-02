@@ -14,23 +14,17 @@ namespace Services.Data.Implementations
 
         public Repository(ServicesDbContext database) => (Database, DbSet) = (database, database.Set<T>());
 
-        public async Task<T> GetByIdAsync(Guid id) =>
-            await DbSet
-                .AsNoTracking()
-                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+        public async Task<T> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes)
+        {
+            var query = DbSet.AsNoTracking();
 
-        public async Task<T> GetByIdAsync<T1>(Guid id, Expression<Func<T, T1>> include1) =>
-            await DbSet
-                .AsNoTracking()
-                .Include(include1)
-                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
 
-        public async Task<T> GetByIdAsync<T1, T2>(Guid id, Expression<Func<T, T1>> include1, Expression<Func<T, T2>> include2) =>
-            await DbSet
-                .AsNoTracking()
-                .Include(include1)
-                .Include(include2)
-                .FirstOrDefaultAsync(s => s.Id.Equals(id));
+            return await query.FirstOrDefaultAsync(s => s.Id.Equals(id));
+        }
 
         public async Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
@@ -39,21 +33,14 @@ namespace Services.Data.Implementations
             return await GetPagedAndFilteredAsync(query, currentPage, pageSize, filters);
         }
 
-        public async Task<PagedResult<T>> GetPagedAndFilteredAsync<T1>(int currentPage, int pageSize, Expression<Func<T, T1>> include1, params Expression<Func<T, bool>>[] filters)
+        public async Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<T, object>>> includes, params Expression<Func<T, bool>>[] filters)
         {
-            var query = DbSet
-                .AsNoTracking()
-                .Include(include1);
+            var query = DbSet.AsNoTracking();
 
-            return await GetPagedAndFilteredAsync(query, currentPage, pageSize, filters);
-        }
-
-        public async Task<PagedResult<T>> GetPagedAndFilteredAsync<T1, T2>(int currentPage, int pageSize, Expression<Func<T, T1>> include1, Expression<Func<T, T2>> include2, params Expression<Func<T, bool>>[] filters)
-        {
-            var query = DbSet
-                .AsNoTracking()
-                .Include(include1)
-                .Include(include2);
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
 
             return await GetPagedAndFilteredAsync(query, currentPage, pageSize, filters);
         }
@@ -75,7 +62,7 @@ namespace Services.Data.Implementations
             await Database.SaveChangesAsync();
         }
 
-        private async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
+        private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
             foreach (var filter in filters)
             {

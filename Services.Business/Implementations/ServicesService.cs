@@ -6,6 +6,7 @@ using Services.Data.Interfaces;
 using Shared.Exceptions;
 using Shared.Models.Response;
 using Shared.Models.Response.Services.Service;
+using System.Linq.Expressions;
 
 namespace Services.Business.Implementations
 {
@@ -31,7 +32,10 @@ namespace Services.Business.Implementations
             var response = await _servicesRepository.GetPagedAndFilteredAsync(
                 dto.CurrentPage,
                 dto.PageSize,
-                s => s.Category);
+                new Expression<Func<Service, object>>[]
+                {
+                    s => s.Category,
+                });
 
             return new(
             _mapper.Map<IEnumerable<ServiceResponse>>(response.Items),
