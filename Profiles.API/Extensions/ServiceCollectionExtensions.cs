@@ -15,6 +15,7 @@ using Profiles.Data.Implementations.Repositories;
 using Profiles.Data.Interfaces.Repositories;
 using Profiles.Data.Migrations;
 using Shared.Messages;
+using Shared.Models.Request.Profiles.Doctor.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -67,7 +68,7 @@ namespace Profiles.API.Extensions
             });
 
             services.AddFluentValidationRulesToSwagger();
-            services.AddSwaggerExamplesFromAssemblyOf<Program>();
+            services.AddSwaggerExamplesFromAssemblyOf<CreateDoctorRequestExample>();
         }
 
         public static void ConfigureValidation(this IServiceCollection services)

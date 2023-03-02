@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Services.API</name>
+    </assembly>
+    <members>
+        <member name="T:Services.API.Controllers.ServiceCategoriesController">
+            <summary>
+            This controller used to work with service categories
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.ServiceCategoriesController.GetCategory(System.Guid)">
+            <summary>
+            Get service category by id
+            </summary>
+            <param name="id">Service category's unique identifier</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServiceCategoriesController.GetCatigories">
+            <summary>
+            Get all service categories
+            </summary>
+        </member>
+        <member name="T:Services.API.Controllers.ServicesController">
+            <summary>
+            This controller used to work with services
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.GetServiceById(System.Guid)">
+            <summary>
+            Get service by id
+            </summary>
+            <param name="id">Service's unique identifier</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.GetServices(Shared.Models.Request.Services.Service.GetServicesRequest)">
+            <summary>
+            Get paged services
+            </summary>
+            <param name="request">Contains properties for paging among services</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.CreateService(Shared.Models.Request.Services.Service.CreateServiceRequest)">
+            <summary>
+            Create new service
+            </summary>
+            <param name="request">Contains all data that need to create service entity</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.ChangeStatus(System.Guid,System.Boolean)">
+            <summary>
+            Change status of specific service
+            </summary>
+            <param name="id">Service's unique identifier</param>
+            <param name="isActive">New services's status</param>
+        </member>
+        <member name="M:Services.API.Controllers.ServicesController.UpdateService(System.Guid,Shared.Models.Request.Services.Service.UpdateServiceRequest)">
+            <summary>
+            Edit specific service
+            </summary>
+            <param name="id">Service's unique identifier</param>
+            <param name="request">Contains all data that need to update service entity</param>
+        </member>
+        <member name="T:Services.API.Controllers.SpecializationsController">
+            <summary>
+            This controller used to work with specializations
+            </summary>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.GetSpecialization(System.Guid)">
+            <summary>
+            Get specialization by Id
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.CreateSpecialization(Shared.Models.Request.Services.Specialization.CreateSpecializationRequest)">
+            <summary>
+            Create new specialization
+            </summary>
+            <param name="request">Contains all data that need to create specialization entity</param>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.GetSpecializations(Shared.Models.Request.Services.Specialization.GetSpecializationsRequest)">
+            <summary>
+            Get paged specializations
+            </summary>
+            <param name="request">Contains properties for paging among specializations</param>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.ChangeStatus(System.Guid,System.Boolean)">
+            <summary>
+            Change status of specific specialization
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+            <param name="isActive">New specialization's status</param>
+        </member>
+        <member name="M:Services.API.Controllers.SpecializationsController.UpdateSpecialization(System.Guid,Shared.Models.Request.Services.Specialization.UpdateSpecializationRequest)">
+            <summary>
+            Edit specific specialization
+            </summary>
+            <param name="id">Specialization's unique identifier</param>
+            <param name="request">Contains all data that need to update specialization entity</param>
+        </member>
+    </members>
+</doc>

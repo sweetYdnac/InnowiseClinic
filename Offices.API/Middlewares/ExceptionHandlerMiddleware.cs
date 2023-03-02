@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Offices.API.Middlewares;
 
-public class ExceptionHandlerMiddleware
+internal class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHostEnvironment _env;

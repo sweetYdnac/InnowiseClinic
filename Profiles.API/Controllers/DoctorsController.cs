@@ -10,7 +10,8 @@ using Shared.Models.Request.Profiles.Doctor;
 using Shared.Models.Request.Profiles.Doctor.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
-using Shared.Models.Response.Profiles.Doctor.SwaggerExample;
+using Shared.Models.Response.Profiles.Doctor.SwaggerExamples;
+using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Claims;
 
@@ -23,6 +24,7 @@ namespace Profiles.API.Controllers
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class DoctorsController : ControllerBase
     {
         private readonly IDoctorsService _doctorsService;
@@ -41,7 +43,7 @@ namespace Profiles.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DoctorInformationResponseExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DoctorResponseExample))]
         public async Task<IActionResult> GetDoctorById([FromRoute] Guid id)
         {
             var response = await _doctorsService.GetByIdAsync(id);

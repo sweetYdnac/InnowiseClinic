@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
     authorization.api:
-        image: authorizationapi
+        image: authorization.api
         build:
             context: .
             dockerfile: Authorization.API/Dockerfile
@@ -10,12 +10,13 @@ services:
             - 8020:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - sqlServer
             - rabbitMQ
 
     offices.api:
-        image: offices_api
+        image: offices.api
         build:
             context: .
             dockerfile: Offices.API/Dockerfile
@@ -36,6 +37,20 @@ services:
             - 8022:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - sqlServer
+            - rabbitMQ
+
+    services.api:
+        image: services.api
+        build:
+            context: .
+            dockerfile: Services.API/Dockerfile
+        ports:
+            - 8023:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - sqlServer
             - rabbitMQ

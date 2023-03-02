@@ -9,6 +9,7 @@ using Shared.Models.Request.Profiles.Patient.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
 using Shared.Models.Response.Profiles.Patient.SwaggerExamples;
+using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace Profiles.API.Controllers
@@ -20,6 +21,7 @@ namespace Profiles.API.Controllers
     [ApiController]
     [Consumes("application/json")]
     [Produces("application/json")]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class PatientsController : ControllerBase
     {
         private readonly IPatientsService _patientsService;
