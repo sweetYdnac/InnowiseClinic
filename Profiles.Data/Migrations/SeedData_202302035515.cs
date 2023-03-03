@@ -38,8 +38,8 @@ namespace Profiles.Data.Migrations
                     MiddleName = "",
                     AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    SpecializationId = new Guid("5F089A2C-C700-49DD-A1DD-65D6FC75A278"),
-                    OfficeId = new Guid("FC489D02-19A0-4D3C-B790-297FA9B4A143"),
+                    SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
+                    OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 })
                 .Row(new
@@ -50,8 +50,8 @@ namespace Profiles.Data.Migrations
                     MiddleName = "",
                     AccountId = new Guid("1EB7437B-65AB-4F9D-8227-7EAB168DE4FC"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    SpecializationId = new Guid("A5AFC31F-392D-4D41-A9CF-80FD7FE9F911"),
-                    OfficeId = new Guid("A8EA6EF0-0724-4580-AED1-093F1F7B8F54"),
+                    SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
+                    OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 });
 
@@ -63,7 +63,7 @@ namespace Profiles.Data.Migrations
                     LastName = "qwe",
                     MiddleName = "asd",
                     AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
-                    OfficeId = new Guid("187311D1-86D3-4DDC-BFA0-4AE85FAD6C05")
+                    OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new
                 {
@@ -72,7 +72,7 @@ namespace Profiles.Data.Migrations
                     LastName = "eqw",
                     MiddleName = "dsa",
                     AccountId = new Guid("54E8E973-D257-439C-B952-03BDE03A7E1A"),
-                    OfficeId = new Guid("090643DE-7B12-4FCC-80C7-BCC20BA3A57C")
+                    OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c")
                 });
         }
 
@@ -109,8 +109,8 @@ namespace Profiles.Data.Migrations
                     MiddleName = "",
                     AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    SpecializationId = new Guid("5F089A2C-C700-49DD-A1DD-65D6FC75A278"),
-                    OfficeId = new Guid("FC489D02-19A0-4D3C-B790-297FA9B4A143"),
+                    SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
+                    OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 })
                 .Row(new
@@ -121,8 +121,8 @@ namespace Profiles.Data.Migrations
                     MiddleName = "",
                     AccountId = new Guid("1EB7437B-65AB-4F9D-8227-7EAB168DE4FC"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    SpecializationId = new Guid("A5AFC31F-392D-4D41-A9CF-80FD7FE9F911"),
-                    OfficeId = new Guid("A8EA6EF0-0724-4580-AED1-093F1F7B8F54"),
+                    SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
+                    OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
                     CareerStartYear = new DateTime(1999, 10, 15),
                 });
 
@@ -134,7 +134,7 @@ namespace Profiles.Data.Migrations
                     LastName = "qwe",
                     MiddleName = "asd",
                     AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
-                    OfficeId = new Guid("187311D1-86D3-4DDC-BFA0-4AE85FAD6C05")
+                    OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new
                 {
@@ -143,7 +143,7 @@ namespace Profiles.Data.Migrations
                     LastName = "eqw",
                     MiddleName = "dsa",
                     AccountId = new Guid("54E8E973-D257-439C-B952-03BDE03A7E1A"),
-                    OfficeId = new Guid("090643DE-7B12-4FCC-80C7-BCC20BA3A57C")
+                    OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c")
                 });
         }
     }
