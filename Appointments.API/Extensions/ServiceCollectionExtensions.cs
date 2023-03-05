@@ -1,4 +1,4 @@
-﻿using Appointments.Application.Interfaces.Contexts;
+﻿using Appointments.API.Validators.Appointment;
 using Appointments.Persistence.Contexts;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -7,7 +7,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Shared.Models.Request.Services.Specialization.SwaggerExamples;
+using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
 using System.Net;
@@ -31,11 +31,11 @@ namespace Appointments.API.Extensions
             var writeConnectionString = configuration.GetConnectionString("WriteAppointmentsDbConnection");
             var migrationAssembly = typeof(WriteAppointmentsDbContext).Assembly.GetName().Name;
 
-            services.AddDbContext<IReadAppointmentsDbContext, ReadAppointmentsDbContext>(options =>
+            services.AddDbContext<ReadAppointmentsDbContext>(options =>
                 options.UseNpgsql(readConnectionString,
                     b => b.MigrationsAssembly(migrationAssembly)));
 
-            services.AddDbContext<IWriteAppointmentsDbContext, WriteAppointmentsDbContext>(options =>
+            services.AddDbContext<WriteAppointmentsDbContext>(options =>
                 options.UseNpgsql(writeConnectionString,
                     b => b.MigrationsAssembly(migrationAssembly)));
         }
@@ -51,12 +51,12 @@ namespace Appointments.API.Extensions
             });
 
             services.AddFluentValidationRulesToSwagger();
-            services.AddSwaggerExamplesFromAssemblyOf<CreateSpecializationRequestExample>();
+            services.AddSwaggerExamplesFromAssemblyOf<CreateAppointmentRequestExample>();
         }
 
         internal static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddValidatorsFromAssemblyContaining<CreateAppointmentRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
