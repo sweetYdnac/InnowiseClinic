@@ -14,7 +14,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Evgeny",
                     LastName = "Koreba",
                     MiddleName = "Sweety",
-                    AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
+                    AccountId = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 })
@@ -24,7 +24,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Alex",
                     LastName = "Lorem",
                     MiddleName = "",
-                    AccountId = new Guid("{2730FDE4-FD40-405C-9AB7-799BF189FA98}"),
+                    AccountId = new Guid("2730FDE4-FD40-405C-9AB7-799BF189FA98"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 });
@@ -36,7 +36,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
+                    AccountId = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
@@ -62,7 +62,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "123",
                     LastName = "qwe",
                     MiddleName = "asd",
-                    AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
+                    AccountId = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new
@@ -85,7 +85,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Evgeny",
                     LastName = "Koreba",
                     MiddleName = "Sweety",
-                    AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
+                    AccountId = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 })
@@ -95,7 +95,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Alex",
                     LastName = "Lorem",
                     MiddleName = "",
-                    AccountId = new Guid("{2730FDE4-FD40-405C-9AB7-799BF189FA98}"),
+                    AccountId = new Guid("2730FDE4-FD40-405C-9AB7-799BF189FA98"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     IsLinkedToAccount = false
                 });
@@ -107,7 +107,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("F2B88C6B-FDF7-4CE4-A799-9DBCBB82D8B0"),
+                    AccountId = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
@@ -133,7 +133,7 @@ namespace Profiles.Data.Migrations
                     FirstName = "123",
                     LastName = "qwe",
                     MiddleName = "asd",
-                    AccountId = new Guid("D872356D-EF84-4D80-83A8-F625969F1E0D"),
+                    AccountId = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new

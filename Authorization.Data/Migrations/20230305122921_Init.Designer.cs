@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Authorization.Data.Migrations
 {
     [DbContext(typeof(AuthorizationDbContext))]
-    [Migration("20230113151317_AddStatusPropertyToAccountEntity")]
-    partial class AddStatusPropertyToAccountEntity
+    [Migration("20230305122921_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,9 +73,6 @@ namespace Authorization.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("PhotoId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -106,6 +103,92 @@ namespace Authorization.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("777bf98b-4eb8-4da0-b09f-c9fed3419288"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "2ee77f4e-96ec-433a-b9c9-15d9ce0fb643",
+                            CreatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 583, DateTimeKind.Utc).AddTicks(9520),
+                            CreatedBy = new Guid("777bf98b-4eb8-4da0-b09f-c9fed3419288"),
+                            Email = "admin@admin",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN",
+                            NormalizedUserName = "ADMIN@ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC8pMr0Es5Q5RYvABzahj8QRxW9xNlO+Onb6Srptwup8C2Zcuo/Y6KiWG4uycnz+mA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f14a4646-4b7f-42f9-a0fe-0bd60a944a2d",
+                            Status = 0,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 583, DateTimeKind.Utc).AddTicks(9522),
+                            UpdatedBy = new Guid("777bf98b-4eb8-4da0-b09f-c9fed3419288"),
+                            UserName = "admin@admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("62dc0bbf-6423-41a5-8a35-ebda51df2eb2"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f1d9ca8f-220d-4ae6-b69e-c2c348d91c63",
+                            CreatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 651, DateTimeKind.Utc).AddTicks(9058),
+                            CreatedBy = new Guid("62dc0bbf-6423-41a5-8a35-ebda51df2eb2"),
+                            Email = "patient@patient",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PATIENT@PATIENT",
+                            NormalizedUserName = "PATIENT@PATIENT",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKZCKFAkiXAZrR5Fz+7Y9E6pqF0TwA4JxpJ9OIYLIDG3YKcn21sRsRaxsMPiGsVOgg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "8d53958c-75a1-4ac6-b55f-0a155522ce4f",
+                            Status = 0,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 651, DateTimeKind.Utc).AddTicks(9060),
+                            UpdatedBy = new Guid("62dc0bbf-6423-41a5-8a35-ebda51df2eb2"),
+                            UserName = "patient@patient"
+                        },
+                        new
+                        {
+                            Id = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "1b729fe4-ff5c-4bc1-92a2-fbd0727d1331",
+                            CreatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 719, DateTimeKind.Utc).AddTicks(6706),
+                            CreatedBy = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            Email = "doctor@doctor",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DOCTOR@DOCTOR",
+                            NormalizedUserName = "DOCTOR@DOCTOR",
+                            PasswordHash = "AQAAAAIAAYagAAAAECECxob66wSt6E4sEhS49kUScbN8XpHgbo92sLUc9WMZcUXfTk5RPvYEd3I2NrNmIQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5f4102cc-86b6-4596-a26c-9c9aab4515ab",
+                            Status = 1,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 719, DateTimeKind.Utc).AddTicks(6708),
+                            UpdatedBy = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            UserName = "doctor@doctor"
+                        },
+                        new
+                        {
+                            Id = new Guid("1b6a0d76-f6cc-48c4-ac24-5845c5d8ebde"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a585563e-4fc9-47d0-912d-ddbbac5fcc3b",
+                            CreatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 787, DateTimeKind.Utc).AddTicks(9346),
+                            CreatedBy = new Guid("1b6a0d76-f6cc-48c4-ac24-5845c5d8ebde"),
+                            Email = "receptionist@receptionist",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "RECEPTIONIST@RECEPTIONIST",
+                            NormalizedUserName = "RECEPTIONIST@RECEPTIONIST",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEmmzqoecKpxNKY/6dqLXDupYIunNmuL3d9RZRLQX7xRGqes4E7u6/sOo7U/G3CS0w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "69022992-1e1a-4d83-8e9c-12070797ad95",
+                            Status = 1,
+                            TwoFactorEnabled = false,
+                            UpdatedAt = new DateTime(2023, 3, 5, 12, 29, 20, 787, DateTimeKind.Utc).AddTicks(9349),
+                            UpdatedBy = new Guid("1b6a0d76-f6cc-48c4-ac24-5845c5d8ebde"),
+                            UserName = "receptionist@receptionist"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -138,29 +221,25 @@ namespace Authorization.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6817b4de-ca73-49ab-a0d1-11a0b6a225d4"),
-                            ConcurrencyStamp = "41095aff-a518-4d82-829d-7fcf3daedf66",
+                            Id = new Guid("0d8adf50-1a0e-4789-b72e-ee7b5b2daed8"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("4e64fcad-c355-4f7d-a7d0-1adf587380c8"),
-                            ConcurrencyStamp = "21ceb85a-da86-4c42-8e5f-f1db697a7a55",
+                            Id = new Guid("27346c79-7fb3-4aa1-b844-5acbb7b73ef2"),
                             Name = "Patient",
-                            NormalizedName = "Patient"
+                            NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = new Guid("18b1ca4c-698f-4dc4-8277-87e39ec25876"),
-                            ConcurrencyStamp = "adeaf5fa-e89d-4a6c-881a-52605469dd46",
+                            Id = new Guid("5513b382-4cdb-4790-ab24-1d3888b45eac"),
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = new Guid("566d1d5d-69e0-4641-86c9-fd6de27322fe"),
-                            ConcurrencyStamp = "84d48cf2-7835-493b-803a-3a819e683611",
+                            Id = new Guid("3fe3ac0b-3e5c-47b1-afc7-e931e3fefe05"),
                             Name = "Receptionist",
                             NormalizedName = "RECEPTIONIST"
                         });
@@ -248,6 +327,28 @@ namespace Authorization.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("777bf98b-4eb8-4da0-b09f-c9fed3419288"),
+                            RoleId = new Guid("0d8adf50-1a0e-4789-b72e-ee7b5b2daed8")
+                        },
+                        new
+                        {
+                            UserId = new Guid("62dc0bbf-6423-41a5-8a35-ebda51df2eb2"),
+                            RoleId = new Guid("27346c79-7fb3-4aa1-b844-5acbb7b73ef2")
+                        },
+                        new
+                        {
+                            UserId = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            RoleId = new Guid("5513b382-4cdb-4790-ab24-1d3888b45eac")
+                        },
+                        new
+                        {
+                            UserId = new Guid("1b6a0d76-f6cc-48c4-ac24-5845c5d8ebde"),
+                            RoleId = new Guid("3fe3ac0b-3e5c-47b1-afc7-e931e3fefe05")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
