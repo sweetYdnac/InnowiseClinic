@@ -28,9 +28,15 @@ namespace Appointments.Persistence.Migrations.ReadAppointmentsDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
                     b.Property<string>("DoctorFullName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid>("DoctorId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
@@ -49,6 +55,9 @@ namespace Appointments.Persistence.Migrations.ReadAppointmentsDb
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<TimeOnly>("Time")
+                        .HasColumnType("time");
+
                     b.HasKey("Id");
 
                     b.ToTable("Appointments");
@@ -57,20 +66,38 @@ namespace Appointments.Persistence.Migrations.ReadAppointmentsDb
                         new
                         {
                             Id = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
+                            Date = new DateOnly(2023, 2, 15),
                             DoctorFullName = "Test Test ",
+                            DoctorId = new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"),
                             IsApproved = true,
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
-                            ServiceName = "Examination"
+                            ServiceName = "Examination",
+                            Time = new TimeOnly(15, 30, 0)
+                        },
+                        new
+                        {
+                            Id = new Guid("fff7bcd2-5a83-47f2-a69b-b85399ca96d5"),
+                            Date = new DateOnly(2023, 3, 28),
+                            DoctorFullName = "Test Test ",
+                            DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
+                            IsApproved = false,
+                            PatientFullName = "Alex Lorem ",
+                            PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
+                            ServiceName = "Examination",
+                            Time = new TimeOnly(9, 40, 0)
                         },
                         new
                         {
                             Id = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
+                            Date = new DateOnly(2023, 2, 22),
                             DoctorFullName = "Test Test ",
+                            DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
                             IsApproved = true,
                             PatientFullName = "Evgeny Koreba Sweety",
                             PatientId = new Guid("b2957690-4d76-468c-a449-fb9529283857"),
-                            ServiceName = "Filling"
+                            ServiceName = "Filling",
+                            Time = new TimeOnly(11, 0, 0)
                         });
                 });
 
@@ -119,7 +146,7 @@ namespace Appointments.Persistence.Migrations.ReadAppointmentsDb
                             AppointmentId = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
                             Complaints = "nothing new",
                             Conclusion = "healthy",
-                            Date = new DateTime(2023, 3, 3, 18, 9, 1, 347, DateTimeKind.Local).AddTicks(5123),
+                            Date = new DateTime(2023, 3, 5, 14, 29, 20, 898, DateTimeKind.Local).AddTicks(4804),
                             DoctorSpecializationName = "Therapist",
                             PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             Recomendations = "drink water"
@@ -130,7 +157,7 @@ namespace Appointments.Persistence.Migrations.ReadAppointmentsDb
                             AppointmentId = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
                             Complaints = "here we go",
                             Conclusion = "have a disease",
-                            Date = new DateTime(2023, 2, 26, 18, 9, 1, 347, DateTimeKind.Local).AddTicks(5150),
+                            Date = new DateTime(2023, 2, 28, 14, 29, 20, 898, DateTimeKind.Local).AddTicks(4819),
                             DoctorSpecializationName = "Dentist",
                             PatientDateOfBirth = new DateOnly(2000, 6, 15),
                             Recomendations = "go for a walk"
