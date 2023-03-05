@@ -24,6 +24,7 @@ services:
             - 8021:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - postgreSqlServer
             - rabbitMQ
@@ -37,6 +38,7 @@ services:
             - 8022:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
         depends_on:
             - sqlServer
             - rabbitMQ
@@ -53,6 +55,20 @@ services:
         restart: on-failure
         depends_on:
             - sqlServer
+            - rabbitMQ
+
+    appointments.api:
+        image: appointments.api
+        build:
+            context: .
+            dockerfile: Appointments.API/Dockerfile
+        ports:
+            - 8024:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        #restart: on-failure
+        depends_on:
+            - postgreSqlServer
             - rabbitMQ
 
     sqlServer:

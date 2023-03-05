@@ -127,7 +127,7 @@ namespace Offices.API.Extensions
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var databaseInitializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
-                databaseInitializer.CreateDatabase("innowiseclinic_officesapi");
+                databaseInitializer.CreateDatabase();
 
                 var migrationService = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
                 migrationService.MigrateUp();

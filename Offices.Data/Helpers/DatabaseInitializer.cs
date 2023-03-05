@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Offices.Data.Contexts;
-using System.Data;
 
 namespace Offices.Data.Helpers
 {
@@ -10,22 +9,24 @@ namespace Offices.Data.Helpers
 
         public DatabaseInitializer(OfficesDbContext db) => _db = db;
 
-        public void CreateDatabase(string dbName)
+        public void CreateDatabase()
         {
-            var query = """
+            var query =
+                        $"""
                             SELECT * FROM pg_database
-                            WHERE datname = @name
+                            WHERE datname = 'OfficesDb'
                         """;
-
-            var parameters = new DynamicParameters();
-            parameters.Add("name", dbName, DbType.String);
 
             using (var connection = _db.CreateMasterConnection())
             {
-                var records = connection.Query(query, parameters);
+                var records = connection.Query(query);
+
                 if (!records.Any())
                 {
-                    connection.Execute($"CREATE DATABASE {dbName}");
+                    connection.Execute(
+                        """
+                            CREATE DATABASE "OfficesDb"
+                        """);
                 }
             }
         }
