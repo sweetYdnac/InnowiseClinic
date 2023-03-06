@@ -22,15 +22,15 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
 
     public class CreateAppointmentCommandHandler : IRequestHandler<CreateAppointmentCommand, int>
     {
-        private readonly IRepository<Appointment> _appointmentRepository;
+        private readonly IAppointmentsRepository _appointmentsRepository;
         private readonly IMapper _mapper;
 
-        public CreateAppointmentCommandHandler(IRepository<Appointment> appointmentRepository, IMapper mapper) =>
-            (_appointmentRepository, _mapper) = (appointmentRepository, mapper);
+        public CreateAppointmentCommandHandler(IAppointmentsRepository appointmentRepository, IMapper mapper) =>
+            (_appointmentsRepository, _mapper) = (appointmentRepository, mapper);
 
         public async Task<int> Handle(CreateAppointmentCommand request, CancellationToken cancellationToken)
         {
-            return await _appointmentRepository.AddAsync(_mapper.Map<Appointment>(request));
+            return await _appointmentsRepository.AddAsync(_mapper.Map<Appointment>(request));
         }
     }
 }

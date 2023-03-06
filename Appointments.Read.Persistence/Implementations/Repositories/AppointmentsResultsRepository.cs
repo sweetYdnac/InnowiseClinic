@@ -13,7 +13,8 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
         public async Task UpdatePatientAsync(Guid id, DateOnly dateOfBirth)
         {
             await DbSet
-                .Where(a => a.Id.Equals(id))
+                .Include(a => a.Appointment)
+                .Where(a => a.Appointment.PatientId.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.PatientDateOfBirth, a => dateOfBirth));
         }

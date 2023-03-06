@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Patient;
+using Profiles.Data.Helpers;
 using Profiles.Data.Interfaces.Repositories;
 using Shared.Models;
 using Shared.Models.Extensions;
@@ -13,7 +14,11 @@ namespace Profiles.Data.Implementations.Repositories
     {
         private readonly ProfilesDbContext _db;
 
-        public PatientsRepository(ProfilesDbContext db) => _db = db;
+        public PatientsRepository(ProfilesDbContext db)
+        {
+            _db = db;
+            SqlMapper.AddTypeHandler(new DateOnlyHandler());
+        }
 
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {

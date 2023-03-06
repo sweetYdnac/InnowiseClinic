@@ -10,7 +10,7 @@ namespace Shared.Models.Response.Profiles.Patient.SwaggerExamples
                 FirstName = "Evgeny",
                 LastName = "Koreba",
                 MiddleName = "Sergeevich",
-                DateOfBirth = new DateTime(1998, 07, 16),
+                DateOfBirth = new DateOnly(1998, 07, 16),
                 PhotoId = Guid.NewGuid()
             };
     }
