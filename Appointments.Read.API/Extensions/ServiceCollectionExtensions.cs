@@ -1,7 +1,6 @@
 ﻿using Appointments.Read.API.Consumers;
 using Appointments.Read.Application.Features.Commands.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
-using Appointments.Read.Domain.Entities;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
 using FluentValidation;
@@ -27,7 +26,8 @@ namespace Appointments.Read.API.Extensions
 
         internal static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IRepository<Appointment>, Repository<Appointment>>();
+            services.AddTransient<IAppointmentsRepository, AppointmentsRepository>();
+            services.AddTransient<IAppointmentsResultsRepository, AppointmentsResultsRepository>();
         }
 
         internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -108,6 +108,7 @@ namespace Appointments.Read.API.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<CreateAppointmentConsumer>();
+                x.AddConsumer<UpdatePatientConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });

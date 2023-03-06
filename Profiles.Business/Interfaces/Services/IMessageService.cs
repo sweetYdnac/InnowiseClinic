@@ -1,4 +1,5 @@
 ﻿using Shared.Core.Enums;
+using Shared.Messages;
 
 namespace Profiles.Business.Interfaces.Services
 {
@@ -6,5 +7,6 @@ namespace Profiles.Business.Interfaces.Services
     {
         Task SendUpdateAccountStatusMessageAsync(Guid accountId, AccountStatuses status, string updaterId);
         Task SendDeletePhotoMessageAsync(Guid photoId);
+        Task SendUpdatePatientMessageAsync(UpdatePatientMessage message);
     }
 }

@@ -1,8 +1,10 @@
-﻿using Profiles.Business.Interfaces.Services;
+﻿using AutoMapper;
+using Profiles.Business.Interfaces.Services;
 using Profiles.Data.DTOs.Patient;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
 
@@ -12,8 +14,9 @@ namespace Profiles.Business.Implementations.Services
     {
         private readonly IPatientsRepository _patientsRepository;
         private readonly IMessageService _messageService;
-        public PatientsService(IPatientsRepository patientRepository, IMessageService messageService) =>
-            (_patientsRepository, _messageService) = (patientRepository, messageService);
+        private readonly IMapper _mapper;
+        public PatientsService(IPatientsRepository patientRepository, IMessageService messageService, IMapper mapper) =>
+            (_patientsRepository, _messageService, _mapper) = (patientRepository, messageService, mapper);
 
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
@@ -62,7 +65,14 @@ namespace Profiles.Business.Implementations.Services
         {
             var result = await _patientsRepository.UpdateAsync(id, dto);
 
-            if (result == 0)
+            if (result > 0)
+            {
+                var message = _mapper.Map<UpdatePatientMessage>(dto);
+                message.Id = id;
+
+                await _messageService.SendUpdatePatientMessageAsync(message);
+            }
+            else
             {
                 Log.Warning("Patient wasn't updated {@Id} {@Dto}", id, dto);
             }

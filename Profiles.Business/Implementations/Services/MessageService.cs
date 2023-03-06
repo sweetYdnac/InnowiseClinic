@@ -23,9 +23,10 @@ namespace Profiles.Business.Implementations.Services
             await _sendEndpointProvider.Send(message);
         }
 
-        public async Task SendDeletePhotoMessageAsync(Guid photoId)
-        {
+        public async Task SendDeletePhotoMessageAsync(Guid photoId) =>
             await _sendEndpointProvider.Send(new DeletePhotoMessage { PhotoId = photoId });
-        }
+
+        public async Task SendUpdatePatientMessageAsync(UpdatePatientMessage message) =>
+            await _sendEndpointProvider.Send(message);
     }
 }
