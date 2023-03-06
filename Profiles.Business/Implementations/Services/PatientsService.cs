@@ -4,7 +4,6 @@ using Profiles.Data.DTOs.Patient;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
-using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
 
@@ -67,10 +66,13 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var message = _mapper.Map<UpdatePatientMessage>(dto);
-                message.Id = id;
-
-                await _messageService.SendUpdatePatientMessageAsync(message);
+                await _messageService.SendUpdatePatientMessageAsync(
+                    id,
+                    dto.FirstName,
+                    dto.LastName,
+                    dto.MiddleName,
+                    dto.DateOfBirth,
+                    dto.PhoneNumber);
             }
             else
             {

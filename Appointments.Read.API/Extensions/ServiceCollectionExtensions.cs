@@ -109,6 +109,7 @@ namespace Appointments.Read.API.Extensions
             {
                 x.AddConsumer<CreateAppointmentConsumer>();
                 x.AddConsumer<UpdatePatientConsumer>();
+                x.AddConsumer<UpdateDoctorConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
