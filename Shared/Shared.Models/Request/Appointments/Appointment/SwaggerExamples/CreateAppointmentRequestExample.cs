@@ -12,6 +12,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
                 ServiceId = Guid.NewGuid(),
                 Date = new DateOnly(2023, 3, 20),
                 Time = new TimeOnly(14, 00),
+                Duration = 30,
                 PatientFullName = "Evgeny Koreba ",
                 PatientPhoneNumber = "88005553535",
                 DoctorFullName = "Doctor Octavius ",

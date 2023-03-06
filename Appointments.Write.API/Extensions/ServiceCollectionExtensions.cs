@@ -1,8 +1,11 @@
 ﻿using Appointments.Write.API.Validators.Appointment;
+using Appointments.Write.Application.Features.Commands.Appointments;
 using Appointments.Write.Application.Interfaces.Repositories;
+using Appointments.Write.Application.Interfaces.Services;
 using Appointments.Write.Domain.Entities;
 using Appointments.Write.Persistence.Contexts;
 using Appointments.Write.Persistence.Implementations.Repositories;
+using Appointments.Write.Persistence.Implementations.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
@@ -10,6 +13,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -22,6 +26,7 @@ namespace Appointments.Write.API.Extensions
     {
         internal static void AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         internal static void AddRepositories(this IServiceCollection services)
@@ -105,6 +110,13 @@ namespace Appointments.Write.API.Extensions
         internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
+
+            EndpointConvention.Map<CreateAppointmentMessage>(
+    new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
+
         }
+
+        internal static void ConfigureMediatR(this IServiceCollection services) =>
+            services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>());
     }
 }

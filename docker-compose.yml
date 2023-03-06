@@ -57,30 +57,30 @@ services:
             - sqlServer
             - rabbitMQ
 
-    appointments.read.api:
-        image: appointments.read.api
-        build:
-            context: .
-            dockerfile: Appointments.Read.API/Dockerfile
-        ports:
-            - 8024:80
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-        #restart: on-failure
-        depends_on:
-            - postgreSqlServer
-            - rabbitMQ
-
     appointments.write.api:
         image: appointments.write.api
         build:
             context: .
             dockerfile: Appointments.Write.API/Dockerfile
         ports:
+            - 8024:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
+        depends_on:
+            - postgreSqlServer
+            - rabbitMQ
+
+    appointments.read.api:
+        image: appointments.read.api
+        build:
+            context: .
+            dockerfile: Appointments.Read.API/Dockerfile
+        ports:
             - 8025:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-        #restart: on-failure
+        restart: on-failure
         depends_on:
             - postgreSqlServer
             - rabbitMQ

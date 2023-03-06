@@ -11,7 +11,7 @@ namespace Appointments.Write.Persistence.Implementations.Repositories
         protected DbSet<T> DbSet { get; set; }
 
         public Repository(AppointmentsDbContext database) =>
-            (Database, DbSet) = (database, Database.Set<T>());
+            (Database, DbSet) = (database, database.Set<T>());
 
         public async Task<int> AddAsync(T entity)
         {

@@ -16,6 +16,7 @@ namespace Appointments.Read.Persistence.Configurations
             builder.Property(a => a.PatientPhoneNumber).IsRequired(false);
             builder.Property(a => a.DoctorFullName).IsRequired();
             builder.Property(a => a.ServiceName).IsRequired();
+            builder.Property(a => a.Duration).IsRequired();
 
             builder.Property(a => a.Date)
                 .HasColumnType("date")
@@ -25,6 +26,8 @@ namespace Appointments.Read.Persistence.Configurations
                 .HasColumnType("time")
                 .IsRequired();
 
+            builder.ToTable(a => a.HasCheckConstraint("CHK_Appointment_Duration", "\"Duration\" > 0"))
+;
             SeedData(builder);
         }
 
@@ -38,6 +41,7 @@ namespace Appointments.Read.Persistence.Configurations
                     DoctorId = new Guid("96C91BEE-3B1D-48B0-ABAE-116BEBBA3EFB"),
                     Date = new DateOnly(2023, 2, 15),
                     Time = new TimeOnly(15, 30),
+                    Duration = 20,
                     IsApproved = true,
                     PatientFullName = "Alex Lorem ",
                     PatientPhoneNumber = null,
@@ -51,6 +55,7 @@ namespace Appointments.Read.Persistence.Configurations
                     DoctorId = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
                     Date = new DateOnly(2023, 3, 28),
                     Time = new TimeOnly(09, 40),
+                    Duration = 20,
                     IsApproved = false,
                     PatientFullName = "Alex Lorem ",
                     PatientPhoneNumber = null,
@@ -64,6 +69,7 @@ namespace Appointments.Read.Persistence.Configurations
                     DoctorId = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
                     Date = new DateOnly(2023, 2, 22),
                     Time = new TimeOnly(11, 00),
+                    Duration = 30,
                     IsApproved = true,
                     PatientFullName = "Evgeny Koreba Sweety",
                     PatientPhoneNumber = null,

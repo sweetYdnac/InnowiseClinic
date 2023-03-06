@@ -22,6 +22,10 @@ namespace Appointments.Write.API.Validators.Appointment
                 new TimeOnly(22, 00))
                 .Must(t => t.Minute % 10 == 0);
 
+            RuleFor(r => r.Duration)
+                .Required()
+                .GreaterThan(0);
+
             RuleFor(r => r.PatientFullName).Required();
             RuleFor(r => r.PatientPhoneNumber).Required();
             RuleFor(r => r.DoctorFullName).Required();

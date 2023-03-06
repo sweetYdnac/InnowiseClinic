@@ -45,16 +45,16 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
             return await GetPagedAndFilteredAsync(query, currentPage, pageSize, filters);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             await DbSet.AddAsync(entity);
-            await Database.SaveChangesAsync();
+            return await Database.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<int> UpdateAsync(T entity)
         {
             DbSet.Update(entity);
-            await Database.SaveChangesAsync();
+            return await Database.SaveChangesAsync();
         }
 
         private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)

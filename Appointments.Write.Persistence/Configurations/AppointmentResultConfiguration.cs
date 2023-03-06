@@ -13,10 +13,16 @@ namespace Appointments.Write.Persistence.Configurations
             builder.Property(a => a.Conclusion).IsRequired();
             builder.Property(a => a.Recomendations).IsRequired();
 
+            builder.Property(a => a.Date)
+                .HasColumnType("timestamp")
+                .IsRequired();
+
             builder.HasOne(r => r.Appointment)
                 .WithOne(a => a.AppointmentResult)
                 .HasForeignKey<AppointmentResult>(r => r.AppointmentId)
                 .IsRequired();
+
+            builder.ToTable(a => a.HasCheckConstraint("CHK_Appointment_Date", "\"Date\" < CURRENT_TIMESTAMP"));
 
             SeedData(builder);
         }
@@ -27,6 +33,7 @@ namespace Appointments.Write.Persistence.Configurations
                 new AppointmentResult
                 {
                     Id = new Guid("176999C3-035E-43E1-B68A-F9071DC7A016"),
+                    Date = new DateTime(2023, 3, 1, 13, 20, 10),
                     Complaints = "nothing new",
                     Conclusion = "healthy",
                     Recomendations = "drink water",
@@ -35,6 +42,7 @@ namespace Appointments.Write.Persistence.Configurations
                 new AppointmentResult
                 {
                     Id = new Guid("16FC93AD-CB73-4A78-9538-F808F3E812CD"),
+                    Date = new DateTime(2023, 3, 4, 15, 50, 30),
                     Complaints = "here we go",
                     Conclusion = "have a disease",
                     Recomendations = "go for a walk",

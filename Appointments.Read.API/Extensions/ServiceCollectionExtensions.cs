@@ -1,4 +1,6 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.API.Consumers;
+using Appointments.Read.Application.Features.Commands.Appointments;
+using Appointments.Read.Application.Interfaces.Repositories;
 using Appointments.Read.Domain.Entities;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
@@ -103,7 +105,15 @@ namespace Appointments.Read.API.Extensions
 
         internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMassTransit(x => x.UsingRabbitMq());
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<CreateAppointmentConsumer>();
+
+                x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
+            });
         }
+
+        internal static void ConfigureMediatR(this IServiceCollection services) =>
+            services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>());
     }
 }

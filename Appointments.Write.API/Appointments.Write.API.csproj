@@ -48,6 +48,7 @@
     <ProjectReference Include="..\Appointments.Write.Application\Appointments.Write.Application.csproj" />
     <ProjectReference Include="..\Appointments.Write.Persistence\Appointments.Write.Persistence.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
 

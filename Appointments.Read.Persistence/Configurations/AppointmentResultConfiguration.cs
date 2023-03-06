@@ -27,6 +27,8 @@ namespace Appointments.Read.Persistence.Configurations
                 .HasForeignKey<AppointmentResult>(r => r.AppointmentId)
                 .IsRequired();
 
+            builder.ToTable(a => a.HasCheckConstraint("CHK_Appointment_Date", "\"Date\" < CURRENT_TIMESTAMP"));
+
             SeedData(builder);
         }
 
@@ -36,7 +38,7 @@ namespace Appointments.Read.Persistence.Configurations
                 new AppointmentResult
                 {
                     Id = new Guid("176999C3-035E-43E1-B68A-F9071DC7A016"),
-                    Date = DateTime.Now,
+                    Date = new DateTime(2023, 3, 1, 13, 20, 10),
                     PatientDateOfBirth = new DateOnly(1980, 11, 28),
                     DoctorSpecializationName = "Therapist",
                     Complaints = "nothing new",
@@ -47,14 +49,14 @@ namespace Appointments.Read.Persistence.Configurations
                 new AppointmentResult
                 {
                     Id = new Guid("16FC93AD-CB73-4A78-9538-F808F3E812CD"),
-                    Date = DateTime.Now - TimeSpan.FromDays(5),
+                    Date = new DateTime(2023, 3, 4, 15, 50, 30),
                     PatientDateOfBirth = new DateOnly(2000, 6, 15),
                     DoctorSpecializationName = "Dentist",
                     Complaints = "here we go",
                     Conclusion = "have a disease",
                     Recomendations = "go for a walk",
                     AppointmentId = new Guid("51E15AF0-A487-48AA-80BC-2C45ABAE4096"),
-                });
+                }); ;
         }
     }
 }
