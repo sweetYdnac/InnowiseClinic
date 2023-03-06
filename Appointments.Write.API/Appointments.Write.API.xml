@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Appointments.Write.API</name>
+    </assembly>
+    <members>
+        <member name="T:Appointments.Write.API.Controllers.AppointmentsController">
+            <summary>
+            This controller used to work with appointments
+            </summary>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.CreateAppointment(Shared.Models.Request.Appointments.Appointment.CreateAppointmentRequest)">
+            <summary>
+            Create new appointment
+            </summary>
+            <param name="request">Contains all data that need to create service entity</param>
+        </member>
+    </members>
+</doc>
