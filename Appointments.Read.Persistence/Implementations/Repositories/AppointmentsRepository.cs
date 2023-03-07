@@ -1,7 +1,11 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Read.Application.Interfaces.Repositories;
 using Appointments.Read.Domain.Entities;
 using Appointments.Read.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Shared.Models;
+using Shared.Models.Extensions;
+using System.Linq.Expressions;
 
 namespace Appointments.Read.Persistence.Implementations.Repositories
 {
@@ -60,6 +64,46 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 .Where(a => a.Id.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.IsApproved, a => true));
+        }
+
+        public async Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            return await GetDoctorScheduleAsync(currentPage, pageSize, null, filters);
+        }
+
+        public async Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            return await GetDoctorScheduleAsync(currentPage, pageSize, includes, null, filters);
+        }
+
+        public async Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IEnumerable<(Expression<Func<Appointment, object>> keySelector, bool isAscending)> sorts, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            var query = DbSet
+                .AsNoTracking()
+                .IncludeMany(includes)
+                .FilterMany(filters)
+                .FilterByPage(currentPage, pageSize)
+                .SortMany(sorts);
+
+            var items = await query
+                .Select(a => new DoctorScheduledAppointmentDTO
+                {
+                    StartTime = a.Time,
+                    EndTime = a.Time.AddMinutes(a.Duration),
+                    PatientFullName = a.PatientFullName,
+                    ServiceName = a.ServiceName,
+                    IsApproved = a.IsApproved,
+                    ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
+                })
+                .ToArrayAsync();
+
+            var totalCount = await query.CountAsync();
+
+            return new()
+            {
+                Items = items,
+                TotalCount = totalCount
+            };
         }
     }
 }

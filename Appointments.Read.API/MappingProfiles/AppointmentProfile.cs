@@ -1,7 +1,11 @@
-﻿using Appointments.Read.Application.Features.Commands;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Read.Application.Features.Commands;
+using Appointments.Read.Application.Features.Queries;
 using Appointments.Read.Domain.Entities;
 using AutoMapper;
 using Shared.Messages;
+using Shared.Models.Request.Appointments.Appointment;
+using Shared.Models.Response.Appointments.Appointment;
 
 namespace Appointments.Read.API.MappingProfiles
 {
@@ -19,6 +23,9 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<UpdatePatientMessage, UpdatePatientCommand>();
             CreateMap<UpdateDoctorMessage, UpdateDoctorCommand>();
             CreateMap<UpdateServiceMessage, UpdateServiceCommand>();
+
+            CreateMap<GetDoctorScheduleRequest, GetDoctorScheduleQuery>();
+            CreateMap<DoctorScheduledAppointmentDTO, DoctorScheduledAppointmentResponse>();
         }
     }
 }

@@ -28,5 +28,11 @@
             </summary>
             <param name="id">Appointment's unique identifier</param>
         </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.ApproveAppointment(System.Guid)">
+            <summary>
+            Cancel existed appointment by unique identifier
+            </summary>
+            <param name="id">Appointment's unique identifier</param>
+        </member>
     </members>
 </doc>
