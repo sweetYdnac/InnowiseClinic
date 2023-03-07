@@ -37,10 +37,10 @@ namespace Profiles.Data.Migrations
                     LastName = "Test",
                     MiddleName = "",
                     AccountId = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
-                    DateOfBirth = new DateOnly(1999, 10, 15),
+                    DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 })
                 .Row(new
                 {
@@ -52,7 +52,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 });
 
             Delete.FromTable("Receptionists")
@@ -111,7 +111,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 })
                 .Row(new
                 {
@@ -123,7 +123,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 });
 
             Insert.IntoTable("Receptionists")
