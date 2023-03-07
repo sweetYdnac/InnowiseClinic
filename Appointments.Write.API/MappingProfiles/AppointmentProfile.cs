@@ -12,10 +12,12 @@ namespace Appointments.Write.API.MappingProfiles
         {
             CreateMap<CreateAppointmentRequest, CreateAppointmentCommand>()
                 .ForMember(command => command.Id, opt => opt.MapFrom(request => Guid.NewGuid()));
-
             CreateMap<CreateAppointmentCommand, Appointment>()
                 .ForMember(a => a.IsApproved, opt => opt.MapFrom(command => false));
             CreateMap<CreateAppointmentCommand, CreateAppointmentMessage>();
+
+            CreateMap<RescheduleAppointmentRequest, RescheduleAppointmentCommand>();
+            CreateMap<RescheduleAppointmentCommand, RescheduleAppointmentMessage>();
         }
     }
 }

@@ -46,5 +46,29 @@ namespace Appointments.Write.API.Controllers
 
             return StatusCode(201, new { id });
         }
+
+        /// <summary>
+        /// Reschedule specific appointment
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(RescheduleAppointmentRequest), typeof(RescheduleAppointmentRequestExample))]
+        public async Task<IActionResult> RescheduleAppointment([FromRoute] Guid id, [FromBody] RescheduleAppointmentRequest request)
+        {
+            var message = _mapper.Map<RescheduleAppointmentCommand>(request);
+            message.Id = id;
+
+            await _mediator.Send(message);
+
+            return NoContent();
+        }
     }
 }

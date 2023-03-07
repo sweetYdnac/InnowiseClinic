@@ -18,7 +18,5 @@ namespace Appointments.Write.Persistence.Implementations.Repositories
             await DbSet.AddAsync(entity);
             return await Database.SaveChangesAsync();
         }
-
-        public Task<int> UpdateAsync(T entity) => throw new NotImplementedException();
     }
 }

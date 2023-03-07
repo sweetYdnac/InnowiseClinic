@@ -16,6 +16,9 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<UpdatePatientMessage, UpdatePatientCommand>();
             CreateMap<UpdateDoctorMessage, UpdateDoctorCommand>();
             CreateMap<UpdateServiceMessage, UpdateServiceCommand>();
+
+
+            CreateMap<RescheduleAppointmentMessage, RescheduleAppointmentCommand>();
         }
     }
 }

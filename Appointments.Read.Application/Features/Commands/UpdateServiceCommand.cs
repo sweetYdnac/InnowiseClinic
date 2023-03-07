@@ -19,7 +19,10 @@ namespace Appointments.Read.Application.Features.Commands
 
         public async Task<int> Handle(UpdateServiceCommand request, CancellationToken cancellationToken)
         {
-            return await _appointmentsRepository.UpdateServiceAsync(request);
+            return await _appointmentsRepository.UpdateServiceAsync(
+                request.Id,
+                request.Name,
+                request.TimeSlotSize);
         }
     }
 }
