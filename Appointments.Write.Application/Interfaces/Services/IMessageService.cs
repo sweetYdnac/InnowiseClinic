@@ -6,6 +6,7 @@ namespace Appointments.Write.Application.Interfaces.Services
     {
         Task SendCreateAppointmentMessageAsync(CreateAppointmentMessage message);
         Task SendRescheduleAppointmentMessageAsync(RescheduleAppointmentMessage message);
-        Task SendDeleteAppointmentMessageAsync(DeleteAppointmentMessage message);
+        Task SendDeleteAppointmentMessageAsync(Guid id);
+        Task SendApproveAppointmentMessageAsync(Guid id);
     }
 }

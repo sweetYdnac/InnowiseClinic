@@ -87,5 +87,23 @@ namespace Appointments.Write.API.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Cancel existed appointment by unique identifier
+        /// </summary>
+        /// <param name="id">Appointment's unique identifier</param>
+        [HttpPatch("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ApproveAppointment([FromRoute] Guid id)
+        {
+            await _mediator.Send(new ApproveAppointmentCommand() { Id = id });
+
+            return NoContent();
+        }
     }
 }

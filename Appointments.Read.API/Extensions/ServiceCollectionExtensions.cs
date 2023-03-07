@@ -108,8 +108,9 @@ namespace Appointments.Read.API.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<CreateAppointmentConsumer>();
-                x.AddConsumer<DeleteAppointmentConsumer>();
+                x.AddConsumer<CancelAppointmentConsumer>();
                 x.AddConsumer<RescheduleAppointmentConsumer>();
+                x.AddConsumer<ApproveAppointmentConsumer>();
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
