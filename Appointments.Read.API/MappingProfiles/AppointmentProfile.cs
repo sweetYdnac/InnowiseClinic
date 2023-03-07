@@ -12,13 +12,12 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<CreateAppointmentMessage, CreateAppointmentCommand>();
             CreateMap<CreateAppointmentCommand, Appointment>()
                 .ForMember(entity => entity.IsApproved, opt => opt.MapFrom(command => false));
+            CreateMap<RescheduleAppointmentMessage, RescheduleAppointmentCommand>();
+            CreateMap<DeleteAppointmentMessage, DeleteAppointmentCommand>();
 
             CreateMap<UpdatePatientMessage, UpdatePatientCommand>();
             CreateMap<UpdateDoctorMessage, UpdateDoctorCommand>();
             CreateMap<UpdateServiceMessage, UpdateServiceCommand>();
-
-
-            CreateMap<RescheduleAppointmentMessage, RescheduleAppointmentCommand>();
         }
     }
 }

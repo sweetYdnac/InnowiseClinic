@@ -108,10 +108,11 @@ namespace Appointments.Read.API.Extensions
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<CreateAppointmentConsumer>();
+                x.AddConsumer<DeleteAppointmentConsumer>();
+                x.AddConsumer<RescheduleAppointmentConsumer>();
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
-                x.AddConsumer<RescheduleAppointmentConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
