@@ -2,7 +2,6 @@
 using Appointments.Write.Application.Features.Commands.Appointments;
 using Appointments.Write.Application.Interfaces.Repositories;
 using Appointments.Write.Application.Interfaces.Services;
-using Appointments.Write.Domain.Entities;
 using Appointments.Write.Persistence.Contexts;
 using Appointments.Write.Persistence.Implementations.Repositories;
 using Appointments.Write.Persistence.Implementations.Services;
@@ -31,7 +30,7 @@ namespace Appointments.Write.API.Extensions
 
         internal static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IRepository<Appointment>, Repository<Appointment>>();
+            services.AddTransient<IAppointmentsRepository, AppointmentsRepository>();
         }
 
         internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -113,7 +112,8 @@ namespace Appointments.Write.API.Extensions
 
             EndpointConvention.Map<CreateAppointmentMessage>(
     new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
-
+            EndpointConvention.Map<RescheduleAppointmentMessage>(
+    new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>

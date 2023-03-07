@@ -15,5 +15,13 @@
             </summary>
             <param name="request">Contains all data that need to create service entity</param>
         </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.RescheduleAppointment(System.Guid,Shared.Models.Request.Appointments.Appointment.RescheduleAppointmentRequest)">
+            <summary>
+            Reschedule specific appointment
+            </summary>
+            <param name="id"></param>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

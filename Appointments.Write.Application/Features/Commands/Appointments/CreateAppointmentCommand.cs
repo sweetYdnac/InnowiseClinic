@@ -25,12 +25,12 @@ namespace Appointments.Write.Application.Features.Commands.Appointments
 
     public class CreateAppointmentCommandHandler : IRequestHandler<CreateAppointmentCommand, Guid>
     {
-        private readonly IRepository<Appointment> _appointmentsRepository;
+        private readonly IAppointmentsRepository _appointmentsRepository;
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public CreateAppointmentCommandHandler(IRepository<Appointment>
-            appointmentRepository,
+        public CreateAppointmentCommandHandler(
+            IAppointmentsRepository appointmentRepository,
             IMapper mapper,
             IMessageService messageService) =>
         (_appointmentsRepository,_messageService, _mapper) = (appointmentRepository, messageService, mapper);
