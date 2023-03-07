@@ -56,10 +56,10 @@ namespace Services.Data.Implementations
                 .Where(e => e.Id.Equals(id))
                 .ExecuteUpdateAsync(e => e.SetProperty(n => n.IsActive, n => isActive));
 
-        public async Task UpdateAsync(T entity)
+        public async Task<int> UpdateAsync(T entity)
         {
             DbSet.Update(entity);
-            await Database.SaveChangesAsync();
+            return await Database.SaveChangesAsync();
         }
 
         private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)

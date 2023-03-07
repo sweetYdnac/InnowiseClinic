@@ -10,7 +10,7 @@ namespace Profiles.Data.DTOs.Doctor
         public DateTime DateOfBirth { get; set; }
         public Guid SpecializationId { get; set; }
         public Guid OfficeId { get; set; }
-        public DateTime CareerStartYear { get; set; }
+        public int CareerStartYear { get; set; }
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
         public AccountStatuses Status { get; set; }

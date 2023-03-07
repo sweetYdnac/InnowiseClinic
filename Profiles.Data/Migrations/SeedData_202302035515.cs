@@ -15,7 +15,7 @@ namespace Profiles.Data.Migrations
                     LastName = "Koreba",
                     MiddleName = "Sweety",
                     AccountId = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
-                    DateOfBirth = new DateTime(1999, 10, 15),
+                    DateOfBirth = new DateOnly(1999, 10, 15),
                     IsLinkedToAccount = false
                 })
                 .Row(new
@@ -25,7 +25,7 @@ namespace Profiles.Data.Migrations
                     LastName = "Lorem",
                     MiddleName = "",
                     AccountId = new Guid("2730FDE4-FD40-405C-9AB7-799BF189FA98"),
-                    DateOfBirth = new DateTime(1999, 10, 15),
+                    DateOfBirth = new DateOnly(1999, 10, 15),
                     IsLinkedToAccount = false
                 });
 
@@ -40,7 +40,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 })
                 .Row(new
                 {
@@ -52,7 +52,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 });
 
             Delete.FromTable("Receptionists")
@@ -111,7 +111,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 })
                 .Row(new
                 {
@@ -123,7 +123,7 @@ namespace Profiles.Data.Migrations
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
-                    CareerStartYear = new DateTime(1999, 10, 15),
+                    CareerStartYear = 2020,
                 });
 
             Insert.IntoTable("Receptionists")

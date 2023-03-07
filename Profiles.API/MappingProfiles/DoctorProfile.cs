@@ -11,8 +11,10 @@ namespace Profiles.API.MappingProfiles
         {
             CreateMap<GetDoctorsRequest, GetDoctorsDTO>();
             CreateMap<CreateDoctorRequest, CreateDoctorDTO>()
-                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
-            CreateMap<UpdateDoctorRequest, UpdateDoctorDTO>();
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()))
+                .ForMember(dto => dto.DateOfBirth, opt => opt.MapFrom(model => model.DateOfBirth.ToDateTime(TimeOnly.MinValue)));
+            CreateMap<UpdateDoctorRequest, UpdateDoctorDTO>()
+                .ForMember(dto => dto.DateOfBirth, opt => opt.MapFrom(model => model.DateOfBirth.ToDateTime(TimeOnly.MinValue)));
 
             CreateMap<CreateDoctorDTO, CreateDoctorSummaryDTO>();
             CreateMap<UpdateDoctorDTO, UpdateDoctorSummaryDTO>();

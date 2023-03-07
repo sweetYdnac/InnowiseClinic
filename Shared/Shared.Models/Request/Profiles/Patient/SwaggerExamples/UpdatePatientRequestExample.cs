@@ -10,7 +10,7 @@ namespace Shared.Models.Request.Profiles.Patient.SwaggerExamples
                 FirstName = "Jack",
                 LastName = "Sparrow",
                 MiddleName = "None",
-                DateOfBirth = new DateTime(1976, 04, 14),
+                DateOfBirth = new DateOnly(1976, 04, 14),
                 PhoneNumber = "1234567890",
             };
     }

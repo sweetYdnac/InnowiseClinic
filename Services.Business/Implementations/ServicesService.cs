@@ -13,10 +13,11 @@ namespace Services.Business.Implementations
     public class ServicesService : IServicesService
     {
         private readonly IServicesRepository _servicesRepository;
+        private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public ServicesService(IServicesRepository servicesRepository, IMapper mapper) =>
-            (_servicesRepository, _mapper) = (servicesRepository, mapper);
+        public ServicesService(IServicesRepository servicesRepository, IMessageService messageService, IMapper mapper) =>
+            (_servicesRepository, _messageService, _mapper) = (servicesRepository, messageService, mapper);
 
         public async Task<ServiceResponse> GetByIdAsync(Guid id)
         {
@@ -60,7 +61,12 @@ namespace Services.Business.Implementations
             var entity = _mapper.Map<Service>(dto);
             entity.Id = id;
 
-            await _servicesRepository.UpdateAsync(entity);
+            var result = await _servicesRepository.UpdateAsync(entity);
+
+            if (result > 0)
+            {
+                await _messageService.SendUpdateServiceMessageAsync(id, dto.Title, dto.TimeSlotSize);
+            }
         }
     }
 }
