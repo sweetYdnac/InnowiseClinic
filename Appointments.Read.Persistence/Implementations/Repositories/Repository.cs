@@ -14,18 +14,6 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
 
         public Repository(AppointmentsDbContext database) => (Database, DbSet) = (database, database.Set<T>());
 
-        public async Task<T> GetByIdAsync(Guid id, params Expression<Func<T, object>>[] includes)
-        {
-            var query = DbSet.AsNoTracking();
-
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
-
-            return await query.FirstOrDefaultAsync(s => s.Id.Equals(id));
-        }
-
         public async Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
             var query = DbSet.AsNoTracking();

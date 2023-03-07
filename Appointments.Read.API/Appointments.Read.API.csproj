@@ -39,11 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Validators\Appointment\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Appointments.Read.Application\Appointments.Read.Application.csproj" />
     <ProjectReference Include="..\Appointments.Read.Persistence\Appointments.Read.Persistence.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
