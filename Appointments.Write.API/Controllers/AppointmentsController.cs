@@ -50,9 +50,8 @@ namespace Appointments.Write.API.Controllers
         /// <summary>
         /// Reschedule specific appointment
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="id">Appointment's unique identifier</param>
+        /// <param name="request">Contains data that need for edit existed appointment</param>
         [HttpPut("{id}")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
@@ -67,6 +66,24 @@ namespace Appointments.Write.API.Controllers
             message.Id = id;
 
             await _mediator.Send(message);
+
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Cancel appointment
+        /// </summary>
+        /// <param name="id">Appointment's unique identifier</param>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CancelAppointment([FromRoute] Guid id)
+        {
+            await _mediator.Send(new CancelAppointmentCommand() { Id = id });
 
             return NoContent();
         }
