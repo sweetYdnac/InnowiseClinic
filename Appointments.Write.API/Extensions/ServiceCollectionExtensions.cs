@@ -114,8 +114,10 @@ namespace Appointments.Write.API.Extensions
     new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
             EndpointConvention.Map<RescheduleAppointmentMessage>(
     new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
-            EndpointConvention.Map<DeleteAppointmentMessage>(
-    new Uri(configuration.GetValue<string>("Messages:DeleteAppointmentEndpoint")));
+            EndpointConvention.Map<CancelAppointmentMessage>(
+    new Uri(configuration.GetValue<string>("Messages:CancelAppointmentEndpoint")));
+            EndpointConvention.Map<ApproveAppointmentMessage>(
+    new Uri(configuration.GetValue<string>("Messages:ApproveAppointmentEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>

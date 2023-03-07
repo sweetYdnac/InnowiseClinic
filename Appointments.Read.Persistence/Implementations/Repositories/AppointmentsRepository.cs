@@ -36,7 +36,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SetProperty(a => a.Duration, a => timeSlotSize));
         }
 
-        public async Task<int> RescheduleAppointmentAsync(Guid id, Guid doctorId, DateOnly date, TimeOnly time, string doctorFullName)
+        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, DateOnly date, TimeOnly time, string doctorFullName)
         {
             return await DbSet
                 .Where(a => a.Id.Equals(id))
@@ -45,6 +45,21 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SetProperty(a => a.Date, a => date)
                     .SetProperty(a => a.Time, a => time)
                     .SetProperty(a => a.DoctorFullName, a => doctorFullName));
+        }
+
+        public async Task<int> DeleteByIdAsync(Guid id)
+        {
+            return await DbSet
+                .Where(a => a.Id.Equals(id))
+                .ExecuteDeleteAsync();
+        }
+
+        public async Task<int> ApproveAsync(Guid id)
+        {
+            return await DbSet
+                .Where(a => a.Id.Equals(id))
+                .ExecuteUpdateAsync(p => p
+                    .SetProperty(a => a.IsApproved, a => true));
         }
     }
 }

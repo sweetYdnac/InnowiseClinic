@@ -51,13 +51,6 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
             return await Database.SaveChangesAsync();
         }
 
-        public async Task<int> DeleteByIdAsync(Guid id)
-        {
-            return await DbSet
-                .Where(x => x.Id.Equals(id))
-                .ExecuteDeleteAsync();
-        }
-
         private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
         {
             foreach (var filter in filters)

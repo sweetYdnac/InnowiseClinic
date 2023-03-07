@@ -6,17 +6,17 @@ using Shared.Messages;
 
 namespace Appointments.Read.API.Consumers
 {
-    public class DeleteAppointmentConsumer : IConsumer<DeleteAppointmentMessage>
+    public class CancelAppointmentConsumer : IConsumer<CancelAppointmentMessage>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public DeleteAppointmentConsumer(IMediator mediator, IMapper mapper) =>
+        public CancelAppointmentConsumer(IMediator mediator, IMapper mapper) =>
             (_mediator, _mapper) = (mediator, mapper);
 
-        public async Task Consume(ConsumeContext<DeleteAppointmentMessage> context)
+        public async Task Consume(ConsumeContext<CancelAppointmentMessage> context)
         {
-            await _mediator.Send(_mapper.Map<DeleteAppointmentCommand>(context.Message));
+            await _mediator.Send(_mapper.Map<CancelAppointmentCommand>(context.Message));
         }
     }
 }

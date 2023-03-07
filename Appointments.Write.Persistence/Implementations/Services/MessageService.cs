@@ -17,7 +17,10 @@ namespace Appointments.Write.Persistence.Implementations.Services
         public async Task SendRescheduleAppointmentMessageAsync(RescheduleAppointmentMessage message) =>
             await _sendEndpointProvider.Send(message);
 
-        public async Task SendDeleteAppointmentMessageAsync(DeleteAppointmentMessage message) =>
-            await _sendEndpointProvider.Send(message);
+        public async Task SendDeleteAppointmentMessageAsync(Guid id) =>
+            await _sendEndpointProvider.Send(new CancelAppointmentMessage { Id = id });
+
+        public async Task SendApproveAppointmentMessageAsync(Guid id) =>
+            await _sendEndpointProvider.Send(new ApproveAppointmentMessage { Id = id });
     }
 }

@@ -22,7 +22,7 @@ namespace Appointments.Read.Application.Features.Commands
 
         public async Task<int> Handle(RescheduleAppointmentCommand request, CancellationToken cancellationToken)
         {
-            return await _appointmentsRepository.RescheduleAppointmentAsync(
+            return await _appointmentsRepository.RescheduleAsync(
                 request.Id,
                 request.DoctorId,
                 request.Date,

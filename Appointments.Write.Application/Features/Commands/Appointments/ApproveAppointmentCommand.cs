@@ -4,28 +4,28 @@ using MediatR;
 
 namespace Appointments.Write.Application.Features.Commands.Appointments
 {
-    public class CancelAppointmentCommand : IRequest<Unit>
+    public class ApproveAppointmentCommand : IRequest<Unit>
     {
         public Guid Id { get; set; }
     }
 
-    public class CancelAppointmentCommandHandler : IRequestHandler<CancelAppointmentCommand, Unit>
+    public class ApproveAppointmentCommandHandler : IRequestHandler<ApproveAppointmentCommand, Unit>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
         private readonly IMessageService _messageService;
 
-        public CancelAppointmentCommandHandler(
+        public ApproveAppointmentCommandHandler(
             IAppointmentsRepository appointmentRepository,
             IMessageService messageService) =>
         (_appointmentsRepository, _messageService) = (appointmentRepository, messageService);
 
-        public async Task<Unit> Handle(CancelAppointmentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ApproveAppointmentCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsRepository.DeleteByIdAsync(request.Id);
+            var result = await _appointmentsRepository.ApproveAsync(request.Id);
 
             if (result > 0)
             {
-                await _messageService.SendDeleteAppointmentMessageAsync(request.Id);
+                await _messageService.SendApproveAppointmentMessageAsync(request.Id);
             }
 
             return Unit.Value;

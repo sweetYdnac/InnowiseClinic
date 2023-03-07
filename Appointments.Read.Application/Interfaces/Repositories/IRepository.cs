@@ -10,6 +10,5 @@ namespace Appointments.Read.Application.Interfaces.Repositories
         Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters);
         Task<PagedResult<T>> GetPagedAndFilteredAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<T, object>>> includes, params Expression<Func<T, bool>>[] filters);
         Task<int> AddAsync(T entity);
-        Task<int> DeleteByIdAsync(Guid id);
     }
 }
