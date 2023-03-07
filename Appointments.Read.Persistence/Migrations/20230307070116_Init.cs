@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -20,6 +19,7 @@ namespace Appointments.Read.Persistence.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     PatientId = table.Column<Guid>(type: "uuid", nullable: false),
                     DoctorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceId = table.Column<Guid>(type: "uuid", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Duration = table.Column<int>(type: "integer", nullable: false),
@@ -62,12 +62,12 @@ namespace Appointments.Read.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Appointments",
-                columns: new[] { "Id", "Date", "DoctorFullName", "DoctorId", "Duration", "IsApproved", "PatientFullName", "PatientId", "PatientPhoneNumber", "ServiceName", "Time" },
+                columns: new[] { "Id", "Date", "DoctorFullName", "DoctorId", "Duration", "IsApproved", "PatientFullName", "PatientId", "PatientPhoneNumber", "ServiceId", "ServiceName", "Time" },
                 values: new object[,]
                 {
-                    { new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"), new DateOnly(2023, 2, 22), "Test Test ", new Guid("835cd971-9f41-4a81-a477-b88171671639"), 30, true, "Evgeny Koreba Sweety", new Guid("b2957690-4d76-468c-a449-fb9529283857"), null, "Filling", new TimeOnly(11, 0, 0) },
-                    { new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"), new DateOnly(2023, 2, 15), "Test Test ", new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"), 20, true, "Alex Lorem ", new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"), null, "Examination", new TimeOnly(15, 30, 0) },
-                    { new Guid("fff7bcd2-5a83-47f2-a69b-b85399ca96d5"), new DateOnly(2023, 3, 28), "Test Test ", new Guid("835cd971-9f41-4a81-a477-b88171671639"), 20, false, "Alex Lorem ", new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"), null, "Examination", new TimeOnly(9, 40, 0) }
+                    { new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"), new DateOnly(2023, 2, 22), "Test Test ", new Guid("835cd971-9f41-4a81-a477-b88171671639"), 30, true, "Evgeny Koreba Sweety", new Guid("b2957690-4d76-468c-a449-fb9529283857"), null, new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"), "Filling", new TimeOnly(11, 0, 0) },
+                    { new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"), new DateOnly(2023, 2, 15), "Test Test ", new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"), 20, true, "Alex Lorem ", new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"), null, new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"), "Examination", new TimeOnly(15, 30, 0) },
+                    { new Guid("fff7bcd2-5a83-47f2-a69b-b85399ca96d5"), new DateOnly(2023, 3, 28), "Test Test ", new Guid("835cd971-9f41-4a81-a477-b88171671639"), 20, false, "Alex Lorem ", new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"), null, new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"), "Examination", new TimeOnly(9, 40, 0) }
                 });
 
             migrationBuilder.InsertData(

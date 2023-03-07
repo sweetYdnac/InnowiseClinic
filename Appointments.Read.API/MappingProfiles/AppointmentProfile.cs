@@ -1,4 +1,4 @@
-﻿using Appointments.Read.Application.Features.Commands.Appointments;
+﻿using Appointments.Read.Application.Features.Commands;
 using Appointments.Read.Domain.Entities;
 using AutoMapper;
 using Shared.Messages;
@@ -15,7 +15,7 @@ namespace Appointments.Read.API.MappingProfiles
 
             CreateMap<UpdatePatientMessage, UpdatePatientCommand>();
             CreateMap<UpdateDoctorMessage, UpdateDoctorCommand>();
-
+            CreateMap<UpdateServiceMessage, UpdateServiceCommand>();
         }
     }
 }

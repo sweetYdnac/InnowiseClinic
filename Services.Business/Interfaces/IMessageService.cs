@@ -3,5 +3,6 @@
     public interface IMessageService
     {
         Task SendDisableSpecializationMessageAsync(Guid specializationId);
+        Task SendUpdateServiceMessageAsync(Guid id, string name, int timeSlotSize);
     }
 }

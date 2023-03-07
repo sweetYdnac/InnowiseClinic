@@ -1,4 +1,5 @@
-﻿using Appointments.Read.Domain.Entities;
+﻿using Appointments.Read.Application.Features.Commands;
+using Appointments.Read.Domain.Entities;
 
 namespace Appointments.Read.Application.Interfaces.Repositories
 {
@@ -6,5 +7,6 @@ namespace Appointments.Read.Application.Interfaces.Repositories
     {
         Task UpdatePatientAsync(Guid id, string fullName, string phoneNumber);
         Task UpdateDoctorAsync(Guid id, string fullName);
+        Task<int> UpdateServiceAsync(UpdateServiceCommand command);
     }
 }

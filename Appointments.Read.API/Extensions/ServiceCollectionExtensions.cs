@@ -1,5 +1,5 @@
 ﻿using Appointments.Read.API.Consumers;
-using Appointments.Read.Application.Features.Commands.Appointments;
+using Appointments.Read.Application.Features.Commands;
 using Appointments.Read.Application.Interfaces.Repositories;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
@@ -110,6 +110,7 @@ namespace Appointments.Read.API.Extensions
                 x.AddConsumer<CreateAppointmentConsumer>();
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
+                x.AddConsumer<UpdateServiceConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });

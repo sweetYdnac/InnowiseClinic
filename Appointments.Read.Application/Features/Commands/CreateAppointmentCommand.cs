@@ -3,13 +3,14 @@ using Appointments.Read.Domain.Entities;
 using AutoMapper;
 using MediatR;
 
-namespace Appointments.Read.Application.Features.Commands.Appointments
+namespace Appointments.Read.Application.Features.Commands
 {
     public class CreateAppointmentCommand : IRequest<int>
     {
         public Guid Id { get; set; }
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
+        public Guid ServiceId { get; set; }
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
         public int Duration { get; set; }

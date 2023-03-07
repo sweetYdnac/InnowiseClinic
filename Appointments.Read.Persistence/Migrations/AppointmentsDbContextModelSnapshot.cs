@@ -54,6 +54,9 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<string>("PatientPhoneNumber")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -79,6 +82,7 @@ namespace Appointments.Read.Persistence.Migrations
                             IsApproved = true,
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
+                            ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
                             ServiceName = "Examination",
                             Time = new TimeOnly(15, 30, 0)
                         },
@@ -92,6 +96,7 @@ namespace Appointments.Read.Persistence.Migrations
                             IsApproved = false,
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
+                            ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
                             ServiceName = "Examination",
                             Time = new TimeOnly(9, 40, 0)
                         },
@@ -105,6 +110,7 @@ namespace Appointments.Read.Persistence.Migrations
                             IsApproved = true,
                             PatientFullName = "Evgeny Koreba Sweety",
                             PatientId = new Guid("b2957690-4d76-468c-a449-fb9529283857"),
+                            ServiceId = new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"),
                             ServiceName = "Filling",
                             Time = new TimeOnly(11, 0, 0)
                         });

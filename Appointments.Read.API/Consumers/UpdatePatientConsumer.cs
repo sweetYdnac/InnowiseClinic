@@ -1,4 +1,4 @@
-﻿using Appointments.Read.Application.Features.Commands.Appointments;
+﻿using Appointments.Read.Application.Features.Commands;
 using AutoMapper;
 using MassTransit;
 using MediatR;

@@ -1,4 +1,5 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.Features.Commands;
+using Appointments.Read.Application.Interfaces.Repositories;
 using Appointments.Read.Domain.Entities;
 using Appointments.Read.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,15 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.PatientFullName, a => fullName)
                     .SetProperty(a => a.PatientPhoneNumber, a => phoneNumber));
+        }
+
+        public async Task<int> UpdateServiceAsync(UpdateServiceCommand command)
+        {
+            return await DbSet
+                .Where(a => a.ServiceId.Equals(command.Id))
+                .ExecuteUpdateAsync(p => p
+                    .SetProperty(a => a.ServiceName, a => command.Name)
+                    .SetProperty(a => a.Duration, a => command.TimeSlotSize));
         }
     }
 }

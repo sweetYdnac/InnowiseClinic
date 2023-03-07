@@ -6,17 +6,17 @@ using Shared.Messages;
 
 namespace Appointments.Read.API.Consumers
 {
-    public class UpdateDoctorConsumer : IConsumer<UpdateDoctorMessage>
+    public class UpdateServiceConsumer : IConsumer<UpdateServiceMessage>
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public UpdateDoctorConsumer(IMediator mediator, IMapper mapper) =>
+        public UpdateServiceConsumer(IMediator mediator, IMapper mapper) =>
             (_mediator, _mapper) = (mediator, mapper);
 
-        public async Task Consume(ConsumeContext<UpdateDoctorMessage> context)
+        public async Task Consume(ConsumeContext<UpdateServiceMessage> context)
         {
-            await _mediator.Send(_mapper.Map<UpdateDoctorCommand>(context.Message));
+            await _mediator.Send(_mapper.Map<UpdateServiceCommand>(context.Message));
         }
     }
 }
