@@ -7,7 +7,7 @@ using Shared.Models.Response;
 using Shared.Models.Response.Appointments.Appointment;
 using System.Linq.Expressions;
 
-namespace Appointments.Read.Application.Features.Queries
+namespace Appointments.Read.Application.Features.Queries.Appointments
 {
     public class GetAppointmentsQuery : IRequest<PagedResponse<AppointmentResponse>>
     {

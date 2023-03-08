@@ -28,5 +28,12 @@ namespace Appointments.Write.Persistence.Implementations.Repositories
                     .SetProperty(a => a.Date, a => command.Date)
                     .SetProperty(a => a.Time, a => command.Time));
         }
+
+        public async Task<int> DeleteByIdAsync(Guid id)
+        {
+            return await DbSet
+                .Where(a => a.Id.Equals(id))
+                .ExecuteDeleteAsync();
+        }
     }
 }

@@ -7,5 +7,6 @@ namespace Appointments.Write.Application.Interfaces.Repositories
     {
         Task<int> RescheduleAppointment(RescheduleAppointmentCommand command);
         Task<int> ApproveAsync(Guid id);
+        Task<int> DeleteByIdAsync(Guid id);
     }
 }

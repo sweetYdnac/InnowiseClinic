@@ -18,12 +18,5 @@ namespace Appointments.Write.Persistence.Implementations.Repositories
             await DbSet.AddAsync(entity);
             return await Database.SaveChangesAsync();
         }
-
-        public async Task<int> DeleteByIdAsync(Guid id)
-        {
-            return await DbSet
-                .Where(a => a.Id.Equals(id))
-                .ExecuteDeleteAsync();
-        }
     }
 }

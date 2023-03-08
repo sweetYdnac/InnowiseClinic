@@ -1,4 +1,4 @@
-﻿using Appointments.Read.Application.Features.Queries;
+﻿using Appointments.Read.Application.Features.Queries.Appointments;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
