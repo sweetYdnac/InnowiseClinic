@@ -29,5 +29,16 @@
             <param name="id">Patient's unique identifier</param>
             <param name="request">Contains paging parameters</param>
         </member>
+        <member name="T:Appointments.Read.API.Controllers.AppointmentsResultsController">
+            <summary>
+            This controller used for query appointments results data
+            </summary>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsResultsController.GetAppointmentResult(System.Guid)">
+            <summary>
+            Get appointment result by Id
+            </summary>
+            <param name="id">Appointment result's unique identifier</param>
+        </member>
     </members>
 </doc>

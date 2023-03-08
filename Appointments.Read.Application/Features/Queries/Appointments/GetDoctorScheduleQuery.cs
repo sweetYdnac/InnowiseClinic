@@ -6,26 +6,29 @@ using Shared.Models.Response;
 using Shared.Models.Response.Appointments.Appointment;
 using System.Linq.Expressions;
 
-namespace Appointments.Read.Application.Features.Queries
+namespace Appointments.Read.Application.Features.Queries.Appointments
 {
-    public class GetPatientHistoryQuery : IRequest<PagedResponse<AppointmentHistoryResponse>>
+    public class GetDoctorScheduleQuery : IRequest<PagedResponse<DoctorScheduledAppointmentResponse>>
     {
-        public Guid PatientId { get; set; }
+        public Guid DoctorId { get; set; }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
+        public DateOnly Date { get; set; }
     }
 
-    public class GetPatientHistoryQueryHandler : IRequestHandler<GetPatientHistoryQuery, PagedResponse<AppointmentHistoryResponse>>
+    public class GetDoctorScheduleQueryHandler :
+        IRequestHandler<GetDoctorScheduleQuery, PagedResponse<DoctorScheduledAppointmentResponse>>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
         private readonly IMapper _mapper;
 
-        public GetPatientHistoryQueryHandler(IAppointmentsRepository appointmentsRepository, IMapper mapper) =>
+        public GetDoctorScheduleQueryHandler(IAppointmentsRepository appointmentsRepository, IMapper mapper) =>
             (_appointmentsRepository, _mapper) = (appointmentsRepository, mapper);
 
-        public async Task<PagedResponse<AppointmentHistoryResponse>> Handle(GetPatientHistoryQuery request, CancellationToken cancellationToken)
+        public async Task<PagedResponse<DoctorScheduledAppointmentResponse>> Handle(
+            GetDoctorScheduleQuery request, CancellationToken cancellationToken)
         {
-            var response = await _appointmentsRepository.GetAppointmentHistoryAsync(
+            var response = await _appointmentsRepository.GetDoctorScheduleAsync(
                 request.CurrentPage,
                 request.PageSize,
                 new Expression<Func<Appointment, object>>[]
@@ -34,16 +37,16 @@ namespace Appointments.Read.Application.Features.Queries
                 },
                 new Dictionary<Expression<Func<Appointment, object>>, bool>()
                 {
-                    { appointment => appointment.Date, false },
                     { appointment => appointment.Time, true },
                 },
                 new Expression<Func<Appointment, bool>>[]
                 {
-                    appointment => appointment.PatientId.Equals(request.PatientId),
+                    appointment => appointment.DoctorId.Equals(request.DoctorId),
+                    appointment => appointment.Date.Equals(request.Date),
                 });
 
-            return new PagedResponse<AppointmentHistoryResponse>(
-                _mapper.Map<IEnumerable<AppointmentHistoryResponse>>(response.Items),
+            return new PagedResponse<DoctorScheduledAppointmentResponse>(
+                _mapper.Map<IEnumerable<DoctorScheduledAppointmentResponse>>(response.Items),
                 request.CurrentPage,
                 request.PageSize,
                 response.TotalCount);
