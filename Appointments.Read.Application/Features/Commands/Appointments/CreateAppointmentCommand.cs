@@ -3,7 +3,7 @@ using Appointments.Read.Domain.Entities;
 using AutoMapper;
 using MediatR;
 
-namespace Appointments.Read.Application.Features.Commands
+namespace Appointments.Read.Application.Features.Commands.Appointments
 {
     public class CreateAppointmentCommand : IRequest<int>
     {

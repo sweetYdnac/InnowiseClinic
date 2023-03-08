@@ -95,6 +95,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SortMany(sorts)
                     .Select(a => new DoctorScheduledAppointmentDTO
                     {
+                        Id = a.Id,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
                         PatientId = a.PatientId,
