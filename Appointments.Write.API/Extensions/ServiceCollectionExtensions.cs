@@ -115,6 +115,8 @@ namespace Appointments.Write.API.Extensions
     new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
             EndpointConvention.Map<CreateAppointmentResultMessage>(
     new Uri(configuration.GetValue<string>("Messages:CreateAppointmentResultEndpoint")));
+            EndpointConvention.Map<EditAppointmentResultMessage>(
+    new Uri(configuration.GetValue<string>("Messages:EditAppointmentResultEndpoint")));
             EndpointConvention.Map<RescheduleAppointmentMessage>(
     new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
             EndpointConvention.Map<CancelAppointmentMessage>(

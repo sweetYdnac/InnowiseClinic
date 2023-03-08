@@ -45,5 +45,12 @@
             </summary>
             <param name="request"></param>
         </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsResultsController.EditAppointmentResult(System.Guid,Shared.Models.Request.Appointments.AppointmentResult.EditAppointmentResultRequest)">
+            <summary>
+            Edit specific appointment's result
+            </summary>
+            <param name="id">Appointment result's unique identifier</param>
+            <param name="request">Contains new appointment result's properties values</param>
+        </member>
     </members>
 </doc>

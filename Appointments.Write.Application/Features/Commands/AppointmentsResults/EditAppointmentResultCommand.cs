@@ -1,45 +1,46 @@
 ﻿using Appointments.Write.Application.Interfaces.Repositories;
 using Appointments.Write.Application.Interfaces.Services;
-using Appointments.Write.Domain.Entities;
 using AutoMapper;
 using MediatR;
 using Shared.Messages;
 
 namespace Appointments.Write.Application.Features.Commands.AppointmentsResults
 {
-    public class CreateAppointmentResultCommand : IRequest<Guid>
+    public class EditAppointmentResultCommand : IRequest<Unit>
     {
         public Guid Id { get; set; }
-        public DateTime Date { get; set; }
         public string Complaints { get; set; }
         public string Conclusion { get; set; }
         public string Recomendations { get; set; }
-        public Guid AppointmentId { get; set; }
     }
 
-    public class CreateAppointmentResultCommandHandler : IRequestHandler<CreateAppointmentResultCommand, Guid>
+    public class EditAppointmentResultCommandHandler : IRequestHandler<EditAppointmentResultCommand, Unit>
     {
         private readonly IAppointmentsResultsRepository _appointmentsResultsRepository;
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public CreateAppointmentResultCommandHandler(
+        public EditAppointmentResultCommandHandler(
             IAppointmentsResultsRepository appointmentsResultsRepository,
             IMessageService messageService,
             IMapper mapper) =>
         (_appointmentsResultsRepository, _messageService, _mapper) = (appointmentsResultsRepository, messageService, mapper);
 
-        public async Task<Guid> Handle(CreateAppointmentResultCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(EditAppointmentResultCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsResultsRepository.AddAsync(_mapper.Map<AppointmentResult>(request));
+            var result = await _appointmentsResultsRepository.UpdateAsync(
+                request.Id,
+                request.Complaints,
+                request.Conclusion,
+                request.Recomendations);
 
             if (result > 0)
             {
-                await _messageService.SendCreateAppointmentResultMessageAsync(
-                    _mapper.Map<CreateAppointmentResultMessage>(request));
+                await _messageService.SendEditAppointmentResultMessageAsync(
+                    _mapper.Map<EditAppointmentResultMessage>(request));
             }
 
-            return request.Id;
+            return Unit.Value;
         }
     }
 }

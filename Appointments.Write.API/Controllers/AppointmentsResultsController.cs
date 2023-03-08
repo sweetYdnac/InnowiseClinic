@@ -46,5 +46,28 @@ namespace Appointments.Write.API.Controllers
 
             return StatusCode(201, new { id });
         }
+
+        /// <summary>
+        /// Edit specific appointment's result
+        /// </summary>
+        /// <param name="id">Appointment result's unique identifier</param>
+        /// <param name="request">Contains new appointment result's properties values</param>
+        [HttpPut("{id}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Doctor)}")]
+        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(EditAppointmentResultRequest), typeof(EditAppointmentResultRequestExample))]
+        public async Task<IActionResult> EditAppointmentResult([FromRoute] Guid id, [FromBody] EditAppointmentResultRequest request)
+        {
+            var command = _mapper.Map<EditAppointmentResultCommand>(request);
+            command.Id = id;
+
+            await _mediator.Send(command);
+
+            return NoContent();
+        }
     }
 }

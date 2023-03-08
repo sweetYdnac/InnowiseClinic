@@ -1,4 +1,6 @@
 ﻿using Appointments.Read.API.Consumers;
+using Appointments.Read.API.Consumers.Appointment;
+using Appointments.Read.API.Consumers.AppointmentResult;
 using Appointments.Read.Application.Features.Commands.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
 using Appointments.Read.Persistence.Contexts;
@@ -111,10 +113,13 @@ namespace Appointments.Read.API.Extensions
                 x.AddConsumer<CancelAppointmentConsumer>();
                 x.AddConsumer<RescheduleAppointmentConsumer>();
                 x.AddConsumer<ApproveAppointmentConsumer>();
+
+                x.AddConsumer<CreateAppointmentResultConsumer>();
+                x.AddConsumer<EditAppointmentResultConsumer>();
+
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
-                x.AddConsumer<CreateAppointmentResultConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
