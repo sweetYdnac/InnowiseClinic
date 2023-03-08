@@ -14,12 +14,13 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
         public AppointmentsRepository(AppointmentsDbContext database)
             : base(database) { }
 
-        public async Task<int> UpdateDoctorAsync(Guid id, string fullName)
+        public async Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid officeId)
         {
             return await DbSet
                 .Where(a => a.DoctorId.Equals(id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.DoctorFullName, a => fullName));
+                    .SetProperty(a => a.DoctorFullName, a => fullName)
+                    .SetProperty(a => a.OfficeId, a => officeId));
         }
 
         public async Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber)
@@ -40,12 +41,13 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SetProperty(a => a.Duration, a => timeSlotSize));
         }
 
-        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, DateOnly date, TimeOnly time, string doctorFullName)
+        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, Guid officeId, DateOnly date, TimeOnly time, string doctorFullName)
         {
             return await DbSet
                 .Where(a => a.Id.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.DoctorId, a => doctorId)
+                    .SetProperty(a => a.OfficeId, a => officeId)
                     .SetProperty(a => a.Date, a => date)
                     .SetProperty(a => a.Time, a => time)
                     .SetProperty(a => a.DoctorFullName, a => doctorFullName));

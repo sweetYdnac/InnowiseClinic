@@ -39,13 +39,14 @@ namespace Profiles.Business.Implementations.Services
             await _sendEndpointProvider.Send(message);
         }
 
-        public async Task SendUpdateDoctorMessageAsync(Guid id, string firstName, string lastName, string middleName, string specializationName)
+        public async Task SendUpdateDoctorMessageAsync(Guid id, string firstName, string lastName, string middleName, string specializationName, Guid officeId)
         {
             var message = new UpdateDoctorMessage
             {
                 Id = id,
                 FullName = $"{firstName} {lastName} {middleName}",
                 SpecializationName = specializationName,
+                OfficeId = officeId,
             };
 
             await _sendEndpointProvider.Send(message);

@@ -8,6 +8,7 @@ namespace Appointments.Read.Application.Features.Commands
         public Guid Id { get; set; }
         public string FullName { get; set; }
         public string SpecializationName { get; set; }
+        public Guid OfficeId { get; set; }
     }
 
     public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, int>
@@ -23,7 +24,7 @@ namespace Appointments.Read.Application.Features.Commands
 
         public async Task<int> Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsRepository.UpdateDoctorAsync(request.Id, request.FullName);
+            var result = await _appointmentsRepository.UpdateDoctorAsync(request.Id, request.FullName, request.OfficeId);
             await _appointmentsResultRepository.UpdateDoctorAsync(request.Id, request.SpecializationName);
 
             return result;

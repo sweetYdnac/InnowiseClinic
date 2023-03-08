@@ -66,7 +66,8 @@ namespace Profiles.Business.Implementations.Services
                     dto.FirstName,
                     dto.LastName,
                     dto.MiddleName,
-                    dto.SpecializationName);
+                    dto.SpecializationName,
+                    dto.OfficeId);
 
                 await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }

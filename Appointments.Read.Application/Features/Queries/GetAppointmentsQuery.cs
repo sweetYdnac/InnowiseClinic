@@ -2,6 +2,7 @@
 using Appointments.Read.Domain.Entities;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Shared.Models.Response;
 using Shared.Models.Response.Appointments.Appointment;
 using System.Linq.Expressions;
@@ -41,10 +42,10 @@ namespace Appointments.Read.Application.Features.Queries
                 new Expression<Func<Appointment, bool>>[]
                 {
                     appointment => appointment.Date.Equals(request.Date),
-                    appointment => appointment.OfficeId.Equals(request.OfficeId),
                     appointment => appointment.IsApproved.Equals(request.IsApproved),
-                    appointment => appointment.DoctorFullName.Contains(request.DoctorFullName, StringComparison.OrdinalIgnoreCase),
-                    appointment => appointment.ServiceName.Contains(request.ServiceName, StringComparison.OrdinalIgnoreCase),
+                    appointment => EF.Functions.Like(appointment.OfficeId.ToString(), $"%{request.OfficeId}%"),
+                    appointment => EF.Functions.Like(appointment.DoctorFullName, $"%{request.DoctorFullName}%"),
+                    appointment => EF.Functions.Like(appointment.ServiceName, $"%{request.ServiceName}%"),
                 });
 
             return new PagedResponse<AppointmentResponse>(
