@@ -111,10 +111,13 @@ namespace Appointments.Read.API.Extensions
                 x.AddConsumer<CancelAppointmentConsumer>();
                 x.AddConsumer<RescheduleAppointmentConsumer>();
                 x.AddConsumer<ApproveAppointmentConsumer>();
+
+                x.AddConsumer<CreateAppointmentResultConsumer>();
+                x.AddConsumer<EditAppointmentResultConsumer>();
+
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
-                x.AddConsumer<CreateAppointmentResultConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });

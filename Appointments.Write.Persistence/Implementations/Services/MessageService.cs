@@ -23,9 +23,10 @@ namespace Appointments.Write.Persistence.Implementations.Services
         public async Task SendApproveAppointmentMessageAsync(Guid id) =>
             await _sendEndpointProvider.Send(new ApproveAppointmentMessage { Id = id });
 
-        public async Task SendCreateAppointmentResultMessage(CreateAppointmentResultMessage message)
-        {
+        public async Task SendCreateAppointmentResultMessageAsync(CreateAppointmentResultMessage message) =>
             await _sendEndpointProvider.Send(message);
-        }
+
+        public async Task SendEditAppointmentResultMessageAsync(EditAppointmentResultMessage message) =>
+            await _sendEndpointProvider.Send(message);
     }
 }
