@@ -29,6 +29,9 @@ namespace Appointments.Read.API.MappingProfiles
 
             CreateMap<GetAppointmentsRequest, GetAppointmentsQuery>();
             CreateMap<AppointmentDTO, AppointmentResponse>();
+
+            CreateMap<GetPatientHistoryRequest, GetPatientHistoryQuery>();
+            CreateMap<AppointmentHistoryDTO, AppointmentHistoryResponse>();
         }
     }
 }

@@ -73,5 +73,29 @@ namespace Appointments.Read.API.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// Get patient's history
+        /// </summary>
+        /// <param name="id">Patient's unique identifier</param>
+        /// <param name="request">Contains paging parameters</param>
+        [HttpGet("patients/{id}/appointments")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Doctor)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(PagedResponse<AppointmentHistoryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(GetPatientHistoryRequest), typeof(GetPatientHistoryRequestExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetPatientHistoryResponseExample))]
+        public async Task<IActionResult> GetPatientHistory([FromRoute] Guid id, [FromQuery] GetPatientHistoryRequest request)
+        {
+            var query = _mapper.Map<GetPatientHistoryQuery>(request);
+            query.PatientId = id;
+
+            var response = await _mediator.Send(query);
+
+            return Ok(response);
+        }
     }
 }

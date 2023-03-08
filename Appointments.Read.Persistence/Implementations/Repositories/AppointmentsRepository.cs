@@ -83,24 +83,26 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
             var query = DbSet
                 .AsNoTracking()
                 .IncludeMany(includes)
-                .FilterMany(filters)
-                .FilterByPage(currentPage, pageSize)
-                .SortMany(sorts);
-
-            var items = await query
-                .Select(a => new DoctorScheduledAppointmentDTO
-                {
-                    StartTime = a.Time,
-                    EndTime = a.Time.AddMinutes(a.Duration),
-                    PatientId = a.PatientId,
-                    PatientFullName = a.PatientFullName,
-                    ServiceName = a.ServiceName,
-                    IsApproved = a.IsApproved,
-                    ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
-                })
-                .ToArrayAsync();
+                .FilterMany(filters);
 
             var totalCount = await query.CountAsync();
+
+            var items = totalCount > 0
+                ? await query
+                    .FilterByPage(currentPage, pageSize)
+                    .SortMany(sorts)
+                    .Select(a => new DoctorScheduledAppointmentDTO
+                    {
+                        StartTime = a.Time,
+                        EndTime = a.Time.AddMinutes(a.Duration),
+                        PatientId = a.PatientId,
+                        PatientFullName = a.PatientFullName,
+                        ServiceName = a.ServiceName,
+                        IsApproved = a.IsApproved,
+                        ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
+                    })
+                    .ToArrayAsync()
+                : Enumerable.Empty<DoctorScheduledAppointmentDTO>();
 
             return new()
             {
@@ -109,33 +111,77 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
             };
         }
 
-        public async Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters)
+        public async Task<PagedResult<AppointmentDTO>> GetAppointmentsAsync(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters)
         {
-            return await GetAppointments(currentPage, pageSize, null, filters);
+            return await GetAppointmentsAsync(currentPage, pageSize, null, filters);
         }
 
-        public async Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters)
+        public async Task<PagedResult<AppointmentDTO>> GetAppointmentsAsync(int currentPage, int pageSize, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters)
         {
             var query = DbSet
                 .AsNoTracking()
-                .FilterMany(filters)
-                .FilterByPage(currentPage, pageSize)
-                .SortMany(sorts);
-
-            var items = await query
-                .Select(a => new AppointmentDTO
-                {
-                    StartTime = a.Time,
-                    EndTime = a.Time.AddMinutes(a.Duration),
-                    PatientFullName = a.PatientFullName,
-                    PatientPhoneNumber = a.PatientPhoneNumber,
-                    DoctorFullName = a.DoctorFullName,
-                    ServiceName = a.ServiceName,
-                    IsApproved = a.IsApproved,
-                })
-                .ToArrayAsync();
+                .FilterMany(filters);
 
             var totalCount = await query.CountAsync();
+
+            var items = totalCount > 0
+                ? await query
+                    .FilterByPage(currentPage, pageSize)
+                    .SortMany(sorts)
+                    .Select(a => new AppointmentDTO
+                    {
+                        StartTime = a.Time,
+                        EndTime = a.Time.AddMinutes(a.Duration),
+                        PatientFullName = a.PatientFullName,
+                        PatientPhoneNumber = a.PatientPhoneNumber,
+                        DoctorFullName = a.DoctorFullName,
+                        ServiceName = a.ServiceName,
+                        IsApproved = a.IsApproved,
+                    })
+                    .ToArrayAsync()
+                : Enumerable.Empty<AppointmentDTO>();
+
+            return new()
+            {
+                Items = items,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            return await GetAppointmentHistoryAsync(currentPage, pageSize, null, filters);
+        }
+
+        public Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            return GetAppointmentHistoryAsync(currentPage, pageSize, includes, null, filters);
+        }
+
+        public async Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            var query = DbSet
+                .AsNoTracking()
+                .IncludeMany(includes)
+                .FilterMany(filters);
+
+            var totalCount = await query.CountAsync();
+
+            var items = totalCount > 0
+                ? await query
+                    .FilterByPage(currentPage, pageSize)
+                    .SortMany(sorts)
+                    .Select(a => new AppointmentHistoryDTO
+                    {
+                        Date = a.Date,
+                        StartTime = a.Time,
+                        EndTime = a.Time.AddMinutes(a.Duration),
+                        DoctorFullName = a.DoctorFullName,
+                        ServiceName = a.ServiceName,
+                        ResultId = a.AppointmentResult.Id,
+                    })
+                    .ToArrayAsync()
+                : Enumerable.Empty<AppointmentHistoryDTO>();
 
             return new()
             {
