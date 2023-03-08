@@ -9,17 +9,12 @@ namespace Appointments.Read.Persistence.Configurations
         public void Configure(EntityTypeBuilder<AppointmentResult> builder)
         {
             builder.HasKey(a => a.Id);
-            builder.Property(a => a.DoctorSpecializationName).IsRequired();
             builder.Property(a => a.Complaints).IsRequired();
             builder.Property(a => a.Conclusion).IsRequired();
             builder.Property(a => a.Recomendations).IsRequired();
 
             builder.Property(a => a.Date)
                 .HasColumnType("timestamp")
-                .IsRequired();
-
-            builder.Property(a => a.PatientDateOfBirth)
-                .HasColumnType("date")
                 .IsRequired();
 
             builder.HasOne(r => r.Appointment)
@@ -39,8 +34,6 @@ namespace Appointments.Read.Persistence.Configurations
                 {
                     Id = new Guid("176999C3-035E-43E1-B68A-F9071DC7A016"),
                     Date = new DateTime(2023, 3, 1, 13, 20, 10),
-                    PatientDateOfBirth = new DateOnly(1980, 11, 28),
-                    DoctorSpecializationName = "Therapist",
                     Complaints = "nothing new",
                     Conclusion = "healthy",
                     Recomendations = "drink water",
@@ -50,8 +43,6 @@ namespace Appointments.Read.Persistence.Configurations
                 {
                     Id = new Guid("16FC93AD-CB73-4A78-9538-F808F3E812CD"),
                     Date = new DateTime(2023, 3, 4, 15, 50, 30),
-                    PatientDateOfBirth = new DateOnly(2000, 6, 15),
-                    DoctorSpecializationName = "Dentist",
                     Complaints = "here we go",
                     Conclusion = "have a disease",
                     Recomendations = "go for a walk",

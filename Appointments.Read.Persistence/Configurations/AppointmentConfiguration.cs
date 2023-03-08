@@ -17,6 +17,7 @@ namespace Appointments.Read.Persistence.Configurations
             builder.Property(a => a.PatientFullName).IsRequired();
             builder.Property(a => a.PatientPhoneNumber).IsRequired(false);
             builder.Property(a => a.DoctorFullName).IsRequired();
+            builder.Property(a => a.DoctorSpecializationName).IsRequired();
             builder.Property(a => a.ServiceName).IsRequired();
             builder.Property(a => a.Duration).IsRequired();
 
@@ -26,6 +27,10 @@ namespace Appointments.Read.Persistence.Configurations
 
             builder.Property(a => a.Time)
                 .HasColumnType("time")
+                .IsRequired();
+
+            builder.Property(a => a.PatientDateOfBirth)
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.ToTable(a => a.HasCheckConstraint("CHK_Appointment_Duration", "\"Duration\" > 0"))
@@ -49,7 +54,9 @@ namespace Appointments.Read.Persistence.Configurations
                     IsApproved = true,
                     PatientFullName = "Alex Lorem ",
                     PatientPhoneNumber = null,
+                    PatientDateOfBirth = new DateOnly(1980, 11, 28),
                     DoctorFullName = "Test Test ",
+                    DoctorSpecializationName = "Therapist",
                     ServiceName = "Examination",
                 },
                 new Appointment
@@ -65,7 +72,9 @@ namespace Appointments.Read.Persistence.Configurations
                     IsApproved = false,
                     PatientFullName = "Alex Lorem ",
                     PatientPhoneNumber = null,
+                    PatientDateOfBirth = new DateOnly(1980, 11, 28),
                     DoctorFullName = "Test Test ",
+                    DoctorSpecializationName = "Dentist",
                     ServiceName = "Examination",
                 },
                 new Appointment
@@ -81,7 +90,9 @@ namespace Appointments.Read.Persistence.Configurations
                     IsApproved = true,
                     PatientFullName = "Evgeny Koreba Sweety",
                     PatientPhoneNumber = null,
+                    PatientDateOfBirth = new DateOnly(2000, 6, 15),
                     DoctorFullName = "Test Test ",
+                    DoctorSpecializationName = "Dentist",
                     ServiceName = "Filling",
                 });
         }

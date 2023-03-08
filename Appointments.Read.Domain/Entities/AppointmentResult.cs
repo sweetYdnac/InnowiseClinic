@@ -5,8 +5,6 @@ namespace Appointments.Read.Domain.Entities
     public class AppointmentResult : BaseEntity
     {
         public DateTime Date { get; set; }
-        public DateOnly PatientDateOfBirth { get; set; }
-        public string DoctorSpecializationName { get; set; }
         public string Complaints { get; set; }
         public string Conclusion { get; set; }
         public string Recomendations { get; set; }

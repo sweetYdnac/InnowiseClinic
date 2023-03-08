@@ -7,8 +7,8 @@ namespace Appointments.Read.Application.Interfaces.Repositories
 {
     public interface IAppointmentsRepository : IRepository<Appointment>
     {
-        Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber);
-        Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid OfficeId);
+        Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber, DateOnly dateOfBirth);
+        Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid OfficeId, string specializationName);
         Task<int> UpdateServiceAsync(Guid id, string name, int timeSlotSize);
         Task<int> RescheduleAsync(Guid id, Guid doctorId, Guid officeId, DateOnly date, TimeOnly time, string doctorFullName);
         Task<int> DeleteByIdAsync(Guid id);

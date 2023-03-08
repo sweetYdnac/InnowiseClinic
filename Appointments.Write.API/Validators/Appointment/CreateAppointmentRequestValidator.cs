@@ -29,7 +29,9 @@ namespace Appointments.Write.API.Validators.Appointment
 
             RuleFor(r => r.PatientFullName).Required();
             RuleFor(r => r.PatientPhoneNumber).Required();
+            RuleFor(r => r.PatientDateOfBirth).Required();
             RuleFor(r => r.DoctorFullName).Required();
+            RuleFor(r => r.DoctorSpecializationName).Required();
             RuleFor(r => r.ServiceName).Required();
 
         }

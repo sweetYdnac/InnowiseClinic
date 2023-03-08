@@ -18,7 +18,9 @@ namespace Appointments.Read.Application.Features.Commands
 
         public string PatientFullName { get; set; }
         public string PatientPhoneNumber { get; set; }
+        public DateOnly PatientDateOfBirth { get; set; }
         public string DoctorFullName { get; set; }
+        public string DoctorSpecializationName { get; set; }
         public string ServiceName { get; set; }
     }
 
