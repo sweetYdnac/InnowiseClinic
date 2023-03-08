@@ -2,7 +2,7 @@
 
 namespace Shared.Models.Response.Appointments.Appointment.SwaggerExamples
 {
-    public class DoctorScheduledAppointmentResponseExample :
+    public class GetDoctorScheduleResponseExample :
         IMultipleExamplesProvider<PagedResponse<DoctorScheduledAppointmentResponse>>
     {
         public IEnumerable<SwaggerExample<PagedResponse<DoctorScheduledAppointmentResponse>>> GetExamples() =>
@@ -18,6 +18,7 @@ namespace Shared.Models.Response.Appointments.Appointment.SwaggerExamples
                         {
                             StartTime = new TimeOnly(15,00),
                             EndTime = new TimeOnly(15,30),
+                            PatientId = Guid.NewGuid(),
                             PatientFullName = "Ravshan Winner D",
                             ServiceName = "Healling",
                             IsApproved = true,
@@ -38,6 +39,7 @@ namespace Shared.Models.Response.Appointments.Appointment.SwaggerExamples
                         {
                             StartTime = new TimeOnly(10,20),
                             EndTime = new TimeOnly(10,30),
+                            PatientId = Guid.NewGuid(),
                             PatientFullName = "Ravshan Winner D",
                             ServiceName = "Healling",
                             IsApproved = false,

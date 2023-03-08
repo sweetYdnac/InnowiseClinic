@@ -32,13 +32,13 @@ namespace Shared.Models.Extensions
                 .Take(pageSize);
         }
 
-        public static IQueryable<T> SortMany<T>(this IQueryable<T> query, IEnumerable<(Expression<Func<T, object>> keySelector, bool isAscending)> sorts)
+        public static IQueryable<T> SortMany<T>(this IQueryable<T> query, IDictionary<Expression<Func<T, object>>, bool> sorts)
         {
             foreach (var sort in sorts)
             {
-                query = sort.isAscending
-                    ? query.SortBy(sort.keySelector)
-                    : query.SortByDescending(sort.keySelector);
+                query = sort.Value
+                    ? query.SortBy(sort.Key)
+                    : query.SortByDescending(sort.Key);
             }
 
             return query;
