@@ -14,18 +14,17 @@ namespace Appointments.Read.Application.Features.Commands
     public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, int>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
-        private readonly IAppointmentsResultsRepository _appointmentsResultRepository;
 
-        public UpdateDoctorCommandHandler(
-            IAppointmentsRepository appointmentsRepository,
-            IAppointmentsResultsRepository appointmentsResultRepository) =>
-        (_appointmentsRepository, _appointmentsResultRepository) =
-        (appointmentsRepository, appointmentsResultRepository);
+        public UpdateDoctorCommandHandler(IAppointmentsRepository appointmentsRepository) =>
+            _appointmentsRepository = appointmentsRepository;
 
         public async Task<int> Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsRepository.UpdateDoctorAsync(request.Id, request.FullName, request.OfficeId);
-            await _appointmentsResultRepository.UpdateDoctorAsync(request.Id, request.SpecializationName);
+            var result = await _appointmentsRepository.UpdateDoctorAsync(
+                request.Id,
+                request.FullName,
+                request.OfficeId,
+                request.SpecializationName);
 
             return result;
         }

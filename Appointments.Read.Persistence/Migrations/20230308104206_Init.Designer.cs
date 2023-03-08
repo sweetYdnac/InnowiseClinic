@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Read.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    [Migration("20230308075321_Init")]
+    [Migration("20230308104206_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -41,6 +41,10 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("DoctorSpecializationName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Duration")
                         .HasColumnType("integer");
 
@@ -49,6 +53,9 @@ namespace Appointments.Read.Persistence.Migrations
 
                     b.Property<Guid>("OfficeId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("PatientDateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("PatientFullName")
                         .IsRequired()
@@ -84,9 +91,11 @@ namespace Appointments.Read.Persistence.Migrations
                             Date = new DateOnly(2023, 2, 15),
                             DoctorFullName = "Test Test ",
                             DoctorId = new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"),
+                            DoctorSpecializationName = "Therapist",
                             Duration = 20,
                             IsApproved = true,
                             OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
+                            PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
                             ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
@@ -99,9 +108,11 @@ namespace Appointments.Read.Persistence.Migrations
                             Date = new DateOnly(2023, 3, 28),
                             DoctorFullName = "Test Test ",
                             DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
+                            DoctorSpecializationName = "Dentist",
                             Duration = 20,
                             IsApproved = false,
                             OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
+                            PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
                             ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
@@ -114,9 +125,11 @@ namespace Appointments.Read.Persistence.Migrations
                             Date = new DateOnly(2023, 2, 22),
                             DoctorFullName = "Test Test ",
                             DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
+                            DoctorSpecializationName = "Dentist",
                             Duration = 30,
                             IsApproved = true,
                             OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
+                            PatientDateOfBirth = new DateOnly(2000, 6, 15),
                             PatientFullName = "Evgeny Koreba Sweety",
                             PatientId = new Guid("b2957690-4d76-468c-a449-fb9529283857"),
                             ServiceId = new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"),
@@ -145,13 +158,6 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp");
 
-                    b.Property<string>("DoctorSpecializationName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateOnly>("PatientDateOfBirth")
-                        .HasColumnType("date");
-
                     b.Property<string>("Recomendations")
                         .IsRequired()
                         .HasColumnType("text");
@@ -174,8 +180,6 @@ namespace Appointments.Read.Persistence.Migrations
                             Complaints = "nothing new",
                             Conclusion = "healthy",
                             Date = new DateTime(2023, 3, 1, 13, 20, 10, 0, DateTimeKind.Unspecified),
-                            DoctorSpecializationName = "Therapist",
-                            PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             Recomendations = "drink water"
                         },
                         new
@@ -185,8 +189,6 @@ namespace Appointments.Read.Persistence.Migrations
                             Complaints = "here we go",
                             Conclusion = "have a disease",
                             Date = new DateTime(2023, 3, 4, 15, 50, 30, 0, DateTimeKind.Unspecified),
-                            DoctorSpecializationName = "Dentist",
-                            PatientDateOfBirth = new DateOnly(2000, 6, 15),
                             Recomendations = "go for a walk"
                         });
                 });

@@ -14,22 +14,24 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
         public AppointmentsRepository(AppointmentsDbContext database)
             : base(database) { }
 
-        public async Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid officeId)
+        public async Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid officeId, string specializationName)
         {
             return await DbSet
                 .Where(a => a.DoctorId.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.DoctorFullName, a => fullName)
+                    .SetProperty(a => a.DoctorSpecializationName, a => specializationName)
                     .SetProperty(a => a.OfficeId, a => officeId));
         }
 
-        public async Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber)
+        public async Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber, DateOnly dateOfBirth)
         {
             return await DbSet
                 .Where(a => a.PatientId.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.PatientFullName, a => fullName)
-                    .SetProperty(a => a.PatientPhoneNumber, a => phoneNumber));
+                    .SetProperty(a => a.PatientPhoneNumber, a => phoneNumber)
+                    .SetProperty(a => a.PatientDateOfBirth, a => dateOfBirth));
         }
 
         public async Task<int> UpdateServiceAsync(Guid id, string name, int timeSlotSize)

@@ -16,7 +16,9 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
                 Duration = 30,
                 PatientFullName = "Evgeny Koreba ",
                 PatientPhoneNumber = "88005553535",
+                PatientDateOfBirth = new DateOnly(2000, 2, 13),
                 DoctorFullName = "Doctor Octavius ",
+                DoctorSpecializationName = "Custom specialization",
                 ServiceName = "Filling"
             };
     }
