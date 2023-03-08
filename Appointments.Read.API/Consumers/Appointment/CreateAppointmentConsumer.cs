@@ -4,7 +4,7 @@ using MassTransit;
 using MediatR;
 using Shared.Messages;
 
-namespace Appointments.Read.API.Consumers
+namespace Appointments.Read.API.Consumers.Appointment
 {
     public class CreateAppointmentConsumer : IConsumer<CreateAppointmentMessage>
     {
