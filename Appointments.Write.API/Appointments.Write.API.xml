@@ -34,5 +34,16 @@
             </summary>
             <param name="id">Appointment's unique identifier</param>
         </member>
+        <member name="T:Appointments.Write.API.Controllers.AppointmentsResultsController">
+            <summary>
+            This controller used to work with appointments results
+            </summary>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsResultsController.CreateAppointmentResult(Shared.Models.Request.Appointments.AppointmentResult.CreateAppointmentResultRequest)">
+            <summary>
+            Create result for specific appointment
+            </summary>
+            <param name="request"></param>
+        </member>
     </members>
 </doc>

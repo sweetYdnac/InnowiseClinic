@@ -1,5 +1,6 @@
 ﻿using Appointments.Read.Application.DTOs.Appointment;
-using Appointments.Read.Application.Features.Commands;
+using Appointments.Read.Application.Features.Commands.Appointments;
+using Appointments.Read.Application.Features.Commands.AppointmentsResults;
 using Appointments.Read.Application.Features.Queries;
 using Appointments.Read.Domain.Entities;
 using AutoMapper;

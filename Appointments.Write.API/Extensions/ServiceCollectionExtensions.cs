@@ -31,6 +31,7 @@ namespace Appointments.Write.API.Extensions
         internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IAppointmentsRepository, AppointmentsRepository>();
+            services.AddTransient<IAppointmentsResultsRepository, AppointmentsResultsRepository>();
         }
 
         internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -112,6 +113,8 @@ namespace Appointments.Write.API.Extensions
 
             EndpointConvention.Map<CreateAppointmentMessage>(
     new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
+            EndpointConvention.Map<CreateAppointmentResultMessage>(
+    new Uri(configuration.GetValue<string>("Messages:CreateAppointmentResultEndpoint")));
             EndpointConvention.Map<RescheduleAppointmentMessage>(
     new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
             EndpointConvention.Map<CancelAppointmentMessage>(

@@ -1,7 +1,7 @@
 ﻿using Appointments.Read.Application.Interfaces.Repositories;
 using MediatR;
 
-namespace Appointments.Read.Application.Features.Commands
+namespace Appointments.Read.Application.Features.Commands.Appointments
 {
     public class UpdateServiceCommand : IRequest<int>
     {

@@ -2,7 +2,7 @@
 using AutoMapper;
 using MediatR;
 
-namespace Appointments.Read.Application.Features.Commands
+namespace Appointments.Read.Application.Features.Commands.Appointments
 {
     public class UpdatePatientCommand : IRequest<int>
     {
@@ -18,7 +18,7 @@ namespace Appointments.Read.Application.Features.Commands
         private readonly IMapper _mapper;
 
         public UpdatePatientCommandHandler(IAppointmentsRepository appointmentsRepository, IMapper mapper) =>
-            (_appointmentsRepository, _mapper) = (appointmentsRepository,  mapper);
+            (_appointmentsRepository, _mapper) = (appointmentsRepository, mapper);
 
         public async Task<int> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
         {
