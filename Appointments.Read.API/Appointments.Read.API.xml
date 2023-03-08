@@ -22,5 +22,12 @@
             </summary>
             <param name="request">Contains paged and filtering parameters</param>
         </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetPatientHistory(System.Guid,Shared.Models.Request.Appointments.Appointment.GetPatientHistoryRequest)">
+            <summary>
+            Get patient's history
+            </summary>
+            <param name="id">Patient's unique identifier</param>
+            <param name="request">Contains paging parameters</param>
+        </member>
     </members>
 </doc>

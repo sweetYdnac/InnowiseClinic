@@ -30,7 +30,7 @@ namespace Appointments.Read.Application.Features.Queries
 
         public async Task<PagedResponse<AppointmentResponse>> Handle(GetAppointmentsQuery request, CancellationToken cancellationToken)
         {
-            var response = await _appointmentsRepository.GetAppointments(
+            var response = await _appointmentsRepository.GetAppointmentsAsync(
                 request.CurrentPage,
                 request.PageSize,
                 new Dictionary<Expression<Func<Appointment, object>>, bool>()
