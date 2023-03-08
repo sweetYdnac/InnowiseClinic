@@ -8,6 +8,7 @@ using Shared.Models.Request.Appointments.Appointment;
 using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.Appointments.Appointment;
+using Shared.Models.Response.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -41,13 +42,34 @@ namespace Appointments.Read.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetDoctorScheduleRequestExample))]
+        [SwaggerRequestExample(typeof(GetDoctorScheduleRequest), typeof(GetDoctorScheduleRequestExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetDoctorScheduleResponseExample))]
         public async Task<IActionResult> GetDoctorSchedule([FromRoute] Guid id, [FromQuery] GetDoctorScheduleRequest request)
         {
             var query = _mapper.Map<GetDoctorScheduleQuery>(request);
             query.DoctorId = id;
 
             var response = await _mediator.Send(query);
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Get ordered appointments by page and filters
+        /// </summary>
+        /// <param name="request">Contains paged and filtering parameters</param>
+        [HttpGet("appointments")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [ProducesResponseType(typeof(PagedResponse<AppointmentResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(GetAppointmentsRequest), typeof(GetAppointmentsRequestExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(GetAppointmentsResponseExample))]
+        public async Task<IActionResult> GetAppointments([FromQuery] GetAppointmentsRequest request)
+        {
+            var response = await _mediator.Send(_mapper.Map<GetAppointmentsQuery>(request));
 
             return Ok(response);
         }

@@ -16,5 +16,11 @@
             <param name="id">Doctor's unique identifier</param>
             <param name="request">Paging parameters</param>
         </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetAppointments(Shared.Models.Request.Appointments.Appointment.GetAppointmentsRequest)">
+            <summary>
+            Get ordered appointments by page and filters
+            </summary>
+            <param name="request">Contains paged and filtering parameters</param>
+        </member>
     </members>
 </doc>

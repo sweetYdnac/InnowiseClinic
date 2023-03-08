@@ -14,12 +14,13 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
         public AppointmentsRepository(AppointmentsDbContext database)
             : base(database) { }
 
-        public async Task<int> UpdateDoctorAsync(Guid id, string fullName)
+        public async Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid officeId)
         {
             return await DbSet
                 .Where(a => a.DoctorId.Equals(id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.DoctorFullName, a => fullName));
+                    .SetProperty(a => a.DoctorFullName, a => fullName)
+                    .SetProperty(a => a.OfficeId, a => officeId));
         }
 
         public async Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber)
@@ -40,12 +41,13 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SetProperty(a => a.Duration, a => timeSlotSize));
         }
 
-        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, DateOnly date, TimeOnly time, string doctorFullName)
+        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, Guid officeId, DateOnly date, TimeOnly time, string doctorFullName)
         {
             return await DbSet
                 .Where(a => a.Id.Equals(id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.DoctorId, a => doctorId)
+                    .SetProperty(a => a.OfficeId, a => officeId)
                     .SetProperty(a => a.Date, a => date)
                     .SetProperty(a => a.Time, a => time)
                     .SetProperty(a => a.DoctorFullName, a => doctorFullName));
@@ -76,7 +78,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
             return await GetDoctorScheduleAsync(currentPage, pageSize, includes, null, filters);
         }
 
-        public async Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IEnumerable<(Expression<Func<Appointment, object>> keySelector, bool isAscending)> sorts, params Expression<Func<Appointment, bool>>[] filters)
+        public async Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IDictionary<Expression<Func<Appointment, object>>, bool> sorts, params Expression<Func<Appointment, bool>>[] filters)
         {
             var query = DbSet
                 .AsNoTracking()
@@ -90,10 +92,46 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 {
                     StartTime = a.Time,
                     EndTime = a.Time.AddMinutes(a.Duration),
+                    PatientId = a.PatientId,
                     PatientFullName = a.PatientFullName,
                     ServiceName = a.ServiceName,
                     IsApproved = a.IsApproved,
                     ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
+                })
+                .ToArrayAsync();
+
+            var totalCount = await query.CountAsync();
+
+            return new()
+            {
+                Items = items,
+                TotalCount = totalCount
+            };
+        }
+
+        public async Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            return await GetAppointments(currentPage, pageSize, null, filters);
+        }
+
+        public async Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters)
+        {
+            var query = DbSet
+                .AsNoTracking()
+                .FilterMany(filters)
+                .FilterByPage(currentPage, pageSize)
+                .SortMany(sorts);
+
+            var items = await query
+                .Select(a => new AppointmentDTO
+                {
+                    StartTime = a.Time,
+                    EndTime = a.Time.AddMinutes(a.Duration),
+                    PatientFullName = a.PatientFullName,
+                    PatientPhoneNumber = a.PatientPhoneNumber,
+                    DoctorFullName = a.DoctorFullName,
+                    ServiceName = a.ServiceName,
+                    IsApproved = a.IsApproved,
                 })
                 .ToArrayAsync();
 

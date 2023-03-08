@@ -35,9 +35,9 @@ namespace Appointments.Read.Application.Features.Queries
                 {
                     appointment => appointment.AppointmentResult,
                 },
-                new(Expression<Func<Appointment, object>> keySelector, bool isAscending)[]
+                new Dictionary<Expression<Func<Appointment, object>>, bool>()
                 {
-                    new(appointment => appointment.Time, true)
+                    { appointment => appointment.Time, true },
                 },
                 new Expression<Func<Appointment, bool>>[]
                 {

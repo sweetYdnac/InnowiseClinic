@@ -44,6 +44,9 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("OfficeId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("PatientFullName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -80,6 +83,7 @@ namespace Appointments.Read.Persistence.Migrations
                             DoctorId = new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"),
                             Duration = 20,
                             IsApproved = true,
+                            OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
                             ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
@@ -94,6 +98,7 @@ namespace Appointments.Read.Persistence.Migrations
                             DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
                             Duration = 20,
                             IsApproved = false,
+                            OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
                             ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
@@ -108,6 +113,7 @@ namespace Appointments.Read.Persistence.Migrations
                             DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
                             Duration = 30,
                             IsApproved = true,
+                            OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                             PatientFullName = "Evgeny Koreba Sweety",
                             PatientId = new Guid("b2957690-4d76-468c-a449-fb9529283857"),
                             ServiceId = new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"),

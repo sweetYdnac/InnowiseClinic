@@ -8,13 +8,15 @@ namespace Appointments.Read.Application.Interfaces.Repositories
     public interface IAppointmentsRepository : IRepository<Appointment>
     {
         Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber);
-        Task<int> UpdateDoctorAsync(Guid id, string fullName);
+        Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid OfficeId);
         Task<int> UpdateServiceAsync(Guid id, string name, int timeSlotSize);
-        Task<int> RescheduleAsync(Guid id, Guid doctorId, DateOnly date, TimeOnly time, string doctorFullName);
+        Task<int> RescheduleAsync(Guid id, Guid doctorId, Guid officeId, DateOnly date, TimeOnly time, string doctorFullName);
         Task<int> DeleteByIdAsync(Guid id);
         Task<int> ApproveAsync(Guid id);
         Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters);
         Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, params Expression<Func<Appointment, bool>>[] filters);
-        Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IEnumerable<(Expression<Func<Appointment, object>> keySelector, bool isAscending)> sorts = null, params Expression<Func<Appointment, bool>>[] filters);
+        Task<PagedResult<DoctorScheduledAppointmentDTO>> GetDoctorScheduleAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters);
+        Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters);
+        Task<PagedResult<AppointmentDTO>> GetAppointments(int currentPage, int pageSize, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters);
     }
 }

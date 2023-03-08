@@ -11,6 +11,7 @@ namespace Appointments.Write.API.Validators.Appointment
             RuleFor(r => r.PatientId).Required();
             RuleFor(r => r.DoctorId).Required();
             RuleFor(r => r.ServiceId).Required();
+            RuleFor(r => r.OfficeId).Required();
             RuleFor(r => r.Date)
                 .Required()
                 .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now));

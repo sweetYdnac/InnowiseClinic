@@ -7,6 +7,7 @@ namespace Appointments.Read.Application.Features.Commands
     {
         public Guid Id { get; set; }
         public Guid DoctorId { get; set; }
+        public Guid OfficeId { get; set; }
         public DateOnly Date { get; set; }
         public TimeOnly Time { get; set; }
 
@@ -25,6 +26,7 @@ namespace Appointments.Read.Application.Features.Commands
             return await _appointmentsRepository.RescheduleAsync(
                 request.Id,
                 request.DoctorId,
+                request.OfficeId,
                 request.Date,
                 request.Time,
                 request.DoctorFullName);
