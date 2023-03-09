@@ -3,8 +3,10 @@ using Appointments.Read.API.Consumers.Appointment;
 using Appointments.Read.API.Consumers.AppointmentResult;
 using Appointments.Read.Application.Features.Commands.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
+using Appointments.Read.Application.Interfaces.Services;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
+using Appointments.Read.Persistence.Implementations.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
@@ -24,6 +26,7 @@ namespace Appointments.Read.API.Extensions
     {
         internal static void AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IFileGeneratorService, FileGeneratorService>();
         }
 
         internal static void AddRepositories(this IServiceCollection services)

@@ -19,6 +19,7 @@ COPY ["Appointments.Read.Application/.", "./Appointments.Read.Application/"]
 COPY ["Appointments.Read.Persistence/.", "./Appointments.Read.Persistence/"]
 COPY ["Appointments.Read.Domain/.", "./Appointments.Read.Domain/"]
 COPY ["Shared/.", "./Shared/"]
+COPY ["Appointments.Read.Application/FileTemplates/PdfTemplate.html", "/PdfTemplate.html"]
 WORKDIR "/src/Appointments.Read.API"
 RUN dotnet build "Appointments.Read.API.csproj" -c Debug -o /app/build
 

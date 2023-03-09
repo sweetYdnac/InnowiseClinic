@@ -8,6 +8,7 @@ namespace Shared.Models.Response.Appointments.AppointmentResult.SwaggerExamples
             new()
             {
                 Id = Guid.NewGuid(),
+                Date = DateTime.Now,
                 PatientFullName = "Evgeny Koreba ",
                 PatientDateOfBirth = new DateOnly(1998,07,16),
                 DoctorId = Guid.NewGuid(),

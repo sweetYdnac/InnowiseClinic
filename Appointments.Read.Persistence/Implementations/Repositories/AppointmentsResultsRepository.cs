@@ -19,6 +19,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 .Select(r => new AppointmentResultDTO
                 {
                     Id = r.Id,
+                    Date = r.Date,
                     PatientFullName = r.Appointment.PatientFullName,
                     PatientDateOfBirth = r.Appointment.PatientDateOfBirth,
                     DoctorId = r.Appointment.DoctorId,
