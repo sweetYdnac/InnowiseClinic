@@ -2,6 +2,7 @@ using Appointments.Read.API.Extensions;
 using Appointments.Read.API.Middlewares;
 using Serilog;
 using Serilog.Events;
+using Shared.Models.Response.Appointments.Appointment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,9 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.File(logPath, LogEventLevel.Error)
     .WriteTo.Console(LogEventLevel.Debug));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new TimeSlotsConverter()));
+
 builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
