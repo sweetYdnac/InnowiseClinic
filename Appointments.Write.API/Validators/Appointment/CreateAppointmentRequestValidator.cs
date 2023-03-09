@@ -25,7 +25,8 @@ namespace Appointments.Write.API.Validators.Appointment
 
             RuleFor(r => r.Duration)
                 .Required()
-                .GreaterThan(0);
+                .GreaterThan(0)
+                .Must(p => p % 10 == 0);
 
             RuleFor(r => r.PatientFullName).Required();
             RuleFor(r => r.PatientPhoneNumber).Required();

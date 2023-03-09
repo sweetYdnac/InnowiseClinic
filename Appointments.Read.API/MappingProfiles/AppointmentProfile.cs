@@ -1,6 +1,5 @@
 ﻿using Appointments.Read.Application.DTOs.Appointment;
 using Appointments.Read.Application.Features.Commands.Appointments;
-using Appointments.Read.Application.Features.Commands.AppointmentsResults;
 using Appointments.Read.Application.Features.Queries.Appointments;
 using Appointments.Read.Domain.Entities;
 using AutoMapper;
@@ -33,6 +32,8 @@ namespace Appointments.Read.API.MappingProfiles
 
             CreateMap<GetPatientHistoryRequest, GetPatientHistoryQuery>();
             CreateMap<AppointmentHistoryDTO, AppointmentHistoryResponse>();
+
+            CreateMap<GetTimeSlotsRequest, GetTimeSlotsQuery>();
         }
     }
 }

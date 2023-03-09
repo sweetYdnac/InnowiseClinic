@@ -97,5 +97,29 @@ namespace Appointments.Read.API.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// Get available time slots for specific date
+        /// </summary>
+        /// <param name="date">Date in which searches available time slots</param>
+        /// <param name="request">Contains parameters for filtering appointments</param>
+        [HttpGet("appointments/{date}/timeslots")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(TimeSlotsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerRequestExample(typeof(GetTimeSlotsRequest), typeof(GetTimeSlotsRequestExample))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TimeSlotsResponseExample))]
+        public async Task<IActionResult> GetTimeSlots([FromRoute] DateOnly date, [FromQuery] GetTimeSlotsRequest request)
+        {
+            var query = _mapper.Map<GetTimeSlotsQuery>(request);
+            query.Date = date;
+
+            var response = await _mediator.Send(query);
+
+            return Ok(response);
+        }
     }
 }
