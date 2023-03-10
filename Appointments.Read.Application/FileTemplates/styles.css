@@ -1,11 +1,11 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
-
-body {
+﻿body {
     display: flex;
+    display: -webkit-flex;
     flex-direction: column;
     justify-content: center;
+    -webkit-box-pack: center;
+    align-items: center;
     text-align: center;
-    font-family: 'Montserrat', sans-serif;
 }
 
 h2 {
@@ -16,7 +16,8 @@ h2 {
 table {
     align-self: center;
     padding: 5px 5px;
-    width: 70%;
+    margin: 10px 40px;
+    width: 90%;
     border: 2px solid black;
 }
 
@@ -28,7 +29,7 @@ table tbody td {
     border: 1px solid black;
     padding: 10px;
     justify-items: center;
-    font-size: 10px;
+    font-size: 13px;
 }
 
 .title {
