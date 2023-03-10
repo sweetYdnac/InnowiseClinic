@@ -3,6 +3,7 @@
     public class AppointmentResultDTO
     {
         public Guid Id { get; set; }
+        public DateTime Date { get; set; }
         public string PatientFullName { get; set; }
         public DateOnly PatientDateOfBirth { get; set; }
         public Guid DoctorId { get; set; }

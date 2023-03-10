@@ -1,0 +1,40 @@
+﻿body {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    justify-content: center;
+    -webkit-box-pack: center;
+    align-items: center;
+    text-align: center;
+}
+
+h2 {
+    align-self: center;
+
+}
+
+table {
+    align-self: center;
+    padding: 5px 5px;
+    margin: 10px 40px;
+    width: 90%;
+    border: 2px solid black;
+}
+
+table tbody tr {
+    justify-items: center;
+}
+
+table tbody td {
+    border: 1px solid black;
+    padding: 10px;
+    justify-items: center;
+    font-size: 13px;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+    width: 30%;
+    vertical-align: central;
+}
