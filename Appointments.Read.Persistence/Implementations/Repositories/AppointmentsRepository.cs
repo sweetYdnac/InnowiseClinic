@@ -14,45 +14,45 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
         public AppointmentsRepository(AppointmentsDbContext database)
             : base(database) { }
 
-        public async Task<int> UpdateDoctorAsync(Guid id, string fullName, Guid officeId, string specializationName)
+        public async Task<int> UpdateDoctorAsync(UpdateDoctorDTO dto)
         {
             return await DbSet
-                .Where(a => a.DoctorId.Equals(id))
+                .Where(a => a.DoctorId.Equals(dto.Id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.DoctorFullName, a => fullName)
-                    .SetProperty(a => a.DoctorSpecializationName, a => specializationName)
-                    .SetProperty(a => a.OfficeId, a => officeId));
+                    .SetProperty(a => a.DoctorFullName, a => dto.FullName)
+                    .SetProperty(a => a.DoctorSpecializationName, a => dto.SpecializationName)
+                    .SetProperty(a => a.OfficeId, a => dto.OfficeId));
         }
 
-        public async Task<int> UpdatePatientAsync(Guid id, string fullName, string phoneNumber, DateOnly dateOfBirth)
+        public async Task<int> UpdatePatientAsync(UpdatePatientDTO dto)
         {
             return await DbSet
-                .Where(a => a.PatientId.Equals(id))
+                .Where(a => a.PatientId.Equals(dto.Id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.PatientFullName, a => fullName)
-                    .SetProperty(a => a.PatientPhoneNumber, a => phoneNumber)
-                    .SetProperty(a => a.PatientDateOfBirth, a => dateOfBirth));
+                    .SetProperty(a => a.PatientFullName, a => dto.FullName)
+                    .SetProperty(a => a.PatientPhoneNumber, a => dto.PhoneNumber)
+                    .SetProperty(a => a.PatientDateOfBirth, a => dto.DateOfBirth));
         }
 
-        public async Task<int> UpdateServiceAsync(Guid id, string name, int timeSlotSize)
+        public async Task<int> UpdateServiceAsync(UpdateServiceDTO dto)
         {
             return await DbSet
-                .Where(a => a.ServiceId.Equals(id))
+                .Where(a => a.ServiceId.Equals(dto.Id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.ServiceName, a => name)
-                    .SetProperty(a => a.Duration, a => timeSlotSize));
+                    .SetProperty(a => a.ServiceName, a => dto.Name)
+                    .SetProperty(a => a.Duration, a => dto.TimeSlotSize));
         }
 
-        public async Task<int> RescheduleAsync(Guid id, Guid doctorId, Guid officeId, DateOnly date, TimeOnly time, string doctorFullName)
+        public async Task<int> RescheduleAsync(RescheduleAppointmentDTO dto)
         {
             return await DbSet
-                .Where(a => a.Id.Equals(id))
+                .Where(a => a.Id.Equals(dto.Id))
                 .ExecuteUpdateAsync(p => p
-                    .SetProperty(a => a.DoctorId, a => doctorId)
-                    .SetProperty(a => a.OfficeId, a => officeId)
-                    .SetProperty(a => a.Date, a => date)
-                    .SetProperty(a => a.Time, a => time)
-                    .SetProperty(a => a.DoctorFullName, a => doctorFullName));
+                    .SetProperty(a => a.DoctorId, a => dto.DoctorId)
+                    .SetProperty(a => a.OfficeId, a => dto.OfficeId)
+                    .SetProperty(a => a.Date, a => dto.Date)
+                    .SetProperty(a => a.Time, a => dto.Time)
+                    .SetProperty(a => a.DoctorFullName, a => dto.DoctorFullName));
         }
 
         public async Task<int> DeleteByIdAsync(Guid id)

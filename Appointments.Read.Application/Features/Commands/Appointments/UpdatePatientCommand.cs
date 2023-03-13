@@ -1,4 +1,5 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Read.Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
 
@@ -22,11 +23,7 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
 
         public async Task<int> Handle(UpdatePatientCommand request, CancellationToken cancellationToken)
         {
-            return await _appointmentsRepository.UpdatePatientAsync(request.
-                Id,
-                request.FullName,
-                request.PhoneNumber,
-                request.DateOfBirth);
+            return await _appointmentsRepository.UpdatePatientAsync(_mapper.Map<UpdatePatientDTO>(request));
         }
     }
 }

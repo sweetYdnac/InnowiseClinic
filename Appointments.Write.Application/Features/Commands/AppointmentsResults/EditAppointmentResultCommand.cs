@@ -1,4 +1,5 @@
-﻿using Appointments.Write.Application.Interfaces.Repositories;
+﻿using Appointments.Write.Application.DTOs.AppointmentResult;
+using Appointments.Write.Application.Interfaces.Repositories;
 using Appointments.Write.Application.Interfaces.Services;
 using AutoMapper;
 using MediatR;
@@ -29,10 +30,7 @@ namespace Appointments.Write.Application.Features.Commands.AppointmentsResults
         public async Task<Unit> Handle(EditAppointmentResultCommand request, CancellationToken cancellationToken)
         {
             var result = await _appointmentsResultsRepository.UpdateAsync(
-                request.Id,
-                request.Complaints,
-                request.Conclusion,
-                request.Recomendations);
+                _mapper.Map<EditAppointmentResultDTO>(request));
 
             if (result > 0)
             {

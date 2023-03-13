@@ -1,4 +1,5 @@
-﻿using Appointments.Write.Application.Features.Commands.AppointmentsResults;
+﻿using Appointments.Write.Application.DTOs.AppointmentResult;
+using Appointments.Write.Application.Features.Commands.AppointmentsResults;
 using Appointments.Write.Domain.Entities;
 using AutoMapper;
 using Shared.Messages;
@@ -19,6 +20,7 @@ namespace Appointments.Write.API.MappingProfiles
 
             CreateMap<EditAppointmentResultRequest, EditAppointmentResultCommand>();
             CreateMap<EditAppointmentResultCommand, EditAppointmentResultMessage>();
+            CreateMap<EditAppointmentResultCommand, EditAppointmentResultDTO>();
         }
     }
 }

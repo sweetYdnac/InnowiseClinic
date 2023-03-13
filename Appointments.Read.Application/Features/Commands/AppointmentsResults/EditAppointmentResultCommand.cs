@@ -1,4 +1,6 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.DTOs.AppointmentResult;
+using Appointments.Read.Application.Interfaces.Repositories;
+using AutoMapper;
 using MediatR;
 
 namespace Appointments.Read.Application.Features.Commands.AppointmentsResults
@@ -14,17 +16,17 @@ namespace Appointments.Read.Application.Features.Commands.AppointmentsResults
     public class EditAppointmentResultCommandHandler : IRequestHandler<EditAppointmentResultCommand, int>
     {
         private readonly IAppointmentsResultsRepository _appointmentsResultsRepository;
+        private readonly IMapper _mapper;
 
-        public EditAppointmentResultCommandHandler(IAppointmentsResultsRepository appointmentsResultsRepository) =>
-            _appointmentsResultsRepository = appointmentsResultsRepository;
+        public EditAppointmentResultCommandHandler(
+            IAppointmentsResultsRepository appointmentsResultsRepository,
+            IMapper mapper) =>
+        (_appointmentsResultsRepository, _mapper) = (appointmentsResultsRepository, mapper);
 
         public async Task<int> Handle(EditAppointmentResultCommand request, CancellationToken cancellationToken)
         {
             return await _appointmentsResultsRepository.UpdateAsync(
-                request.Id,
-                request.Complaints,
-                request.Conclusion,
-                request.Recomendations);
+                _mapper.Map<EditAppointmentResultDTO>(request));
         }
     }
 }

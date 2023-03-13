@@ -1,4 +1,6 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Read.Application.Interfaces.Repositories;
+using AutoMapper;
 using MediatR;
 
 namespace Appointments.Read.Application.Features.Commands.Appointments
@@ -14,17 +16,15 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
     public class UpdateDoctorCommandHandler : IRequestHandler<UpdateDoctorCommand, int>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
+        private readonly IMapper _mapper;
 
-        public UpdateDoctorCommandHandler(IAppointmentsRepository appointmentsRepository) =>
-            _appointmentsRepository = appointmentsRepository;
+        public UpdateDoctorCommandHandler(IAppointmentsRepository appointmentsRepository, IMapper mapper) =>
+            (_appointmentsRepository, _mapper) = (appointmentsRepository, mapper);
 
         public async Task<int> Handle(UpdateDoctorCommand request, CancellationToken cancellationToken)
         {
             var result = await _appointmentsRepository.UpdateDoctorAsync(
-                request.Id,
-                request.FullName,
-                request.OfficeId,
-                request.SpecializationName);
+                _mapper.Map<UpdateDoctorDTO>(request));
 
             return result;
         }

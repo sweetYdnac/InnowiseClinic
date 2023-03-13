@@ -18,15 +18,14 @@ namespace Appointments.Write.API.Validators.Appointment
 
             RuleFor(r => r.Time)
                 .Required()
-                .InclusiveBetween(
-                new TimeOnly(5, 00),
-                new TimeOnly(22, 00))
-                .Must(t => t.Minute % 10 == 0);
+                .Must(t => t.Minute % 10 == 0)
+                .WithMessage("Time slot duration should be divided by 10.");
 
             RuleFor(r => r.Duration)
                 .Required()
                 .GreaterThan(0)
-                .Must(p => p % 10 == 0);
+                .Must(p => p % 10 == 0)
+                .WithMessage("Time slot duration should be divided by 10.");
 
             RuleFor(r => r.PatientFullName).Required();
             RuleFor(r => r.PatientPhoneNumber).Required();
@@ -34,7 +33,6 @@ namespace Appointments.Write.API.Validators.Appointment
             RuleFor(r => r.DoctorFullName).Required();
             RuleFor(r => r.DoctorSpecializationName).Required();
             RuleFor(r => r.ServiceName).Required();
-
         }
     }
 }

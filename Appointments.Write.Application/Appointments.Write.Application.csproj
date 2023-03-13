@@ -6,11 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTOs\**" />
     <Compile Remove="Features\Queries\**" />
-    <EmbeddedResource Remove="DTOs\**" />
     <EmbeddedResource Remove="Features\Queries\**" />
-    <None Remove="DTOs\**" />
     <None Remove="Features\Queries\**" />
   </ItemGroup>
 

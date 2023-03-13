@@ -17,6 +17,7 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<CreateAppointmentResultCommand, AppointmentResult>();
 
             CreateMap<EditAppointmentResultMessage, EditAppointmentResultCommand>();
+            CreateMap<EditAppointmentResultCommand, EditAppointmentResultDTO>();
 
             CreateMap<AppointmentResultDTO, AppointmentResultResponse>();
 

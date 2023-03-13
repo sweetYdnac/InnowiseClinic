@@ -14,7 +14,8 @@ namespace Appointments.Read.API.Validators.Appointment
             RuleFor(r => r.Duration)
                 .Required()
                 .GreaterThan(0)
-                .Must(p => p % 10 == 0);
+                .Must(p => p % 10 == 0)
+                .WithMessage("Time slot duration should be divided by 10.");
         }
     }
 }

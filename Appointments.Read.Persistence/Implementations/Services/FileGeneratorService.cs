@@ -1,23 +1,21 @@
-﻿using Appointments.Read.Application.DTOs.AppointmentResult;
+﻿using Appointments.Read.Application.Configurations;
+using Appointments.Read.Application.DTOs.AppointmentResult;
 using Appointments.Read.Application.Interfaces.Services;
 using DinkToPdf;
 using HandlebarsDotNet;
-using Microsoft.Extensions.Configuration;
 using Shared.Models.Response.Appointments.AppointmentResult;
 
 namespace Appointments.Read.Persistence.Implementations.Services
 {
     public class FileGeneratorService : IFileGeneratorService
     {
-        private readonly IConfiguration _configuration;
+        private readonly PdfTemplateConfiguration _configuration;
 
-        public FileGeneratorService(IConfiguration configuration) => _configuration = configuration;
+        public FileGeneratorService(PdfTemplateConfiguration configuration) => _configuration = configuration;
 
         public async Task<PdfResultResponse> GetPdfAppointmentResult(PdfResultDTO dto)
         {
-            var path = _configuration.GetValue<string>("PdfTemplate:HtmlPath");
-
-            var html = await File.ReadAllTextAsync(path);
+            var html = await File.ReadAllTextAsync(_configuration.HtmlPath);
             var handleBars = Handlebars.Compile(html);
             var parsed = handleBars(dto);
 
@@ -37,7 +35,7 @@ namespace Appointments.Read.Persistence.Implementations.Services
                         WebSettings =
                         {
                             DefaultEncoding = "utf-8",
-                            UserStyleSheet = _configuration.GetValue<string>("PdfTemplate:CssPath")
+                            UserStyleSheet = _configuration.CssPath,
                         },
                     }
                 }

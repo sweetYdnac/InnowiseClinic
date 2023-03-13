@@ -1,4 +1,6 @@
-﻿using Appointments.Read.Application.Interfaces.Repositories;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Read.Application.Interfaces.Repositories;
+using AutoMapper;
 using MediatR;
 
 namespace Appointments.Read.Application.Features.Commands.Appointments
@@ -17,19 +19,15 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
     public class RescheduleAppointmentCommandHandler : IRequestHandler<RescheduleAppointmentCommand, int>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
+        private readonly IMapper _mapper;
 
-        public RescheduleAppointmentCommandHandler(IAppointmentsRepository appointmentRepository) =>
-            _appointmentsRepository = appointmentRepository;
+        public RescheduleAppointmentCommandHandler(IAppointmentsRepository appointmentRepository, IMapper mapper) =>
+            (_appointmentsRepository, _mapper) = (appointmentRepository, mapper);
 
         public async Task<int> Handle(RescheduleAppointmentCommand request, CancellationToken cancellationToken)
         {
             return await _appointmentsRepository.RescheduleAsync(
-                request.Id,
-                request.DoctorId,
-                request.OfficeId,
-                request.Date,
-                request.Time,
-                request.DoctorFullName);
+                _mapper.Map<RescheduleAppointmentDTO>(request));
         }
     }
 }

@@ -18,10 +18,9 @@ namespace Appointments.Write.API.Validators.Appointment
 
             RuleFor(r => r.Time)
                 .Required()
-                .InclusiveBetween(
-                new TimeOnly(5, 00),
-                new TimeOnly(22, 00))
-                .Must(t => t.Minute % 10 == 0);
+                .Must(t => t.Minute % 10 == 0)
+                .WithMessage("Time slot duration should be divided by 10.");
+
         }
     }
 }
