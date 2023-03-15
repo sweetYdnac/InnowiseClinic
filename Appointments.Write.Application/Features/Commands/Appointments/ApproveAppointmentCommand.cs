@@ -21,12 +21,8 @@ namespace Appointments.Write.Application.Features.Commands.Appointments
 
         public async Task<Unit> Handle(ApproveAppointmentCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsRepository.ApproveAsync(request.Id);
-
-            if (result > 0)
-            {
-                await _messageService.SendApproveAppointmentMessageAsync(request.Id);
-            }
+            await _appointmentsRepository.ApproveAsync(request.Id);
+            await _messageService.SendApproveAppointmentMessageAsync(request.Id);
 
             return Unit.Value;
         }
