@@ -29,7 +29,7 @@
             <param name="id">Patient's unique identifier</param>
             <param name="request">Contains paging parameters</param>
         </member>
-        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetTimeSlots(System.DateOnly,Shared.Models.Request.Appointments.Appointment.GetTimeSlotsRequest)">
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetTimeSlots(Shared.Models.Request.Appointments.Appointment.GetTimeSlotsRequest)">
             <summary>
             Get available time slots for specific date
             </summary>

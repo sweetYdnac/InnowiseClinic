@@ -8,6 +8,10 @@ namespace Appointments.Read.API.Validators.Appointment
     {
         public GetTimeSlotsRequestValidator()
         {
+            RuleFor(r => r.Date)
+                .Required()
+                .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now));
+
             RuleFor(r => r.ServiceId).Required();
             RuleFor(r => r.StartTime).Required();
             RuleFor(r => r.EndTime).Required();

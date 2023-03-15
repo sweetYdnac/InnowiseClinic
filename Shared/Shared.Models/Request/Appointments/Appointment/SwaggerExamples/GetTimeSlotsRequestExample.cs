@@ -7,6 +7,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
         public GetTimeSlotsRequest GetExamples() =>
             new()
             {
+                Date = DateOnly.FromDateTime(DateTime.Now),
                 ServiceId = Guid.NewGuid(),
                 DoctorId = Guid.NewGuid(),
                 Duration = 20,

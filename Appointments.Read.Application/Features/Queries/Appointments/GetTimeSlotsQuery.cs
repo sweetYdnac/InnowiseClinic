@@ -29,10 +29,15 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
                 request.DoctorId);
 
             var doctors = request.DoctorId.HasValue
-                ? new List<Guid> { request.DoctorId.Value }
-                : appointments.Select(a => a.DoctorId).Distinct().ToList();
+                ? new Guid[] { request.DoctorId.Value }
+                : appointments
+                    .Select(a => a.DoctorId)
+                    .Distinct()
+                    .ToArray();
 
-            var timeSlots = Enumerable.Range(0, ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) + 1)
+            var timeSlots = Enumerable.Range(
+                0,
+                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) + 1)
                 .Select(i => request.StartTime.AddMinutes(i * 10))
                 .ToDictionary(time => time, time => new HashSet<Guid>(doctors));
 

@@ -103,7 +103,7 @@ namespace Appointments.Read.API.Controllers
         /// </summary>
         /// <param name="date">Date in which searches available time slots</param>
         /// <param name="request">Contains parameters for filtering appointments</param>
-        [HttpGet("appointments/{date}/timeslots")]
+        [HttpGet("appointments/timeslots")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(TimeSlotsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
@@ -112,12 +112,9 @@ namespace Appointments.Read.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         [SwaggerRequestExample(typeof(GetTimeSlotsRequest), typeof(GetTimeSlotsRequestExample))]
         [SwaggerResponseExample(StatusCodes.Status200OK, typeof(TimeSlotsResponseExample))]
-        public async Task<IActionResult> GetTimeSlots([FromRoute] DateOnly date, [FromQuery] GetTimeSlotsRequest request)
+        public async Task<IActionResult> GetTimeSlots([FromQuery] GetTimeSlotsRequest request)
         {
-            var query = _mapper.Map<GetTimeSlotsQuery>(request);
-            query.Date = date;
-
-            var response = await _mediator.Send(query);
+            var response = await _mediator.Send(_mapper.Map<GetTimeSlotsQuery>(request));
 
             return Ok(response);
         }
