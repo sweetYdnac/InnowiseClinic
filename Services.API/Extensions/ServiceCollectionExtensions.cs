@@ -116,8 +116,9 @@ namespace Services.API.Extensions
             services.AddMassTransit(x => x.UsingRabbitMq());
 
             EndpointConvention.Map<DisableSpecializationMessage>(
-                new Uri(configuration.GetValue<string>("Messages:DisableSpecializationEndpoint")));
-
+            new Uri(configuration.GetValue<string>("Messages:DisableSpecializationEndpoint")));
+            EndpointConvention.Map<UpdateServiceMessage>(
+            new Uri(configuration.GetValue<string>("Messages:UpdateServiceEndpoint")));
         }
     }
 }

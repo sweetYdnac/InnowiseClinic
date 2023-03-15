@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Appointments.Read.API</name>
+    </assembly>
+    <members>
+        <member name="T:Appointments.Read.API.Controllers.AppointmentsController">
+            <summary>
+            This controller used for query appointments data
+            </summary>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetDoctorSchedule(System.Guid,Shared.Models.Request.Appointments.Appointment.GetDoctorScheduleRequest)">
+            <summary>
+            Get appointment schedule by doctor
+            </summary>
+            <param name="id">Doctor's unique identifier</param>
+            <param name="request">Paging parameters</param>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetAppointments(Shared.Models.Request.Appointments.Appointment.GetAppointmentsRequest)">
+            <summary>
+            Get ordered appointments by page and filters
+            </summary>
+            <param name="request">Contains paged and filtering parameters</param>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetPatientHistory(System.Guid,Shared.Models.Request.Appointments.Appointment.GetPatientHistoryRequest)">
+            <summary>
+            Get patient's history
+            </summary>
+            <param name="id">Patient's unique identifier</param>
+            <param name="request">Contains paging parameters</param>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetTimeSlots(Shared.Models.Request.Appointments.Appointment.GetTimeSlotsRequest)">
+            <summary>
+            Get available time slots for specific date
+            </summary>
+            <param name="date">Date in which searches available time slots</param>
+            <param name="request">Contains parameters for filtering appointments</param>
+        </member>
+        <member name="T:Appointments.Read.API.Controllers.AppointmentsResultsController">
+            <summary>
+            This controller used for query appointments results data
+            </summary>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsResultsController.GetAppointmentResult(System.Guid)">
+            <summary>
+            Get appointment result by Id
+            </summary>
+            <param name="id">Appointment result's unique identifier</param>
+        </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsResultsController.GetPdfResult(System.Guid,Shared.Models.Request.Appointments.AppointmentResult.GetPdfResultRequest)">
+            <summary>
+            Generate and return appointment result as a pdf document
+            </summary>
+            <param name="id">Appointment result's unique identifier</param>
+            <param name="request">Containt data for pdf result</param>
+        </member>
+    </members>
+</doc>

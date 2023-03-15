@@ -26,11 +26,18 @@ namespace Profiles.Data.Migrations
                 .WithColumn(nameof(DoctorEntity.DateOfBirth)).AsDate().NotNullable()
                 .WithColumn(nameof(DoctorEntity.SpecializationId)).AsGuid().NotNullable()
                 .WithColumn(nameof(DoctorEntity.OfficeId)).AsGuid().NotNullable()
-                .WithColumn(nameof(DoctorEntity.CareerStartYear)).AsDate().NotNullable();
+                .WithColumn(nameof(DoctorEntity.CareerStartYear)).AsInt32().NotNullable();
 
             Create.Table("Receptionists")
                 .WithUserColumns()
                 .WithColumn(nameof(DoctorEntity.OfficeId)).AsGuid().NotNullable();
+
+            Execute.Sql(
+                """
+                    ALTER TABLE Doctors
+                    ADD CONSTRAINT CHK_Doctors_CareerStartYear CHECK (CareerStartYear > 0)
+                """
+    );
         }
     }
 }

@@ -2,9 +2,9 @@
 {
     public class DoctorEntity : User
     {
-        public DateTime DateOfBirth { get; set; }
+        public DateOnly DateOfBirth { get; set; }
         public Guid SpecializationId { get; set; }
         public Guid OfficeId { get; set; }
-        public DateTime CareerStartYear { get; set; }
+        public int CareerStartYear { get; set; }
     }
 }

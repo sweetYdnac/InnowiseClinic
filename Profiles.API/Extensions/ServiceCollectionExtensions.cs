@@ -135,6 +135,8 @@ namespace Profiles.API.Extensions
 
                 EndpointConvention.Map<UpdateAccountStatusMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateAccountStatusEndpoint")));
                 EndpointConvention.Map<DeletePhotoMessage>(new Uri(configuration.GetValue<string>("Messages:DeletePhotoEndpoint")));
+                EndpointConvention.Map<UpdatePatientMessage>(new Uri(configuration.GetValue<string>("Messages:UpdatePatientEndpoint")));
+                EndpointConvention.Map<UpdateDoctorMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateDoctorEndpoint")));
             });
         }
 

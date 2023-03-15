@@ -60,8 +60,16 @@ namespace Profiles.Business.Implementations.Services
             {
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
                 await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
+                await _messageService.SendUpdateDoctorMessageAsync(
+                    id,
+                    dto.FirstName,
+                    dto.LastName,
+                    dto.MiddleName,
+                    dto.SpecializationName,
+                    dto.OfficeId);
+
+                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }
             else
             {

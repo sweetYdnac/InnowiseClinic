@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Profiles.Data.Contexts;
 using Profiles.Data.DTOs.Doctor;
+using Profiles.Data.Helpers;
 using Profiles.Data.Interfaces.Repositories;
 using Shared.Core.Enums;
 using Shared.Models;
@@ -14,7 +15,11 @@ namespace Profiles.Data.Implementations.Repositories
     {
         private readonly ProfilesDbContext _db;
 
-        public DoctorsRepository(ProfilesDbContext db) => _db = db;
+        public DoctorsRepository(ProfilesDbContext db)
+        {
+            _db = db;
+            SqlMapper.AddTypeHandler(new DateOnlyHandler());
+        }
 
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
@@ -98,7 +103,7 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
             parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
-            parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Date);
+            parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Int32);
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
@@ -129,7 +134,7 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
             parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
-            parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Date);
+            parameters.Add("CareerStartYear", dto.CareerStartYear, DbType.Int32);
 
             using (var connection = _db.CreateConnection())
             {

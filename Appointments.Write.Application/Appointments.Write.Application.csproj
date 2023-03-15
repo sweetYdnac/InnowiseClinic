@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Queries\**" />
+    <EmbeddedResource Remove="Features\Queries\**" />
+    <None Remove="Features\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Appointments.Write.Domain\Appointments.Write.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
+  </ItemGroup>
+
+</Project>

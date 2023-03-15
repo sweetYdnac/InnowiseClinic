@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Appointments.Write.API</name>
+    </assembly>
+    <members>
+        <member name="T:Appointments.Write.API.Controllers.AppointmentsController">
+            <summary>
+            This controller used to work with appointments
+            </summary>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.CreateAppointment(Shared.Models.Request.Appointments.Appointment.CreateAppointmentRequest)">
+            <summary>
+            Create new appointment
+            </summary>
+            <param name="request">Contains all data that need to create service entity</param>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.RescheduleAppointment(System.Guid,Shared.Models.Request.Appointments.Appointment.RescheduleAppointmentRequest)">
+            <summary>
+            Reschedule specific appointment
+            </summary>
+            <param name="id">Appointment's unique identifier</param>
+            <param name="request">Contains data that need for edit existed appointment</param>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.CancelAppointment(System.Guid)">
+            <summary>
+            Cancel appointment
+            </summary>
+            <param name="id">Appointment's unique identifier</param>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsController.ApproveAppointment(System.Guid)">
+            <summary>
+            Cancel existed appointment by unique identifier
+            </summary>
+            <param name="id">Appointment's unique identifier</param>
+        </member>
+        <member name="T:Appointments.Write.API.Controllers.AppointmentsResultsController">
+            <summary>
+            This controller used to work with appointments results
+            </summary>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsResultsController.CreateAppointmentResult(Shared.Models.Request.Appointments.AppointmentResult.CreateAppointmentResultRequest)">
+            <summary>
+            Create result for specific appointment
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="M:Appointments.Write.API.Controllers.AppointmentsResultsController.EditAppointmentResult(System.Guid,Shared.Models.Request.Appointments.AppointmentResult.EditAppointmentResultRequest)">
+            <summary>
+            Edit specific appointment's result
+            </summary>
+            <param name="id">Appointment result's unique identifier</param>
+            <param name="request">Contains new appointment result's properties values</param>
+        </member>
+    </members>
+</doc>
