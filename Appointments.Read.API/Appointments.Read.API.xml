@@ -33,7 +33,6 @@
             <summary>
             Get available time slots for specific date
             </summary>
-            <param name="date">Date in which searches available time slots</param>
             <param name="request">Contains parameters for filtering appointments</param>
         </member>
         <member name="T:Appointments.Read.API.Controllers.AppointmentsResultsController">

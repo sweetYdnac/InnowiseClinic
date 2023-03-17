@@ -15,61 +15,61 @@ services:
             - sqlServer
             - rabbitMQ
 
-    offices.api:
-        image: offices.api
-        build:
-            context: .
-            dockerfile: Offices.API/Dockerfile
-        ports:
-            - 8021:80
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-        restart: on-failure
-        depends_on:
-            - postgreSqlServer
-            - rabbitMQ
+    #offices.api:
+    #    image: offices.api
+    #    build:
+    #        context: .
+    #        dockerfile: Offices.API/Dockerfile
+    #    ports:
+    #        - 8021:80
+    #    environment:
+    #        - ASPNETCORE_ENVIRONMENT=Development
+    #    restart: on-failure
+    #    depends_on:
+    #        - postgreSqlServer
+    #        - rabbitMQ
 
-    profiles.api:
-        image: profile.api
-        build:
-              context: .
-              dockerfile: Profiles.API/Dockerfile
-        ports:
-            - 8022:80
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-        restart: on-failure
-        depends_on:
-            - sqlServer
-            - rabbitMQ
+    #profiles.api:
+    #    image: profile.api
+    #    build:
+    #          context: .
+    #          dockerfile: Profiles.API/Dockerfile
+    #    ports:
+    #        - 8022:80
+    #    environment:
+    #        - ASPNETCORE_ENVIRONMENT=Development
+    #    restart: on-failure
+    #    depends_on:
+    #        - sqlServer
+    #        - rabbitMQ
 
-    services.api:
-        image: services.api
-        build:
-            context: .
-            dockerfile: Services.API/Dockerfile
-        ports:
-            - 8023:80
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-        restart: on-failure
-        depends_on:
-            - sqlServer
-            - rabbitMQ
+    #services.api:
+    #    image: services.api
+    #    build:
+    #        context: .
+    #        dockerfile: Services.API/Dockerfile
+    #    ports:
+    #        - 8023:80
+    #    environment:
+    #        - ASPNETCORE_ENVIRONMENT=Development
+    #    restart: on-failure
+    #    depends_on:
+    #        - sqlServer
+    #        - rabbitMQ
 
-    appointments.write.api:
-        image: appointments.write.api
-        build:
-            context: .
-            dockerfile: Appointments.Write.API/Dockerfile
-        ports:
-            - 8024:80
-        environment:
-            - ASPNETCORE_ENVIRONMENT=Development
-        restart: on-failure
-        depends_on:
-            - postgreSqlServer
-            - rabbitMQ
+    #appointments.write.api:
+    #    image: appointments.write.api
+    #    build:
+    #        context: .
+    #        dockerfile: Appointments.Write.API/Dockerfile
+    #    ports:
+    #        - 8024:80
+    #    environment:
+    #        - ASPNETCORE_ENVIRONMENT=Development
+    #    restart: on-failure
+    #    depends_on:
+    #        - postgreSqlServer
+    #        - rabbitMQ
 
     appointments.read.api:
         image: appointments.read.api
@@ -83,6 +83,20 @@ services:
         restart: on-failure
         depends_on:
             - postgreSqlServer
+            - rabbitMQ
+
+    documents.api:
+        image: documents.api
+        build:
+            context: .
+            dockerfile: Documents.API/Dockerfile
+        ports:
+            - 8026:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        #restart: on-failure
+        depends_on:
+            - azurite
             - rabbitMQ
 
     sqlServer:
@@ -106,6 +120,17 @@ services:
         ports:
             - 1443:5432
 
+    azurite:
+        image: mcr.microsoft.com/azure-storage/azurite
+        command: azurite --loose --blobHost 0.0.0.0 --blobPort 10000 --queueHost 0.0.0.0 --queuePort 10001
+        hostname: azurite
+        ports:
+            - 10010:10000
+            - 10011:10001
+            - 10012:10002
+        volumes:
+            - azuriteData:/data
+
     rabbitMQ:
         image: rabbitmq:management
         ports:
@@ -121,4 +146,5 @@ services:
 volumes:
     sqlServerData:
     postgreSqlData:
+    azuriteData:
     rabbitMQ:

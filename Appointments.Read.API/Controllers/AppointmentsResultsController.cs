@@ -65,7 +65,10 @@ namespace Appointments.Read.API.Controllers
         [SwaggerRequestExample(typeof(GetPdfResultRequest), typeof(GetPdfResultRequestExample))]
         public async Task<IActionResult> GetPdfResult([FromRoute] Guid id, [FromBody] GetPdfResultRequest request)
         {
-            var response = await _mediator.Send(_mapper.Map<GetPdfResultQuery>(request));
+            var query = _mapper.Map<GetPdfResultQuery>(request);
+            query.Id = id;
+
+            var response = await _mediator.Send(query);
 
             return File(response.Content, response.ContentType, response.FileName);
         }

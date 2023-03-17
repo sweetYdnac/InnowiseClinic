@@ -101,7 +101,6 @@ namespace Appointments.Read.API.Controllers
         /// <summary>
         /// Get available time slots for specific date
         /// </summary>
-        /// <param name="date">Date in which searches available time slots</param>
         /// <param name="request">Contains parameters for filtering appointments</param>
         [HttpGet("appointments/timeslots")]
         [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]

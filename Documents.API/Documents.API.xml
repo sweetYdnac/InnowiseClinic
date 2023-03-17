@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Documents.API</name>
+    </assembly>
+    <members>
+        <member name="T:Documents.API.Controllers.AppointmentResultsController">
+            <summary>
+            This controller used to work with appointment results
+            </summary>
+        </member>
+        <member name="M:Documents.API.Controllers.AppointmentResultsController.GetAppointmentResult(System.Guid)">
+            <summary>
+            Get photo by it's name
+            </summary>
+            <param name="id">Name of specific photo</param>
+        </member>
+        <member name="T:Documents.API.Controllers.PhotosController">
+            <summary>
+            This controller used to work with photos
+            </summary>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.GetPhoto(System.Guid)">
+            <summary>
+            Get photo by it's name
+            </summary>
+            <param name="id">Name of specific photo</param>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(System.String)">
+            <summary>
+            Upload new photo to blob storage
+            </summary>
+            <param name="bytes">Array of bytes converted to string</param>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,System.String)">
+            <summary>
+            Edit existing photo
+            </summary>
+            <param name="id">Name of specific photo</param>
+            <param name="bytes">Array of bytes converted to string</param>
+        </member>
+    </members>
+</doc>

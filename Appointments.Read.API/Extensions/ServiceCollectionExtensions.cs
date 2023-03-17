@@ -14,6 +14,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,6 +28,7 @@ namespace Appointments.Read.API.Extensions
         internal static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IFileGeneratorService, FileGeneratorService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         internal static void AddRepositories(this IServiceCollection services)
@@ -126,6 +128,9 @@ namespace Appointments.Read.API.Extensions
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
+
+            EndpointConvention.Map<GeneratePdfMessage>(
+                new Uri(configuration.GetValue<string>("Messages:GeneratePdfMessageEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>
