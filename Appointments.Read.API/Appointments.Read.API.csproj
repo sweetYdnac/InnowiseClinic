@@ -6,7 +6,7 @@
     <UserSecretsId>d0cc5fb9-da54-4227-a4af-6e7f876c7e06</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Appointments.Read.API\Appointments.Read.API.xml</DocumentationFile>
+    <DocumentationFile>F:\InnowiseClinic\Appointments.Read.API\Appointments.Read.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

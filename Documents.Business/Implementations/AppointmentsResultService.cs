@@ -8,19 +8,5 @@ namespace Documents.Business.Implementations
     {
         public AppointmentsResultService(BlobServiceClient blobServiceClient, AzuriteConfiguration config)
             : base(blobServiceClient, config, config.AppointmentResultsContainerName) { }
-
-        public async Task UpdateOrCreateAsync(Guid id, string bytes)
-        {
-            var blobClient = GetBlobClient(id.ToString());
-
-            if (await blobClient.ExistsAsync())
-            {
-                await UpdateBlobAsync(id, bytes);
-            }
-            else
-            {
-                await UploadBlobAsync(id, bytes);
-            }
-        }
     }
 }

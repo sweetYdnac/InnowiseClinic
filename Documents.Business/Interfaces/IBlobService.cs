@@ -5,8 +5,7 @@ namespace Documents.Business.Interfaces
     public interface IBlobService
     {
         Task<BlobResponse> GetBlobAsync(string name);
-        Task<Guid> UploadBlobAsync(Guid id, string bytes);
+        Task<Guid> AddOrUpdateBlobAsync(Guid id, string bytes, string contentType);
         Task DeleteBlobAsync(Guid id);
-        Task UpdateBlobAsync(Guid id, string bytes);
     }
 }

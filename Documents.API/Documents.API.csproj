@@ -6,13 +6,23 @@
     <UserSecretsId>f460d9cf-b0fb-4b7f-87e6-7e539a4325b6</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Documents.API\Documents.API.xml</DocumentationFile>
+    <DocumentationFile>F:\InnowiseClinic\Documents.API\Documents.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MappingProfiles\**" />
+    <Content Remove="MappingProfiles\**" />
+    <EmbeddedResource Remove="MappingProfiles\**" />
+    <None Remove="MappingProfiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.15.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
     <PackageReference Include="MassTransit" Version="8.0.13" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.13" />
+    <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
@@ -20,10 +30,6 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MappingProfiles\" />
   </ItemGroup>
 
   <ItemGroup>

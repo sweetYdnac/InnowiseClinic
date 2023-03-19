@@ -26,18 +26,19 @@
             </summary>
             <param name="id">Name of specific photo</param>
         </member>
-        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(System.String)">
+        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(Shared.Models.Request.Documents.BlobRequest)">
             <summary>
             Upload new photo to blob storage
             </summary>
-            <param name="bytes">Array of bytes converted to string</param>
+            <param name="request">Contains array of bytes converted to base64String and contentType</param>
         </member>
-        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,System.String)">
+        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,Shared.Models.Request.Documents.BlobRequest)">
             <summary>
             Edit existing photo
             </summary>
             <param name="id">Name of specific photo</param>
-            <param name="bytes">Array of bytes converted to string</param>
+            <param name="request">Contains array of bytes converted to base64String and contentType</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

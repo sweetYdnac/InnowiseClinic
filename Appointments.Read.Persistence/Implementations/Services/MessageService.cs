@@ -16,7 +16,7 @@ namespace Appointments.Read.Persistence.Implementations.Services
             var message = new GeneratePdfMessage
             {
                 Id = id,
-                Bytes = System.Text.Encoding.Default.GetString(content),
+                Content = Convert.ToBase64String(content),
             };
 
             await _sendEndpointProvider.Send(message);

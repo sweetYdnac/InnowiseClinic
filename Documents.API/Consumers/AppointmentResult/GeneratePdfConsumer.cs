@@ -6,6 +6,8 @@ namespace Documents.API.Consumers.AppointmentResult
 {
     public class GeneratePdfConsumer : IConsumer<GeneratePdfMessage>
     {
+        private const string _contentType = "application/pdf";
+
         private readonly IAppointmentResultsService _appointmentResultsService;
 
         public GeneratePdfConsumer(IAppointmentResultsService appointmentResultsService) =>
@@ -13,7 +15,7 @@ namespace Documents.API.Consumers.AppointmentResult
 
         public async Task Consume(ConsumeContext<GeneratePdfMessage> context)
         {
-            await _appointmentResultsService.UpdateOrCreateAsync(context.Message.Id, context.Message.Bytes);
+            await _appointmentResultsService.AddOrUpdateBlobAsync(context.Message.Id, context.Message.Content, _contentType);
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Documents.API.Consumers.AppointmentResult;
 using Documents.API.Consumers.Photo;
+using Documents.API.Validators;
 using Documents.Business.Implementations;
 using Documents.Business.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Azure;
@@ -33,6 +36,12 @@ namespace Documents.API.Extensions
             });
 
             services.AddSwaggerExamplesFromAssemblyOf<CreateSpecializationRequestExample>();
+        }
+
+        internal static void ConfigureValidation(this IServiceCollection services)
+        {
+            services.AddValidatorsFromAssemblyContaining<CreateBlobRequestValidator>();
+            services.AddFluentValidationAutoValidation();
         }
 
         internal static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)

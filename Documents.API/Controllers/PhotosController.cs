@@ -1,5 +1,7 @@
 ﻿using Documents.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Models.Request.Documents;
+using Shared.Models.Request.Documents.SwaggerExamples;
 using Shared.Models.Response;
 using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
@@ -40,7 +42,7 @@ namespace Documents.API.Controllers
         /// <summary>
         /// Upload new photo to blob storage
         /// </summary>
-        /// <param name="bytes">Array of bytes converted to string</param>
+        /// <param name="request">Contains array of bytes converted to base64String and contentType</param>
         [HttpPost]
         //[Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
@@ -48,9 +50,10 @@ namespace Documents.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CreatePhoto([FromBody] string bytes)
+        [SwaggerRequestExample(typeof(BlobRequest), typeof(BlobRequestExample))]
+        public async Task<IActionResult> CreatePhoto([FromBody] BlobRequest request)
         {
-            var id = await _photoService.UploadBlobAsync(Guid.NewGuid(), bytes);
+            var id = await _photoService.AddOrUpdateBlobAsync(Guid.NewGuid(), request.Content, request.ContentType);
 
             return StatusCode(201, new { id });
         }
@@ -59,16 +62,17 @@ namespace Documents.API.Controllers
         /// Edit existing photo
         /// </summary>
         /// <param name="id">Name of specific photo</param>
-        /// <param name="bytes">Array of bytes converted to string</param>
+        /// <param name="request">Contains array of bytes converted to base64String and contentType</param>
+        /// <returns></returns>
         [HttpPut]
         //[Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EditPhoto([FromRoute] Guid id, [FromBody] string bytes)
+        public async Task<IActionResult> EditPhoto([FromRoute] Guid id, [FromBody] BlobRequest request)
         {
-            await _photoService.UpdateBlobAsync(id, bytes);
+            await _photoService.AddOrUpdateBlobAsync(id, request.Content, request.ContentType);
 
             return NoContent();
         }
