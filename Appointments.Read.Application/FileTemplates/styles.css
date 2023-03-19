@@ -1,15 +1,14 @@
 ﻿body {
     display: flex;
-    display: -webkit-flex;
     flex-direction: column;
     justify-content: center;
     -webkit-box-pack: center;
     align-items: center;
-    text-align: center;
 }
 
-h2 {
+header {
     align-self: center;
+    text-align: center;
 
 }
 
@@ -17,7 +16,7 @@ table {
     align-self: center;
     padding: 5px 5px;
     margin: 10px 40px;
-    width: 90%;
+    width: 100%;
     border: 2px solid black;
 }
 

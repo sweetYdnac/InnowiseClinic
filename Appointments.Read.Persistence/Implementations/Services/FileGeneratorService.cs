@@ -1,8 +1,9 @@
 ﻿using Appointments.Read.Application.Configurations;
 using Appointments.Read.Application.DTOs.AppointmentResult;
 using Appointments.Read.Application.Interfaces.Services;
-using DinkToPdf;
 using HandlebarsDotNet;
+using iText.Html2pdf;
+using iText.Kernel.Pdf;
 using Shared.Models.Response.Appointments.AppointmentResult;
 
 namespace Appointments.Read.Persistence.Implementations.Services
@@ -19,36 +20,20 @@ namespace Appointments.Read.Persistence.Implementations.Services
             var handleBars = Handlebars.Compile(html);
             var parsed = handleBars(dto);
 
-            var converter = new SynchronizedConverter(new PdfTools());
-            var document = new HtmlToPdfDocument()
+            using (var stream = new MemoryStream())
             {
-                GlobalSettings =
+                var writer = new PdfWriter(stream);
+                var pdf = new PdfDocument(writer);
+                var properties = new ConverterProperties();
+                HtmlConverter.ConvertToPdf(parsed, pdf, properties);
+
+                return new PdfResultResponse
                 {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4,
-                },
-                Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = parsed,
-                        WebSettings =
-                        {
-                            DefaultEncoding = "utf-8",
-                            UserStyleSheet = _configuration.CssPath,
-                        },
-                    }
-                }
-            };
-
-            var pdfBytes = converter.Convert(document);
-
-            return new PdfResultResponse
-            {
-                Content = pdfBytes,
-                ContentType = "application/pdf",
-                FileName = $"{dto.Date:hh:mm - yyyy-MM-dd} - {dto.PatientFullName}.pdf"
-            };
+                    Content = stream.ToArray(),
+                    ContentType = "application/pdf",
+                    FileName = $"{dto.Date:hh:mm - yyyy-MM-dd} - {dto.PatientFullName}.pdf"
+                };
+            }
         }
     }
 }

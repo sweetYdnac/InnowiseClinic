@@ -94,7 +94,7 @@ services:
             - 8026:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
-        #restart: on-failure
+        restart: on-failure
         depends_on:
             - azurite
             - rabbitMQ
