@@ -6,7 +6,7 @@
     <UserSecretsId>d0d1fa6d-8e87-4e43-b221-c2f460c49d83</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>F:\InnowiseClinic\Offices.API\Offices.API.xml</DocumentationFile>
+    <DocumentationFile>D:\Work\InnowiseClinic\Offices.API\Offices.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
