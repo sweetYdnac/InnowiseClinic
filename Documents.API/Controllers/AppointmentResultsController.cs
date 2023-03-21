@@ -1,4 +1,5 @@
 ﻿using Documents.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models.Response;
 using Shared.Models.Response.SwaggerExampes;
@@ -26,7 +27,7 @@ namespace Documents.API.Controllers
         /// </summary>
         /// <param name="id">Name of specific photo</param>
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Documents.Business\Documents.Business.csproj" />
-    <ProjectReference Include="..\Documents.Data\Documents.Data.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />

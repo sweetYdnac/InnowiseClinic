@@ -11,7 +11,7 @@ namespace Appointments.Read.Persistence.Implementations.Services
         public MessageService(ISendEndpointProvider sendEndpointProvider) =>
             _sendEndpointProvider = sendEndpointProvider;
 
-        public async Task SendGeneratePdfAsync(Guid id, byte[] content)
+        public async Task SendGeneratePdfMessageAsync(Guid id, byte[] content)
         {
             var message = new GeneratePdfMessage
             {

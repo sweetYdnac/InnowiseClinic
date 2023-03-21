@@ -1,25 +1,22 @@
-﻿using Azure.Storage;
+﻿using Azure;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Documents.Business.Configuration;
 using Documents.Business.Interfaces;
+using Shared.Exceptions;
 using Shared.Models.Response.Documents;
 
 namespace Documents.Business.Implementations
 {
     public abstract class BlobService : IBlobService
     {
-        private readonly string _accountName;
-        private readonly string _accountKey;
+        private readonly AzuriteConfiguration _config;
         private readonly string _containerUri;
 
-        public BlobService(
-            BlobServiceClient blobServiceClient,
-            AzuriteConfiguration config,
-            string containerName)
+        protected BlobService(BlobServiceClient blobServiceClient, AzuriteConfiguration config, string containerName)
         {
-            _accountName = config.AccountName;
-            _accountKey = config.AccountKey;
+            _config = config;
 
             blobServiceClient
                 .GetBlobContainerClient(containerName)
@@ -32,17 +29,24 @@ namespace Documents.Business.Implementations
         public async Task<BlobResponse> GetBlobAsync(string name)
         {
             var blobClient = GetBlobClient(name);
-            var downloadInfo = await blobClient.DownloadContentAsync();
 
-            var contentType = downloadInfo.Value.Details.ContentType;
-            var extension = contentType[(contentType.IndexOf("/") + 1)..];
-
-            return new BlobResponse
+            try
             {
-                Content = downloadInfo.Value.Content.ToArray(),
-                ContentType = downloadInfo.Value.Details.ContentType,
-                FileName = $"{name}.{extension}",
-            };
+                var downloadInfo = await blobClient.DownloadContentAsync();
+                var contentType = downloadInfo.Value.Details.ContentType;
+                var extension = contentType[(contentType.IndexOf("/") + 1)..];
+
+                return new BlobResponse
+                {
+                    Content = downloadInfo.Value.Content.ToArray(),
+                    ContentType = downloadInfo.Value.Details.ContentType,
+                    FileName = $"{name}.{extension}",
+                };
+            }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+                throw new NotFoundException($"Blob with name = {name} doesn't exist.");
+            }
         }
 
         public async Task<Guid> AddOrUpdateBlobAsync(Guid id, string bytes, string contentType)
@@ -72,7 +76,7 @@ namespace Documents.Business.Implementations
         private BlobClient GetBlobClient(string blobName)
         {
             return new BlobClient(new Uri($"{_containerUri}/{blobName}"),
-                new StorageSharedKeyCredential(_accountName, _accountKey));
+                new StorageSharedKeyCredential(_config.AccountName, _config.AccountKey));
         }
     }
 }

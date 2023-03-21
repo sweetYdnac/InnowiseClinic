@@ -1,5 +1,7 @@
 ﻿using Documents.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Core.Enums;
 using Shared.Models.Request.Documents;
 using Shared.Models.Request.Documents.SwaggerExamples;
 using Shared.Models.Response;
@@ -27,7 +29,7 @@ namespace Documents.API.Controllers
         /// </summary>
         /// <param name="id">Name of specific photo</param>
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
@@ -44,7 +46,7 @@ namespace Documents.API.Controllers
         /// </summary>
         /// <param name="request">Contains array of bytes converted to base64String and contentType</param>
         [HttpPost]
-        //[Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
@@ -64,8 +66,8 @@ namespace Documents.API.Controllers
         /// <param name="id">Name of specific photo</param>
         /// <param name="request">Contains array of bytes converted to base64String and contentType</param>
         /// <returns></returns>
-        [HttpPut]
-        //[Authorize]
+        [HttpPut("{id}")]
+        [Authorize]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

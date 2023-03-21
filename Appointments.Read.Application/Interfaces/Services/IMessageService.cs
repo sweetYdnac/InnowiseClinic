@@ -2,6 +2,6 @@
 {
     public interface IMessageService
     {
-        Task SendGeneratePdfAsync(Guid id, byte[] content);
+        Task SendGeneratePdfMessageAsync(Guid id, byte[] content);
     }
 }

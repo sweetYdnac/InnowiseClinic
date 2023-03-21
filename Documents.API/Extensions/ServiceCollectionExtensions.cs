@@ -1,6 +1,7 @@
 ﻿using Documents.API.Consumers.AppointmentResult;
 using Documents.API.Consumers.Photo;
 using Documents.API.Validators;
+using Documents.Business.Configuration;
 using Documents.Business.Implementations;
 using Documents.Business.Interfaces;
 using FluentValidation;
@@ -95,12 +96,19 @@ namespace Documents.API.Extensions
             });
         }
 
-        internal static void ConfigureAzureClients(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureAzureStorage(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAzureClients(clientBuilder =>
             {
                 clientBuilder.AddBlobServiceClient(
-                    configuration.GetValue<string>("Azurite:ConnectionString"));
+                    configuration.GetConnectionString("AzuriteBlobConnection"));
+            });
+
+            services.AddSingleton(provider =>
+            {
+                var config = new AzuriteConfiguration();
+                configuration.Bind("AzuriteConfiguration", config);
+                return config;
             });
         }
     }

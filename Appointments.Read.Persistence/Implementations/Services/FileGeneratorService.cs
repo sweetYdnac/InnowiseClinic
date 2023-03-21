@@ -22,17 +22,18 @@ namespace Appointments.Read.Persistence.Implementations.Services
 
             using (var stream = new MemoryStream())
             {
-                var writer = new PdfWriter(stream);
-                var pdf = new PdfDocument(writer);
-                var properties = new ConverterProperties();
-                HtmlConverter.ConvertToPdf(parsed, pdf, properties);
-
-                return new PdfResultResponse
+                using (var pdf = new PdfDocument(new PdfWriter(stream)))
                 {
-                    Content = stream.ToArray(),
-                    ContentType = "application/pdf",
-                    FileName = $"{dto.Date:hh:mm - yyyy-MM-dd} - {dto.PatientFullName}.pdf"
-                };
+                    var properties = new ConverterProperties();
+                    HtmlConverter.ConvertToPdf(parsed, pdf, properties);
+
+                    return new PdfResultResponse
+                    {
+                        Content = stream.ToArray(),
+                        ContentType = "application/pdf",
+                        FileName = $"{dto.Date:hh:mm - yyyy-MM-dd} - {dto.PatientFullName}.pdf"
+                    };
+                }
             }
         }
     }

@@ -37,7 +37,7 @@ namespace Appointments.Read.Application.Features.Queries.AppointmentsResults
             var response = await _fileGeneratorService.GetPdfAppointmentResult(
                 _mapper.Map<PdfResultDTO>(request));
 
-            await _messageService.SendGeneratePdfAsync(request.Id, response.Content);
+            await _messageService.SendGeneratePdfMessageAsync(request.Id, response.Content);
 
             return response;
         }
