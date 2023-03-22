@@ -35,131 +35,145 @@ static_resources:
               domains: ["*"]
               routes:
 
+              #Authorization
               - match:
-                  prefix: "/authorization"
+                  prefix: /authorization
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/account
                   cluster: authorization_api
 
+              #Appointments Write
               - match:
-                  prefix: "/appointments"
+                  prefix: /appointments/results
                   case_sensitive: false
                   headers:
-                    - name: method
-                      exact_match: POST
-                    - name: method
-                      exact_match: PUT
-                    - name: method
-                      exact_match: DELETE
-                route:
-                  prefix_rewrite: /api/appointments
-                  cluster: appointments_write_api
-              - match:
-                  prefix: "/appointments/results"
-                  case_sensitive: false
-                  headers:
-                    - name: method
-                      exact_match: POST
-                    - name: method
-                      exact_match: PUT
+                    - name: :method
+                      exact_match: GET
+                      invert_match: true
                 route:
                   prefix_rewrite: /api/appointmentsresults
                   cluster: appointments_write_api
-
               - match:
-                  prefix: "/appointments"
+                  prefix: /appointments
                   case_sensitive: false
                   headers:
-                    - name: method
+                    - name: :method
                       exact_match: GET
+                      invert_match: true
                 route:
                   prefix_rewrite: /api/appointments
-                  cluster: appointments_read_api
+                  cluster: appointments_write_api
+
+              #Appointments Read
               - match:
-                  prefix: "doctors/{doctorId}/appointments"
+                  prefix: /appointments/results
                   case_sensitive: false
                   headers:
-                    - name: method
-                      exact_match: GET
-                route:
-                  prefix_rewrite: /api/doctors/{doctorId}/appointments
-                  cluster: appointments_read_api
-              - match:
-                  prefix: "patients/{patientId}/appointments"
-                  case_sensitive: false
-                  headers:
-                    - name: method
-                      exact_match: GET
-                route:
-                  prefix_rewrite: /api/patients/{patientId}/appointments
-                  cluster: appointments_read_api
-              - match:
-                  prefix: "/appointments/results"
-                  case_sensitive: false
-                  headers:
-                    - name: method
+                    - name: :method
                       exact_match: GET
                 route:
                   prefix_rewrite: /api/appointmentsresults
                   cluster: appointments_read_api
-
               - match:
-                  prefix: "/documents/photos"
+                  prefix: /appointments
+                  case_sensitive: false
+                  headers:
+                    - name: :method
+                      exact_match: GET
+                route:
+                  prefix_rewrite: /api/appointments
+                  cluster: appointments_read_api
+              - match:
+                  safe_regex:
+                    google_re2: {}
+                    regex: "^/doctors/([^/]+)/appointments$"
+                  case_sensitive: false
+                  headers:
+                    - name: :method
+                      exact_match: GET
+                route:
+                  regex_rewrite:
+                    pattern:
+                      google_re2: {}
+                      regex: "^/doctors/([^/]+)/appointments$"
+                    substitution: "/api/doctors/\\1/appointments"
+                  cluster: appointments_read_api
+              - match:
+                  safe_regex:
+                    google_re2: {}
+                    regex: "^/patients/([^/]+)/appointments$"
+                  case_sensitive: false
+                  headers:
+                    - name: :method
+                      exact_match: GET
+                route:
+                  regex_rewrite:
+                    pattern:
+                      google_re2: {}
+                      regex: "^/patients/([^/]+)/appointments$"
+                    substitution: "/api/patients/\\1/appointments"
+                  cluster: appointments_read_api
+
+              #Documents
+              - match:
+                  prefix: /documents/photos
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/photos
                   cluster: documents_api
               - match:
-                  prefix: "/documents/appointmentresults"
+                  prefix: /documents/appointmentresults
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/appointmentresults
                   cluster: documents_api
 
               - match:
-                  prefix: "/offices/photos"
+                  prefix: /offices/photos
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/offices
                   cluster: offices_api
 
+              #Profiles
               - match:
-                  prefix: "patients"
+                  prefix: /patients
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/patients
                   cluster: profiles_api
               - match:
-                  prefix: "doctors"
+                  prefix: /doctors
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/doctors
                   cluster: profiles_api
               - match:
-                  prefix: "receptionists"
+                  prefix: /receptionists
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/receptionists
                   cluster: profiles_api
 
+              #Services
               - match:
-                  prefix: "services"
+                  prefix: /services/categories
+                  case_sensitive: false
+                route:
+                  prefix_rewrite: /api/servicecategories
+                  cluster: services_api
+              - match:
+                  prefix: /services
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/services
                   cluster: services_api
               - match:
-                  prefix: "specializations"
+                  prefix: /specializations
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/specializations
-                  cluster: services_api
-              - match:
-                  prefix: "servicecategories"
-                  case_sensitive: false
-                route:
-                  prefix_rewrite: /api/servicecategories
                   cluster: services_api
 
   clusters:
