@@ -28,5 +28,7 @@ namespace Appointments.Write.Persistence.Implementations.Services
 
         public async Task SendEditAppointmentResultMessageAsync(EditAppointmentResultMessage message) =>
             await _sendEndpointProvider.Send(message);
+        public async Task SendGeneratePdfMessageAsync(GeneratePdfMessage message) =>
+            await _sendEndpointProvider.Send(message);
     }
 }

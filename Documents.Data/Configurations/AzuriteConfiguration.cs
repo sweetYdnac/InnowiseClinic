@@ -1,4 +1,4 @@
-﻿namespace Documents.Business.Configuration
+﻿namespace Documents.Data.Configurations
 {
     public class AzuriteConfiguration
     {

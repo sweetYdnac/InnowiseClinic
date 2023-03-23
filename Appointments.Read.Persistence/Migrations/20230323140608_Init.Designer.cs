@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Read.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    [Migration("20230308104206_Init")]
+    [Migration("20230323140608_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -158,7 +158,7 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp");
 
-                    b.Property<string>("Recomendations")
+                    b.Property<string>("Recommendations")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -180,7 +180,7 @@ namespace Appointments.Read.Persistence.Migrations
                             Complaints = "nothing new",
                             Conclusion = "healthy",
                             Date = new DateTime(2023, 3, 1, 13, 20, 10, 0, DateTimeKind.Unspecified),
-                            Recomendations = "drink water"
+                            Recommendations = "drink water"
                         },
                         new
                         {
@@ -189,7 +189,7 @@ namespace Appointments.Read.Persistence.Migrations
                             Complaints = "here we go",
                             Conclusion = "have a disease",
                             Date = new DateTime(2023, 3, 4, 15, 50, 30, 0, DateTimeKind.Unspecified),
-                            Recomendations = "go for a walk"
+                            Recommendations = "go for a walk"
                         });
                 });
 

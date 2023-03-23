@@ -20,9 +20,6 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<EditAppointmentResultCommand, EditAppointmentResultDTO>();
 
             CreateMap<AppointmentResultDTO, AppointmentResultResponse>();
-
-            CreateMap<GetPdfResultRequest, GetPdfResultQuery>();
-            CreateMap<GetPdfResultQuery, PdfResultDTO>();
         }
     }
 }

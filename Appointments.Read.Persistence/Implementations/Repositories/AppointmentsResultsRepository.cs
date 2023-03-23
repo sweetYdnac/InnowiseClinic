@@ -28,7 +28,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     ServiceName = r.Appointment.ServiceName,
                     Complaints = r.Complaints,
                     Conclusion = r.Conclusion,
-                    Recomendations = r.Recomendations,
+                    Recomendations = r.Recommendations,
                 })
                 .FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
@@ -40,7 +40,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 .ExecuteUpdateAsync(p => p
                 .SetProperty(a => a.Complaints, a => dto.Complaints)
                 .SetProperty(a => a.Conclusion, a => dto.Conclusion)
-                .SetProperty(a => a.Recomendations, a => dto.Recomendations));
+                .SetProperty(a => a.Recommendations, a => dto.Recommendations));
         }
     }
 }

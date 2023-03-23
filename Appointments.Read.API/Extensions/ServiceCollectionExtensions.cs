@@ -3,10 +3,8 @@ using Appointments.Read.API.Consumers.Appointment;
 using Appointments.Read.API.Consumers.AppointmentResult;
 using Appointments.Read.Application.Features.Commands.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
-using Appointments.Read.Application.Interfaces.Services;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
-using Appointments.Read.Persistence.Implementations.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
@@ -25,12 +23,6 @@ namespace Appointments.Read.API.Extensions
 {
     internal static class ServiceCollectionExtensions
     {
-        internal static void AddServices(this IServiceCollection services)
-        {
-            services.AddScoped<IFileGeneratorService, FileGeneratorService>();
-            services.AddScoped<IMessageService, MessageService>();
-        }
-
         internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IAppointmentsRepository, AppointmentsRepository>();
@@ -128,9 +120,6 @@ namespace Appointments.Read.API.Extensions
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
-
-            EndpointConvention.Map<GeneratePdfMessage>(
-                new Uri(configuration.GetValue<string>("Messages:GeneratePdfMessageEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>

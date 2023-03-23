@@ -46,12 +46,5 @@
             </summary>
             <param name="id">Appointment result's unique identifier</param>
         </member>
-        <member name="M:Appointments.Read.API.Controllers.AppointmentsResultsController.GetPdfResult(System.Guid,Shared.Models.Request.Appointments.AppointmentResult.GetPdfResultRequest)">
-            <summary>
-            Generate and return appointment result as a pdf document
-            </summary>
-            <param name="id">Appointment result's unique identifier</param>
-            <param name="request">Containt data for pdf result</param>
-        </member>
     </members>
 </doc>

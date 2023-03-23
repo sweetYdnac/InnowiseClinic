@@ -1,5 +1,7 @@
 using Documents.API.Extensions;
 using Documents.API.Middlewares;
+using Documents.Business.Configurations;
+using Microsoft.AspNetCore.Http.Features;
 using Serilog;
 using Serilog.Events;
 
@@ -13,9 +15,12 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.File(logPath, LogEventLevel.Error)
     .WriteTo.Console(LogEventLevel.Debug));
 
+builder.Services.AddSingleton<PdfTemplateConfiguration>();
+
 builder.Services.AddControllers();
 builder.Services.AddServices();
-builder.Services.ConfigureValidation();
+builder.Services.AddRepositories();
+builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureMassTransit();
 builder.Services.ConfigureAzureStorage(builder.Configuration);

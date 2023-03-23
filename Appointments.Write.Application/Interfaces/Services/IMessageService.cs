@@ -10,5 +10,6 @@ namespace Appointments.Write.Application.Interfaces.Services
         Task SendEditAppointmentResultMessageAsync(EditAppointmentResultMessage message);
         Task SendDeleteAppointmentMessageAsync(Guid id);
         Task SendApproveAppointmentMessageAsync(Guid id);
+        Task SendGeneratePdfMessageAsync(GeneratePdfMessage message);
     }
 }

@@ -1,12 +1,12 @@
-﻿using Appointments.Read.Application.Configurations;
-using Appointments.Read.Application.DTOs.AppointmentResult;
-using Appointments.Read.Application.Interfaces.Services;
+﻿using Documents.Business.Configurations;
+using Documents.Business.DTOs;
+using Documents.Business.Interfaces;
 using HandlebarsDotNet;
 using iText.Html2pdf;
 using iText.Kernel.Pdf;
-using Shared.Models.Response.Appointments.AppointmentResult;
+using Shared.Models;
 
-namespace Appointments.Read.Persistence.Implementations.Services
+namespace Documents.Business.Implementations
 {
     public class FileGeneratorService : IFileGeneratorService
     {
@@ -14,7 +14,7 @@ namespace Appointments.Read.Persistence.Implementations.Services
 
         public FileGeneratorService(PdfTemplateConfiguration configuration) => _configuration = configuration;
 
-        public async Task<PdfResultResponse> GetPdfAppointmentResult(PdfResultDTO dto)
+        public async Task<PdfResult> GetPdfAppointmentResult(PdfResultDTO dto)
         {
             var html = await File.ReadAllTextAsync(_configuration.HtmlPath);
             var handleBars = Handlebars.Compile(html);
@@ -27,11 +27,10 @@ namespace Appointments.Read.Persistence.Implementations.Services
                     var properties = new ConverterProperties();
                     HtmlConverter.ConvertToPdf(parsed, pdf, properties);
 
-                    return new PdfResultResponse
+                    return new PdfResult
                     {
-                        Content = stream.ToArray(),
+                        Bytes = stream.ToArray(),
                         ContentType = "application/pdf",
-                        FileName = $"{dto.Date:hh:mm - yyyy-MM-dd} - {dto.PatientFullName}.pdf"
                     };
                 }
             }

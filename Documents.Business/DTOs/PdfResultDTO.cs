@@ -1,6 +1,6 @@
-﻿namespace Shared.Models.Request.Appointments.AppointmentResult
+﻿namespace Documents.Business.DTOs
 {
-    public class GetPdfResultRequest
+    public class PdfResultDTO
     {
         public DateTime Date { get; set; }
         public string PatientFullName { get; set; }

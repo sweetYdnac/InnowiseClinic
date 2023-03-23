@@ -10,16 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="MappingProfiles\**" />
-    <Content Remove="MappingProfiles\**" />
-    <EmbeddedResource Remove="MappingProfiles\**" />
-    <None Remove="MappingProfiles\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.15.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
     <PackageReference Include="MassTransit" Version="8.0.13" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.13" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
@@ -34,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Documents.Business\Documents.Business.csproj" />
+    <ProjectReference Include="..\Documents.Data\Documents.Data.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />

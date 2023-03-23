@@ -1,4 +1,4 @@
-﻿using Documents.Business.Interfaces;
+﻿using Documents.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models.Response;
@@ -17,10 +17,10 @@ namespace Documents.API.Controllers
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class AppointmentResultsController : ControllerBase
     {
-        private readonly IAppointmentResultsService _appointmentResultsService;
+        private readonly IAppointmentResultsRepository _appointmentResultsRepository;
 
-        public AppointmentResultsController(IAppointmentResultsService appointmentResultsService) =>
-            _appointmentResultsService = appointmentResultsService;
+        public AppointmentResultsController(IAppointmentResultsRepository appointmentResultsRepository) =>
+            _appointmentResultsRepository = appointmentResultsRepository;
 
         /// <summary>
         /// Get photo by it's name
@@ -34,7 +34,7 @@ namespace Documents.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAppointmentResult([FromRoute] Guid id)
         {
-            var response = await _appointmentResultsService.GetBlobAsync(id.ToString());
+            var response = await _appointmentResultsRepository.GetBlobAsync(id);
 
             return File(response.Content, response.ContentType, response.FileName);
         }

@@ -2,19 +2,23 @@
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using Documents.Business.Configuration;
-using Documents.Business.Interfaces;
+using Documents.Data.Configurations;
+using Documents.Data.Interfaces;
 using Shared.Exceptions;
 using Shared.Models.Response.Documents;
 
-namespace Documents.Business.Implementations
+namespace Documents.Data.Implementations
 {
-    public abstract class BlobService : IBlobService
+    public class BlobRepository : IBlobRepository
     {
+
         private readonly AzuriteConfiguration _config;
         private readonly string _containerUri;
 
-        protected BlobService(BlobServiceClient blobServiceClient, AzuriteConfiguration config, string containerName)
+        public BlobRepository(
+            BlobServiceClient blobServiceClient,
+            AzuriteConfiguration config,
+            string containerName)
         {
             _config = config;
 
@@ -26,9 +30,9 @@ namespace Documents.Business.Implementations
                 .GetBlobContainerClient(containerName).Uri.ToString();
         }
 
-        public async Task<BlobResponse> GetBlobAsync(string name)
+        public async Task<BlobResponse> GetBlobAsync(Guid id)
         {
-            var blobClient = GetBlobClient(name);
+            var blobClient = GetBlobClient(id.ToString());
 
             try
             {
@@ -40,31 +44,28 @@ namespace Documents.Business.Implementations
                 {
                     Content = downloadInfo.Value.Content.ToArray(),
                     ContentType = downloadInfo.Value.Details.ContentType,
-                    FileName = $"{name}.{extension}",
+                    FileName = $"{id}.{extension}",
                 };
             }
             catch (RequestFailedException ex) when (ex.Status == 404)
             {
-                throw new NotFoundException($"Blob with name = {name} doesn't exist.");
+                throw new NotFoundException($"Blob with name = {id} doesn't exist.");
             }
         }
 
-        public async Task<Guid> AddOrUpdateBlobAsync(Guid id, string bytes, string contentType)
+        public async Task<Guid> AddOrUpdateBlobAsync(Guid id, Stream stream, string contentType)
         {
             var blobClient = GetBlobClient(id.ToString());
 
-            using (var stream = new MemoryStream(Convert.FromBase64String(bytes)))
+            await blobClient.UploadAsync(stream, new BlobUploadOptions
             {
-                await blobClient.UploadAsync(stream, new BlobUploadOptions
+                HttpHeaders = new BlobHttpHeaders
                 {
-                    HttpHeaders = new BlobHttpHeaders
-                    {
-                        ContentType = contentType,
-                    }
-                });
+                    ContentType = contentType,
+                }
+            });
 
-                return id;
-            }
+            return id;
         }
 
         public async Task DeleteBlobAsync(Guid id)
