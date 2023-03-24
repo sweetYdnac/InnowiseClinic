@@ -13,7 +13,7 @@ namespace Documents.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Consumes("application/json")]
-    [Produces("application/json")]
+    [Produces("application/pdf")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class AppointmentResultsController : ControllerBase
     {

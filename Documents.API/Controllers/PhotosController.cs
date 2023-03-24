@@ -13,7 +13,7 @@ namespace Documents.API.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Consumes("application/json")]
+    [Consumes("multipart/form-data")]
     [Produces("application/json")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class PhotosController : ControllerBase
@@ -27,6 +27,8 @@ namespace Documents.API.Controllers
         /// </summary>
         /// <param name="id">Photo's unique identifier</param>
         [HttpGet("{id}")]
+        [Consumes("application/json")]
+        [Produces("image/jpeg", "image/png")]
         [Authorize]
         [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
