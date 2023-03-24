@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Appointments.Read.Application.Configurations
+namespace Documents.Business.Configurations
 {
     public class PdfTemplateConfiguration
     {

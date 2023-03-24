@@ -1,4 +1,6 @@
-﻿using Documents.Business.Interfaces;
+﻿using AutoMapper;
+using Documents.Business.DTOs;
+using Documents.Business.Interfaces;
 using MassTransit;
 using Shared.Messages;
 
@@ -6,16 +8,23 @@ namespace Documents.API.Consumers.AppointmentResult
 {
     public class GeneratePdfConsumer : IConsumer<GeneratePdfMessage>
     {
-        private const string _contentType = "application/pdf";
-
         private readonly IAppointmentResultsService _appointmentResultsService;
+        private readonly IFileGeneratorService _fileGeneratorService;
+        private readonly IMapper _mapper;
 
-        public GeneratePdfConsumer(IAppointmentResultsService appointmentResultsService) =>
-            _appointmentResultsService = appointmentResultsService;
+        public GeneratePdfConsumer(
+            IAppointmentResultsService appointmentResultsService,
+            IFileGeneratorService fileGeneratorService,
+            IMapper mapper) =>
+        (_appointmentResultsService, _fileGeneratorService, _mapper) =
+        (appointmentResultsService, fileGeneratorService, mapper);
 
         public async Task Consume(ConsumeContext<GeneratePdfMessage> context)
         {
-            await _appointmentResultsService.AddOrUpdateBlobAsync(context.Message.Id, context.Message.Content, _contentType);
+            var pdf = await _fileGeneratorService.GetPdfAppointmentResult(
+                _mapper.Map<PdfResultDTO>(context.Message));
+
+            await _appointmentResultsService.CreateAsync(context.Message.Id, pdf);
         }
     }
 }

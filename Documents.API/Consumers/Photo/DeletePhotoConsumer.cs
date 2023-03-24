@@ -12,7 +12,7 @@ namespace Documents.API.Consumers.Photo
 
         public async Task Consume(ConsumeContext<DeletePhotoMessage> context)
         {
-            await _photoService.DeleteBlobAsync(context.Message.PhotoId);
+            await _photoService.DeleteAsync(context.Message.PhotoId);
         }
     }
 }

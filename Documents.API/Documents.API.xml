@@ -24,20 +24,20 @@
             <summary>
             Get photo by it's name
             </summary>
-            <param name="id">Name of specific photo</param>
+            <param name="id">Photo's unique identifier</param>
         </member>
-        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(Shared.Models.Request.Documents.BlobRequest)">
+        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             Upload new photo to blob storage
             </summary>
-            <param name="request">Contains array of bytes converted to base64String and contentType</param>
+            <param name="photo">Photo content</param>
         </member>
-        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,Shared.Models.Request.Documents.BlobRequest)">
+        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             Edit existing photo
             </summary>
-            <param name="id">Name of specific photo</param>
-            <param name="request">Contains array of bytes converted to base64String and contentType</param>
+            <param name="id">Photo's unique identifier</param>
+            <param name="photo">New photo content</param>
             <returns></returns>
         </member>
     </members>

@@ -26,4 +26,5 @@ RUN dotnet publish "Documents.API.csproj" -c Debug -o /app/publish /p:UseAppHost
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["Documents.Business/FileTemplates/", "./Documents.Business/FileTemplates/"]
 ENTRYPOINT ["dotnet", "Documents.API.dll"]

@@ -1,10 +1,10 @@
 ﻿using Documents.API.Consumers.AppointmentResult;
 using Documents.API.Consumers.Photo;
-using Documents.API.Validators;
 using Documents.Business.Implementations;
 using Documents.Business.Interfaces;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+using Documents.Data.Configurations;
+using Documents.Data.Implementations;
+using Documents.Data.Interfaces;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Azure;
@@ -23,6 +23,13 @@ namespace Documents.API.Extensions
         {
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IAppointmentResultsService, AppointmentsResultService>();
+            services.AddScoped<IFileGeneratorService, FileGeneratorService>();
+        }
+
+        internal static void AddRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<IAppointmentResultsRepository, AppointmentResultsRepository>();
+            services.AddTransient<IPhotosRepository, PhotosRepository>();
         }
 
         internal static void ConfigureSwaggerGen(this IServiceCollection services)
@@ -38,11 +45,8 @@ namespace Documents.API.Extensions
             services.AddSwaggerExamplesFromAssemblyOf<CreateSpecializationRequestExample>();
         }
 
-        internal static void ConfigureValidation(this IServiceCollection services)
-        {
-            services.AddValidatorsFromAssemblyContaining<CreateBlobRequestValidator>();
-            services.AddFluentValidationAutoValidation();
-        }
+        internal static void ConfigureAutoMapper(this IServiceCollection services) =>
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         internal static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
@@ -95,12 +99,19 @@ namespace Documents.API.Extensions
             });
         }
 
-        internal static void ConfigureAzureClients(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureAzureStorage(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAzureClients(clientBuilder =>
             {
                 clientBuilder.AddBlobServiceClient(
-                    configuration.GetValue<string>("Azurite:ConnectionString"));
+                    configuration.GetConnectionString("AzuriteBlobConnection"));
+            });
+
+            services.AddSingleton(provider =>
+            {
+                var config = new AzuriteConfiguration();
+                configuration.Bind("AzuriteConfiguration", config);
+                return config;
             });
         }
     }

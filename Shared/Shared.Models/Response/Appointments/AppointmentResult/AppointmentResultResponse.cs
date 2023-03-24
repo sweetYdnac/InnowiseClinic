@@ -12,6 +12,6 @@
         public string ServiceName { get; set; }
         public string Complaints { get; set; }
         public string Conclusion { get; set; }
-        public string Recomendations { get; set; }
+        public string Recommendations { get; set; }
     }
 }

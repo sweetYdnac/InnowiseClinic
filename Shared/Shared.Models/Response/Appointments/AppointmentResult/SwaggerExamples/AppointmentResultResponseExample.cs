@@ -17,7 +17,7 @@ namespace Shared.Models.Response.Appointments.AppointmentResult.SwaggerExamples
                 ServiceName = "Healing",
                 Complaints = "God bless you",
                 Conclusion = "F",
-                Recomendations = "Go pray",
+                Recommendations = "Go pray",
             };
     }
 }

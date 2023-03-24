@@ -1,6 +1,7 @@
 using Documents.API.Extensions;
 using Documents.API.Middlewares;
-using Documents.Business.Configuration;
+using Documents.Business.Configurations;
+using Microsoft.AspNetCore.Http.Features;
 using Serilog;
 using Serilog.Events;
 
@@ -14,13 +15,15 @@ builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.File(logPath, LogEventLevel.Error)
     .WriteTo.Console(LogEventLevel.Debug));
 
-builder.Services.AddSingleton<AzuriteConfiguration>();
+builder.Services.AddSingleton<PdfTemplateConfiguration>();
 
 builder.Services.AddControllers();
 builder.Services.AddServices();
+builder.Services.AddRepositories();
+builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureMassTransit();
-builder.Services.ConfigureAzureClients(builder.Configuration);
+builder.Services.ConfigureAzureStorage(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwaggerGen();
@@ -39,7 +42,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.ApplyMigrations();
 
 app.Run();
