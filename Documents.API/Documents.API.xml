@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Documents.API</name>
+    </assembly>
+    <members>
+        <member name="T:Documents.API.Controllers.AppointmentResultsController">
+            <summary>
+            This controller used to work with appointment results
+            </summary>
+        </member>
+        <member name="M:Documents.API.Controllers.AppointmentResultsController.GetAppointmentResult(System.Guid)">
+            <summary>
+            Get photo by it's name
+            </summary>
+            <param name="id">Name of specific photo</param>
+        </member>
+        <member name="T:Documents.API.Controllers.PhotosController">
+            <summary>
+            This controller used to work with photos
+            </summary>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.GetPhoto(System.Guid)">
+            <summary>
+            Get photo by it's name
+            </summary>
+            <param name="id">Photo's unique identifier</param>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.CreatePhoto(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Upload new photo to blob storage
+            </summary>
+            <param name="photo">Photo content</param>
+        </member>
+        <member name="M:Documents.API.Controllers.PhotosController.EditPhoto(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Edit existing photo
+            </summary>
+            <param name="id">Photo's unique identifier</param>
+            <param name="photo">New photo content</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

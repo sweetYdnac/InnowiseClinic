@@ -18,7 +18,7 @@ namespace Appointments.Write.Persistence.Implementations.Repositories
                 .ExecuteUpdateAsync(p => p
                 .SetProperty(a => a.Complaints, a => dto.Complaints)
                 .SetProperty(a => a.Conclusion, a => dto.Conclusion)
-                .SetProperty(a => a.Recomendations, a => dto.Recomendations));
+                .SetProperty(a => a.Recommendations, a => dto.Recommendations));
         }
     }
 }

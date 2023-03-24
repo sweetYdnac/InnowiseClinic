@@ -17,10 +17,12 @@ namespace Appointments.Write.API.MappingProfiles
 
             CreateMap<CreateAppointmentResultCommand, AppointmentResult>();
             CreateMap<CreateAppointmentResultCommand, CreateAppointmentResultMessage>();
+            CreateMap<CreateAppointmentResultCommand, GeneratePdfMessage>();
 
             CreateMap<EditAppointmentResultRequest, EditAppointmentResultCommand>();
             CreateMap<EditAppointmentResultCommand, EditAppointmentResultMessage>();
             CreateMap<EditAppointmentResultCommand, EditAppointmentResultDTO>();
+            CreateMap<EditAppointmentResultCommand, GeneratePdfMessage>();
         }
     }
 }

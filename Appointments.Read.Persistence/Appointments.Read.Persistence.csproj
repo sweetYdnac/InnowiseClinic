@@ -6,8 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DinkToPdf" Version="1.0.8" />
-    <PackageReference Include="Handlebars.Net" Version="2.1.4" />
+    <PackageReference Include="MassTransit" Version="8.0.13" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
   </ItemGroup>
@@ -15,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Appointments.Read.Application\Appointments.Read.Application.csproj" />
     <ProjectReference Include="..\Appointments.Read.Domain\Appointments.Read.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Messages\Shared.Messages.csproj" />
   </ItemGroup>
 
 </Project>
