@@ -1,6 +1,28 @@
 version: '3.4'
 
 services:
+    gateway.api:
+        image: gateway.api
+        build:
+            context: .
+            dockerfile: Gateway.API/Dockerfile
+        ports:
+            - 9901:9901
+            - 10000:10000
+            - 10001:10001
+        volumes:
+            - ./Gateway.API/envoy.yaml:/etc/envoy/envoy.yaml
+            - ./Gateway.API/https.crt:/etc/ssl/certs/https.crt
+            - ./Gateway.API/key.pem:/etc/ssl/certs/key.pem
+        depends_on:
+            - authorization.api
+            - offices.api
+            - profiles.api
+            - services.api
+            - appointments.write.api
+            - appointments.read.api
+            - documents.api
+
     authorization.api:
         image: authorization.api
         build:
