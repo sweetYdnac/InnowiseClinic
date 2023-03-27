@@ -1,6 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Services.Business.Implementations;
 using Services.Business.Interfaces;
@@ -177,14 +178,13 @@ namespace Profiles.API.Tests
                 .Returns(service);
 
             _serviceRepositoryMock.Setup(x => x.UpdateAsync(service))
-                .ThrowsAsync(new NotFoundException($"Entity with id = {id} doesn't exist"));
+                .ThrowsAsync(new DbUpdateConcurrencyException());
 
             // Act
             var act = async () => await _servicesService.UpdateAsync(id, dto);
 
             // Assert
-            await act.Should().ThrowAsync<NotFoundException>()
-                .WithMessage($"Entity with id = {id} doesn't exist");
+            await act.Should().ThrowAsync<DbUpdateConcurrencyException>();
 
             _serviceRepositoryMock.Verify(x => x.UpdateAsync(service), Times.Once);
         }

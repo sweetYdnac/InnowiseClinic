@@ -59,15 +59,8 @@ namespace Services.Data.Implementations
 
         public async Task<int> UpdateAsync(T entity)
         {
-            try
-            {
-                DbSet.Update(entity);
-                return await Database.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                throw new NotFoundException($"Entity with id = {entity.Id} doesn't exist");
-            }
+            DbSet.Update(entity);
+            return await Database.SaveChangesAsync();
         }
 
         private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)
