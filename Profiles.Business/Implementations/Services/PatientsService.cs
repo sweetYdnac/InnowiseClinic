@@ -4,6 +4,7 @@ using Profiles.Data.DTOs.Patient;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Patient;
 
@@ -14,8 +15,11 @@ namespace Profiles.Business.Implementations.Services
         private readonly IPatientsRepository _patientsRepository;
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
-        public PatientsService(IPatientsRepository patientRepository, IMessageService messageService, IMapper mapper) =>
-            (_patientsRepository, _messageService, _mapper) = (patientRepository, messageService, mapper);
+        public PatientsService(
+            IPatientsRepository patientRepository,
+            IMessageService messageService,
+            IMapper mapper) =>
+        (_patientsRepository, _messageService, _mapper) = (patientRepository, messageService, mapper);
 
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
@@ -56,7 +60,7 @@ namespace Profiles.Business.Implementations.Services
             }
             else
             {
-                throw new NotFoundException("Patient's profile with id = {id} doesn't exist.");
+                throw new NotFoundException($"Patient's profile with id = {id} doesn't exist.");
             }
         }
 
@@ -66,13 +70,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendUpdatePatientMessageAsync(
-                    id,
-                    dto.FirstName,
-                    dto.LastName,
-                    dto.MiddleName,
-                    dto.DateOfBirth,
-                    dto.PhoneNumber);
+                await _messageService.SendUpdatePatientMessageAsync(_mapper.Map<UpdatePatientMessage>(dto));
             }
             else
             {

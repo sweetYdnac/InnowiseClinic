@@ -6,6 +6,7 @@ using Profiles.Data.DTOs.DoctorSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Doctor;
 
@@ -61,13 +62,10 @@ namespace Profiles.Business.Implementations.Services
                 var accountId = await _doctorsRepository.GetAccountIdAsync(id);
 
                 await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
-                await _messageService.SendUpdateDoctorMessageAsync(
-                    id,
-                    dto.FirstName,
-                    dto.LastName,
-                    dto.MiddleName,
-                    dto.SpecializationName,
-                    dto.OfficeId);
+
+                var message = _mapper.Map<UpdateDoctorMessage>(dto);
+                message.Id = id;
+                await _messageService.SendUpdateDoctorMessageAsync(message);
 
                 await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
             }
@@ -89,7 +87,7 @@ namespace Profiles.Business.Implementations.Services
             }
             else
             {
-                throw new NotFoundException("Doctor's profile with id = {id} doesn't exist.");
+                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
             }
         }
 
@@ -104,7 +102,7 @@ namespace Profiles.Business.Implementations.Services
             }
             else
             {
-                throw new NotFoundException("Doctor's profile with id = {id} doesn't exist.");
+                throw new NotFoundException($"Doctor's profile with id = {id} doesn't exist.");
             }
         }
 
