@@ -2,6 +2,7 @@
 using Services.Data.Contexts;
 using Services.Data.Entities;
 using Services.Data.Interfaces;
+using Shared.Exceptions;
 using Shared.Models;
 using System.Linq.Expressions;
 
@@ -58,8 +59,15 @@ namespace Services.Data.Implementations
 
         public async Task<int> UpdateAsync(T entity)
         {
-            DbSet.Update(entity);
-            return await Database.SaveChangesAsync();
+            try
+            {
+                DbSet.Update(entity);
+                return await Database.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new NotFoundException($"Entity with id = {entity.Id} doesn't exist");
+            }
         }
 
         private static async Task<PagedResult<T>> GetPagedAndFilteredAsync(IQueryable<T> query, int currentPage, int pageSize, params Expression<Func<T, bool>>[] filters)

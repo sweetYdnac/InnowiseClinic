@@ -43,6 +43,7 @@ namespace Profiles.API.Tests
 
             // Assert
             result.Should().BeEquivalentTo(expectedResponse);
+            _serviceCategoriesRepositoryMock.Verify(x => x.GetByIdAsync(id), Times.Once());
         }
 
         [Fact]
@@ -60,6 +61,8 @@ namespace Profiles.API.Tests
             // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage($"Service category with id = {id} doesn't exist.");
+
+            _serviceCategoriesRepositoryMock.Verify(x => x.GetByIdAsync(id), Times.Once());
         }
 
         [Fact]
@@ -81,6 +84,7 @@ namespace Profiles.API.Tests
 
             // Assert
             response.Categories.Should().NotBeNull().And.BeEquivalentTo(expectedResponse);
+            _serviceCategoriesRepositoryMock.Verify(x => x.GetAllAsync(), Times.Once());
         }
 
         [Fact]
@@ -100,6 +104,7 @@ namespace Profiles.API.Tests
 
             // Assert
             await act.Should().ThrowAsync<AutoMapperMappingException>();
+            _serviceCategoriesRepositoryMock.Verify(x => x.GetAllAsync(), Times.Once());
         }
     }
 }
