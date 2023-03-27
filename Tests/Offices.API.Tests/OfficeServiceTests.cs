@@ -38,6 +38,8 @@ namespace Offices.API.Tests
             // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage($"Office with id = {dto.Id} doesn't exist.");
+
+            _officeRepositoryMock.Verify(x => x.ChangeStatusAsync(dto), Times.Once());
         }
 
         [Fact]
@@ -66,6 +68,7 @@ namespace Offices.API.Tests
 
             // Assert
             result.Should().BeEquivalentTo(office);
+            _officeRepositoryMock.Verify(x => x.GetByIdAsync(id), Times.Once);
         }
 
         [Fact]
@@ -81,6 +84,8 @@ namespace Offices.API.Tests
             // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage($"Office with id = {id} doesn't exist.");
+
+            _officeRepositoryMock.Verify(x => x.GetByIdAsync(id), Times.Once());
         }
 
         [Fact]
@@ -97,6 +102,8 @@ namespace Offices.API.Tests
             // Assert
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage($"Office with id = {id} doesn't exist.");
+
+            _officeRepositoryMock.Verify(x => x.UpdateAsync(id, dto), Times.Once());
         }
     }
 }
