@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Appointments.Read.Application\Appointments.Read.Application.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

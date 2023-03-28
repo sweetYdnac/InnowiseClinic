@@ -28,13 +28,20 @@ namespace Appointments.Read.API.Tests
             _appointmentRepositoryMock = new Mock<IAppointmentsRepository>();
             _mapperMock = new Mock<IMapper>();
 
-            _approveAppointmentCommandHandler = new ApproveAppointmentCommandHandler(_appointmentRepositoryMock.Object);
-            _cancelAppointmentCommandHandler = new CancelAppointmentCommandHandler(_appointmentRepositoryMock.Object);
-            _createAppointmentCommandHandler = new CreateAppointmentCommandHandler(_appointmentRepositoryMock.Object, _mapperMock.Object);
-            _rescheduleAppointmentCommandHandler = new RescheduleAppointmentCommandHandler(_appointmentRepositoryMock.Object, _mapperMock.Object);
-            _updateDoctorCommandHandler = new UpdateDoctorCommandHandler(_appointmentRepositoryMock.Object, _mapperMock.Object);
-            _updatePatientCommandHandler = new UpdatePatientCommandHandler(_appointmentRepositoryMock.Object, _mapperMock.Object);
-            _updateServiceCommandHandler = new UpdateServiceCommandHandler(_appointmentRepositoryMock.Object, _mapperMock.Object);
+            _approveAppointmentCommandHandler = new ApproveAppointmentCommandHandler(
+                _appointmentRepositoryMock.Object);
+            _cancelAppointmentCommandHandler = new CancelAppointmentCommandHandler(
+                _appointmentRepositoryMock.Object);
+            _createAppointmentCommandHandler = new CreateAppointmentCommandHandler(
+                _appointmentRepositoryMock.Object, _mapperMock.Object);
+            _rescheduleAppointmentCommandHandler = new RescheduleAppointmentCommandHandler(
+                _appointmentRepositoryMock.Object, _mapperMock.Object);
+            _updateDoctorCommandHandler = new UpdateDoctorCommandHandler(
+                _appointmentRepositoryMock.Object, _mapperMock.Object);
+            _updatePatientCommandHandler = new UpdatePatientCommandHandler(
+                _appointmentRepositoryMock.Object, _mapperMock.Object);
+            _updateServiceCommandHandler = new UpdateServiceCommandHandler(
+                _appointmentRepositoryMock.Object, _mapperMock.Object);
         }
 
         [Fact]

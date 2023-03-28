@@ -27,7 +27,7 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
 
             var timeSlots = Enumerable.Range(
                 0,
-                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) + 1)
+                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) - request.Duration / 10 + 1)
                 .Select(i => request.StartTime.AddMinutes(i * 10))
                 .ToDictionary(time => time, time => new HashSet<Guid>(request.Doctors));
 

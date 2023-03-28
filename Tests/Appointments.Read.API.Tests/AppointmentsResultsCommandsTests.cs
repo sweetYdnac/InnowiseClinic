@@ -23,8 +23,10 @@ namespace Appointments.Read.API.Tests
             _appointmentsResultsRepositoryMock = new Mock<IAppointmentsResultsRepository>();
             _mapperMock = new Mock<IMapper>();
 
-            _createAppointmentResultCommandHandler = new CreateAppointmentResultCommandHandler(_appointmentsResultsRepositoryMock.Object, _mapperMock.Object);
-            _editAppointmentResultCommandHandler = new EditAppointmentResultCommandHandler(_appointmentsResultsRepositoryMock.Object, _mapperMock.Object);
+            _createAppointmentResultCommandHandler = new CreateAppointmentResultCommandHandler(
+                _appointmentsResultsRepositoryMock.Object, _mapperMock.Object);
+            _editAppointmentResultCommandHandler = new EditAppointmentResultCommandHandler(
+                _appointmentsResultsRepositoryMock.Object, _mapperMock.Object);
         }
 
         [Fact]
