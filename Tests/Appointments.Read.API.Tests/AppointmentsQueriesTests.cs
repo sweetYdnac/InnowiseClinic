@@ -169,7 +169,7 @@ namespace Appointments.Read.API.Tests
         public async Task GetTimeSlots_WithNoAppointments_ReturnsAllTimeSlots()
         {
             // Arrange
-            var doctors = new Guid[]
+            var doctors = new HashSet<Guid>
             {
                 Guid.NewGuid(),
                 Guid.NewGuid(),
@@ -187,37 +187,7 @@ namespace Appointments.Read.API.Tests
             _appointmentsRepositoryMock.Setup(x => x.GetAppointmentsAsync(request.Date, request.Doctors))
                 .ReturnsAsync(Enumerable.Empty<TimeSlotAppointmentDTO>());
 
-            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>
-            {
-                { new TimeOnly(8, 00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(10,50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,30), new HashSet<Guid>(doctors) },
-            };
+            var expectedResponse = GetFullTimeSlots(doctors);
 
             // Act
             var response = await _getTimeSlotsQueryHandler.Handle(request, It.IsAny<CancellationToken>());
@@ -277,37 +247,7 @@ namespace Appointments.Read.API.Tests
             _appointmentsRepositoryMock.Setup(x => x.GetAppointmentsAsync(request.Date, request.Doctors))
                 .ReturnsAsync(appointments);
 
-            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>
-            {
-                { new TimeOnly(8, 00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(8, 50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(9, 30), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(9, 40), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(9, 50), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(10,00), new HashSet<Guid>(new Guid[] { doctors[1] }) },
-                { new TimeOnly(10,20), new HashSet<Guid>(new Guid[] { doctors[2] }) },
-                { new TimeOnly(10,30), new HashSet<Guid>(new Guid[] { doctors[2] }) },
-                { new TimeOnly(10,40), new HashSet<Guid>(new Guid[] { doctors[2] }) },
-                { new TimeOnly(10,50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,10), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,20), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,30), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,40), new HashSet<Guid>(doctors) },
-                { new TimeOnly(11,50), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,00), new HashSet<Guid>(doctors) },
-                { new TimeOnly(12,10), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(12,20), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(12,30), new HashSet<Guid>(new Guid[] {doctors[0], doctors[1] }) },
-                { new TimeOnly(12,40), new HashSet<Guid>(doctors) },
-            };
+            var expectedResponse = GetSpecificTimeSlots(doctors);
 
             // Act
             var response = await _getTimeSlotsQueryHandler.Handle(request, It.IsAny<CancellationToken>());
@@ -315,6 +255,57 @@ namespace Appointments.Read.API.Tests
             // Assert
             response.TimeSlots.Should().BeEquivalentTo(expectedResponse);
             _appointmentsRepositoryMock.Verify(x => x.GetAppointmentsAsync(request.Date, request.Doctors), Times.Once);
+        }
+
+        private IDictionary<TimeOnly, HashSet<Guid>> GetFullTimeSlots(HashSet<Guid> doctors)
+        {
+            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();
+
+            for (var time = new TimeOnly(8, 00); time <= new TimeOnly(12,30); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, doctors);
+            }
+
+            return expectedResponse;
+        }
+
+        private IDictionary<TimeOnly, HashSet<Guid>> GetSpecificTimeSlots(Guid[] doctors)
+        {
+            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();
+            var doctorsHashSet = new HashSet<Guid>(doctors);
+
+            var time = new TimeOnly(8, 00);
+            for (; time <= new TimeOnly(9, 20); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, doctorsHashSet);
+            }
+
+            for (; time <= new TimeOnly(9, 50); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[0], doctors[1] }));
+            }
+
+            expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[1] }));
+            time = time.AddMinutes(20);
+
+            for (; time <= new TimeOnly(10, 40); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[2] }));
+            }
+
+            for (; time <= new TimeOnly(12, 00); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, doctorsHashSet);
+            }
+
+            for (; time <= new TimeOnly(12, 30); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[0], doctors[1] }));
+            }
+
+            expectedResponse.Add(time, doctorsHashSet);
+
+            return expectedResponse;
         }
     }
 }
