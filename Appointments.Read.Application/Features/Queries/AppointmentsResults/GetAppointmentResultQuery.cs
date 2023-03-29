@@ -1,6 +1,7 @@
 ﻿using Appointments.Read.Application.Interfaces.Repositories;
 using AutoMapper;
 using MediatR;
+using Shared.Exceptions;
 using Shared.Models.Response.Appointments.AppointmentResult;
 
 namespace Appointments.Read.Application.Features.Queries.AppointmentsResults
@@ -25,7 +26,7 @@ namespace Appointments.Read.Application.Features.Queries.AppointmentsResults
             var dto = await _appointmentsResultsRepository.GetByIdAsync(request.Id);
 
             return dto is null
-                ? throw new DirectoryNotFoundException($"Appointment result with id = {request.Id} doesn't exist")
+                ? throw new NotFoundException($"Appointment result with id = {request.Id} doesn't exist")
                 : _mapper.Map<AppointmentResultResponse>(dto);
         }
     }

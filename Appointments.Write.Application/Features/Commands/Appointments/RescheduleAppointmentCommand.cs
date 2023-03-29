@@ -17,13 +17,13 @@ namespace Appointments.Write.Application.Features.Commands.Appointments
         public string DoctorFullName { get; set; }
     }
 
-    public class RescheduleAppointmenCommandHandler : IRequestHandler<RescheduleAppointmentCommand, Unit>
+    public class RescheduleAppointmentCommandHandler : IRequestHandler<RescheduleAppointmentCommand, Unit>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public RescheduleAppointmenCommandHandler(
+        public RescheduleAppointmentCommandHandler(
             IAppointmentsRepository appointmentsRepository,
             IMessageService messageService,
             IMapper mapper) =>

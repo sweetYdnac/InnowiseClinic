@@ -37,16 +37,13 @@ namespace Appointments.Write.Application.Features.Commands.AppointmentsResults
 
         public async Task<Guid> Handle(CreateAppointmentResultCommand request, CancellationToken cancellationToken)
         {
-            var result = await _appointmentsResultsRepository.AddAsync(_mapper.Map<AppointmentResult>(request));
+            await _appointmentsResultsRepository.AddAsync(_mapper.Map<AppointmentResult>(request));
 
-            if (result > 0)
-            {
-                await _messageService.SendCreateAppointmentResultMessageAsync(
-                    _mapper.Map<CreateAppointmentResultMessage>(request));
+            await _messageService.SendCreateAppointmentResultMessageAsync(
+                _mapper.Map<CreateAppointmentResultMessage>(request));
 
-                await _messageService.SendGeneratePdfMessageAsync(
-                    _mapper.Map<GeneratePdfMessage>(request));
-            }
+            await _messageService.SendGeneratePdfMessageAsync(
+                _mapper.Map<GeneratePdfMessage>(request));
 
             return request.Id;
         }

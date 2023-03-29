@@ -8,8 +8,12 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
             new()
             {
                 Date = DateOnly.FromDateTime(DateTime.Now),
-                ServiceId = Guid.NewGuid(),
-                DoctorId = Guid.NewGuid(),
+                Doctors = new Guid[]
+                {
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                    Guid.NewGuid(),
+                },
                 Duration = 20,
                 StartTime = new TimeOnly(08,00),
                 EndTime = new TimeOnly(20, 00),
