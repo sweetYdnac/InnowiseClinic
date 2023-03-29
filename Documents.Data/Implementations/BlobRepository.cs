@@ -70,8 +70,15 @@ namespace Documents.Data.Implementations
 
         public async Task DeleteBlobAsync(Guid id)
         {
-            var blobClient = GetBlobClient(id.ToString());
-            await blobClient.DeleteAsync();
+            try
+            {
+                var blobClient = GetBlobClient(id.ToString());
+                await blobClient.DeleteAsync();
+            }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+                throw new NotFoundException($"Blob with name = {id} doesn't exist.");
+            }
         }
 
         private BlobClient GetBlobClient(string blobName)
