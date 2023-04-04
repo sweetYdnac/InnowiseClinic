@@ -8,11 +8,11 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
         public Guid Id { get; set; }
     }
 
-    public class DeleteAppointmentCommandHandler : IRequestHandler<CancelAppointmentCommand, int>
+    public class CancelAppointmentCommandHandler : IRequestHandler<CancelAppointmentCommand, int>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
 
-        public DeleteAppointmentCommandHandler(IAppointmentsRepository appointmentRepository) =>
+        public CancelAppointmentCommandHandler(IAppointmentsRepository appointmentRepository) =>
             _appointmentsRepository = appointmentRepository;
 
         public async Task<int> Handle(CancelAppointmentCommand request, CancellationToken cancellationToken)

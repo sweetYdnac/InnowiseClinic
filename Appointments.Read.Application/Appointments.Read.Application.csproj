@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Appointments.Read.Domain\Appointments.Read.Domain.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
     <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
 

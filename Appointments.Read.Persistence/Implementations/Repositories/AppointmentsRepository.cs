@@ -70,15 +70,11 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SetProperty(a => a.IsApproved, a => true));
         }
 
-        public async Task<IEnumerable<TimeSlotAppointmentDTO>> GetAppointmentsAsync(DateOnly date, Guid serviceId, Guid? doctorId)
+        public async Task<IEnumerable<TimeSlotAppointmentDTO>> GetAppointmentsAsync(DateOnly date, IEnumerable<Guid> doctors)
         {
-            Expression<Func<Appointment, bool>> filter = doctorId is null
-                ? a => a.Date.Equals(date) && a.ServiceId.Equals(serviceId)
-                : a => a.Date.Equals(date) && a.DoctorId.Equals(doctorId);
-
             return await DbSet
                 .AsNoTracking()
-                .Where(filter)
+                .Where(a => a.Date.Equals(date) && doctors.Any(x => x.Equals(a.DoctorId)))
                 .Select(a => new TimeSlotAppointmentDTO
                 {
                     StartTime = a.Time,

@@ -7,8 +7,7 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
     public class GetTimeSlotsQuery : IRequest<TimeSlotsResponse>
     {
         public DateOnly Date { get; set; }
-        public Guid ServiceId { get; set; }
-        public Guid? DoctorId { get; set; }
+        public IEnumerable<Guid> Doctors { get; set; }
         public int Duration { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
@@ -24,22 +23,13 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
         public async Task<TimeSlotsResponse> Handle(GetTimeSlotsQuery request, CancellationToken cancellationToken)
         {
             var appointments = await _appointmentsRepository.GetAppointmentsAsync(
-                request.Date,
-                request.ServiceId,
-                request.DoctorId);
-
-            var doctors = request.DoctorId.HasValue
-                ? new Guid[] { request.DoctorId.Value }
-                : appointments
-                    .Select(a => a.DoctorId)
-                    .Distinct()
-                    .ToArray();
+                    request.Date, request.Doctors);
 
             var timeSlots = Enumerable.Range(
                 0,
-                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) + 1)
+                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) - request.Duration / 10 + 1)
                 .Select(i => request.StartTime.AddMinutes(i * 10))
-                .ToDictionary(time => time, time => new HashSet<Guid>(doctors));
+                .ToDictionary(time => time, time => new HashSet<Guid>(request.Doctors));
 
             foreach (var appointment in appointments)
             {

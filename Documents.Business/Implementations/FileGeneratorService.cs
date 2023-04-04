@@ -16,9 +16,15 @@ namespace Documents.Business.Implementations
 
         public async Task<PdfResult> GetPdfAppointmentResult(PdfResultDTO dto)
         {
+            var handleBars = Handlebars.Create();
+            handleBars.RegisterHelper("formatDate", (writer, context, parameters) => {
+                var date = ((PdfResultDTO)context.Value).Date.ToString("yyyy-MM-dd HH:mm");
+                writer.WriteSafeString(date);
+            });
+
             var html = await File.ReadAllTextAsync(_configuration.HtmlPath);
-            var handleBars = Handlebars.Compile(html);
-            var parsed = handleBars(dto);
+            var template = handleBars.Compile(html);
+            var parsed = template(dto);
 
             using (var stream = new MemoryStream())
             {

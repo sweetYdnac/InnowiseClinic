@@ -2,6 +2,7 @@
 using Services.Data.Contexts;
 using Services.Data.Entities;
 using Services.Data.Interfaces;
+using Shared.Exceptions;
 using Shared.Models;
 using System.Linq.Expressions;
 
