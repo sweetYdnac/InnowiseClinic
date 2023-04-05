@@ -85,5 +85,19 @@ namespace Authorization.API.Extensions
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
         }
+
+        public static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
+        }
     }
 }

@@ -19,19 +19,20 @@ namespace Authorization.API.Controllers
     [Produces("application/json")]
     public class AccountController : ControllerBase
     {
+        private readonly ITokenService _tokenService;
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-        public AccountController(IAccountService accountService, IMapper mapper) =>
-            (_accountService, _mapper) = (accountService, mapper);
+        public AccountController(IAccountService accountService, IMapper mapper, ITokenService tokenService) =>
+            (_accountService, _mapper, _tokenService) = (accountService, mapper, tokenService);
 
         /// <summary>
         /// Sign up new Account
         /// </summary>
         /// <param name="request">Contains email and password</param>
+        [HttpPost("signUp")]
         [ProducesResponseType(typeof(SignUpResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        [HttpPost("signUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
             var id = await _accountService.SignUpAsync(request.Email, request.Password);
@@ -46,14 +47,32 @@ namespace Authorization.API.Controllers
         [HttpPost("signIn")]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status409Conflict)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
         {
-            var tokenResponce = await _accountService.SignInAsync(request.Email, request.Password);
-            var responseModel = _mapper.Map<TokenResponse>(tokenResponce);
+            var tokenResponse = await _accountService.SignInAsync(request.Email, request.Password);
+            var response = _mapper.Map<TokenResponse>(tokenResponse);
 
-            return Ok(responseModel);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Reauthorize by refreshing access token
+        /// </summary>
+        /// <param name="request">Containt refreshToken</param>
+        /// <returns></returns>
+        [HttpPost("refresh")]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            var tokenResponse = await _tokenService.RefreshToken(request.RefreshToken);
+            var response = _mapper.Map<TokenResponse>(tokenResponse);
+
+            return Ok(response);
         }
 
         /// <summary>

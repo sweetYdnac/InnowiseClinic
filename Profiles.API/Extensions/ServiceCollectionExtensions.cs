@@ -140,6 +140,20 @@ namespace Profiles.API.Extensions
             });
         }
 
+        public static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
+        }
+
         private static void MigrateDatabase(this IServiceCollection services)
         {
             var serviceProvider = services.BuildServiceProvider();

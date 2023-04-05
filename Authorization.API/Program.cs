@@ -28,6 +28,7 @@ namespace Authorization.API
             builder.Services.ConfigureValidation();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.ConfigureMassTransit();
+            builder.Services.ConfigureCors();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -58,6 +59,7 @@ namespace Authorization.API
             app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAllOrigins");
 
             app.UseIdentityServer();
             app.UseAuthentication();
