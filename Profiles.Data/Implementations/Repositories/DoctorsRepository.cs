@@ -91,7 +91,7 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             INSERT Doctors
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear, @PhotoId);
+                            (@Id, @FirstName, @LastName, @MiddleName, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear, @PhotoId);
                         """;
 
             var parameters = new DynamicParameters();
@@ -99,7 +99,6 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
-            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
             parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);

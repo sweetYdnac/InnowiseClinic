@@ -197,19 +197,5 @@ namespace Profiles.API.Tests
             _messageServiceMock.Verify(x => x.SendUpdatePatientMessageAsync(
                 It.IsAny<UpdatePatientMessage>()), Times.Never);
         }
-
-        [Fact]
-        public async Task LinkToAccount_WithAnyArguments_CallsRepository()
-        {
-            // Arrange
-            var id = _fixture.Create<Guid>();
-            var accountId = _fixture.Create<Guid>();
-
-            // Act
-            await _patientsService.LinkToAccount(id, accountId);
-
-            // Assert
-            _patientsRepositoryMock.Verify(x => x.LinkToAccount(id, accountId), Times.Once);
-        }
     }
 }

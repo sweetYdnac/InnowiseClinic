@@ -15,7 +15,6 @@ namespace Profiles.Data.DTOs.Doctor
         public int CareerStartYear { get; set; }
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
-        public Guid AccountId { get; set; }
         public AccountStatuses Status { get; set; }
     }
 }

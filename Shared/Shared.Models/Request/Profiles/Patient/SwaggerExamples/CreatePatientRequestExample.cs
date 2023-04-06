@@ -7,6 +7,7 @@ namespace Shared.Models.Request.Profiles.Patient.SwaggerExamples
         public CreatePatientRequest GetExamples() =>
             new()
             {
+                Id = Guid.NewGuid(),
                 FirstName = "Scarlet",
                 LastName = "Johansson",
                 MiddleName = "nvm",

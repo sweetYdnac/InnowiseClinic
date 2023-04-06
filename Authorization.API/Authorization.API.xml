@@ -21,6 +21,13 @@
             </summary>
             <param name="request">Contains email and password</param>
         </member>
+        <member name="M:Authorization.API.Controllers.AccountController.RefreshToken(Shared.Models.Request.Authorization.RefreshTokenRequest)">
+            <summary>
+            Reauthorize by refreshing access token
+            </summary>
+            <param name="request">Containt refreshToken</param>
+            <returns></returns>
+        </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignOut">
             <summary>
             Sign out from an account

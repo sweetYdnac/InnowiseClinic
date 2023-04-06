@@ -12,8 +12,7 @@ namespace Profiles.API.MappingProfiles
         public ReceptionistProfile()
         {
             CreateMap<GetReceptionistsRequest, GetReceptionistsDTO>();
-            CreateMap<CreateReceptionistRequest, CreateReceptionistDTO>()
-                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
+            CreateMap<CreateReceptionistRequest, CreateReceptionistDTO>();
             CreateMap<UpdateReceptionistRequest, UpdateReceptionistDTO>();
             CreateMap<ChangeStatusRequestModel, ChangeStatusDTO>();
 

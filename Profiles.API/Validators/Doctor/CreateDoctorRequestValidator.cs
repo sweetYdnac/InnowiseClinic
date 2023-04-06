@@ -8,6 +8,7 @@ namespace Profiles.API.Validators.Doctor
     {
         public CreateDoctorRequestValidator()
         {
+            RuleFor(p => p.Id).Required();
             RuleFor(p => p.FirstName).Required();
             RuleFor(p => p.LastName).Required();
             RuleFor(p => p.DateOfBirth).Required();

@@ -62,7 +62,7 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             INSERT Receptionists
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @OfficeId, @PhotoId)
+                            (@Id, @FirstName, @LastName, @MiddleName, @OfficeId, @PhotoId)
                         """;
 
             var parameters = new DynamicParameters();
@@ -70,7 +70,6 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
-            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 

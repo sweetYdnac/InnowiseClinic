@@ -8,6 +8,7 @@ namespace Profiles.API.Validators.Receptionist
     {
         public CreateReceptionistRequestValidator()
         {
+            RuleFor(p => p.Id).Required();
             RuleFor(p => p.FirstName).Required();
             RuleFor(p => p.LastName).Required();
             RuleFor(p => p.OfficeId).Required();

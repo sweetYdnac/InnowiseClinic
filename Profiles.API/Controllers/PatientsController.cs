@@ -144,24 +144,5 @@ namespace Profiles.API.Controllers
 
             return NoContent();
         }
-
-        /// <summary>
-        /// Link specific patient's profile to account when user want to accept matched profile with this input.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="accountId"></param>
-        [HttpPatch("{id}")]
-        [Authorize(Roles = nameof(AccountRoles.Patient))]
-        [ProducesResponseType(typeof(Nullable), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> LinkToAccount([FromRoute] Guid id, [FromBody] Guid accountId)
-        {
-            await _patientsService.LinkToAccount(id, accountId);
-
-            return NoContent();
-        }
     }
 }

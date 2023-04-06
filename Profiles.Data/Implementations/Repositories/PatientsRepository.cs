@@ -162,25 +162,6 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<int> LinkToAccount(Guid id, Guid accountId)
-        {
-            var query = """
-                            UPDATE Patients
-                            SET AccountId = @AccountId,
-                                IsLinkedToAccount = 1
-                            WHERE Id = @Id;
-                        """;
-
-            var parameters = new DynamicParameters();
-            parameters.Add("Id", id, DbType.Guid);
-            parameters.Add("AccountId", accountId, DbType.Guid);
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.ExecuteAsync(query, parameters);
-            }
-        }
-
         public async Task<Guid> GetPhotoIdAsync(Guid id)
         {
             var query = """

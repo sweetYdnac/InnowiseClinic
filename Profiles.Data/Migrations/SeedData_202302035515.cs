@@ -10,13 +10,11 @@ namespace Profiles.Data.Migrations
             Delete.FromTable("Patients")
                 .Row(new
                 {
-                    Id = new Guid("B2957690-4D76-468C-A449-FB9529283857"),
+                    Id = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     FirstName = "Evgeny",
                     LastName = "Koreba",
                     MiddleName = "Sweety",
-                    AccountId = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     DateOfBirth = new DateOnly(1999, 10, 15),
-                    IsLinkedToAccount = false
                 })
                 .Row(new
                 {
@@ -24,19 +22,16 @@ namespace Profiles.Data.Migrations
                     FirstName = "Alex",
                     LastName = "Lorem",
                     MiddleName = "",
-                    AccountId = new Guid("2730FDE4-FD40-405C-9AB7-799BF189FA98"),
                     DateOfBirth = new DateOnly(1999, 10, 15),
-                    IsLinkedToAccount = false
                 });
 
             Delete.FromTable("Doctors")
                 .Row(new
                 {
-                    Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
+                    Id = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
@@ -48,7 +43,6 @@ namespace Profiles.Data.Migrations
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("1EB7437B-65AB-4F9D-8227-7EAB168DE4FC"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
@@ -58,11 +52,10 @@ namespace Profiles.Data.Migrations
             Delete.FromTable("Receptionists")
                 .Row(new
                 {
-                    Id = new Guid("A315F9D1-C385-4665-920C-D03896D626CA"),
+                    Id = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     FirstName = "123",
                     LastName = "qwe",
                     MiddleName = "asd",
-                    AccountId = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new
@@ -71,7 +64,6 @@ namespace Profiles.Data.Migrations
                     FirstName = "321",
                     LastName = "eqw",
                     MiddleName = "dsa",
-                    AccountId = new Guid("54E8E973-D257-439C-B952-03BDE03A7E1A"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c")
                 });
         }
@@ -81,13 +73,11 @@ namespace Profiles.Data.Migrations
             Insert.IntoTable("Patients")
                 .Row(new
                 {
-                    Id = new Guid("B2957690-4D76-468C-A449-FB9529283857"),
+                    Id = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     FirstName = "Evgeny",
                     LastName = "Koreba",
                     MiddleName = "Sweety",
-                    AccountId = new Guid("62DC0BBF-6423-41A5-8A35-EBDA51DF2EB2"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    IsLinkedToAccount = false
                 })
                 .Row(new
                 {
@@ -95,19 +85,16 @@ namespace Profiles.Data.Migrations
                     FirstName = "Alex",
                     LastName = "Lorem",
                     MiddleName = "",
-                    AccountId = new Guid("2730FDE4-FD40-405C-9AB7-799BF189FA98"),
                     DateOfBirth = new DateTime(1999, 10, 15),
-                    IsLinkedToAccount = false
                 });
 
             Insert.IntoTable("Doctors")
                 .Row(new
                 {
-                    Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
+                    Id = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("F92BB223-1A2B-420C-B19D-EEB4191DB06B"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
@@ -119,7 +106,6 @@ namespace Profiles.Data.Migrations
                     FirstName = "Test",
                     LastName = "Test",
                     MiddleName = "",
-                    AccountId = new Guid("1EB7437B-65AB-4F9D-8227-7EAB168DE4FC"),
                     DateOfBirth = new DateTime(1999, 10, 15),
                     SpecializationId = new Guid("6FF44FBF-8DE7-4322-AC02-68190750FBAD"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
@@ -129,11 +115,10 @@ namespace Profiles.Data.Migrations
             Insert.IntoTable("Receptionists")
                 .Row(new
                 {
-                    Id = new Guid("A315F9D1-C385-4665-920C-D03896D626CA"),
+                    Id = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     FirstName = "123",
                     LastName = "qwe",
                     MiddleName = "asd",
-                    AccountId = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629")
                 })
                 .Row(new
@@ -142,7 +127,6 @@ namespace Profiles.Data.Migrations
                     FirstName = "321",
                     LastName = "eqw",
                     MiddleName = "dsa",
-                    AccountId = new Guid("54E8E973-D257-439C-B952-03BDE03A7E1A"),
                     OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c")
                 });
         }
