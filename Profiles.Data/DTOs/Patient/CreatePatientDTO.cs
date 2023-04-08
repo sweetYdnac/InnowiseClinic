@@ -7,7 +7,6 @@
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public DateOnly DateOfBirth { get; set; }
-        public Guid? AccountId { get; set; }
         public Guid? PhotoId { get; set; }
         public string PhoneNumber { get; set; }
     }

@@ -11,7 +11,8 @@ namespace Shared.Models.Response.Profiles.Patient.SwaggerExamples
                 LastName = "Koreba",
                 MiddleName = "Sergeevich",
                 DateOfBirth = new DateOnly(1998, 07, 16),
-                PhotoId = Guid.NewGuid()
+                PhotoId = Guid.NewGuid(),
+                PhoneNumber = "+375296666666",
             };
     }
 }

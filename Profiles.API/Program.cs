@@ -22,6 +22,7 @@ builder.Services.ConfigureValidation();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigureMassTransit(builder.Configuration);
+builder.Services.ConfigureCors();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwaggerGen();

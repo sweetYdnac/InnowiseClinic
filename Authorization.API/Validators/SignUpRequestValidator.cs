@@ -14,10 +14,6 @@ namespace Authorization.API.Validators
 
             RuleFor(s => s.Password)
                 .Length(6, 15);
-
-            RuleFor(s => s.PasswordConfirmation)
-                .Length(6, 15)
-                .Equal(model => model.Password);
         }
     }
 }

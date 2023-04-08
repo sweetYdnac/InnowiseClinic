@@ -44,9 +44,7 @@ namespace Authorization.Business.ServicesImplementations
 
             var response = await client.RequestRefreshTokenAsync(request);
 
-            return response.AccessToken is null || response.RefreshToken is null
-                ? throw new UnauthorizedException("Refresh token does not valid.")
-                : _mapper.Map<TokenResponseDTO>(response);
+            return _mapper.Map<TokenResponseDTO>(response);
         }
     }
 }

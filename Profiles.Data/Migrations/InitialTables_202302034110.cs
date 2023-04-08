@@ -18,7 +18,8 @@ namespace Profiles.Data.Migrations
         {
             Create.Table("Patients")
                 .WithUserColumns()
-                .WithColumn(nameof(PatientEntity.DateOfBirth)).AsDate().NotNullable();
+                .WithColumn(nameof(PatientEntity.DateOfBirth)).AsDate().NotNullable()
+                .WithColumn(nameof(PatientEntity.IsActive)).AsBoolean().NotNullable().WithDefaultValue(false);
 
             Create.Table("Doctors")
                 .WithUserColumns()

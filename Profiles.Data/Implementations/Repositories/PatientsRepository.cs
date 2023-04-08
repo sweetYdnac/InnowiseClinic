@@ -23,7 +23,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId, PhoneNumber
                             FROM Patients
                             WHERE Id = @id;
                         """;
@@ -71,7 +71,7 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             INSERT Patients
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @IsLinkedToAccount, @PhotoId, @PhoneNumber)
+                            (@Id, @FirstName, @LastName, @MiddleName, @DateOfBirth, DEFAULT, @PhotoId, @PhoneNumber)
                         """;
 
             var parameters = new DynamicParameters();
@@ -79,11 +79,9 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
-            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
             parameters.Add("PhoneNumber", dto.PhoneNumber, DbType.String);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
-            parameters.Add("IsLinkedToAccount", dto.AccountId is not null, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {

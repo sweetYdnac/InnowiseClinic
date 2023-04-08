@@ -25,7 +25,7 @@
             <summary>
             Reauthorize by refreshing access token
             </summary>
-            <param name="request">Containt refreshToken</param>
+            <param name="request">Contain refreshToken</param>
             <returns></returns>
         </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignOut">

@@ -60,12 +60,11 @@ namespace Authorization.API.Controllers
         /// <summary>
         /// Reauthorize by refreshing access token
         /// </summary>
-        /// <param name="request">Containt refreshToken</param>
+        /// <param name="request">Contain refreshToken</param>
         /// <returns></returns>
         [HttpPost("refresh")]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {

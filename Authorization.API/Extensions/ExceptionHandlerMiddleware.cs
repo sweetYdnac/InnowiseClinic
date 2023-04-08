@@ -25,10 +25,6 @@ internal class ExceptionHandlerMiddleware
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, () => Log.Information(ex, ex.Message));
         }
-        catch(UnauthorizedException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Unauthorized, () => Log.Information(ex, ex.Message));
-        }
         catch (InvalidCredentialsException ex)
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
