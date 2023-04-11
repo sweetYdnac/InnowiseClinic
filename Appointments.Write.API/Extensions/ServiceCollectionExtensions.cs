@@ -129,5 +129,19 @@ namespace Appointments.Write.API.Extensions
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>
             services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>());
+
+        internal static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
+        }
     }
 }

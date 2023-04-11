@@ -24,18 +24,18 @@ namespace Offices.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        internal static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IOfficeService, OfficeService>();
             services.AddScoped<IMessageService, MessageService>();
         }
 
-        public static void AddRepositories(this IServiceCollection services)
+        internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IOfficeRepository, OfficeRepository>();
         }
 
-        public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<OfficesDbContext>();
             services.AddScoped<DatabaseInitializer>();
@@ -47,7 +47,7 @@ namespace Offices.API.Extensions
             services.MigrateDatabase();
         }
 
-        public static void ConfigureSwaggerGen(this IServiceCollection services)
+        internal static void ConfigureSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -61,18 +61,18 @@ namespace Offices.API.Extensions
             services.AddSwaggerExamplesFromAssemblyOf<CreateOfficeRequestExample>();
         }
 
-        public static void ConfigureValidation(this IServiceCollection services)
+        internal static void ConfigureValidation(this IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<GetOfficesRequestModelValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureAutoMapper(this IServiceCollection services)
+        internal static void ConfigureAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
             {
@@ -112,12 +112,26 @@ namespace Offices.API.Extensions
             });
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
 
             EndpointConvention.Map<DisableOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:DisableOfficeEndpoint")));
             EndpointConvention.Map<UpdateOfficeMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateOfficeEndpoint")));
+        }
+
+        internal static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
         }
 
         private static void MigrateDatabase(this IServiceCollection services)

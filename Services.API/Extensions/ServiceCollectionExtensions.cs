@@ -120,5 +120,19 @@ namespace Services.API.Extensions
             EndpointConvention.Map<UpdateServiceMessage>(
             new Uri(configuration.GetValue<string>("Messages:UpdateServiceEndpoint")));
         }
+
+        internal static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
+        }
     }
 }

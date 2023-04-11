@@ -25,7 +25,7 @@ namespace Profiles.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        internal static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IPatientsService, PatientsService>();
             services.AddScoped<IDoctorsService, DoctorsService>();
@@ -34,7 +34,7 @@ namespace Profiles.API.Extensions
             services.AddScoped<IMessageService, MessageService>();
         }
 
-        public static void AddRepositories(this IServiceCollection services)
+        internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IPatientsRepository, PatientsRepository>();
             services.AddTransient<IDoctorsRepository, DoctorsRepository>();
@@ -44,7 +44,7 @@ namespace Profiles.API.Extensions
             services.AddTransient<IProfilesRepository, ProfilesRepository>();
         }
 
-        public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<ProfilesDbContext>();
             services.AddSingleton<DatabaseInitializer>();
@@ -57,7 +57,7 @@ namespace Profiles.API.Extensions
             services.MigrateDatabase();
         }
 
-        public static void ConfigureSwaggerGen(this IServiceCollection services)
+        internal static void ConfigureSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -71,18 +71,18 @@ namespace Profiles.API.Extensions
             services.AddSwaggerExamplesFromAssemblyOf<CreateDoctorRequestExample>();
         }
 
-        public static void ConfigureValidation(this IServiceCollection services)
+        internal static void ConfigureValidation(this IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<CreatePatientRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureAutoMapper(this IServiceCollection services)
+        internal static void ConfigureAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
-        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(options =>
             {
@@ -122,7 +122,7 @@ namespace Profiles.API.Extensions
             });
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
@@ -140,7 +140,7 @@ namespace Profiles.API.Extensions
             });
         }
 
-        public static void ConfigureCors(this IServiceCollection services)
+        internal static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {

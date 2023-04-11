@@ -15,13 +15,13 @@ namespace Authorization.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        internal static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITokenService, TokenService>();
         }
 
-        public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("AuthorizationDbConnection");
             var migrationAssembly = typeof(AuthorizationDbContext).Assembly.GetName().Name;
@@ -31,7 +31,7 @@ namespace Authorization.API.Extensions
                     b => b.MigrationsAssembly(migrationAssembly)));
         }
 
-        public static void ConfigureAspNetIdentity(this IServiceCollection services)
+        internal static void ConfigureAspNetIdentity(this IServiceCollection services)
         {
             services.AddIdentity<Account, IdentityRole<Guid>>(options =>
             {
@@ -47,7 +47,7 @@ namespace Authorization.API.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureIdentityServer(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddIdentityServer(options => options.IssuerUri =
@@ -60,7 +60,7 @@ namespace Authorization.API.Extensions
                 .AddDeveloperSigningCredential();
         }
 
-        public static void ConfigureSwaggerGen(this IServiceCollection services)
+        internal static void ConfigureSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(options =>
             {
@@ -70,13 +70,13 @@ namespace Authorization.API.Extensions
             });
         }
 
-        public static void ConfigureValidation(this IServiceCollection services)
+        internal static void ConfigureValidation(this IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<SignInRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 
-        public static void ConfigureMassTransit(this IServiceCollection services)
+        internal static void ConfigureMassTransit(this IServiceCollection services)
         {
             services.AddMassTransit(x =>
             {
@@ -86,7 +86,7 @@ namespace Authorization.API.Extensions
             });
         }
 
-        public static void ConfigureCors(this IServiceCollection services)
+        internal static void ConfigureCors(this IServiceCollection services)
         {
             services.AddCors(options =>
             {
