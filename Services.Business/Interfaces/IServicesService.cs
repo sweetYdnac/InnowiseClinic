@@ -7,7 +7,7 @@ namespace Services.Business.Interfaces
     public interface IServicesService
     {
         Task<ServiceResponse> GetByIdAsync(Guid id);
-        Task<PagedResponse<ServiceResponse>> GetPagedAsync(GetServicesDTO dto);
+        Task<PagedResponse<ServiceInformationResponse>> GetPagedAsync(GetServicesDTO dto);
         Task<Guid> CreateAsync(CreateServiceDTO dto);
         Task ChangeStatusAsync(Guid id, bool isActive);
         Task UpdateAsync(Guid id, UpdateServiceDTO dto);

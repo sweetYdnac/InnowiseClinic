@@ -129,8 +129,9 @@ static_resources:
                   prefix_rewrite: /api/appointmentresults
                   cluster: documents_api
 
+              #Offices
               - match:
-                  prefix: /offices/photos
+                  prefix: /offices
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/offices
@@ -296,8 +297,9 @@ static_resources:
                   prefix_rewrite: /api/appointmentresults
                   cluster: documents_api
 
+              #Offices
               - match:
-                  prefix: /offices/photos
+                  prefix: /offices
                   case_sensitive: false
                 route:
                   prefix_rewrite: /api/offices

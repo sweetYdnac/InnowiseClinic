@@ -14,6 +14,8 @@ namespace Services.API.Validators.Service
             RuleFor(p => p.PageSize)
                 .NotNull()
                 .InclusiveBetween(1, 50);
+
+            RuleFor(r => r.IsActive).NotNull();
         }
     }
 }

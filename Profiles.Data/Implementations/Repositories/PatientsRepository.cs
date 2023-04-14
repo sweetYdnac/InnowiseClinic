@@ -23,7 +23,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId, PhoneNumber
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId, PhoneNumber, IsActive
                             FROM Patients
                             WHERE Id = @id;
                         """;
@@ -142,7 +142,8 @@ namespace Profiles.Data.Implementations.Repositories
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
                                 DateOfBirth = @DateOfBirth,
-                                PhoneNumber = @PhoneNumber
+                                PhoneNumber = @PhoneNumber,
+                                IsActive = true
                             WHERE Id = @Id;
                         """;
 

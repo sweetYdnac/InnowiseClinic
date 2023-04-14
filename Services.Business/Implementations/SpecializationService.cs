@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Services.Business.Interfaces;
 using Services.Data.DTOs.Specialization;
 using Services.Data.Entities;
@@ -6,6 +7,7 @@ using Services.Data.Interfaces;
 using Shared.Exceptions;
 using Shared.Models.Response;
 using Shared.Models.Response.Services.Specialization;
+using System.Linq.Expressions;
 
 namespace Services.Business.Implementations
 {
@@ -43,7 +45,14 @@ namespace Services.Business.Implementations
 
         public async Task<PagedResponse<SpecializationResponse>> GetPagedAsync(GetSpecializationsDTO dto)
         {
-            var response = await _specializationRepository.GetPagedAndFilteredAsync(dto.CurrentPage, dto.PageSize);
+            var response = await _specializationRepository.GetPagedAndFilteredAsync(
+                dto.CurrentPage,
+                dto.PageSize,
+                new Expression<Func<Specialization, bool>>[]
+                {
+                    s => EF.Functions.Like(s.Title, $"%{dto.Title}%"),
+                    s => s.IsActive.Equals(dto.IsActive),
+                });
 
             return new(
                 _mapper.Map<IEnumerable<SpecializationResponse>>(response.Items),

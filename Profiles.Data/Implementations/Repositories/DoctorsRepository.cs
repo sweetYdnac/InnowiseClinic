@@ -45,7 +45,9 @@ namespace Profiles.Data.Implementations.Repositories
             var query = $"""
                             SELECT Doctors.Id,
                                    CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
+                                   SpecializationId,
                                    SpecializationName,
+                                   OfficeId,
                                    OfficeAddress,
                                    DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience,
                                    Status,
@@ -54,7 +56,8 @@ namespace Profiles.Data.Implementations.Repositories
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE (FirstName LIKE @FullName OR
                                   LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName) AND
+                                  MiddleName LIKE @FullName OR
+                                  CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName) AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
                                   {statusFilter}

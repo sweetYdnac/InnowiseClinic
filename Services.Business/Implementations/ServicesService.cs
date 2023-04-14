@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Services.Business.Interfaces;
 using Services.Data.DTOs.Service;
 using Services.Data.Entities;
@@ -28,7 +29,7 @@ namespace Services.Business.Implementations
                 : _mapper.Map<ServiceResponse>(response);
         }
 
-        public async Task<PagedResponse<ServiceResponse>> GetPagedAsync(GetServicesDTO dto)
+        public async Task<PagedResponse<ServiceInformationResponse>> GetPagedAsync(GetServicesDTO dto)
         {
             var response = await _servicesRepository.GetPagedAndFilteredAsync(
                 dto.CurrentPage,
@@ -36,10 +37,16 @@ namespace Services.Business.Implementations
                 new Expression<Func<Service, object>>[]
                 {
                     s => s.Category,
+                },
+                new Expression<Func<Service, bool>>[]
+                {
+                    s => EF.Functions.Like(s.Title, $"%{dto.Title}%"),
+                    s => EF.Functions.Like(s.SpecializationId.ToString(), $"%{dto.SpecializationId}%"),
+                    s => s.IsActive.Equals(dto.IsActive),
                 });
 
             return new(
-            _mapper.Map<IEnumerable<ServiceResponse>>(response.Items),
+            _mapper.Map<IEnumerable<ServiceInformationResponse>>(response.Items),
             dto.CurrentPage,
             dto.PageSize,
             response.TotalCount);

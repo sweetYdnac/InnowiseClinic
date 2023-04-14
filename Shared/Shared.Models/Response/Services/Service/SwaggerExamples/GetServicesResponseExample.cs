@@ -2,26 +2,30 @@
 
 namespace Shared.Models.Response.Services.Service.SwaggerExamples
 {
-    public class GetServicesResponseExample : IExamplesProvider<PagedResponse<ServiceResponse>>
+    public class GetServicesResponseExample : IExamplesProvider<PagedResponse<ServiceInformationResponse>>
     {
-        public PagedResponse<ServiceResponse> GetExamples() =>
+        public PagedResponse<ServiceInformationResponse> GetExamples() =>
             new(
                  new[]
                 {
-                    new ServiceResponse
+                    new ServiceInformationResponse
                     {
                         Id = Guid.NewGuid(),
                         Title = "Therapist",
                         Price = 50,
                         CategoryTitle = "Diagnostics",
+                        Duration = 30,
+                        SpecializationId = Guid.NewGuid(),
                         IsActive = true,
                     },
-                    new ServiceResponse
+                    new ServiceInformationResponse
                     {
                         Id = Guid.NewGuid(),
                         Title = "Oculist",
                         Price = 30,
                         CategoryTitle = "Analyses",
+                        Duration = 10,
+                        SpecializationId = Guid.NewGuid(),
                         IsActive = false,
                     },
 

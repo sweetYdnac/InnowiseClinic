@@ -55,8 +55,8 @@ namespace Services.API.Controllers
         /// </summary>
         /// <param name="request">Contains properties for paging among services</param>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
-        [ProducesResponseType(typeof(PagedResponse<ServiceResponse>), StatusCodes.Status200OK)]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
+        [ProducesResponseType(typeof(PagedResponse<ServiceInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]

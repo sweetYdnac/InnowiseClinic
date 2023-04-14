@@ -56,7 +56,7 @@ namespace Offices.API.Controllers
         /// </summary>
         /// <param name="request">Contains paging parameters</param>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(PagedResponse<OfficeInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

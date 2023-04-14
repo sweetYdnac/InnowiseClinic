@@ -22,15 +22,25 @@ namespace Shared.Models.Response.Appointments.Appointment
         public override void Write(Utf8JsonWriter writer, IDictionary<TimeOnly, HashSet<Guid>> value,
             JsonSerializerOptions options)
         {
-            writer.WriteStartObject();
+            writer.WriteStartArray();
 
             foreach (KeyValuePair<TimeOnly, HashSet<Guid>> pair in value)
             {
-                writer.WriteString(pair.Key.ToString(TimeFormat),
-                    JsonSerializer.Serialize(pair.Value));
+                writer.WriteStartObject();
+
+                writer.WritePropertyName(pair.Key.ToString(TimeFormat));
+                writer.WriteStartArray();
+
+                foreach (Guid id in pair.Value)
+                {
+                    writer.WriteStringValue(id.ToString());
+                }
+
+                writer.WriteEndArray();
+                writer.WriteEndObject();
             }
 
-            writer.WriteEndObject();
+            writer.WriteEndArray();
         }
     }
 }

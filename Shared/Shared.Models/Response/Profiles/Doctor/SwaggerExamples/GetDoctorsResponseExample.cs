@@ -13,6 +13,7 @@ namespace Shared.Models.Response.Profiles.Doctor.SwaggerExamples
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Holly Molly Polly",
+                        SpecializationId = Guid.NewGuid(),
                         SpecializationName = "Dantist",
                         OfficeAddress = "Homel Barisenko 15 6",
                         Experience = 15,
@@ -23,6 +24,7 @@ namespace Shared.Models.Response.Profiles.Doctor.SwaggerExamples
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Jeff Besos Arg",
+                        SpecializationId = Guid.NewGuid(),
                         SpecializationName = "Therapist",
                         OfficeAddress = "New York Test 10 31",
                         Experience = 4,
