@@ -24,14 +24,17 @@ namespace Shared.Models.Response.Appointments.Appointment
         {
             writer.WriteStartArray();
 
-            foreach (KeyValuePair<TimeOnly, HashSet<Guid>> pair in value)
+            foreach (var pair in value)
             {
                 writer.WriteStartObject();
 
-                writer.WritePropertyName(pair.Key.ToString(TimeFormat));
+                writer.WritePropertyName("time");
+                writer.WriteStringValue(pair.Key.ToString(TimeFormat));
+
+                writer.WritePropertyName("doctors");
                 writer.WriteStartArray();
 
-                foreach (Guid id in pair.Value)
+                foreach (var id in pair.Value)
                 {
                     writer.WriteStringValue(id.ToString());
                 }
