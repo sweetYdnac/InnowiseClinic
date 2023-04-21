@@ -49,7 +49,7 @@ namespace Profiles.Data.Implementations.Repositories
                                    SpecializationName,
                                    OfficeId,
                                    OfficeAddress,
-                                   DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience,
+                                   DATEDIFF(YEAR, DATEFROMPARTS(CareerStartYear, 1, 1), GETDATE()) + 1 AS Experience,
                                    Status,
                                    PhotoId
                             FROM Doctors

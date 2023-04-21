@@ -102,6 +102,7 @@ services:
             - 8025:80
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
+            - TZ=Europe/Moscow
         restart: on-failure
         depends_on:
             - postgreSqlServer

@@ -1,6 +1,7 @@
 ﻿using Appointments.Read.Application.DTOs.Appointment;
 using Appointments.Read.Application.Features.Queries.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
+using Appointments.Read.Application.Interfaces.Services;
 using Appointments.Read.Domain.Entities;
 using AutoFixture;
 using AutoMapper;
@@ -17,6 +18,7 @@ namespace Appointments.Read.API.Tests
         private readonly IFixture _fixture;
         private readonly Mock<IAppointmentsRepository> _appointmentsRepositoryMock;
         private readonly Mock<IMapper> _mapperMock;
+        private readonly Mock<IDateTimeProvider> _dateTimeProvider;
 
         private readonly GetAppointmentsQueryHandler _getAppointmentsQueryHandler;
         private readonly GetDoctorScheduleQueryHandler _getDoctorScheduleQueryHandler;
@@ -28,6 +30,7 @@ namespace Appointments.Read.API.Tests
             _fixture = new Fixture();
             _appointmentsRepositoryMock = new Mock<IAppointmentsRepository>();
             _mapperMock = new Mock<IMapper>();
+            _dateTimeProvider = new Mock<IDateTimeProvider>();
 
             _getAppointmentsQueryHandler = new GetAppointmentsQueryHandler(
                 _appointmentsRepositoryMock.Object, _mapperMock.Object);
@@ -36,7 +39,7 @@ namespace Appointments.Read.API.Tests
             _getPatientHistoryQueryHandler = new GetPatientHistoryQueryHandler(
                 _appointmentsRepositoryMock.Object, _mapperMock.Object);
             _getTimeSlotsQueryHandler = new GetTimeSlotsQueryHandler(
-                _appointmentsRepositoryMock.Object);
+                _appointmentsRepositoryMock.Object, _dateTimeProvider.Object);
         }
 
         [Fact]
@@ -166,7 +169,7 @@ namespace Appointments.Read.API.Tests
         }
 
         [Fact]
-        public async Task GetTimeSlots_WithNoAppointments_ReturnsAllTimeSlots()
+        public async Task GetTimeSlots_WithNoAppointmentsNotToday_ReturnsAllTimeSlots()
         {
             // Arrange
             var doctors = new HashSet<Guid>
@@ -177,7 +180,7 @@ namespace Appointments.Read.API.Tests
             };
 
             var request = _fixture.Build<GetTimeSlotsQuery>()
-                .With(x => x.Date, DateOnly.FromDateTime(DateTime.UtcNow))
+                .With(x => x.Date, DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)))
                 .With(x => x.Doctors, doctors)
                 .With(x => x.Duration, 30)
                 .With(x => x.StartTime, new TimeOnly(8, 00))
@@ -198,7 +201,7 @@ namespace Appointments.Read.API.Tests
         }
 
         [Fact]
-        public async Task GetTimeSlots_WithFindedAppointments_ReturnsSpecificTimeSlots()
+        public async Task GetTimeSlots_WithFindedAppointmentsNotToday_ReturnsSpecificTimeSlots()
         {
             // Arrange
             var doctors = new Guid[]
@@ -209,7 +212,7 @@ namespace Appointments.Read.API.Tests
             };
 
             var request = _fixture.Build<GetTimeSlotsQuery>()
-                .With(x => x.Date, DateOnly.FromDateTime(DateTime.UtcNow))
+                .With(x => x.Date, DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1)))
                 .With(x => x.Doctors, doctors)
                 .With(x => x.Duration, 20)
                 .With(x => x.StartTime, new TimeOnly(8,00))
@@ -257,6 +260,70 @@ namespace Appointments.Read.API.Tests
             _appointmentsRepositoryMock.Verify(x => x.GetAppointmentsAsync(request.Date, request.Doctors), Times.Once);
         }
 
+        [Fact]
+        public async Task GetTimeSlots_TodayWithAnyAppointments_ReturnsSpecificTimeSlotsExcludePast()
+        {
+            // Arrange
+            var doctors = new Guid[]
+            {
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+            };
+
+            var startDateTime = new DateTime(2024, 02, 15, 10, 5, 35);
+
+            var request = _fixture.Build<GetTimeSlotsQuery>()
+                .With(x => x.Date, DateOnly.FromDateTime(startDateTime))
+                .With(x => x.Doctors, doctors)
+                .With(x => x.Duration, 20)
+                .With(x => x.StartTime, new TimeOnly(8, 00))
+                .With(x => x.EndTime, new TimeOnly(13, 00))
+                .Create();
+
+            var appointments = new[]
+            {
+                new TimeSlotAppointmentDTO
+                {
+                    StartTime = new TimeOnly(09,40),
+                    EndTime = new TimeOnly(10,10),
+                    DoctorId = doctors[2]
+                },
+                new TimeSlotAppointmentDTO
+                {
+                    StartTime = new TimeOnly(10,10),
+                    EndTime = new TimeOnly(10,40),
+                    DoctorId = doctors[0]
+                },
+                new TimeSlotAppointmentDTO
+                {
+                    StartTime = new TimeOnly(10,20),
+                    EndTime = new TimeOnly(10,40),
+                    DoctorId = doctors[1]
+                },
+                new TimeSlotAppointmentDTO
+                {
+                    StartTime = new TimeOnly(12,20),
+                    EndTime = new TimeOnly(12,30),
+                    DoctorId = doctors[2]
+                }
+            };
+
+            _appointmentsRepositoryMock.Setup(x => x.GetAppointmentsAsync(request.Date, request.Doctors))
+                .ReturnsAsync(appointments);
+
+            _dateTimeProvider.Setup(x => x.Now()).Returns(startDateTime);
+
+            var expectedResponse = GetSpecificTimeSlotsExcludePast(doctors);
+
+            // Act
+            var response = await _getTimeSlotsQueryHandler.Handle(request, It.IsAny<CancellationToken>());
+
+            // Assert
+            response.TimeSlots.Should().BeEquivalentTo(expectedResponse);
+            _appointmentsRepositoryMock.Verify(x => x.GetAppointmentsAsync(request.Date, request.Doctors), Times.Once);
+        }
+
         private IDictionary<TimeOnly, HashSet<Guid>> GetFullTimeSlots(HashSet<Guid> doctors)
         {
             var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();
@@ -287,6 +354,33 @@ namespace Appointments.Read.API.Tests
 
             expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[1] }));
             time = time.AddMinutes(20);
+
+            for (; time <= new TimeOnly(10, 40); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[2] }));
+            }
+
+            for (; time <= new TimeOnly(12, 00); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, doctorsHashSet);
+            }
+
+            for (; time <= new TimeOnly(12, 30); time = time.AddMinutes(10))
+            {
+                expectedResponse.Add(time, new HashSet<Guid>(new Guid[] { doctors[0], doctors[1] }));
+            }
+
+            expectedResponse.Add(time, doctorsHashSet);
+
+            return expectedResponse;
+        }
+
+        private IDictionary<TimeOnly, HashSet<Guid>> GetSpecificTimeSlotsExcludePast(Guid[] doctors)
+        {
+            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();
+            var doctorsHashSet = new HashSet<Guid>(doctors);
+
+            var time = new TimeOnly(10, 20);
 
             for (; time <= new TimeOnly(10, 40); time = time.AddMinutes(10))
             {

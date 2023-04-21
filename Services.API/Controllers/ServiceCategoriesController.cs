@@ -50,7 +50,7 @@ namespace Services.API.Controllers
         /// Get all service categories
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(GetCategoriesResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

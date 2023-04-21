@@ -143,7 +143,7 @@ namespace Profiles.Data.Implementations.Repositories
                                 MiddleName = @MiddleName,
                                 DateOfBirth = @DateOfBirth,
                                 PhoneNumber = @PhoneNumber,
-                                IsActive = true
+                                IsActive = 1
                             WHERE Id = @Id;
                         """;
 

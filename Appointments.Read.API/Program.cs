@@ -17,6 +17,7 @@ builder.Host.UseSerilog((ctx, lc) => lc
 builder.Services.AddControllers()
     .AddJsonOptions(opt => opt.JsonSerializerOptions.Converters.Add(new TimeSlotsConverter()));
 
+builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();

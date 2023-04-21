@@ -6,6 +6,7 @@
         public int PageSize { get; set; }
         public string Title { get; set; }
         public Guid? SpecializationId { get; set; }
+        public Guid? CategoryId { get; set; }
         public bool IsActive { get; set; }
     }
 }

@@ -1,8 +1,10 @@
-﻿using Appointments.Write.Application.Features.Commands.Appointments;
+﻿using Appointments.Read.Application.DTOs.Appointment;
+using Appointments.Write.Application.Features.Commands.Appointments;
 using Appointments.Write.Domain.Entities;
 using AutoMapper;
 using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment;
+using Shared.Models.Response.Appointments.Appointment;
 
 namespace Appointments.Write.API.MappingProfiles
 {
@@ -18,6 +20,9 @@ namespace Appointments.Write.API.MappingProfiles
 
             CreateMap<RescheduleAppointmentRequest, RescheduleAppointmentCommand>();
             CreateMap<RescheduleAppointmentCommand, RescheduleAppointmentMessage>();
+
+            CreateMap<AppointmentHistoryDTO, AppointmentHistoryResponse>();
+
         }
     }
 }

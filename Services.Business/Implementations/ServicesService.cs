@@ -42,6 +42,7 @@ namespace Services.Business.Implementations
                 {
                     s => EF.Functions.Like(s.Title, $"%{dto.Title}%"),
                     s => EF.Functions.Like(s.SpecializationId.ToString(), $"%{dto.SpecializationId}%"),
+                    s => EF.Functions.Like(s.CategoryId.ToString(), $"%{dto.CategoryId}%"),
                     s => s.IsActive.Equals(dto.IsActive),
                 });
 
