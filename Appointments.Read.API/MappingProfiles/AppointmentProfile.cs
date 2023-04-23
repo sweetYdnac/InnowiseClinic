@@ -42,6 +42,8 @@ namespace Appointments.Read.API.MappingProfiles
             CreateMap<AppointmentHistoryDTO, AppointmentHistoryResponse>();
 
             CreateMap<GetTimeSlotsRequest, GetTimeSlotsQuery>();
+
+            CreateMap<Appointment, RescheduleAppointmentResponse>();
         }
     }
 }

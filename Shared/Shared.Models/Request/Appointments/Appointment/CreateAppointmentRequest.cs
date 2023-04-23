@@ -16,5 +16,6 @@
         public string DoctorFullName { get; set; }
         public string DoctorSpecializationName { get; set; }
         public string ServiceName { get; set; }
+        public string OfficeAddress { get; set; }
     }
 }

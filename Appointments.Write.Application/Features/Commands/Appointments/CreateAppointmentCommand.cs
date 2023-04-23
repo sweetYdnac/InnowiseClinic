@@ -24,6 +24,7 @@ namespace Appointments.Write.Application.Features.Commands.Appointments
         public string DoctorFullName { get; set; }
         public string DoctorSpecializationName { get; set; }
         public string ServiceName { get; set; }
+        public string OfficeAddress { get; set; }
     }
 
     public class CreateAppointmentCommandHandler : IRequestHandler<CreateAppointmentCommand, Guid>

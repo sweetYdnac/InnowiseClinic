@@ -19,7 +19,8 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
                 PatientDateOfBirth = new DateOnly(2000, 2, 13),
                 DoctorFullName = "Doctor Octavius ",
                 DoctorSpecializationName = "Custom specialization",
-                ServiceName = "Filling"
+                ServiceName = "Filling",
+                OfficeAddress = "Homel, belickogo 9 1",
             };
     }
 }

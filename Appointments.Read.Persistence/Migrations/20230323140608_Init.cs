@@ -30,7 +30,8 @@ namespace Appointments.Read.Persistence.Migrations
                     PatientDateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
                     DoctorFullName = table.Column<string>(type: "text", nullable: false),
                     DoctorSpecializationName = table.Column<string>(type: "text", nullable: false),
-                    ServiceName = table.Column<string>(type: "text", nullable: false)
+                    ServiceName = table.Column<string>(type: "text", nullable: false),
+                    OfficeAddress = table.Column<string>(type: "text", nullable: false),
                 },
                 constraints: table =>
                 {

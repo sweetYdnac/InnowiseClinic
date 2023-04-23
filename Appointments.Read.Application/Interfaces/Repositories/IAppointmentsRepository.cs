@@ -1,6 +1,7 @@
 ﻿using Appointments.Read.Application.DTOs.Appointment;
 using Appointments.Read.Domain.Entities;
 using Shared.Models;
+using Shared.Models.Response.Appointments.Appointment;
 using System.Linq.Expressions;
 
 namespace Appointments.Read.Application.Interfaces.Repositories
@@ -22,5 +23,6 @@ namespace Appointments.Read.Application.Interfaces.Repositories
         Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, params Expression<Func<Appointment, bool>>[] filters);
         Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, params Expression<Func<Appointment, bool>>[] filters);
         Task<PagedResult<AppointmentHistoryDTO>> GetAppointmentHistoryAsync(int currentPage, int pageSize, IEnumerable<Expression<Func<Appointment, object>>> includes, IDictionary<Expression<Func<Appointment, object>>, bool> sorts = null, params Expression<Func<Appointment, bool>>[] filters);
+        Task<Appointment> GetByIdAsync(Guid id);
     }
 }
