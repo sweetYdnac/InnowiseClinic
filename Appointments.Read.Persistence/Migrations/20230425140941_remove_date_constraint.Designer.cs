@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Appointments.Read.Persistence.Migrations
 {
     [DbContext(typeof(AppointmentsDbContext))]
-    [Migration("20230323140608_Init")]
-    partial class Init
+    [Migration("20230425140941_remove_date_constraint")]
+    partial class remove_date_constraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,10 @@ namespace Appointments.Read.Persistence.Migrations
                     b.Property<bool>("IsApproved")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("OfficeAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("OfficeId")
                         .HasColumnType("uuid");
 
@@ -74,6 +78,9 @@ namespace Appointments.Read.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid>("SpecializationId")
+                        .HasColumnType("uuid");
+
                     b.Property<TimeOnly>("Time")
                         .HasColumnType("time");
 
@@ -91,15 +98,17 @@ namespace Appointments.Read.Persistence.Migrations
                             Date = new DateOnly(2023, 2, 15),
                             DoctorFullName = "Test Test ",
                             DoctorId = new Guid("96c91bee-3b1d-48b0-abae-116bebba3efb"),
-                            DoctorSpecializationName = "Therapist",
+                            DoctorSpecializationName = "Dentist",
                             Duration = 20,
                             IsApproved = true,
+                            OfficeAddress = "Homel Belickogo 9 1",
                             OfficeId = new Guid("864ff8c2-56c6-49cd-a8ff-ba827ff5b91c"),
                             PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
-                            ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
-                            ServiceName = "Examination",
+                            ServiceId = new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"),
+                            ServiceName = "Filling",
+                            SpecializationId = new Guid("f92bb223-1a2b-420c-b19d-eeb4191db06b"),
                             Time = new TimeOnly(15, 30, 0)
                         },
                         new
@@ -107,16 +116,18 @@ namespace Appointments.Read.Persistence.Migrations
                             Id = new Guid("fff7bcd2-5a83-47f2-a69b-b85399ca96d5"),
                             Date = new DateOnly(2023, 3, 28),
                             DoctorFullName = "Test Test ",
-                            DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
-                            DoctorSpecializationName = "Dentist",
+                            DoctorId = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            DoctorSpecializationName = "Therapist",
                             Duration = 20,
                             IsApproved = false,
+                            OfficeAddress = "Homel Belickogo 9 1",
                             OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                             PatientDateOfBirth = new DateOnly(1980, 11, 28),
                             PatientFullName = "Alex Lorem ",
                             PatientId = new Guid("ea1afb83-5da9-4b81-ad94-b6a62eb25d43"),
                             ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
                             ServiceName = "Examination",
+                            SpecializationId = new Guid("6ff44fbf-8de7-4322-ac02-68190750fbad"),
                             Time = new TimeOnly(9, 40, 0)
                         },
                         new
@@ -124,16 +135,18 @@ namespace Appointments.Read.Persistence.Migrations
                             Id = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
                             Date = new DateOnly(2023, 2, 22),
                             DoctorFullName = "Test Test ",
-                            DoctorId = new Guid("835cd971-9f41-4a81-a477-b88171671639"),
-                            DoctorSpecializationName = "Dentist",
+                            DoctorId = new Guid("a2361776-cc5a-45c2-bdca-390c820ab7c7"),
+                            DoctorSpecializationName = "Therapist",
                             Duration = 30,
                             IsApproved = true,
+                            OfficeAddress = "Homel Belickogo 9 1",
                             OfficeId = new Guid("09f72ba6-fb72-4b76-be2e-549d45296629"),
                             PatientDateOfBirth = new DateOnly(2000, 6, 15),
                             PatientFullName = "Evgeny Koreba Sweety",
                             PatientId = new Guid("b2957690-4d76-468c-a449-fb9529283857"),
-                            ServiceId = new Guid("ebbc7a6c-21c7-4049-b68a-544056861d45"),
-                            ServiceName = "Filling",
+                            ServiceId = new Guid("cd0d073b-acc8-4ccf-8119-9ec909ed70ed"),
+                            ServiceName = "Examination",
+                            SpecializationId = new Guid("6ff44fbf-8de7-4322-ac02-68190750fbad"),
                             Time = new TimeOnly(11, 0, 0)
                         });
                 });
@@ -167,10 +180,7 @@ namespace Appointments.Read.Persistence.Migrations
                     b.HasIndex("AppointmentId")
                         .IsUnique();
 
-                    b.ToTable("AppointmentsResults", t =>
-                        {
-                            t.HasCheckConstraint("CHK_Appointment_Date", "\"Date\" < CURRENT_TIMESTAMP");
-                        });
+                    b.ToTable("AppointmentsResults");
 
                     b.HasData(
                         new

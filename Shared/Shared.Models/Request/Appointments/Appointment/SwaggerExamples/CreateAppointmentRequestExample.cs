@@ -9,6 +9,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
             {
                 PatientId = Guid.NewGuid(),
                 DoctorId = Guid.NewGuid(),
+                SpecializationId = Guid.NewGuid(),
                 ServiceId = Guid.NewGuid(),
                 OfficeId = Guid.NewGuid(),
                 Date = new DateOnly(2023, 3, 20),

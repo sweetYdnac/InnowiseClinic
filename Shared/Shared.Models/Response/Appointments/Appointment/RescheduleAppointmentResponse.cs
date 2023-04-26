@@ -15,6 +15,8 @@ namespace Shared.Models.Response.Appointments.Appointment
 
         public Guid DoctorId { get; set; }
         public string DoctorFullName { get; set; }
+
+        public Guid SpecializationId { get; set; }
         public string DoctorSpecializationName { get; set; }
 
         public Guid ServiceId { get; set; }

@@ -33,6 +33,7 @@ namespace Appointments.Write.API.Validators.Appointment
             RuleFor(r => r.DoctorFullName).Required();
             RuleFor(r => r.DoctorSpecializationName).Required();
             RuleFor(r => r.ServiceName).Required();
+            RuleFor(r => r.OfficeAddress).Required();
         }
     }
 }

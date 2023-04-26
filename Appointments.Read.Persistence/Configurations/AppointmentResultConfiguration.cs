@@ -22,8 +22,6 @@ namespace Appointments.Read.Persistence.Configurations
                 .HasForeignKey<AppointmentResult>(r => r.AppointmentId)
                 .IsRequired();
 
-            builder.ToTable(a => a.HasCheckConstraint("CHK_Appointment_Date", "\"Date\" < CURRENT_TIMESTAMP"));
-
             SeedData(builder);
         }
 

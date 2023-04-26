@@ -193,12 +193,14 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SortMany(sorts)
                     .Select(a => new AppointmentHistoryDTO
                     {
+                        Id = a.Id,
                         Date = a.Date,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
                         DoctorFullName = a.DoctorFullName,
                         ServiceName = a.ServiceName,
                         ResultId = a.AppointmentResult.Id,
+                        IsApproved = a.IsApproved,
                     })
                     .ToArrayAsync()
                 : Enumerable.Empty<AppointmentHistoryDTO>();

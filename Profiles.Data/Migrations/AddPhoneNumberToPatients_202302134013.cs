@@ -16,8 +16,8 @@ namespace Profiles.Data.Migrations
             Create.Column("PhoneNumber")
                 .OnTable("Patients")
                 .AsString()
-                .Nullable()
-                .WithDefaultValue(null);
+                .NotNullable()
+                .WithDefaultValue("123");
         }
     }
 }

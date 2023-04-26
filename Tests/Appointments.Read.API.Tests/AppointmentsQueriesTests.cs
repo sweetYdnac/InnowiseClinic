@@ -324,6 +324,39 @@ namespace Appointments.Read.API.Tests
             _appointmentsRepositoryMock.Verify(x => x.GetAppointmentsAsync(request.Date, request.Doctors), Times.Once);
         }
 
+        [Fact]
+        public async Task GetTimeSlots_TodayNearEndtime_ReturnsEmptyTimeSlots()
+        {
+            // Arrange
+            var doctors = new Guid[]
+            {
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+            };
+
+            var startDateTime = new DateTime(2024, 02, 15, 12, 35, 35);
+
+            var request = _fixture.Build<GetTimeSlotsQuery>()
+                .With(x => x.Date, DateOnly.FromDateTime(startDateTime))
+                .With(x => x.Doctors, doctors)
+                .With(x => x.Duration, 30)
+                .With(x => x.StartTime, new TimeOnly(8, 00))
+                .With(x => x.EndTime, new TimeOnly(13, 00))
+                .Create();
+
+            _dateTimeProvider.Setup(x => x.Now()).Returns(startDateTime);
+
+            var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();
+
+            // Act
+            var response = await _getTimeSlotsQueryHandler.Handle(request, It.IsAny<CancellationToken>());
+
+            // Assert
+            response.TimeSlots.Should().BeEquivalentTo(expectedResponse);
+            _appointmentsRepositoryMock.Verify(x => x.GetAppointmentsAsync(request.Date, request.Doctors), Times.Never);
+        }
+
         private IDictionary<TimeOnly, HashSet<Guid>> GetFullTimeSlots(HashSet<Guid> doctors)
         {
             var expectedResponse = new Dictionary<TimeOnly, HashSet<Guid>>();

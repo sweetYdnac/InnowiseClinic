@@ -27,12 +27,17 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
 
         public async Task<TimeSlotsResponse> Handle(GetTimeSlotsQuery request, CancellationToken cancellationToken)
         {
-            var appointments = await _appointmentsRepository.GetAppointmentsAsync(
-                    request.Date, request.Doctors);
-
             var startTime = _dateTimeProvider.Now().Day.Equals(request.Date.Day)
                 ? TimeOnly.FromDateTime(_dateTimeProvider.Now().Ceiling(TimeSpan.FromMinutes(10)))
                 : request.StartTime;
+
+            if ((request.EndTime - startTime).TotalMinutes < request.Duration)
+            {
+                return new TimeSlotsResponse { TimeSlots = new Dictionary<TimeOnly, HashSet<Guid>>() };
+            }
+
+            var appointments = await _appointmentsRepository.GetAppointmentsAsync(
+                    request.Date, request.Doctors);
 
             var timeSlots = Enumerable.Range(
                 0,
