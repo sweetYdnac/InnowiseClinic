@@ -1,5 +1,4 @@
 ﻿using Appointments.Read.Application.Features.Queries.AppointmentsResults;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +23,8 @@ namespace Appointments.Read.API.Controllers
     public class AppointmentsResultsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public AppointmentsResultsController(IMediator mediator, IMapper mapper) =>
-            (_mediator, _mapper) = (mediator, mapper);
+        public AppointmentsResultsController(IMediator mediator) =>_mediator = mediator;
 
         /// <summary>
         /// Get appointment result by Id

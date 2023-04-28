@@ -28,7 +28,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     ServiceName = r.Appointment.ServiceName,
                     Complaints = r.Complaints,
                     Conclusion = r.Conclusion,
-                    Recomendations = r.Recommendations,
+                    Recommendations = r.Recommendations,
                 })
                 .FirstOrDefaultAsync(r => r.Id.Equals(id));
         }
