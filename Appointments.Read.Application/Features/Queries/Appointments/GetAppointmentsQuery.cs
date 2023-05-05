@@ -15,9 +15,9 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
         public int PageSize { get; set; }
         public DateOnly Date { get; set; }
         public string DoctorFullName { get; set; }
-        public string ServiceName { get; set; }
+        public Guid? ServiceId { get; set; }
         public Guid? OfficeId { get; set; }
-        public bool IsApproved { get; set; }
+        public bool? IsApproved { get; set; }
     }
 
     public class GetAppointmentsQueryHandler : IRequestHandler<GetAppointmentsQuery, PagedResponse<AppointmentResponse>>
@@ -42,10 +42,10 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
                 new Expression<Func<Appointment, bool>>[]
                 {
                     appointment => appointment.Date.Equals(request.Date),
-                    appointment => appointment.IsApproved.Equals(request.IsApproved),
+                    appointment => request.IsApproved == null || appointment.IsApproved.Equals(request.IsApproved),
                     appointment => EF.Functions.Like(appointment.OfficeId.ToString(), $"%{request.OfficeId}%"),
+                    appointment => EF.Functions.Like(appointment.ServiceId.ToString(), $"%{request.ServiceId}%"),
                     appointment => EF.Functions.Like(appointment.DoctorFullName, $"%{request.DoctorFullName}%"),
-                    appointment => EF.Functions.Like(appointment.ServiceName, $"%{request.ServiceName}%"),
                 });
 
             return new PagedResponse<AppointmentResponse>(

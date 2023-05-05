@@ -24,7 +24,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeAddress, CareerStartYear, PhotoId, Status
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeId, OfficeAddress, CareerStartYear, PhotoId, Status
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE Doctors.Id = @id

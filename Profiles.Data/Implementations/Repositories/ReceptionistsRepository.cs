@@ -18,7 +18,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<ReceptionistResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, PhotoId, OfficeAddress
+                            SELECT FirstName, LastName, MiddleName, PhotoId, OfficeId, OfficeAddress
                             FROM Receptionists
                             JOIN ReceptionistsSummary On Receptionists.Id = ReceptionistsSummary.Id
                             WHERE Receptionists.Id = @id

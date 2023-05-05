@@ -150,6 +150,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SortMany(sorts)
                     .Select(a => new AppointmentDTO
                     {
+                        Id = a.Id,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
                         PatientFullName = a.PatientFullName,

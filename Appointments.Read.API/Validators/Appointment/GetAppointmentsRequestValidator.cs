@@ -17,7 +17,6 @@ namespace Appointments.Read.API.Validators.Appointment
                 .InclusiveBetween(1, 50);
 
             RuleFor(p => p.Date).Required();
-            RuleFor(p => p.IsApproved).NotNull();
         }
     }
 }

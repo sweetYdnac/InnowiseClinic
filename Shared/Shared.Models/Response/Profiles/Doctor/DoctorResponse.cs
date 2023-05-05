@@ -9,6 +9,7 @@ namespace Shared.Models.Response.Profiles.Doctor
         public string MiddleName { get; set; }
         public DateOnly DateOfBirth { get; set; }
         public string SpecializationName { get; set; }
+        public Guid OfficeId { get; set; }
         public string OfficeAddress { get; set; }
         public int CareerStartYear { get; set; }
         public Guid? PhotoId { get; set; }
