@@ -39,20 +39,17 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             SELECT Id,
                                    CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
-                                   PhoneNumber
+                                   PhoneNumber,
+                                   DateOfBirth
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName
+                            WHERE CONCAT(FirstName,' ', LastName, ' ', MiddleName) LIKE @FullName
                             ORDER BY Id
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
 
                             SELECT COUNT(*)
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR
-                                      LastName LIKE @FullName OR
-                                      MiddleName LIKE @FullName
+                            WHERE CONCAT(FirstName,' ', LastName, ' ', MiddleName) LIKE @FullName
                         """;
 
             var parameters = new DynamicParameters();

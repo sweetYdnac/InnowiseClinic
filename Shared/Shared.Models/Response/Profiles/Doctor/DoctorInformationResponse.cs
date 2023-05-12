@@ -11,6 +11,7 @@ namespace Shared.Models.Response.Profiles.Doctor
         public Guid OfficeId { get; set; }
         public string OfficeAddress { get; set; }
         public int Experience { get; set; }
+        public DateOnly DateOfBirth { get; set; }
         public AccountStatuses Status { get; set; }
         public Guid? PhotoId { get; set; }
     }

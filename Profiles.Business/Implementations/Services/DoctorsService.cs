@@ -59,15 +59,13 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _doctorsRepository.GetAccountIdAsync(id);
-
                 await _doctorSummaryRepository.UpdateAsync(id, _mapper.Map<UpdateDoctorSummaryDTO>(dto));
 
                 var message = _mapper.Map<UpdateDoctorMessage>(dto);
                 message.Id = id;
                 await _messageService.SendUpdateDoctorMessageAsync(message);
 
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
             }
             else
             {
@@ -97,8 +95,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _doctorsRepository.GetAccountIdAsync(id);
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
             }
             else
             {

@@ -213,7 +213,6 @@ namespace Profiles.API.Tests
 
             // Assert
             _doctorsSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _doctorsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Once);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), It.IsAny<AccountStatuses>(), It.IsAny<string>()),
                 Times.Once);
@@ -237,7 +236,6 @@ namespace Profiles.API.Tests
                 .WithMessage($"Doctor's profile with id = {id} doesn't exist.");
 
             _doctorsSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _doctorsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Never);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), It.IsAny<AccountStatuses>(), It.IsAny<string>()),
                 Times.Never);

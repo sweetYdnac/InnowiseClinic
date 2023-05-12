@@ -96,20 +96,25 @@ namespace Offices.Data.Implementations.Repositories
 
         public async Task<PagedResult<OfficeInformationResponse>> GetPagedOfficesAsync(GetPagedOfficesDTO dto)
         {
-            var query = """
+            var filter = dto.IsActive is null ? string.Empty : """WHERE "IsActive" = @IsActive""";
+
+            var query = $"""
                             SELECT "Id", "Address", "RegistryPhoneNumber", "IsActive"
                             FROM "Offices"
-                            ORDER BY "Id"
+                            {filter}
+                            ORDER BY "Address"
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
 
                             SELECT COUNT(*)
                             FROM "Offices"
+                            {filter}
                         """;
 
             var parameters = new DynamicParameters();
             parameters.Add("Offset", dto.PageSize * (dto.CurrentPage - 1), DbType.Int32);
             parameters.Add("PageSize", dto.PageSize, DbType.Int32);
+            parameters.Add("IsActive", dto.IsActive, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {

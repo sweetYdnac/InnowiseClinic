@@ -50,14 +50,12 @@ namespace Profiles.Data.Implementations.Repositories
                                    OfficeId,
                                    OfficeAddress,
                                    DATEDIFF(YEAR, DATEFROMPARTS(CareerStartYear, 1, 1), GETDATE()) + 1 AS Experience,
+                                   DateOfBirth,
                                    Status,
                                    PhotoId
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName OR
-                                  CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName) AND
+                            WHERE CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
                                   {statusFilter}
@@ -68,9 +66,7 @@ namespace Profiles.Data.Implementations.Repositories
                             SELECT COUNT(*)
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName) AND
+                            WHERE CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
                                   {statusFilter}
@@ -161,20 +157,6 @@ namespace Profiles.Data.Implementations.Repositories
         {
             var query = """
                             SELECT PhotoId
-                            FROM Doctors
-                            WHERE Id = @id
-                        """;
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
-            }
-        }
-
-        public async Task<Guid> GetAccountIdAsync(Guid id)
-        {
-            var query = """
-                            SELECT AccountId
                             FROM Doctors
                             WHERE Id = @id
                         """;

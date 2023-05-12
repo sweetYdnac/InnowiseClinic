@@ -9,7 +9,8 @@ namespace Offices.API.SwaggerExamples.Requests
             new()
             {
                 CurrentPage = 1,
-                PageSize = 10
+                PageSize = 10,
+                IsActive = true,
             };
     }
 }

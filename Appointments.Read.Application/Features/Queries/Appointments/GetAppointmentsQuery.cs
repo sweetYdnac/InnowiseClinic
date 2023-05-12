@@ -43,9 +43,9 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
                 {
                     appointment => appointment.Date.Equals(request.Date),
                     appointment => request.IsApproved == null || appointment.IsApproved.Equals(request.IsApproved),
-                    appointment => EF.Functions.Like(appointment.OfficeId.ToString(), $"%{request.OfficeId}%"),
-                    appointment => EF.Functions.Like(appointment.ServiceId.ToString(), $"%{request.ServiceId}%"),
-                    appointment => EF.Functions.Like(appointment.DoctorFullName, $"%{request.DoctorFullName}%"),
+                    appointment => EF.Functions.ILike(appointment.OfficeId.ToString(), $"%{request.OfficeId}%"),
+                    appointment => EF.Functions.ILike(appointment.ServiceId.ToString(), $"%{request.ServiceId}%"),
+                    appointment => EF.Functions.ILike(appointment.DoctorFullName, $"%{request.DoctorFullName}%"),
                 });
 
             return new PagedResponse<AppointmentResponse>(

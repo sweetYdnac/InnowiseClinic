@@ -77,7 +77,8 @@ namespace Shared.Models.Extensions
                 var methodCallExpression = (MethodCallExpression)query.Expression;
                 var method = methodCallExpression.Method;
 
-                if (method.Name.ToLower().Contains("order"))
+                if (method.Name.Equals("orderby", StringComparison.OrdinalIgnoreCase) ||
+                    method.Name.Equals("thenby", StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
