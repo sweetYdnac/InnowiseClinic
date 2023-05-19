@@ -51,7 +51,7 @@ namespace Services.Business.Implementations
                 new Expression<Func<Specialization, bool>>[]
                 {
                     s => EF.Functions.Like(s.Title, $"%{dto.Title}%"),
-                    s => s.IsActive.Equals(dto.IsActive),
+                    s => dto.IsActive == null || s.IsActive.Equals(dto.IsActive),
                 });
 
             return new(

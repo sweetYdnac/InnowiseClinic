@@ -76,7 +76,8 @@ namespace Offices.Data.Implementations.Repositories
                             UPDATE "Offices"
                             SET "Address" = @Address,
                                 "RegistryPhoneNumber" = @RegistryPhoneNumber,
-                                "IsActive" = @IsActive
+                                "IsActive" = @IsActive,
+                                "PhotoId" = @PhotoId
                             WHERE "Id" = @Id;
                         """;
 
@@ -87,6 +88,7 @@ namespace Offices.Data.Implementations.Repositories
             parameters.Add("Address", address, DbType.String);
             parameters.Add("RegistryPhoneNumber", dto.RegistryPhoneNumber, DbType.String);
             parameters.Add("IsActive", dto.IsActive, DbType.Boolean);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
             {

@@ -63,7 +63,7 @@ namespace Offices.API.Extensions
 
         internal static void ConfigureValidation(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblyContaining<GetOfficesRequestModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<GetOfficesRequestValidator>();
             services.AddFluentValidationAutoValidation();
         }
 

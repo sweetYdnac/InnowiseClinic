@@ -4,9 +4,9 @@ using Shared.Models.Request.Offices;
 
 namespace Offices.API.Validators
 {
-    public class CreateOfficeRequestModelValidator : AbstractValidator<CreateOfficeRequest>
+    public class UpdateOfficeRequestValidator : AbstractValidator<UpdateOfficeRequest>
     {
-        public CreateOfficeRequestModelValidator()
+        public UpdateOfficeRequestValidator()
         {
             RuleFor(m => m.City).Required();
             RuleFor(m => m.Street).Required();

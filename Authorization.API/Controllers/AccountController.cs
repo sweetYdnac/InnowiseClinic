@@ -30,14 +30,14 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="request">Contains email and password</param>
         [HttpPost("signUp")]
-        [ProducesResponseType(typeof(SignUpResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
             var id = await _accountService.SignUpAsync(request.Email, request.Password);
 
-            return StatusCode(201, new SignUpResponse { Id = id });
+            return StatusCode(201, new { id });
         }
 
         /// <summary>

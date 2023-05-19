@@ -8,6 +8,7 @@ namespace Shared.Models.Request.Profiles.Doctor.SwaggerExamples
         public UpdateDoctorRequest GetExamples() =>
             new()
             {
+                PhotoId = Guid.NewGuid(),
                 FirstName = "Mark",
                 LastName = "Cello",
                 MiddleName = "Something",

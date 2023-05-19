@@ -4,6 +4,7 @@ namespace Profiles.Data.DTOs.Doctor
 {
     public class UpdateDoctorDTO
     {
+        public Guid? PhotoId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }

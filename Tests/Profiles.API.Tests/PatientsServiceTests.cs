@@ -74,7 +74,13 @@ namespace Profiles.API.Tests
         {
             // Arrange
             var dto = _fixture.Create<GetPatientsDTO>();
-            var pagedResult = _fixture.Create<PagedResult<PatientInformationResponse>>();
+            var pagedResult = _fixture.Build<PagedResult<PatientInformationResponse>>()
+                .With(
+                x => x.Items,
+                _fixture.Build<PatientInformationResponse>()
+                    .With(x => x.DateOfBirth, DateOnly.FromDateTime(DateTime.UtcNow))
+                    .CreateMany())
+                .Create();
 
             _patientsRepositoryMock.Setup(x => x.GetPatients(dto)).ReturnsAsync(pagedResult);
 

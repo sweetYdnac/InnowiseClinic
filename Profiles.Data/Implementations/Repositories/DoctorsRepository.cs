@@ -24,7 +24,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeId, OfficeAddress, CareerStartYear, PhotoId, Status
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationId, SpecializationName, OfficeId, OfficeAddress, CareerStartYear, PhotoId, Status
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE Doctors.Id = @id
@@ -114,7 +114,8 @@ namespace Profiles.Data.Implementations.Repositories
         {
             var query = """
                             UPDATE Doctors
-                            SET FirstName = @FirstName,
+                            SET PhotoId = @PhotoId,
+                                FirstName = @FirstName,
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
                                 DateOfBirth = @DateOfBirth,
@@ -126,6 +127,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("PhotoId",dto.PhotoId, DbType.Guid);
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);

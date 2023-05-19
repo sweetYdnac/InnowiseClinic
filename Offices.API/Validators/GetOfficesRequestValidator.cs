@@ -3,9 +3,9 @@ using Shared.Models.Request.Offices;
 
 namespace Offices.API.Validators
 {
-    public class GetOfficesRequestModelValidator : AbstractValidator<GetOfficesRequest>
+    public class GetOfficesRequestValidator : AbstractValidator<GetOfficesRequest>
     {
-        public GetOfficesRequestModelValidator()
+        public GetOfficesRequestValidator()
         {
             RuleFor(r => r.CurrentPage)
                 .NotNull()

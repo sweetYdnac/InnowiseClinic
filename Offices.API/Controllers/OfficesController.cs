@@ -85,9 +85,9 @@ namespace Offices.API.Controllers
         [SwaggerRequestExample(typeof(CreateOfficeRequest), typeof(CreateOfficeRequestExample))]
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequest request)
         {
-            var response = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));
+            var id = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));
 
-            return StatusCode(201, response);
+            return StatusCode(201, new { id });
         }
 
         /// <summary>

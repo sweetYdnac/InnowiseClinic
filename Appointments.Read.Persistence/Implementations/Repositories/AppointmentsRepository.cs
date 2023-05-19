@@ -5,7 +5,6 @@ using Appointments.Read.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 using Shared.Models.Extensions;
-using Shared.Models.Response.Appointments.Appointment;
 using System.Linq.Expressions;
 
 namespace Appointments.Read.Persistence.Implementations.Repositories
@@ -146,8 +145,8 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
 
             var items = totalCount > 0
                 ? await query
-                    .FilterByPage(currentPage, pageSize)
                     .SortMany(sorts)
+                    .FilterByPage(currentPage, pageSize)
                     .Select(a => new AppointmentDTO
                     {
                         Id = a.Id,
