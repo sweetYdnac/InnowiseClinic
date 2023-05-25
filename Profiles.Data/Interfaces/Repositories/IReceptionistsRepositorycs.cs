@@ -11,7 +11,6 @@ namespace Profiles.Data.Interfaces.Repositories
         Task AddAsync(CreateReceptionistDTO dto);
         Task<int> UpdateAsync(Guid id, UpdateReceptionistDTO dto);
         Task<int> RemoveAsync(Guid id);
-        Task<Guid> GetAccountIdAsync(Guid id);
-        Task<Guid> GetPhotoIdAsync(Guid id);
+        Task<Guid?> GetPhotoIdAsync(Guid id);
     }
 }

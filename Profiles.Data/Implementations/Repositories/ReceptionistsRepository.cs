@@ -18,7 +18,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<ReceptionistResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, PhotoId, OfficeId, OfficeAddress
+                            SELECT FirstName, LastName, MiddleName, PhotoId, OfficeId, OfficeAddress, Status
                             FROM Receptionists
                             JOIN ReceptionistsSummary On Receptionists.Id = ReceptionistsSummary.Id
                             WHERE Receptionists.Id = @id
@@ -86,7 +86,8 @@ namespace Profiles.Data.Implementations.Repositories
                             SET FirstName = @FirstName,
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
-                                OfficeId = @OfficeId
+                                OfficeId = @OfficeId,
+                                PhotoId = @PhotoId
                             WHERE Id = @Id
                         """;
 
@@ -96,6 +97,7 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
+            parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
 
             using (var connection = _db.CreateConnection())
             {
@@ -116,21 +118,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<Guid> GetAccountIdAsync(Guid id)
-        {
-            var query = """
-                            SELECT AccountId
-                            FROM Receptionists
-                            WHERE Id = @id
-                        """;
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
-            }
-        }
-
-        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        public async Task<Guid?> GetPhotoIdAsync(Guid id)
         {
             var query = """
                             SELECT PhotoId
@@ -140,7 +128,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+                return await connection.QueryFirstOrDefaultAsync<Guid?>(query, new { id });
             }
         }
     }

@@ -158,7 +158,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        public async Task<Guid?> GetPhotoIdAsync(Guid id)
         {
             var query = """
                             SELECT PhotoId
@@ -168,7 +168,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+                return await connection.QueryFirstOrDefaultAsync<Guid?>(query, new { id });
             }
         }
     }

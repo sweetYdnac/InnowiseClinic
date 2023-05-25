@@ -12,6 +12,6 @@ namespace Profiles.Data.Interfaces.Repositories
         Task<PatientResponse> GetMatchAsync(GetMatchedPatientDTO dto);
         Task<int> RemoveAsync(Guid id);
         Task<int> UpdateAsync(Guid id, UpdatePatientDTO dto);
-        Task<Guid> GetPhotoIdAsync(Guid id);
+        Task<Guid?> GetPhotoIdAsync(Guid id);
     }
 }

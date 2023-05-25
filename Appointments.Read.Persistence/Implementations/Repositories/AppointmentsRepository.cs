@@ -152,6 +152,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                         Id = a.Id,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
+                        PatientId = a.PatientId,
                         PatientFullName = a.PatientFullName,
                         PatientPhoneNumber = a.PatientPhoneNumber,
                         DoctorFullName = a.DoctorFullName,

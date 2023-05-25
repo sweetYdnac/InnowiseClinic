@@ -58,8 +58,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
 
                 var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
                 await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
@@ -77,7 +76,11 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendDeletePhotoMessageAsync(photoId);
+                if (photoId is not null)
+                {
+                    await _messageService.SendDeletePhotoMessageAsync(photoId.Value);
+                }
+
                 await _receptionistSummaryRepository.RemoveAsync(id);
             }
             else
@@ -92,8 +95,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
             }
             else
             {

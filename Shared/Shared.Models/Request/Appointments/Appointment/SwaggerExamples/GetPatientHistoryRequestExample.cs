@@ -9,6 +9,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
             {
                 CurrentPage = 2,
                 PageSize = 10,
+                IsFinished = true,
             };
     }
 }

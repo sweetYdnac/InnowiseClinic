@@ -11,6 +11,7 @@ namespace Shared.Models.Request.Services.Service.SwaggerExamples
                 Price = 30,
                 CategoryId = new Guid("6F1F47A7-120D-4DCF-AA33-A98FDA88BF25"),
                 TimeSlotSize = 20,
+                SpecializationId = Guid.NewGuid(),
                 IsActive = false,
             };
     }

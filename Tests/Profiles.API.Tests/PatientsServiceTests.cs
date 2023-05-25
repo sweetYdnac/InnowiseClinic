@@ -133,6 +133,7 @@ namespace Profiles.API.Tests
             var id = _fixture.Create<Guid>();
 
             _patientsRepositoryMock.Setup(x => x.RemoveAsync(id)).ReturnsAsync(1);
+            _patientsRepositoryMock.Setup(x => x.GetPhotoIdAsync(id)).ReturnsAsync(Guid.NewGuid());
 
             // Act
             await _patientsService.RemoveAsync(id);

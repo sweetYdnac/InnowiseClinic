@@ -125,7 +125,6 @@ namespace Profiles.API.Tests
 
             // Assert
             _receptionistsRepositoryMock.Verify(x => x.UpdateAsync(id, dto), Times.Once);
-            _receptionistsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Once);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), dto.Status, dto.UpdaterId), Times.Once);
             _receptionistSummaryRepositoryMock.Verify(x => x.UpdateAsync(
@@ -146,7 +145,6 @@ namespace Profiles.API.Tests
 
             // Assert
             _receptionistsRepositoryMock.Verify(x => x.UpdateAsync(id, dto), Times.Once);
-            _receptionistsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Never);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), dto.Status, dto.UpdaterId), Times.Never);
             _receptionistSummaryRepositoryMock.Verify(x => x.UpdateAsync(
@@ -159,6 +157,7 @@ namespace Profiles.API.Tests
             // Arrange
             var id = _fixture.Create<Guid>();
             _receptionistsRepositoryMock.Setup(x => x.RemoveAsync(id)).ReturnsAsync(1);
+            _receptionistsRepositoryMock.Setup(x => x.GetPhotoIdAsync(id)).ReturnsAsync(Guid.NewGuid());
 
             // Act
             await _receptionistsService.RemoveAsync(id);
@@ -205,7 +204,6 @@ namespace Profiles.API.Tests
 
             // Assert
             _receptionistSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _receptionistsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Once);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), dto.Status, dto.UpdaterId), Times.Once);
         }
@@ -227,8 +225,7 @@ namespace Profiles.API.Tests
             await act.Should().ThrowAsync<NotFoundException>()
                 .WithMessage($"Receptionist's profile with id = {id} doesn't exist.");
 
-            _receptionistSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _receptionistsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Never);
+            _receptionistSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);;
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), dto.Status, dto.UpdaterId), Times.Never);
         }

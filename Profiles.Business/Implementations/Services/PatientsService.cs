@@ -56,7 +56,10 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendDeletePhotoMessageAsync(photoId);
+                if (photoId is not null)
+                {
+                    await _messageService.SendDeletePhotoMessageAsync(photoId.Value);
+                }
             }
             else
             {
