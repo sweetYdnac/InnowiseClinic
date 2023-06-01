@@ -9,6 +9,7 @@ using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models;
 using Shared.Models.Response.Profiles.Receptionist;
 
@@ -107,8 +108,8 @@ namespace Profiles.API.Tests
 
             // Assert
             _receptionistsRepositoryMock.Verify(x => x.AddAsync(dto), Times.Once);
-            _receptionistSummaryRepositoryMock.Verify(
-                x => x.AddAsync(It.IsAny<CreateReceptionistSummaryDTO>()), Times.Once);
+            _receptionistSummaryRepositoryMock.Verify(x => x.AddAsync(It.IsAny<CreateReceptionistSummaryDTO>()), Times.Once);
+            _messageServiceMock.Verify(x => x.SendCreateAccountEmailAsync(It.IsAny<SendCreateAccountEmailMessage>()), Times.Once);
         }
 
         [Fact]

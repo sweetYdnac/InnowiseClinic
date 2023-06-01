@@ -16,6 +16,12 @@ namespace Profiles.API.Validators.Receptionist
             RuleFor(p => p.Status)
                 .Required()
                 .IsInEnum();
+
+            RuleFor(s => s.Email)
+                .Required()
+                .EmailAddress();
+
+            RuleFor(s => s.Password).Length(6, 15);
         }
     }
 }

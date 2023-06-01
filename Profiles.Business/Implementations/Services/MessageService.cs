@@ -31,5 +31,7 @@ namespace Profiles.Business.Implementations.Services
 
         public async Task SendUpdateDoctorMessageAsync(UpdateDoctorMessage message) =>
             await _sendEndpointProvider.Send(message);
+        public async Task SendCreateAccountEmailAsync(SendCreateAccountEmailMessage message) =>
+            await _sendEndpointProvider.Send(message);
     }
 }

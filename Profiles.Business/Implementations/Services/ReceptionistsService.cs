@@ -6,6 +6,7 @@ using Profiles.Data.DTOs.ReceptionistSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 
@@ -48,6 +49,7 @@ namespace Profiles.Business.Implementations.Services
         {
             await _receptionistsRepository.AddAsync(dto);
             await _receptionistSummaryRepository.AddAsync(_mapper.Map<CreateReceptionistSummaryDTO>(dto));
+            await _messageService.SendCreateAccountEmailAsync(_mapper.Map<SendCreateAccountEmailMessage>(dto));
 
             return dto.Id;
         }

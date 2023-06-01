@@ -49,6 +49,7 @@ namespace Profiles.Business.Implementations.Services
         {
             await _doctorsRepository.AddAsync(dto);
             await _doctorSummaryRepository.AddAsync(_mapper.Map<CreateDoctorSummaryDTO>(dto));
+            await _messageService.SendCreateAccountEmailAsync(_mapper.Map<SendCreateAccountEmailMessage>(dto));
 
             return dto.Id;
         }

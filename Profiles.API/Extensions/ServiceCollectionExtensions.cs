@@ -137,21 +137,19 @@ namespace Profiles.API.Extensions
                 EndpointConvention.Map<DeletePhotoMessage>(new Uri(configuration.GetValue<string>("Messages:DeletePhotoEndpoint")));
                 EndpointConvention.Map<UpdatePatientMessage>(new Uri(configuration.GetValue<string>("Messages:UpdatePatientEndpoint")));
                 EndpointConvention.Map<UpdateDoctorMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateDoctorEndpoint")));
+                EndpointConvention.Map<SendCreateAccountEmailMessage>(new Uri(configuration.GetValue<string>("Messages:SendCreateAccountEmailEndpoint")));
             });
         }
 
         internal static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
-            });
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
 
         private static void MigrateDatabase(this IServiceCollection services)

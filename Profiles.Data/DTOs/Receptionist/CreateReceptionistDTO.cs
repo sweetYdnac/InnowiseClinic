@@ -12,5 +12,7 @@ namespace Profiles.Data.DTOs.Receptionist
         public Guid OfficeId { get; set; }
         public string OfficeAddress { get; set; }
         public AccountStatuses Status { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -16,6 +16,8 @@ namespace Shared.Models.Request.Profiles.Receptionist.SwaggerExamples
                 OfficeId = Guid.NewGuid(),
                 OfficeAddress = "New York somestreet 10 6",
                 Status = AccountStatuses.SickDay,
+                Email = "test@gmail.com",
+                Password = "123123",
             };
     }
 }

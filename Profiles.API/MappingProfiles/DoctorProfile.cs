@@ -14,6 +14,7 @@ namespace Profiles.API.MappingProfiles
             CreateMap<CreateDoctorRequest, CreateDoctorDTO>()
                 .ForMember(dto => dto.DateOfBirth,
                     opt => opt.MapFrom(model => model.DateOfBirth.ToDateTime(TimeOnly.MinValue)));
+            CreateMap<CreateDoctorDTO, SendCreateAccountEmailMessage>();
             CreateMap<UpdateDoctorRequest, UpdateDoctorDTO>()
                 .ForMember(dto => dto.DateOfBirth,
                     opt => opt.MapFrom(model => model.DateOfBirth.ToDateTime(TimeOnly.MinValue)));

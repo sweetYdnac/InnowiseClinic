@@ -14,7 +14,6 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -109,7 +108,7 @@ namespace Appointments.Read.API.Extensions
             });
         }
 
-        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        internal static void ConfigureMassTransit(this IServiceCollection services)
         {
             services.AddMassTransit(x =>
             {
@@ -134,16 +133,13 @@ namespace Appointments.Read.API.Extensions
 
         internal static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
-            });
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
     }
 }

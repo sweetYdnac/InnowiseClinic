@@ -119,6 +119,7 @@ namespace Profiles.API.Tests
             // Assert
             _doctorsRepositoryMock.Verify(x => x.AddAsync(dto), Times.Once);
             _doctorsSummaryRepositoryMock.Verify(x => x.AddAsync(createDoctorSummaryDTO), Times.Once);
+            _messageServiceMock.Verify(x => x.SendCreateAccountEmailAsync(It.IsAny<SendCreateAccountEmailMessage>()), Times.Once);
         }
 
         [Fact]

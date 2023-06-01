@@ -16,5 +16,7 @@ namespace Profiles.Data.DTOs.Doctor
         public string SpecializationName { get; set; }
         public string OfficeAddress { get; set; }
         public AccountStatuses Status { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

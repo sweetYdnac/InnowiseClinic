@@ -20,6 +20,8 @@ namespace Shared.Models.Request.Profiles.Doctor.SwaggerExamples
                 SpecializationName = "Dentist",
                 OfficeAddress = "Minesota SomeStreet 22, 2",
                 Status = AccountStatuses.AtWork,
+                Email = "test@gmail.com",
+                Password = "123123",
             };
     }
 }

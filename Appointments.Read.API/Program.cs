@@ -23,7 +23,7 @@ builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureValidation();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
-builder.Services.ConfigureMassTransit(builder.Configuration);
+builder.Services.ConfigureMassTransit();
 builder.Services.ConfigureMediatR();
 builder.Services.ConfigureCors();
 
