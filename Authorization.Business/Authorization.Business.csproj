@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
     <ProjectReference Include="..\Shared\Shared.Exceptions\Shared.Exceptions.csproj" />
+    <ProjectReference Include="..\Shared\Shared.Models\Shared.Models.csproj" />
   </ItemGroup>
 
 </Project>

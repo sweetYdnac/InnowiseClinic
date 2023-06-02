@@ -95,8 +95,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Appointments.Write.API.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Documents.API.Tests", "Tests\Documents.API.Tests\Documents.API.Tests.csproj", "{E91D4D01-D725-4623-BF95-DDF2774BBDB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions", "Functions\Functions.csproj", "{A21AB1DF-F439-4FC1-8F86-CBF0A0C4C87D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions", "AzureFunctions\AzureFunctions.csproj", "{344D71F8-1413-4E81-A5FC-0A3336C67811}"
 EndProject
 Global
@@ -245,10 +243,6 @@ Global
 		{E91D4D01-D725-4623-BF95-DDF2774BBDB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E91D4D01-D725-4623-BF95-DDF2774BBDB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E91D4D01-D725-4623-BF95-DDF2774BBDB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A21AB1DF-F439-4FC1-8F86-CBF0A0C4C87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A21AB1DF-F439-4FC1-8F86-CBF0A0C4C87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A21AB1DF-F439-4FC1-8F86-CBF0A0C4C87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A21AB1DF-F439-4FC1-8F86-CBF0A0C4C87D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{344D71F8-1413-4E81-A5FC-0A3336C67811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{344D71F8-1413-4E81-A5FC-0A3336C67811}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{344D71F8-1413-4E81-A5FC-0A3336C67811}.Release|Any CPU.ActiveCfg = Release|Any CPU

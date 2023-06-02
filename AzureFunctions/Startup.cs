@@ -12,12 +12,18 @@ namespace AzureFunctions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            //builder.Services.AddHttpClient();
-            builder.Services.AddSingleton<IEmailSenderService, EtherealEmailNotifierService>();
+            builder.Services.AddHttpClient();
+
+            builder.Services.AddScoped<IEmailSenderService, EtherealEmailNotifierService>();
+            builder.Services.AddScoped<ITokenService, TokenService>();
 
             builder.Services.AddOptions<EmailServiceConfiguration>()
                 .Configure<IConfiguration>((settings, configuration) =>
                 configuration.GetSection("EmailServiceConfiguration").Bind(settings));
+
+            builder.Services.AddOptions<IdentityServerConfiguration>()
+                .Configure<IConfiguration>((settings, configuration) =>
+                configuration.GetSection("IdentityServer").Bind(settings));
         }
     }
 }

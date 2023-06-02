@@ -1,6 +1,5 @@
 ﻿using Authorization.Business.Abstractions;
 using Authorization.Data.DataTransferObjects;
-using Authorization.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,7 @@ namespace Authorization.API.Controllers
         /// </summary>
         /// <param name="id">Account's unique identifier</param>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Account), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
@@ -52,7 +51,7 @@ namespace Authorization.API.Controllers
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
         {
-            var id = await _accountService.SignUpAsync(request.Email, request.Password);
+            var id = await _accountService.SignUpAsync(request.Email, request.Password, request.Role);
 
             return StatusCode(201, new { id });
         }

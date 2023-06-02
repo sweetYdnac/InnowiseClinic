@@ -12,8 +12,8 @@ namespace Authorization.API.Validators
                 .Required()
                 .EmailAddress();
 
-            RuleFor(s => s.Password)
-                .Length(6, 15);
+            RuleFor(s => s.Password).Length(6, 15);
+            RuleFor(p => p.Role).Required();
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Authorization.Data.DataTransferObjects;
-using Authorization.Data.Entities;
+using Shared.Core.Enums;
+using Shared.Models.Response.Authorization;
 
 namespace Authorization.Business.Abstractions
 {
     public interface IAccountService
     {
-        Task<Account> GetById(Guid id);
-        Task<Guid> SignUpAsync(string email, string password);
+        Task<AccountResponse> GetById(Guid id);
+        Task<Guid> SignUpAsync(string email, string password, string roleName);
         Task<TokenResponseDTO> SignInAsync(string email, string password);
         Task SignOutAsync();
         Task UpdateAsync(Guid id, PatchAccountDTO dto);

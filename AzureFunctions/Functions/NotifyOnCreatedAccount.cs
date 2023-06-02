@@ -3,6 +3,7 @@ using AzureFunctions.Services.Interfaces;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MimeKit.Text;
 using Newtonsoft.Json.Linq;
 using Shared.Messages;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace AzureFunctions.Functions
             emailMessage.From.Add(new MailboxAddress("Origin", _configuration.Origin));
             emailMessage.To.Add(new MailboxAddress("Destination", message.Email));
             emailMessage.Subject = "Some subject";
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Text) { Text = $"Your password is - {message.Password}" };
+            emailMessage.Body = new TextPart(TextFormat.Text) { Text = $"Your password is - {message.Password}" };
 
             await _emailSenderService.SendEmailAsync(emailMessage);
         }
