@@ -200,7 +200,7 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                         EndTime = a.Time.AddMinutes(a.Duration),
                         DoctorFullName = a.DoctorFullName,
                         ServiceName = a.ServiceName,
-                        ResultId = a.AppointmentResult.Id,
+                        ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
                         IsApproved = a.IsApproved,
                     })
                     .ToArrayAsync()

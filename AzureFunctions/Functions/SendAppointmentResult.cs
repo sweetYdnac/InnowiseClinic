@@ -1,6 +1,5 @@
 using AzureFunctions.Configurations;
 using AzureFunctions.Services.Interfaces;
-using IdentityModel.Client;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
