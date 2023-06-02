@@ -12,6 +12,7 @@ namespace AzureFunctions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            //builder.Services.AddHttpClient();
             builder.Services.AddSingleton<IEmailSenderService, EtherealEmailNotifierService>();
 
             builder.Services.AddOptions<EmailServiceConfiguration>()

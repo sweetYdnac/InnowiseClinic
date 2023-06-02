@@ -31,7 +31,7 @@ namespace Appointments.Read.API.Controllers
         /// </summary>
         /// <param name="id">Appointment result's unique identifier</param>
         [HttpGet("{id}")]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Doctor)}, {nameof(AccountRoles.Patient)}")]
+        [Authorize]
         [ProducesResponseType(typeof(AppointmentResultResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

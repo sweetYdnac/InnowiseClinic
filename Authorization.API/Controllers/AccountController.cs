@@ -1,5 +1,6 @@
 ﻿using Authorization.Business.Abstractions;
 using Authorization.Data.DataTransferObjects;
+using Authorization.Data.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,22 @@ namespace Authorization.API.Controllers
         private readonly IMapper _mapper;
         public AccountController(IAccountService accountService, IMapper mapper, ITokenService tokenService) =>
             (_accountService, _mapper, _tokenService) = (accountService, mapper, tokenService);
+
+        /// <summary>
+        /// Get Account by Id
+        /// </summary>
+        /// <param name="id">Account's unique identifier</param>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Account), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAccountById([FromRoute] Guid id)
+        {
+            var response = await _accountService.GetById(id);
+
+            return Ok(response);
+        }
 
         /// <summary>
         /// Sign up new Account

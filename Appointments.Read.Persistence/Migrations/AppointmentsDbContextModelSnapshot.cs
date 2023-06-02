@@ -17,7 +17,7 @@ namespace Appointments.Read.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -151,10 +151,6 @@ namespace Appointments.Read.Persistence.Migrations
             modelBuilder.Entity("Appointments.Read.Domain.Entities.AppointmentResult", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AppointmentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Complaints")
@@ -174,16 +170,12 @@ namespace Appointments.Read.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
-
                     b.ToTable("AppointmentsResults");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("176999c3-035e-43e1-b68a-f9071dc7a016"),
-                            AppointmentId = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
+                            Id = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
                             Complaints = "nothing new",
                             Conclusion = "healthy",
                             Date = new DateTime(2023, 3, 1, 13, 20, 10, 0, DateTimeKind.Unspecified),
@@ -191,8 +183,7 @@ namespace Appointments.Read.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("16fc93ad-cb73-4a78-9538-f808f3e812cd"),
-                            AppointmentId = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
+                            Id = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
                             Complaints = "here we go",
                             Conclusion = "have a disease",
                             Date = new DateTime(2023, 3, 4, 15, 50, 30, 0, DateTimeKind.Unspecified),
@@ -204,7 +195,7 @@ namespace Appointments.Read.Persistence.Migrations
                 {
                     b.HasOne("Appointments.Read.Domain.Entities.Appointment", "Appointment")
                         .WithOne("AppointmentResult")
-                        .HasForeignKey("Appointments.Read.Domain.Entities.AppointmentResult", "AppointmentId")
+                        .HasForeignKey("Appointments.Read.Domain.Entities.AppointmentResult", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

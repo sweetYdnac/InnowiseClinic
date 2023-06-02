@@ -142,5 +142,9 @@ namespace Authorization.Business.ServicesImplementations
                 }
             }
         }
+
+        public async Task<Account> GetById(Guid id) => await _userManager.FindByIdAsync(id.ToString())
+            ?? throw new NotFoundException($"Account with id = {id} doesn't exist");
+
     }
 }

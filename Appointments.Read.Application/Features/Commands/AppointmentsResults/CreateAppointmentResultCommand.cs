@@ -12,7 +12,6 @@ namespace Appointments.Read.Application.Features.Commands.AppointmentsResults
         public string Complaints { get; set; }
         public string Conclusion { get; set; }
         public string Recommendations { get; set; }
-        public Guid AppointmentId { get; set; }
     }
 
     public class CreateAppointmentResultCommandHandler : IRequestHandler<CreateAppointmentResultCommand, int>

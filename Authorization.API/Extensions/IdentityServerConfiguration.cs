@@ -33,7 +33,7 @@ namespace Authorization.API.Extensions
                 {
                     ClientId = "machineClient",
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes =
                     {
                         "Full",

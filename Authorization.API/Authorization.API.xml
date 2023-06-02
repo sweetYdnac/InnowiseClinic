@@ -9,6 +9,12 @@
             This controller used to work with accounts
             </summary>
         </member>
+        <member name="M:Authorization.API.Controllers.AccountController.GetAccountById(System.Guid)">
+            <summary>
+            Get Account by Id
+            </summary>
+            <param name="id">Account's unique identifier</param>
+        </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequest)">
             <summary>
             Sign up new Account
