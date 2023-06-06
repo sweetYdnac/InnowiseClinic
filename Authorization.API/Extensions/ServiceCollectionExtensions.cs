@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Messages;
 using System.Reflection;
 
 namespace Authorization.API.Extensions
@@ -19,6 +20,7 @@ namespace Authorization.API.Extensions
         {
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -76,7 +78,7 @@ namespace Authorization.API.Extensions
             services.AddFluentValidationAutoValidation();
         }
 
-        internal static void ConfigureMassTransit(this IServiceCollection services)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
@@ -84,20 +86,20 @@ namespace Authorization.API.Extensions
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
+
+            EndpointConvention.Map<AddLogMessage>(
+                new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
-            });
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
     }
 }

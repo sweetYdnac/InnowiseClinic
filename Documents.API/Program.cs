@@ -1,9 +1,6 @@
 using Documents.API.Extensions;
 using Documents.API.Middlewares;
 using Documents.Business.Configurations;
-using Documents.Data.Configurations;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
@@ -29,7 +26,7 @@ builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);
-builder.Services.ConfigureMassTransit();
+builder.Services.ConfigureMassTransit(builder.Configuration);
 builder.Services.ConfigureAzureStorage(builder.Configuration);
 builder.Services.ConfigureCors();
 

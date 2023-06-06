@@ -122,6 +122,20 @@ services:
             - azurite
             - rabbitMQ
 
+    logs.api:
+        image: logs.api
+        build:
+            context: .
+            dockerfile: Logs.API/Dockerfile
+        ports:
+            - 8027:80
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+        restart: on-failure
+        depends_on:
+            - mongoDb
+            - rabbitMQ
+
     sqlServer:
         image: mcr.microsoft.com/mssql/server:2022-latest
         user: root
@@ -132,6 +146,7 @@ services:
             - SA_PASSWORD=AAbbCC123
         ports:
             - 1442:1433
+        restart: on-failure
 
     postgreSqlServer:
         image: postgres:latest
@@ -142,6 +157,7 @@ services:
             - POSTGRES_PASSWORD=123
         ports:
             - 1443:5432
+        restart: on-failure
 
     azurite:
         image: mcr.microsoft.com/azure-storage/azurite
@@ -153,6 +169,16 @@ services:
             - 10012:10002
         volumes:
             - azuriteData:/data
+        restart: on-failure
+
+    mongoDb:
+        image: mongo
+        restart: on-failure
+        ports:
+          - 27018:27017
+        volumes:
+            - mongoDbData:/data/db
+
 
     rabbitMQ:
         image: rabbitmq:management
@@ -165,9 +191,11 @@ services:
         volumes:
             - rabbitMQ:/var/lib/rabbitmq
         hostname: rabbit
+        restart: on-failure
 
 volumes:
     sqlServerData:
     postgreSqlData:
     azuriteData:
+    mongoDbData:
     rabbitMQ:

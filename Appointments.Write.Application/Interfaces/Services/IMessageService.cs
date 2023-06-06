@@ -11,5 +11,6 @@ namespace Appointments.Write.Application.Interfaces.Services
         Task SendDeleteAppointmentMessageAsync(Guid id);
         Task SendApproveAppointmentMessageAsync(Guid id);
         Task SendGeneratePdfMessageAsync(GeneratePdfMessage message);
+        Task SendAddLogMessageAsync(AddLogMessage message);
     }
 }

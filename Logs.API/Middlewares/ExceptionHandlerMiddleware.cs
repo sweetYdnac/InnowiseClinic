@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Serilog;
+using Shared.Core.Extensions;
 using Shared.Exceptions;
-using Shared.Exceptions.Authorization;
 using Shared.Models.Response;
 using System.Net;
 
-namespace Authorization.API.Extensions;
+namespace Logs.API.Middlewares;
 
 internal class ExceptionHandlerMiddleware
 {
@@ -25,18 +25,6 @@ internal class ExceptionHandlerMiddleware
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.NotFound, () => Log.Information(ex, ex.Message));
         }
-        catch (InvalidCredentialsException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
-        }
-        catch (AccountNotCreatedException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.BadRequest, () => Log.Information(ex, ex.Message));
-        }
-        catch (AccountInactiveException ex)
-        {
-            await HandleExceptionAsync(httpContext, ex, HttpStatusCode.Conflict, () => Log.Information(ex, ex.Message));
-        }
         catch (Exception ex)
         {
             await HandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError, () => Log.Error(ex, ex.Message));
@@ -50,7 +38,7 @@ internal class ExceptionHandlerMiddleware
         var response = context.Response;
         response.ContentType = "application/json";
         response.StatusCode = (int)code;
-        var allMessageText = GetFullMessage(ex);
+        var allMessageText = ex.GetFullMessage();
 
         var details = _env.IsDevelopment() ? ex.StackTrace : string.Empty;
 
@@ -62,12 +50,5 @@ internal class ExceptionHandlerMiddleware
                     ? string.Empty
                     : details)
         ));
-    }
-
-    private string GetFullMessage(Exception ex)
-    {
-        return ex.InnerException is not null
-            ? $"{ex.Message}; {GetFullMessage(ex.InnerException)}"
-            : $"{ex.Message}";
     }
 }
