@@ -138,6 +138,7 @@ namespace Profiles.API.Extensions
                 EndpointConvention.Map<UpdatePatientMessage>(new Uri(configuration.GetValue<string>("Messages:UpdatePatientEndpoint")));
                 EndpointConvention.Map<UpdateDoctorMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateDoctorEndpoint")));
                 EndpointConvention.Map<SendCreateAccountEmailMessage>(new Uri(configuration.GetValue<string>("Messages:SendCreateAccountEmailEndpoint")));
+                EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
             });
         }
 

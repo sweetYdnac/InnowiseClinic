@@ -14,6 +14,7 @@ using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -26,6 +27,7 @@ namespace Appointments.Read.API.Extensions
     {
         internal static void AddServices(this IServiceCollection services)
         {
+            services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         }
 
@@ -108,7 +110,7 @@ namespace Appointments.Read.API.Extensions
             });
         }
 
-        internal static void ConfigureMassTransit(this IServiceCollection services)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
@@ -116,16 +118,16 @@ namespace Appointments.Read.API.Extensions
                 x.AddConsumer<CancelAppointmentConsumer>();
                 x.AddConsumer<RescheduleAppointmentConsumer>();
                 x.AddConsumer<ApproveAppointmentConsumer>();
-
                 x.AddConsumer<CreateAppointmentResultConsumer>();
                 x.AddConsumer<EditAppointmentResultConsumer>();
-
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
+
+            EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>

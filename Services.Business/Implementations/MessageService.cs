@@ -15,6 +15,7 @@ namespace Services.Business.Implementations
             {
                 SpecializationId = specializationId,
             });
+
         public async Task SendUpdateServiceMessageAsync(Guid id, string name, int timeSlotSize)
         {
             var message = new UpdateServiceMessage()
@@ -26,5 +27,7 @@ namespace Services.Business.Implementations
 
             await _sendEndpointProvider.Send(message);
         }
+
+        public async Task SendAddLogMessageAsync(AddLogMessage message) => await _sendEndpointProvider.Send(message);
     }
 }

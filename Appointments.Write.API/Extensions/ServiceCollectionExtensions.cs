@@ -111,20 +111,14 @@ namespace Appointments.Write.API.Extensions
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
 
-            EndpointConvention.Map<CreateAppointmentMessage>(
-                new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
-            EndpointConvention.Map<CreateAppointmentResultMessage>(
-                new Uri(configuration.GetValue<string>("Messages:CreateAppointmentResultEndpoint")));
-            EndpointConvention.Map<EditAppointmentResultMessage>(
-                new Uri(configuration.GetValue<string>("Messages:EditAppointmentResultEndpoint")));
-            EndpointConvention.Map<RescheduleAppointmentMessage>(
-                new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
-            EndpointConvention.Map<CancelAppointmentMessage>(
-                new Uri(configuration.GetValue<string>("Messages:CancelAppointmentEndpoint")));
-            EndpointConvention.Map<ApproveAppointmentMessage>(
-                new Uri(configuration.GetValue<string>("Messages:ApproveAppointmentEndpoint")));
-            EndpointConvention.Map<GeneratePdfMessage>(
-                new Uri(configuration.GetValue<string>("Messages:GeneratePdfEndpoint")));
+            EndpointConvention.Map<CreateAppointmentMessage>(new Uri(configuration.GetValue<string>("Messages:CreateAppointmentEndpoint")));
+            EndpointConvention.Map<CreateAppointmentResultMessage>(new Uri(configuration.GetValue<string>("Messages:CreateAppointmentResultEndpoint")));
+            EndpointConvention.Map<EditAppointmentResultMessage>(new Uri(configuration.GetValue<string>("Messages:EditAppointmentResultEndpoint")));
+            EndpointConvention.Map<RescheduleAppointmentMessage>(new Uri(configuration.GetValue<string>("Messages:RescheduleAppointmentEndpoint")));
+            EndpointConvention.Map<CancelAppointmentMessage>(new Uri(configuration.GetValue<string>("Messages:CancelAppointmentEndpoint")));
+            EndpointConvention.Map<ApproveAppointmentMessage>(new Uri(configuration.GetValue<string>("Messages:ApproveAppointmentEndpoint")));
+            EndpointConvention.Map<GeneratePdfMessage>(new Uri(configuration.GetValue<string>("Messages:GeneratePdfEndpoint")));
+            EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>
@@ -132,16 +126,13 @@ namespace Appointments.Write.API.Extensions
 
         internal static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
-            });
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
     }
 }

@@ -115,24 +115,20 @@ namespace Services.API.Extensions
         {
             services.AddMassTransit(x => x.UsingRabbitMq());
 
-            EndpointConvention.Map<DisableSpecializationMessage>(
-            new Uri(configuration.GetValue<string>("Messages:DisableSpecializationEndpoint")));
-            EndpointConvention.Map<UpdateServiceMessage>(
-            new Uri(configuration.GetValue<string>("Messages:UpdateServiceEndpoint")));
+            EndpointConvention.Map<DisableSpecializationMessage>(new Uri(configuration.GetValue<string>("Messages:DisableSpecializationEndpoint")));
+            EndpointConvention.Map<UpdateServiceMessage>(new Uri(configuration.GetValue<string>("Messages:UpdateServiceEndpoint")));
+            EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureCors(this IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                    });
-            });
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
     }
 }
