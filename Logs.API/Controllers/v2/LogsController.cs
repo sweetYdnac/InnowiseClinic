@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Logs.Business.Interfaces.Services;
+using Logs.Business.Interfaces.Services.v2;
 using Logs.Data.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
@@ -13,22 +13,21 @@ using Swashbuckle.AspNetCore.Filters;
 
 namespace Logs.API.Controllers
 {
-
     /// <summary>
     /// This controller used to work with logs
     /// </summary>
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [Consumes("application/json")]
     [Produces("application/json")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ValidationFailedResponseExample))]
     public class LogsController: ControllerBase
     {
-        private readonly ILogService _logService;
+        private readonly IElasticLogService _logService;
         private readonly IMapper _mapper;
 
-        public LogsController(ILogService logService, IMapper mapper) => (_logService, _mapper) = (logService, mapper);
+        public LogsController(IElasticLogService logService, IMapper mapper) => (_logService, _mapper) = (logService, mapper);
 
         /// <summary>
         /// Get specific log by id
@@ -62,38 +61,6 @@ namespace Logs.API.Controllers
             var response = await _logService.GetPagedAsync(_mapper.Map<GetLogsDTO>(request));
 
             return Ok(response);
-        }
-
-        /// <summary>
-        /// Update specific log
-        /// </summary>
-        /// <param name="id">Log's unique identifier</param>
-        /// <param name="request">New log's data</param>
-        [HttpPatch("{id}")]
-        [ProducesResponseType(typeof(PagedResponse<LogResponse>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        [SwaggerRequestExample(typeof(GetLogsRequest), typeof(UpdateLogRequestExample))]
-        public async Task<IActionResult> UpdateLog([FromRoute] ObjectId id, [FromBody] UpdateLogRequest request)
-        {
-            await _logService.UpdateAsync(id, _mapper.Map<UpdateLogDTO>(request));
-
-            return NoContent();
-        }
-
-        /// <summary>
-        /// Remove specific log
-        /// </summary>
-        /// <param name="id">Log's unique identifier</param>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(PagedResponse<LogResponse>), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RemoveLog([FromRoute] ObjectId id)
-        {
-            await _logService.RemoveAsync(id);
-
-            return NoContent();
         }
     }
 }

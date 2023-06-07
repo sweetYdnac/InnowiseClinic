@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureElasticSearch(builder.Configuration);
 builder.Services.ConfigureValidation();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureAuthentication(builder.Configuration);

@@ -2,12 +2,17 @@
 using FluentValidation.AspNetCore;
 using Logs.API.Consumers;
 using Logs.API.Validators.Logs;
-using Logs.Business.Implementations.Services;
-using Logs.Business.Interfaces.Services;
+using Logs.Business.Implementations.Services.v1;
+using Logs.Business.Implementations.Services.v2;
+using Logs.Business.Interfaces.Services.v1;
+using Logs.Business.Interfaces.Services.v2;
 using Logs.Data.Configurations;
 using Logs.Data.Contexts;
-using Logs.Data.Implementations.Repositories;
-using Logs.Data.Interfaces.Repositories;
+using Logs.Data.Entities;
+using Logs.Data.Implementations.Repositories.v1;
+using Logs.Data.Implementations.Repositories.v2;
+using Logs.Data.Interfaces.Repositories.v1;
+using Logs.Data.Interfaces.Repositories.v2;
 using MassTransit;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Nest;
 using Shared.Models.Request.Offices.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -27,12 +33,14 @@ namespace Logs.API.Extensions
     {
         internal static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IMongoDbLogService, MongoDbLogService>();
+            services.AddScoped<IElasticLogService, ElasticLogService>();
         }
 
         internal static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<ILogRepository, LogRepository>();
+            services.AddTransient<IMongoDbLogRepository, MongoDbLogRepository>();
+            services.AddTransient<IElasticLogRepository, ElasticLogRepository>();
         }
 
         internal static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -40,6 +48,20 @@ namespace Logs.API.Extensions
             services.Configure<MonboDbConfigurations>(configuration.GetSection("MongoDbConfigurations"));
             services.AddSingleton(sp => sp.GetRequiredService<IOptions<MonboDbConfigurations>>().Value);
             services.AddSingleton<LogsDbContext>();
+        }
+
+        internal static void ConfigureElasticSearch(this IServiceCollection services, IConfiguration configuration)
+        {
+            var baseUri = configuration.GetValue<string>("ElasticConfigurations:baseUri");
+            var index = configuration.GetValue<string>("ElasticConfigurations:DefaultIndex");
+            var settings = new ConnectionSettings(new Uri(baseUri))
+                .PrettyJson()
+                .DefaultIndex(index)
+                .DefaultMappingFor<Log>(m => m);
+            settings.EnableApiVersioningHeader();
+            var client = new ElasticClient(settings);
+
+            services.AddSingleton<IElasticClient>(client);
         }
 
         internal static void ConfigureSwaggerGen(this IServiceCollection services)

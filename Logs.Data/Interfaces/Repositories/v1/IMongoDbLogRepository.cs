@@ -3,9 +3,9 @@ using Logs.Data.Entities;
 using MongoDB.Bson;
 using Shared.Models;
 
-namespace Logs.Data.Interfaces.Repositories
+namespace Logs.Data.Interfaces.Repositories.v1
 {
-    public interface ILogRepository
+    public interface IMongoDbLogRepository
     {
         Task<Log> GetByIdAsync(ObjectId id);
         Task<PagedResult<Log>> GetPagedAsync(GetLogsDTO filters);
