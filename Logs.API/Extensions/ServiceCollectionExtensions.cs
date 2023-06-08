@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Elasticsearch.Net;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Logs.API.Consumers;
 using Logs.API.Validators.Logs;
@@ -52,16 +53,20 @@ namespace Logs.API.Extensions
 
         internal static void ConfigureElasticSearch(this IServiceCollection services, IConfiguration configuration)
         {
-            var baseUri = configuration.GetValue<string>("ElasticConfigurations:baseUri");
+            var baseUri = configuration.GetValue<string>("ElasticConfigurations:BaseUri");
             var index = configuration.GetValue<string>("ElasticConfigurations:DefaultIndex");
-            var settings = new ConnectionSettings(new Uri(baseUri))
+
+            var pool = new SingleNodeConnectionPool(new Uri(baseUri));
+            var settings = new ConnectionSettings(pool)
                 .PrettyJson()
                 .DefaultIndex(index)
-                .DefaultMappingFor<Log>(m => m);
-            settings.EnableApiVersioningHeader();
+                .DefaultMappingFor<Log>(m => m
+                    .IndexName(index));
+
             var client = new ElasticClient(settings);
 
             services.AddSingleton<IElasticClient>(client);
+            client.Indices.Create(index, i => i.Map<Log>(x => x.AutoMap()));
         }
 
         internal static void ConfigureSwaggerGen(this IServiceCollection services)

@@ -180,7 +180,6 @@ services:
         volumes:
             - mongoDbData:/data/db
 
-
     rabbitMQ:
         image: rabbitmq:management
         ports:
@@ -196,28 +195,28 @@ services:
 
     elasticSearch:
         image: elasticsearch:7.14.1
-        #restart: on-failure
+        restart: on-failure
         environment:
-          - bootstrap.memory_lock=true
-          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-          - discovery.type=single-node
+            - xpack.monitoring.enabled=true
+            - xpack.watcher.enabled=false
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+            - discovery.type=single-node
         ports:
             - 9200:9200
-            - 9300:9300
         volumes:
             - elasticData:/usr/share/elasticsearch/data
         networks:
-            - esnetwork
+            - elastic
 
     kibana:
         image: kibana:7.14.1
-        #restart: on-failure
+        restart: on-failure
         ports:
             - "5601:5601"
-        networks:
-            - esnetwork
         depends_on:
             - elasticSearch
+        networks:
+            - elastic
 
 volumes:
     sqlServerData:
@@ -228,5 +227,5 @@ volumes:
     rabbitMQ:
 
 networks:
-    esnetwork:
+    elastic:
         driver: bridge

@@ -16,61 +16,85 @@ namespace Logs.Data.Implementations.Repositories.v2
 
         public async Task<Log> GetByIdAsync(ObjectId id)
         {
-            var result = await _client.SearchAsync<Log>(s => s.Query(l => l.QueryString(d => d.Query(id.ToString()))));
+            var result = await _client.SearchAsync<Log>(s => s
+                .Query(q => q
+                    .Ids(ids => ids
+                        .Values(id.ToString())
+                    )
+                )
+            );
+
             return result.Documents.FirstOrDefault();
         }
 
         public async Task<PagedResult<Log>> GetPagedAsync(GetLogsDTO filters)
         {
-            //var baseFilter = Builders<Log>.Filter;
+            var count = new CountDescriptor<Log>();
+            var search = new SearchDescriptor<Log>();
 
-            //; var filter = Builders<Log>.Filter.Empty;
+            if (filters.Date.HasValue)
+            {
+                var fromDate = filters.Date.Value.Date.ToUniversalTime();
+                var toDate = fromDate.AddDays(1);
 
-            //if (filters.Code is not null)
-            //{
-            //    filter &= baseFilter.Eq(l => l.Code, filters.Code);
-            //}
+                Func<QueryContainerDescriptor<Log>, QueryContainer> filter = q => q
+                    .DateRange(dr => dr
+                        .Field(f => f.DateTime)
+                        .GreaterThanOrEquals(fromDate)
+                        .LessThan(toDate));
 
-            //if (filters.Date is not null)
-            //{
-            //    filter &= baseFilter.Eq(l => l.DateTime, filters.Date.Value);
-            //}
+                search = search.Query(filter);
+                count = count.Query(filter);
+            }
 
-            //if (!string.IsNullOrWhiteSpace(filters.ApiName))
-            //{
-            //    filter &= baseFilter.Regex(l => l.ApiName, new BsonRegularExpression(filters.ApiName, "i"));
-            //}
+            if (!string.IsNullOrWhiteSpace(filters.ApiName))
+            {
+                Func<QueryContainerDescriptor<Log>, QueryContainer> filter = q => q
+                    .Wildcard(w => w
+                        .Field(f => f.ApiName)
+                        .Value($"*{filters.ApiName.ToLowerInvariant()}*")
+                    );
 
-            //var totalCount = await _db.Logs.Find(filter).CountDocumentsAsync();
+                search = search.Query(filter);
+                count = count.Query(filter);
+            }
 
-            //if (totalCount == 0)
-            //{
-            //    return new PagedResult<Log>
-            //    {
-            //        Items = Enumerable.Empty<Log>(),
-            //        TotalCount = (int)totalCount,
-            //    };
-            //}
+            if (filters.Code.HasValue)
+            {
+                Func<QueryContainerDescriptor<Log>, QueryContainer> filter = q => q
+                    .Term(t => t
+                        .Field(f => f.Code)
+                        .Value((int)filters.Code.Value));
 
-            //var items = await _db.Logs
-            //    .Find(filter)
-            //    .Skip((filters.CurrentPage - 1) * filters.PageSize)
-            //    .Limit(filters.PageSize)
-            //    .ToListAsync();
+                search = search.Query(filter);
+                count = count.Query(filter);
+            }
 
-            //return new PagedResult<Log>
-            //{
-            //    Items = items,
-            //    TotalCount = (int)totalCount,
-            //};
+            var countResponse = await _client.CountAsync(count);
 
-            throw new NotImplementedException();
+            if (countResponse.Count == 0)
+            {
+                return new PagedResult<Log>
+                {
+                    Items = Enumerable.Empty<Log>(),
+                    TotalCount = (int)countResponse.Count,
+                };
+            }
+
+            search = search
+                .Skip((filters.CurrentPage - 1) * filters.PageSize)
+                .Take(filters.PageSize);
+
+            var itemsResponse = await _client.SearchAsync<Log>(search);
+
+            return new PagedResult<Log>
+            {
+                Items = itemsResponse.Documents.ToArray(),
+                TotalCount = (int)countResponse.Count,
+            };
         }
 
-        public async Task AddAsync(Log entity)
-        {
+        public async Task AddAsync(Log entity) =>
             await _client.IndexDocumentAsync(entity);
-        }
-
     }
 }

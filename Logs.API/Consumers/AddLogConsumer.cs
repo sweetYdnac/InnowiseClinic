@@ -20,8 +20,8 @@ namespace Logs.API.Consumers
         {
             var dto = _mapper.Map<CreateLogDTO>(context.Message);
 
-            await _mongoDbLogService.CreateAsync(dto);
             await _elasticLogService.CreateAsync(dto);
+            await _mongoDbLogService.CreateAsync(dto);
         }
     }
 }
