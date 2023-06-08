@@ -1,19 +1,19 @@
 ﻿using Logs.Data.Contexts;
 using Logs.Data.DTOs;
 using Logs.Data.Entities;
-using Logs.Data.Interfaces.Repositories;
+using Logs.Data.Interfaces.Repositories.v1;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using Shared.Models;
 
-namespace Logs.Data.Implementations.Repositories
+namespace Logs.Data.Implementations.Repositories.v1
 {
-    public class LogRepository : ILogRepository
+    public class MongoDbLogRepository : IMongoDbLogRepository
     {
         private readonly LogsDbContext _db;
 
-        public LogRepository(LogsDbContext db) => _db = db;
+        public MongoDbLogRepository(LogsDbContext db) => _db = db;
 
         public async Task<Log> GetByIdAsync(ObjectId id) =>
              await _db.Logs
@@ -24,7 +24,7 @@ namespace Logs.Data.Implementations.Repositories
         {
             var baseFilter = Builders<Log>.Filter;
 
-;           var filter = Builders<Log>.Filter.Empty;
+            ; var filter = Builders<Log>.Filter.Empty;
 
             if (filters.Code is not null)
             {

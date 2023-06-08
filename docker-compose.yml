@@ -134,6 +134,7 @@ services:
         restart: on-failure
         depends_on:
             - mongoDb
+            - elasticSearch
             - rabbitMQ
 
     sqlServer:
@@ -179,7 +180,6 @@ services:
         volumes:
             - mongoDbData:/data/db
 
-
     rabbitMQ:
         image: rabbitmq:management
         ports:
@@ -193,9 +193,39 @@ services:
         hostname: rabbit
         restart: on-failure
 
+    elasticSearch:
+        image: elasticsearch:7.14.1
+        restart: on-failure
+        environment:
+            - xpack.monitoring.enabled=true
+            - xpack.watcher.enabled=false
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
+            - discovery.type=single-node
+        ports:
+            - 9200:9200
+        volumes:
+            - elasticData:/usr/share/elasticsearch/data
+        networks:
+            - elastic
+
+    kibana:
+        image: kibana:7.14.1
+        restart: on-failure
+        ports:
+            - "5601:5601"
+        depends_on:
+            - elasticSearch
+        networks:
+            - elastic
+
 volumes:
     sqlServerData:
     postgreSqlData:
     azuriteData:
     mongoDbData:
+    elasticData:
     rabbitMQ:
+
+networks:
+    elastic:
+        driver: bridge

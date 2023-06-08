@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
-using Logs.Business.Interfaces.Services;
+using Logs.Business.Interfaces.Services.v1;
 using Logs.Data.DTOs;
 using Logs.Data.Entities;
-using Logs.Data.Interfaces.Repositories;
+using Logs.Data.Interfaces.Repositories.v1;
 using MongoDB.Bson;
 using Shared.Exceptions;
 using Shared.Models.Response;
 using Shared.Models.Response.Logs;
 
-namespace Logs.Business.Implementations.Services
+namespace Logs.Business.Implementations.Services.v1
 {
-    public class LogService : ILogService
+    public class MongoDbLogService : IMongoDbLogService
     {
-        private readonly ILogRepository _logRepository;
+        private readonly IMongoDbLogRepository _logRepository;
         private readonly IMapper _mapper;
 
-        public LogService(ILogRepository logRepository, IMapper mapper) => (_logRepository, _mapper) = (logRepository, mapper);
+        public MongoDbLogService(IMongoDbLogRepository logRepository, IMapper mapper) => (_logRepository, _mapper) = (logRepository, mapper);
 
         public async Task<LogResponse> GetByIdAsync(ObjectId id)
         {
@@ -28,7 +28,7 @@ namespace Logs.Business.Implementations.Services
 
         public async Task<PagedResponse<LogResponse>> GetPagedAsync(GetLogsDTO filters)
         {
-            var response  = await _logRepository.GetPagedAsync(filters);
+            var response = await _logRepository.GetPagedAsync(filters);
 
             return new PagedResponse<LogResponse>(
                 _mapper.Map<IEnumerable<LogResponse>>(response.Items),

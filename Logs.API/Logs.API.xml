@@ -4,6 +4,36 @@
         <name>Logs.API</name>
     </assembly>
     <members>
+        <member name="T:Logs.API.Controllers.v1.LogsController">
+            <summary>
+            This controller used to work with logs
+            </summary>
+        </member>
+        <member name="M:Logs.API.Controllers.v1.LogsController.GetLog(MongoDB.Bson.ObjectId)">
+            <summary>
+            Get specific log by id
+            </summary>
+            <param name="id">Log's unique identifier</param>
+        </member>
+        <member name="M:Logs.API.Controllers.v1.LogsController.GetLogs(Shared.Models.Request.Logs.GetLogsRequest)">
+            <summary>
+            Get paged logs
+            </summary>
+            <param name="request">Contains properties for filtering through logs</param>
+        </member>
+        <member name="M:Logs.API.Controllers.v1.LogsController.UpdateLog(MongoDB.Bson.ObjectId,Shared.Models.Request.Logs.UpdateLogRequest)">
+            <summary>
+            Update specific log
+            </summary>
+            <param name="id">Log's unique identifier</param>
+            <param name="request">New log's data</param>
+        </member>
+        <member name="M:Logs.API.Controllers.v1.LogsController.RemoveLog(MongoDB.Bson.ObjectId)">
+            <summary>
+            Remove specific log
+            </summary>
+            <param name="id">Log's unique identifier</param>
+        </member>
         <member name="T:Logs.API.Controllers.LogsController">
             <summary>
             This controller used to work with logs
@@ -20,19 +50,6 @@
             Get paged logs
             </summary>
             <param name="request">Contains properties for filtering through logs</param>
-        </member>
-        <member name="M:Logs.API.Controllers.LogsController.UpdateLog(MongoDB.Bson.ObjectId,Shared.Models.Request.Logs.UpdateLogRequest)">
-            <summary>
-            Update specific log
-            </summary>
-            <param name="id">Log's unique identifier</param>
-            <param name="request">New log's data</param>
-        </member>
-        <member name="M:Logs.API.Controllers.LogsController.RemoveLog(MongoDB.Bson.ObjectId)">
-            <summary>
-            Remove specific log
-            </summary>
-            <param name="id">Log's unique identifier</param>
         </member>
     </members>
 </doc>

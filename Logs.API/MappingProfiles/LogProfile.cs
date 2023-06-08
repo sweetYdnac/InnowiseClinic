@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Logs.Data.DTOs;
 using Logs.Data.Entities;
+using MongoDB.Bson;
 using Shared.Messages;
 using Shared.Models.Request.Logs;
 using Shared.Models.Response.Logs;
@@ -11,7 +12,9 @@ namespace Logs.API.MappingProfiles
     {
         public LogProfile()
         {
-            CreateMap<AddLogMessage, CreateLogDTO>();
+            CreateMap<AddLogMessage, CreateLogDTO>()
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(m => ObjectId.GenerateNewId()));
+
             CreateMap<CreateLogDTO, Log>()
                 .ForMember(ent => ent.DateTime, opt => opt.MapFrom(m => DateTime.Today));
 
