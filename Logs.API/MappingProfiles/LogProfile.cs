@@ -4,7 +4,7 @@ using Logs.Data.Entities;
 using MongoDB.Bson;
 using Shared.Messages;
 using Shared.Models.Request.LogsAPI;
-using Shared.Models.Response.Logs;
+using Shared.Models.Response.LogsAPI;
 
 namespace Logs.API.MappingProfiles
 {

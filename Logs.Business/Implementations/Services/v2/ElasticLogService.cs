@@ -6,7 +6,7 @@ using Logs.Data.Interfaces.Repositories.v2;
 using MongoDB.Bson;
 using Shared.Exceptions;
 using Shared.Models.Response;
-using Shared.Models.Response.Logs;
+using Shared.Models.Response.LogsAPI;
 
 namespace Logs.Business.Implementations.Services.v2
 {

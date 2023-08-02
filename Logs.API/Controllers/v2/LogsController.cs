@@ -6,8 +6,8 @@ using MongoDB.Bson;
 using Shared.Models.Request.LogsAPI;
 using Shared.Models.Request.LogsAPI.SwaggerExamples;
 using Shared.Models.Response;
-using Shared.Models.Response.Logs;
-using Shared.Models.Response.Logs.SwaggerExamples;
+using Shared.Models.Response.LogsAPI;
+using Shared.Models.Response.LogsAPI.SwaggerExamples;
 using Shared.Models.Response.SwaggerExampes;
 using Swashbuckle.AspNetCore.Filters;
 
