@@ -3,7 +3,7 @@ using Logs.Data.DTOs;
 using Logs.Data.Entities;
 using MongoDB.Bson;
 using Shared.Messages;
-using Shared.Models.Request.Logs;
+using Shared.Models.Request.LogsAPI;
 using Shared.Models.Response.Logs;
 
 namespace Logs.API.MappingProfiles
