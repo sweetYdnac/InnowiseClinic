@@ -2,7 +2,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Logs.API.Consumers;
-using Logs.API.Validators.Logs;
+using Logs.API.Validators.LogsAPI;
 using Logs.Business.Implementations.Services.v1;
 using Logs.Business.Implementations.Services.v2;
 using Logs.Business.Interfaces.Services.v1;
