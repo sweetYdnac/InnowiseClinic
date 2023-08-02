@@ -10,6 +10,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared.Messages;
+using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
 namespace Authorization.API.Extensions
@@ -67,8 +68,9 @@ namespace Authorization.API.Extensions
             services.AddSwaggerGen(options =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath, true);
+                options.ExampleFilters();
             });
         }
 

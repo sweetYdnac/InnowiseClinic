@@ -6,7 +6,6 @@
     <UserSecretsId>64f3b94b-7818-417c-bd25-3da53cb10b84</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Authorization.API\Authorization.API.xml</DocumentationFile>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 

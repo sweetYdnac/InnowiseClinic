@@ -49,7 +49,7 @@ namespace Appointments.Write.API.Extensions
             services.AddSwaggerGen(options =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, true);
                 options.ExampleFilters();
             });

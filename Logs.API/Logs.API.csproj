@@ -6,7 +6,6 @@
     <UserSecretsId>aeb50f3d-acbf-428e-aa54-e70d51e9770f</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Logs.API\Logs.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
