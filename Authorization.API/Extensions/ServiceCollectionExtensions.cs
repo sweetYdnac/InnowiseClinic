@@ -7,10 +7,10 @@ using Authorization.Data.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared.Messages;
-using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 
 namespace Authorization.API.Extensions
@@ -70,8 +70,9 @@ namespace Authorization.API.Extensions
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, true);
-                options.ExampleFilters();
             });
+
+            services.AddFluentValidationRulesToSwagger();
         }
 
         internal static void ConfigureValidation(this IServiceCollection services)
