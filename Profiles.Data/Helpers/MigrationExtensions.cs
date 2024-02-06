@@ -11,8 +11,7 @@ namespace Profiles.Data.Helpers
                 .WithColumn(nameof(User.Id)).AsGuid().NotNullable().PrimaryKey()
                 .WithColumn(nameof(User.FirstName)).AsString().NotNullable()
                 .WithColumn(nameof(User.LastName)).AsString().NotNullable()
-                .WithColumn(nameof(User.MiddleName)).AsString().Nullable()
-                .WithColumn(nameof(User.AccountId)).AsGuid().Nullable().Unique();
+                .WithColumn(nameof(User.MiddleName)).AsString().Nullable();
         }
     }
 }

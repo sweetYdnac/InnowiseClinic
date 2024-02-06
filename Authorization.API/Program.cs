@@ -1,4 +1,5 @@
 using Authorization.API.Extensions;
+using Authorization.API.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -27,7 +28,8 @@ namespace Authorization.API
             builder.Services.ConfigureIdentityServer(builder.Configuration);
             builder.Services.ConfigureValidation();
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            builder.Services.ConfigureMassTransit();
+            builder.Services.ConfigureMassTransit(builder.Configuration);
+            builder.Services.ConfigureCors();
 
             builder.Services.AddAuthentication(options =>
             {
@@ -58,6 +60,7 @@ namespace Authorization.API
             app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAllOrigins");
 
             app.UseIdentityServer();
             app.UseAuthentication();

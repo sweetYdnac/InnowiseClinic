@@ -8,6 +8,7 @@ namespace Profiles.API.Validators.Doctor
     {
         public CreateDoctorRequestValidator()
         {
+            RuleFor(p => p.Id).Required();
             RuleFor(p => p.FirstName).Required();
             RuleFor(p => p.LastName).Required();
             RuleFor(p => p.DateOfBirth).Required();
@@ -19,6 +20,12 @@ namespace Profiles.API.Validators.Doctor
             RuleFor(p => p.Status)
                 .Required()
                 .IsInEnum();
+
+            RuleFor(s => s.Email)
+                .Required()
+                .EmailAddress();
+
+            RuleFor(s => s.Password).Length(6, 15);
         }
     }
 }

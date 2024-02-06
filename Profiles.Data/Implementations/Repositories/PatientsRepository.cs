@@ -23,7 +23,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<PatientResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, PhotoId, PhoneNumber, IsActive
                             FROM Patients
                             WHERE Id = @id;
                         """;
@@ -39,20 +39,17 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             SELECT Id,
                                    CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
-                                   PhoneNumber
+                                   PhoneNumber,
+                                   DateOfBirth
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName
+                            WHERE CONCAT(FirstName,' ', LastName, ' ', MiddleName) LIKE @FullName
                             ORDER BY Id
                                 OFFSET @Offset ROWS
                                 FETCH FIRST @PageSize ROWS ONLY;
 
                             SELECT COUNT(*)
                             FROM Patients
-                            WHERE FirstName LIKE @FullName OR
-                                      LastName LIKE @FullName OR
-                                      MiddleName LIKE @FullName
+                            WHERE CONCAT(FirstName,' ', LastName, ' ', MiddleName) LIKE @FullName
                         """;
 
             var parameters = new DynamicParameters();
@@ -71,7 +68,7 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             INSERT Patients
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @IsLinkedToAccount, @PhotoId, @PhoneNumber)
+                            (@Id, @FirstName, @LastName, @MiddleName, @DateOfBirth, DEFAULT, @PhotoId, @PhoneNumber)
                         """;
 
             var parameters = new DynamicParameters();
@@ -79,11 +76,9 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
-            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("PhotoId", dto.PhotoId, DbType.Guid);
             parameters.Add("PhoneNumber", dto.PhoneNumber, DbType.String);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
-            parameters.Add("IsLinkedToAccount", dto.AccountId is not null, DbType.Boolean);
 
             using (var connection = _db.CreateConnection())
             {
@@ -144,7 +139,8 @@ namespace Profiles.Data.Implementations.Repositories
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
                                 DateOfBirth = @DateOfBirth,
-                                PhoneNumber = @PhoneNumber
+                                PhoneNumber = @PhoneNumber,
+                                IsActive = 1
                             WHERE Id = @Id;
                         """;
 
@@ -162,26 +158,7 @@ namespace Profiles.Data.Implementations.Repositories
             }
         }
 
-        public async Task<int> LinkToAccount(Guid id, Guid accountId)
-        {
-            var query = """
-                            UPDATE Patients
-                            SET AccountId = @AccountId,
-                                IsLinkedToAccount = 1
-                            WHERE Id = @Id;
-                        """;
-
-            var parameters = new DynamicParameters();
-            parameters.Add("Id", id, DbType.Guid);
-            parameters.Add("AccountId", accountId, DbType.Guid);
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.ExecuteAsync(query, parameters);
-            }
-        }
-
-        public async Task<Guid> GetPhotoIdAsync(Guid id)
+        public async Task<Guid?> GetPhotoIdAsync(Guid id)
         {
             var query = """
                             SELECT PhotoId
@@ -191,7 +168,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             using (var connection = _db.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
+                return await connection.QueryFirstOrDefaultAsync<Guid?>(query, new { id });
             }
         }
     }

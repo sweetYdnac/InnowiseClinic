@@ -9,6 +9,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Azure;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Messages;
 using Shared.Models.Request.Services.Specialization.SwaggerExamples;
 using Shared.Models.Response;
 using Swashbuckle.AspNetCore.Filters;
@@ -24,6 +25,7 @@ namespace Documents.API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<IAppointmentResultsService, AppointmentsResultService>();
             services.AddScoped<IFileGeneratorService, FileGeneratorService>();
+            services.AddScoped<IMessageService, MessageService>();
         }
 
         internal static void AddRepositories(this IServiceCollection services)
@@ -37,7 +39,7 @@ namespace Documents.API.Extensions
             services.AddSwaggerGen(options =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, true);
                 options.ExampleFilters();
             });
@@ -88,7 +90,7 @@ namespace Documents.API.Extensions
             });
         }
 
-        internal static void ConfigureMassTransit(this IServiceCollection services)
+        internal static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddMassTransit(x =>
             {
@@ -97,15 +99,14 @@ namespace Documents.API.Extensions
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
+
+            EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureAzureStorage(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddAzureClients(clientBuilder =>
-            {
-                clientBuilder.AddBlobServiceClient(
-                    configuration.GetConnectionString("AzuriteBlobConnection"));
-            });
+            services.AddAzureClients(clientBuilder => clientBuilder.AddBlobServiceClient(
+                    configuration.GetConnectionString("AzuriteBlobConnection")));
 
             services.AddSingleton(provider =>
             {
@@ -113,6 +114,17 @@ namespace Documents.API.Extensions
                 configuration.Bind("AzuriteConfiguration", config);
                 return config;
             });
+        }
+
+        internal static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
         }
     }
 }

@@ -10,9 +10,14 @@ namespace Services.API.Validators.Service
         {
             RuleFor(s => s.Title).Required();
             RuleFor(s => s.Price).Required().GreaterThan(0);
-            RuleFor(s => s.SpecializationId).Required();
             RuleFor(s => s.CategoryId).Required();
             RuleFor(s => s.IsActive).NotNull();
+            RuleFor(r => r.TimeSlotSize)
+                .Required()
+                .GreaterThan(0)
+                .Must(p => p % 10 == 0)
+                .WithMessage("Time slot duration should be divided by 10.");
+
         }
     }
 }

@@ -7,10 +7,10 @@ namespace Shared.Models.Request.Appointments.AppointmentResult.SwaggerExamples
         public CreateAppointmentResultRequest GetExamples() =>
             new()
             {
+                Id = Guid.NewGuid(),
                 Complaints = "Bla bla bla",
                 Conclusion = "Healthy",
                 Recommendations = "Go for a wolk",
-                AppointmentId = Guid.NewGuid(),
 
                 PatientFullName = "Evgeny Koreba ",
                 PatientDateOfBirth = new DateOnly(2000, 2, 13),

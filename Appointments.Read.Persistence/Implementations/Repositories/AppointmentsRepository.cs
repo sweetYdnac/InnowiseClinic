@@ -49,7 +49,6 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 .Where(a => a.Id.Equals(dto.Id))
                 .ExecuteUpdateAsync(p => p
                     .SetProperty(a => a.DoctorId, a => dto.DoctorId)
-                    .SetProperty(a => a.OfficeId, a => dto.OfficeId)
                     .SetProperty(a => a.Date, a => dto.Date)
                     .SetProperty(a => a.Time, a => dto.Time)
                     .SetProperty(a => a.DoctorFullName, a => dto.DoctorFullName));
@@ -146,12 +145,14 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
 
             var items = totalCount > 0
                 ? await query
-                    .FilterByPage(currentPage, pageSize)
                     .SortMany(sorts)
+                    .FilterByPage(currentPage, pageSize)
                     .Select(a => new AppointmentDTO
                     {
+                        Id = a.Id,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
+                        PatientId = a.PatientId,
                         PatientFullName = a.PatientFullName,
                         PatientPhoneNumber = a.PatientPhoneNumber,
                         DoctorFullName = a.DoctorFullName,
@@ -193,12 +194,14 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                     .SortMany(sorts)
                     .Select(a => new AppointmentHistoryDTO
                     {
+                        Id = a.Id,
                         Date = a.Date,
                         StartTime = a.Time,
                         EndTime = a.Time.AddMinutes(a.Duration),
                         DoctorFullName = a.DoctorFullName,
                         ServiceName = a.ServiceName,
-                        ResultId = a.AppointmentResult.Id,
+                        ResultId = a.AppointmentResult == null ? null : a.AppointmentResult.Id,
+                        IsApproved = a.IsApproved,
                     })
                     .ToArrayAsync()
                 : Enumerable.Empty<AppointmentHistoryDTO>();
@@ -208,6 +211,13 @@ namespace Appointments.Read.Persistence.Implementations.Repositories
                 Items = items,
                 TotalCount = totalCount
             };
+        }
+
+        public async Task<Appointment> GetByIdAsync(Guid id)
+        {
+            return await DbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id.Equals(id));
         }
     }
 }

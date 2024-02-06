@@ -8,6 +8,7 @@ namespace Shared.Models.Request.Profiles.Doctor.SwaggerExamples
         public CreateDoctorRequest GetExamples() =>
             new()
             {
+                Id = Guid.NewGuid(),
                 PhotoId = Guid.NewGuid(),
                 FirstName = "Mark",
                 LastName = "Cello",
@@ -18,8 +19,9 @@ namespace Shared.Models.Request.Profiles.Doctor.SwaggerExamples
                 CareerStartYear = 2010,
                 SpecializationName = "Dentist",
                 OfficeAddress = "Minesota SomeStreet 22, 2",
-                AccountId = Guid.NewGuid(),
                 Status = AccountStatuses.AtWork,
+                Email = "test@gmail.com",
+                Password = "123123",
             };
     }
 }

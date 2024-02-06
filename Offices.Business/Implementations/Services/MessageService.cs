@@ -10,10 +10,8 @@ namespace Offices.Business.Implementations.Services
 
         public MessageService(ISendEndpointProvider sendEndpointProvider) => _sendEndpointProvider = sendEndpointProvider;
 
-        public async Task SendDisableOfficeMessageAsync(Guid officeId)
-        {
+        public async Task SendDisableOfficeMessageAsync(Guid officeId) =>
             await _sendEndpointProvider.Send(new DisableOfficeMessage { OfficeId = officeId });
-        }
 
         public async Task SendUpdateOfficeMessageAsync(Guid officeId, string city, string street, string houseNumber, string officeNumber, bool isActive)
         {
@@ -26,5 +24,7 @@ namespace Offices.Business.Implementations.Services
 
             await _sendEndpointProvider.Send(message);
         }
+
+        public async Task SendAddLogMessageAsync(AddLogMessage message) => await _sendEndpointProvider.Send(message);
     }
 }

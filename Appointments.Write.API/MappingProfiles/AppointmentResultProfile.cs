@@ -12,7 +12,6 @@ namespace Appointments.Write.API.MappingProfiles
         public AppointmentResultProfile()
         {
             CreateMap<CreateAppointmentResultRequest, CreateAppointmentResultCommand>()
-                .ForMember(command => command.Id, opt => opt.MapFrom(request => Guid.NewGuid()))
                 .ForMember(entity => entity.Date, opt => opt.MapFrom(command => DateTime.Now));
 
             CreateMap<CreateAppointmentResultCommand, AppointmentResult>();

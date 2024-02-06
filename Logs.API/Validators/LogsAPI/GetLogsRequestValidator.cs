@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using Shared.Models.Request.Offices;
+using Shared.Models.Request.LogsAPI;
 
-namespace Offices.API.Validators
+namespace Logs.API.Validators.LogsAPI
 {
-    public class GetOfficesRequestModelValidator : AbstractValidator<GetOfficesRequest>
+    public class GetLogsRequestValidator : AbstractValidator<GetLogsRequest>
     {
-        public GetOfficesRequestModelValidator()
+        public GetLogsRequestValidator()
         {
             RuleFor(r => r.CurrentPage)
                 .NotNull()

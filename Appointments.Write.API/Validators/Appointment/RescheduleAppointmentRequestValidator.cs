@@ -9,7 +9,6 @@ namespace Appointments.Write.API.Validators.Appointment
         public RescheduleAppointmentRequestValidator()
         {
             RuleFor(r => r.DoctorId).Required();
-            RuleFor(r => r.OfficeId).Required();
             RuleFor(r => r.DoctorFullName).Required();
 
             RuleFor(r => r.Date)

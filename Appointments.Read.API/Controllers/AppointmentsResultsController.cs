@@ -1,5 +1,4 @@
 ﻿using Appointments.Read.Application.Features.Queries.AppointmentsResults;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,17 +23,15 @@ namespace Appointments.Read.API.Controllers
     public class AppointmentsResultsController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
 
-        public AppointmentsResultsController(IMediator mediator, IMapper mapper) =>
-            (_mediator, _mapper) = (mediator, mapper);
+        public AppointmentsResultsController(IMediator mediator) =>_mediator = mediator;
 
         /// <summary>
         /// Get appointment result by Id
         /// </summary>
         /// <param name="id">Appointment result's unique identifier</param>
         [HttpGet("{id}")]
-        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Doctor)}, {nameof(AccountRoles.Patient)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Doctor)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(AppointmentResultResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]

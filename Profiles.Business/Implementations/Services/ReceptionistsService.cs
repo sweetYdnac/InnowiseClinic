@@ -6,6 +6,7 @@ using Profiles.Data.DTOs.ReceptionistSummary;
 using Profiles.Data.Interfaces.Repositories;
 using Serilog;
 using Shared.Exceptions;
+using Shared.Messages;
 using Shared.Models.Response;
 using Shared.Models.Response.Profiles.Receptionist;
 
@@ -48,6 +49,7 @@ namespace Profiles.Business.Implementations.Services
         {
             await _receptionistsRepository.AddAsync(dto);
             await _receptionistSummaryRepository.AddAsync(_mapper.Map<CreateReceptionistSummaryDTO>(dto));
+            await _messageService.SendCreateAccountEmailAsync(_mapper.Map<SendCreateAccountEmailMessage>(dto));
 
             return dto.Id;
         }
@@ -58,8 +60,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
 
                 var receptionistSummary = _mapper.Map<UpdateReceptionistSummaryDTO>(dto);
                 await _receptionistSummaryRepository.UpdateAsync(id, receptionistSummary);
@@ -77,7 +78,11 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendDeletePhotoMessageAsync(photoId);
+                if (photoId is not null)
+                {
+                    await _messageService.SendDeletePhotoMessageAsync(photoId.Value);
+                }
+
                 await _receptionistSummaryRepository.RemoveAsync(id);
             }
             else
@@ -92,8 +97,7 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                var accountId = await _receptionistsRepository.GetAccountIdAsync(id);
-                await _messageService.SendUpdateAccountStatusMessageAsync(accountId, dto.Status, dto.UpdaterId);
+                await _messageService.SendUpdateAccountStatusMessageAsync(id, dto.Status, dto.UpdaterId);
             }
             else
             {

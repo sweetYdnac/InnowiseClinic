@@ -33,14 +33,12 @@ namespace Authorization.API.Extensions
                 {
                     ClientId = "machineClient",
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-                    AllowOfflineAccess = true,
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes =
                     {
                         "Full",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
                     }
                 },
 
@@ -48,7 +46,10 @@ namespace Authorization.API.Extensions
                 {
                     ClientId = "userClient",
                     RequireClientSecret = false,
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = new string[]{
+                        GrantType.ResourceOwnerPassword,
+                        "refresh_token",
+                    },
                     AllowOfflineAccess = true,
                     AllowedScopes =
                     {
@@ -56,7 +57,12 @@ namespace Authorization.API.Extensions
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                    }
+                    },
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    AbsoluteRefreshTokenLifetime = 60 * 60 * 24 * 14,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenLifetime = 60 * 15,
                 }
             };
 

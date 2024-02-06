@@ -8,6 +8,7 @@ namespace Offices.API.SwaggerExamples.Requests
         public UpdateOfficeRequest GetExamples() =>
             new()
             {
+                PhotoId = Guid.NewGuid(),
                 City = "Brest",
                 Street = "Lenina",
                 HouseNumber = "30",

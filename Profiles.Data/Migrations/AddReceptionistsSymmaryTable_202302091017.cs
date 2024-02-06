@@ -20,7 +20,7 @@ namespace Profiles.Data.Migrations
             Insert.IntoTable("ReceptionistsSummary")
                 .Row(new
                 {
-                    Id = new Guid("A315F9D1-C385-4665-920C-D03896D626CA"),
+                    Id = new Guid("1B6A0D76-F6CC-48C4-AC24-5845C5D8EBDE"),
                     OfficeAddress = "Homel Belickogo 9 1"
                 })
                 .Row(new

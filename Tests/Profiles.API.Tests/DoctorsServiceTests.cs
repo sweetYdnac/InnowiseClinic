@@ -81,7 +81,13 @@ namespace Profiles.API.Tests
         {
             // Arrange
             var dto = _fixture.Create<GetDoctorsDTO>();
-            var pagedResult = _fixture.Create<PagedResult<DoctorInformationResponse>>();
+            var pagedResult = _fixture.Build<PagedResult<DoctorInformationResponse>>()
+                .With(
+                x => x.Items,
+                _fixture.Build<DoctorInformationResponse>()
+                    .With(x => x.DateOfBirth, DateOnly.FromDateTime(DateTime.UtcNow))
+                    .CreateMany())
+                .Create();
 
             _doctorsRepositoryMock.Setup(x => x.GetDoctors(dto)).ReturnsAsync(pagedResult);
 
@@ -113,6 +119,7 @@ namespace Profiles.API.Tests
             // Assert
             _doctorsRepositoryMock.Verify(x => x.AddAsync(dto), Times.Once);
             _doctorsSummaryRepositoryMock.Verify(x => x.AddAsync(createDoctorSummaryDTO), Times.Once);
+            _messageServiceMock.Verify(x => x.SendCreateAccountEmailAsync(It.IsAny<SendCreateAccountEmailMessage>()), Times.Once);
         }
 
         [Fact]
@@ -213,7 +220,6 @@ namespace Profiles.API.Tests
 
             // Assert
             _doctorsSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _doctorsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Once);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), It.IsAny<AccountStatuses>(), It.IsAny<string>()),
                 Times.Once);
@@ -237,7 +243,6 @@ namespace Profiles.API.Tests
                 .WithMessage($"Doctor's profile with id = {id} doesn't exist.");
 
             _doctorsSummaryRepositoryMock.Verify(x => x.ChangeStatus(id, dto.Status), Times.Once);
-            _doctorsRepositoryMock.Verify(x => x.GetAccountIdAsync(id), Times.Never);
             _messageServiceMock.Verify(x => x.SendUpdateAccountStatusMessageAsync(
                 It.IsAny<Guid>(), It.IsAny<AccountStatuses>(), It.IsAny<string>()),
                 Times.Never);

@@ -7,11 +7,11 @@ namespace Shared.Models.Request.Profiles.Patient.SwaggerExamples
         public CreatePatientRequest GetExamples() =>
             new()
             {
+                Id = Guid.NewGuid(),
                 FirstName = "Scarlet",
                 LastName = "Johansson",
                 MiddleName = "nvm",
                 DateOfBirth = new DateOnly(1985, 10, 19),
-                AccountId = Guid.NewGuid(),
                 PhotoId = Guid.NewGuid(),
                 PhoneNumber = "123321123",
             };

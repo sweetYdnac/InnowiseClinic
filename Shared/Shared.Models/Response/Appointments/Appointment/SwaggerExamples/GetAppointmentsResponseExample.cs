@@ -15,8 +15,10 @@ namespace Shared.Models.Response.Appointments.Appointment.SwaggerExamples
                         {
                             new()
                             {
+                                Id = Guid.NewGuid(),
                                 StartTime = new TimeOnly(12,30),
                                 EndTime = new TimeOnly(12,40),
+                                PatientId = Guid.NewGuid(),
                                 PatientFullName = "Ravshan Winner D",
                                 PatientPhoneNumber = "88005553535",
                                 DoctorFullName = "Slava Pumpkin ",
@@ -36,8 +38,10 @@ namespace Shared.Models.Response.Appointments.Appointment.SwaggerExamples
                         {
                             new()
                             {
+                                Id = Guid.NewGuid(),
                                 StartTime = new TimeOnly(09,30),
                                 EndTime = new TimeOnly(10,00),
+                                PatientId = Guid.NewGuid(),
                                 PatientFullName = "Ravshan Winner D",
                                 PatientPhoneNumber = "88005553535",
                                 DoctorFullName = "Slava Pumpkin ",

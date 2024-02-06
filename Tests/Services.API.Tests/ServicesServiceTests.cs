@@ -83,7 +83,7 @@ namespace Profiles.API.Tests
         }
 
         [Fact]
-        public async Task GetTaskAsync_WithValidDto_ReturnsPagedResponse()
+        public async Task GetPagedAsync_WithValidDto_ReturnsPagedResponse()
         {
             // Arrange
             var dto = _fixture.Build<GetServicesDTO>()
@@ -101,7 +101,7 @@ namespace Profiles.API.Tests
                 .With(x => x.TotalCount, 20)
                 .Create();
 
-            var expectedResponse = _fixture.Create<IEnumerable<ServiceResponse>>();
+            var expectedResponse = _fixture.Create<IEnumerable<ServiceInformationResponse>>();
 
             _serviceRepositoryMock.Setup(x => x.GetPagedAndFilteredAsync(
                 dto.CurrentPage,
@@ -110,7 +110,7 @@ namespace Profiles.API.Tests
                 It.IsAny<Expression<Func<Service, bool>>[]>()))
                 .ReturnsAsync(pagedResult);
 
-            _mapperMock.Setup(x => x.Map<IEnumerable<ServiceResponse>>(It.IsAny<IEnumerable<Service>>()))
+            _mapperMock.Setup(x => x.Map<IEnumerable<ServiceInformationResponse>>(It.IsAny<IEnumerable<Service>>()))
                 .Returns(expectedResponse);
 
             // Act

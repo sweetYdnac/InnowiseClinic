@@ -9,6 +9,12 @@
             This controller used to work with accounts
             </summary>
         </member>
+        <member name="M:Authorization.API.Controllers.AccountController.GetAccountById(System.Guid)">
+            <summary>
+            Get Account by Id
+            </summary>
+            <param name="id">Account's unique identifier</param>
+        </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignUp(Shared.Models.Request.Authorization.SignUpRequest)">
             <summary>
             Sign up new Account
@@ -20,6 +26,13 @@
             Sign in account/>
             </summary>
             <param name="request">Contains email and password</param>
+        </member>
+        <member name="M:Authorization.API.Controllers.AccountController.RefreshToken(Shared.Models.Request.Authorization.RefreshTokenRequest)">
+            <summary>
+            Reauthorize by refreshing access token
+            </summary>
+            <param name="request">Contain refreshToken</param>
+            <returns></returns>
         </member>
         <member name="M:Authorization.API.Controllers.AccountController.SignOut">
             <summary>

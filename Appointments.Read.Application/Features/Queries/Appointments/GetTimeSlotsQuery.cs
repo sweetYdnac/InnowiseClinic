@@ -1,5 +1,7 @@
 ﻿using Appointments.Read.Application.Interfaces.Repositories;
+using Appointments.Read.Application.Interfaces.Services;
 using MediatR;
+using Shared.Core.Extensions;
 using Shared.Models.Response.Appointments.Appointment;
 
 namespace Appointments.Read.Application.Features.Queries.Appointments
@@ -16,19 +18,31 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
     public class GetTimeSlotsQueryHandler : IRequestHandler<GetTimeSlotsQuery, TimeSlotsResponse>
     {
         private readonly IAppointmentsRepository _appointmentsRepository;
+        private readonly IDateTimeProvider _dateTimeProvider;
 
-        public GetTimeSlotsQueryHandler(IAppointmentsRepository appointmentsRepository) =>
-            _appointmentsRepository = appointmentsRepository;
+        public GetTimeSlotsQueryHandler(IAppointmentsRepository
+            appointmentsRepository,
+            IDateTimeProvider dateTimeProvider) =>
+        (_appointmentsRepository, _dateTimeProvider) = (appointmentsRepository, dateTimeProvider);
 
         public async Task<TimeSlotsResponse> Handle(GetTimeSlotsQuery request, CancellationToken cancellationToken)
         {
+            var startTime = _dateTimeProvider.Now().Day.Equals(request.Date.Day)
+                ? TimeOnly.FromDateTime(_dateTimeProvider.Now().Ceiling(TimeSpan.FromMinutes(10)))
+                : request.StartTime;
+
+            if ((request.EndTime - startTime).TotalMinutes < request.Duration)
+            {
+                return new TimeSlotsResponse { TimeSlots = new Dictionary<TimeOnly, HashSet<Guid>>() };
+            }
+
             var appointments = await _appointmentsRepository.GetAppointmentsAsync(
                     request.Date, request.Doctors);
 
             var timeSlots = Enumerable.Range(
                 0,
-                ((int)(request.EndTime - request.StartTime).TotalMinutes / 10) - request.Duration / 10 + 1)
-                .Select(i => request.StartTime.AddMinutes(i * 10))
+                ((int)(request.EndTime - startTime).TotalMinutes / 10) - (request.Duration / 10) + 1)
+                .Select(i => startTime.AddMinutes(i * 10))
                 .ToDictionary(time => time, time => new HashSet<Guid>(request.Doctors));
 
             foreach (var appointment in appointments)
@@ -38,7 +52,11 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
 
                 while (start <= end)
                 {
-                    timeSlots[start].Remove(appointment.DoctorId);
+                    if(timeSlots.TryGetValue(start, out var slot))
+                    {
+                        slot.Remove(appointment.DoctorId);
+                    }
+
                     start = start.AddMinutes(10);
                 }
             }

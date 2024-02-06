@@ -9,5 +9,7 @@ namespace Profiles.Business.Interfaces.Services
         Task SendDeletePhotoMessageAsync(Guid photoId);
         Task SendUpdatePatientMessageAsync(UpdatePatientMessage message);
         Task SendUpdateDoctorMessageAsync(UpdateDoctorMessage message);
+        Task SendCreateAccountEmailAsync(SendCreateAccountEmailMessage message);
+        Task SendAddLogMessageAsync(AddLogMessage message);
     }
 }

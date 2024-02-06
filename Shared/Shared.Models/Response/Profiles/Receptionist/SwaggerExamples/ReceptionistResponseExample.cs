@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Filters;
+﻿using Shared.Core.Enums;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Shared.Models.Response.Profiles.Receptionist.SwaggerExamples
 {
@@ -11,7 +12,8 @@ namespace Shared.Models.Response.Profiles.Receptionist.SwaggerExamples
                 FirstName = "Jack",
                 LastName = "Sparrow",
                 MiddleName = "Some middlename",
-                OfficeAddress = "Boston str. 10, 11"
+                OfficeAddress = "Boston str. 10, 11",
+                Status = AccountStatuses.AtWork
             };
     }
 }

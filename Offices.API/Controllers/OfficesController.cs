@@ -56,7 +56,7 @@ namespace Offices.API.Controllers
         /// </summary>
         /// <param name="request">Contains paging parameters</param>
         [HttpGet]
-        [Authorize(Roles = $"{nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Admin)}")]
+        [Authorize(Roles = $"{nameof(AccountRoles.Admin)}, {nameof(AccountRoles.Receptionist)}, {nameof(AccountRoles.Patient)}")]
         [ProducesResponseType(typeof(PagedResponse<OfficeInformationResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
@@ -85,9 +85,9 @@ namespace Offices.API.Controllers
         [SwaggerRequestExample(typeof(CreateOfficeRequest), typeof(CreateOfficeRequestExample))]
         public async Task<IActionResult> CreateOffice([FromBody] CreateOfficeRequest request)
         {
-            var response = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));
+            var id = await _officeService.CreateAsync(_mapper.Map<CreateOfficeDTO>(request));
 
-            return StatusCode(201, response);
+            return StatusCode(201, new { id });
         }
 
         /// <summary>

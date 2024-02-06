@@ -8,10 +8,10 @@ namespace Appointments.Write.API.Validators.AppointmentResult
     {
         public CreateAppointmentResultRequestValidator()
         {
+            RuleFor(r => r.Id).Required();
             RuleFor(r => r.Complaints).Required();
             RuleFor(r => r.Conclusion).Required();
             RuleFor(r => r.Recommendations).Required();
-            RuleFor(r => r.AppointmentId).Required();
 
             RuleFor(r => r.PatientFullName).Required();
             RuleFor(r => r.PatientDateOfBirth).Required();

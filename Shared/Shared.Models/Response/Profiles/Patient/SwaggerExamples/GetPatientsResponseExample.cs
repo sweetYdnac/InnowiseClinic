@@ -13,12 +13,14 @@ namespace Shared.Models.Response.Profiles.Patient.SwaggerExamples
                         Id = Guid.NewGuid(),
                         FullName = "David Guetta",
                         PhoneNumber = "1234567890",
+                        DateOfBirth = DateOnly.FromDateTime(DateTime.Now),
                     },
                     new()
                     {
                         Id = Guid.NewGuid(),
                         FullName = "Martin Garrix NVM",
-                        PhoneNumber = "123123123"
+                        PhoneNumber = "123123123",
+                        DateOfBirth = DateOnly.FromDateTime(DateTime.Now),
                     }
                 },
                 3,

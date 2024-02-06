@@ -3,8 +3,10 @@ using Appointments.Read.API.Consumers.Appointment;
 using Appointments.Read.API.Consumers.AppointmentResult;
 using Appointments.Read.Application.Features.Commands.Appointments;
 using Appointments.Read.Application.Interfaces.Repositories;
+using Appointments.Read.Application.Interfaces.Services;
 using Appointments.Read.Persistence.Contexts;
 using Appointments.Read.Persistence.Implementations.Repositories;
+using Appointments.Read.Persistence.Implementations.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MassTransit;
@@ -23,6 +25,12 @@ namespace Appointments.Read.API.Extensions
 {
     internal static class ServiceCollectionExtensions
     {
+        internal static void AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
+        }
+
         internal static void AddRepositories(this IServiceCollection services)
         {
             services.AddTransient<IAppointmentsRepository, AppointmentsRepository>();
@@ -44,7 +52,7 @@ namespace Appointments.Read.API.Extensions
             services.AddSwaggerGen(options =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(Environment.CurrentDirectory, xmlFile);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath, true);
                 options.ExampleFilters();
             });
@@ -110,19 +118,30 @@ namespace Appointments.Read.API.Extensions
                 x.AddConsumer<CancelAppointmentConsumer>();
                 x.AddConsumer<RescheduleAppointmentConsumer>();
                 x.AddConsumer<ApproveAppointmentConsumer>();
-
                 x.AddConsumer<CreateAppointmentResultConsumer>();
                 x.AddConsumer<EditAppointmentResultConsumer>();
-
                 x.AddConsumer<UpdatePatientConsumer>();
                 x.AddConsumer<UpdateDoctorConsumer>();
                 x.AddConsumer<UpdateServiceConsumer>();
 
                 x.UsingRabbitMq((context, config) => config.ConfigureEndpoints(context));
             });
+
+            EndpointConvention.Map<AddLogMessage>(new Uri(configuration.GetValue<string>("Messages:AddLogEndpoint")));
         }
 
         internal static void ConfigureMediatR(this IServiceCollection services) =>
             services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<CreateAppointmentCommand>());
+
+        internal static void ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                }));
+        }
     }
 }

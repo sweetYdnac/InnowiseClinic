@@ -1,11 +1,13 @@
 ﻿using Authorization.Business.Abstractions;
 using Authorization.Data.DataTransferObjects;
 using Authorization.Data.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Serilog;
 using Shared.Core.Enums;
 using Shared.Exceptions;
 using Shared.Exceptions.Authorization;
+using Shared.Models.Response.Authorization;
 
 namespace Authorization.Business.ServicesImplementations
 {
@@ -15,16 +17,18 @@ namespace Authorization.Business.ServicesImplementations
         private readonly UserManager<Account> _userManager;
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
         public AccountService(
             SignInManager<Account> signInManager,
             UserManager<Account> userManager,
             RoleManager<IdentityRole<Guid>> roleManager,
-            ITokenService tokenService) =>
-        (_signInManager, _userManager, _roleManager, _tokenService) =
-        (signInManager, userManager, roleManager, tokenService);
+            ITokenService tokenService,
+            IMapper mapper) =>
+        (_signInManager, _userManager, _roleManager, _tokenService, _mapper) =
+        (signInManager, userManager, roleManager, tokenService, mapper);
 
-        public async Task<Guid> SignUpAsync(string email, string password)
+        public async Task<Guid> SignUpAsync(string email, string password, string roleName)
         {
             var id = Guid.NewGuid();
 
@@ -47,11 +51,11 @@ namespace Authorization.Business.ServicesImplementations
                 throw new AccountNotCreatedException($"Email = {email} is already exist.");
             }
 
-            result = await _userManager.AddToRoleAsync(user, nameof(AccountRoles.Patient));
+            result = await _userManager.AddToRoleAsync(user, roleName);
 
             if (!result.Succeeded)
             {
-                Log.Warning("Default role for user with {@Email} didn't set", email);
+                Log.Warning("Role for user with {@Email} didn't set", email);
             }
 
             var account = await _userManager.FindByEmailAsync(email);
@@ -116,13 +120,7 @@ namespace Authorization.Business.ServicesImplementations
 
         public async Task UpdateRolesAsync(Guid id, PatchRolesDTO dto)
         {
-            var account = await _userManager.FindByIdAsync(id.ToString());
-
-            if (account is null)
-            {
-                throw new NotFoundException($"Account with id = {id} doesn't exist.");
-            }
-
+            var account = await _userManager.FindByIdAsync(id.ToString()) ?? throw new NotFoundException($"Account with id = {id} doesn't exist.");
             var role = await _roleManager.FindByNameAsync(dto.RoleName);
 
             if (role is null)
@@ -141,6 +139,16 @@ namespace Authorization.Business.ServicesImplementations
                     await _userManager.RemoveFromRoleAsync(account, dto.RoleName);
                 }
             }
+        }
+
+        public async Task<AccountResponse> GetById(Guid id)
+        {
+            var account = await _userManager.FindByIdAsync(id.ToString());
+
+            return account is null
+                ? throw new NotFoundException($"Account with id = {id} doesn't exist")
+                : _mapper.Map<AccountResponse>(account);
+
         }
     }
 }

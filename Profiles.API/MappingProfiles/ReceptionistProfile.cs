@@ -2,6 +2,7 @@
 using Profiles.Data.DTOs;
 using Profiles.Data.DTOs.Receptionist;
 using Profiles.Data.DTOs.ReceptionistSummary;
+using Shared.Messages;
 using Shared.Models.Request.Profiles;
 using Shared.Models.Request.Profiles.Receptionist;
 
@@ -12,8 +13,8 @@ namespace Profiles.API.MappingProfiles
         public ReceptionistProfile()
         {
             CreateMap<GetReceptionistsRequest, GetReceptionistsDTO>();
-            CreateMap<CreateReceptionistRequest, CreateReceptionistDTO>()
-                .ForMember(dto => dto.Id, opt => opt.MapFrom(model => Guid.NewGuid()));
+            CreateMap<CreateReceptionistRequest, CreateReceptionistDTO>();
+            CreateMap<CreateReceptionistDTO, SendCreateAccountEmailMessage>();
             CreateMap<UpdateReceptionistRequest, UpdateReceptionistDTO>();
             CreateMap<ChangeStatusRequestModel, ChangeStatusDTO>();
 

@@ -8,6 +8,7 @@ namespace Shared.Models.Request.Profiles.Receptionist.SwaggerExamples
         public UpdateReceptionistRequest GetExamples() =>
             new()
             {
+                PhotoId = null,
                 FirstName = "Jenna",
                 LastName = "Ortega",
                 MiddleName = "Some middle name",

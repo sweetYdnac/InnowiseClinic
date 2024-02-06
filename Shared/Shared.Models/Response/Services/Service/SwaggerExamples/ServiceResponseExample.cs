@@ -7,9 +7,10 @@ namespace Shared.Models.Response.Services.Service.SwaggerExamples
         public ServiceResponse GetExamples() =>
             new()
             {
-                Id = Guid.NewGuid(),
                 Title = "Custom service name",
                 Price = 50,
+                SpecializationId = Guid.NewGuid(),
+                CategoryId = Guid.NewGuid(),
                 CategoryTitle = "Diagnostics",
                 IsActive = true,
             };

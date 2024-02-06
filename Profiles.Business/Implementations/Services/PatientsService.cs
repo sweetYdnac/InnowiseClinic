@@ -56,7 +56,10 @@ namespace Profiles.Business.Implementations.Services
 
             if (result > 0)
             {
-                await _messageService.SendDeletePhotoMessageAsync(photoId);
+                if (photoId is not null)
+                {
+                    await _messageService.SendDeletePhotoMessageAsync(photoId.Value);
+                }
             }
             else
             {
@@ -75,16 +78,6 @@ namespace Profiles.Business.Implementations.Services
             else
             {
                 Log.Warning("Patient wasn't updated {@Id} {@Dto}", id, dto);
-            }
-        }
-
-        public async Task LinkToAccount(Guid id, Guid accountId)
-        {
-            var result = await _patientsRepository.LinkToAccount(id, accountId);
-
-            if (result == 0)
-            {
-                Log.Warning("Patient wasn't linked to account {@Id} {@AccountId}", id, accountId);
             }
         }
     }

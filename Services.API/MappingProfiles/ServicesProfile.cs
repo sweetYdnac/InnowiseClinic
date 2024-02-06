@@ -20,6 +20,10 @@ namespace Services.API.MappingProfiles
             CreateMap<Service, ServiceResponse>()
                 .ForMember(r => r.CategoryTitle, opt => opt.MapFrom(s => s.Category.Title));
 
+            CreateMap<Service, ServiceInformationResponse>()
+                .ForMember(r => r.CategoryTitle, opt => opt.MapFrom(s => s.Category.Title))
+                .ForMember(r => r.Duration, opt => opt.MapFrom(s => s.Category.TimeSlotSize));
+
         }
     }
 }

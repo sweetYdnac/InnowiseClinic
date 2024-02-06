@@ -46,16 +46,45 @@ namespace Shared.Models.Extensions
 
         private static IOrderedQueryable<T> SortBy<T>(this IQueryable<T> query, Expression<Func<T, object>> keySelector)
         {
-            return query.GetType() is IOrderedQueryable<T> orderedQuery
-                ? orderedQuery.ThenBy(keySelector)
-                : query.OrderBy(keySelector);
+            if (query.IsOrdered())
+            {
+                var orderedQuery = query as IOrderedQueryable<T>;
+                return orderedQuery.ThenBy(keySelector);
+            }
+            else
+            {
+                return query.OrderBy(keySelector);
+            }
         }
 
         private static IOrderedQueryable<T> SortByDescending<T>(this IQueryable<T> query, Expression<Func<T, object>> keySelector)
         {
-            return query.GetType() is IOrderedQueryable<T> orderedQuery
-                ? orderedQuery.ThenByDescending(keySelector)
-                : query.OrderByDescending(keySelector);
+            if (query.IsOrdered())
+            {
+                var orderedQuery = query as IOrderedQueryable<T>;
+                return orderedQuery.ThenByDescending(keySelector);
+            }
+            else
+            {
+                return query.OrderByDescending(keySelector);
+            }
+        }
+
+        private static bool IsOrdered<T>(this IQueryable<T> query)
+        {
+            if (query.Expression.NodeType.Equals(ExpressionType.Call))
+            {
+                var methodCallExpression = (MethodCallExpression)query.Expression;
+                var method = methodCallExpression.Method;
+
+                if (method.Name.Equals("orderby", StringComparison.OrdinalIgnoreCase) ||
+                    method.Name.Equals("thenby", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

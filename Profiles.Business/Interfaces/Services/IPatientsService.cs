@@ -12,6 +12,5 @@ namespace Profiles.Business.Interfaces.Services
         Task<PatientResponse> GetMatchedPatientAsync(GetMatchedPatientDTO dto);
         Task RemoveAsync(Guid id);
         Task UpdateAsync(Guid id, UpdatePatientDTO dto);
-        Task LinkToAccount(Guid id, Guid accountId);
     }
 }

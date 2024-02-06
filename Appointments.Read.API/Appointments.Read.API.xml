@@ -9,6 +9,13 @@
             This controller used for query appointments data
             </summary>
         </member>
+        <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetAppointment(System.Guid)">
+            <summary>
+            Get appointment by Id
+            </summary>
+            <param name="id">Appointment's unique identifier</param>
+            <returns></returns>
+        </member>
         <member name="M:Appointments.Read.API.Controllers.AppointmentsController.GetDoctorSchedule(System.Guid,Shared.Models.Request.Appointments.Appointment.GetDoctorScheduleRequest)">
             <summary>
             Get appointment schedule by doctor

@@ -9,6 +9,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
             {
                 PatientId = Guid.NewGuid(),
                 DoctorId = Guid.NewGuid(),
+                SpecializationId = Guid.NewGuid(),
                 ServiceId = Guid.NewGuid(),
                 OfficeId = Guid.NewGuid(),
                 Date = new DateOnly(2023, 3, 20),
@@ -19,7 +20,8 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
                 PatientDateOfBirth = new DateOnly(2000, 2, 13),
                 DoctorFullName = "Doctor Octavius ",
                 DoctorSpecializationName = "Custom specialization",
-                ServiceName = "Filling"
+                ServiceName = "Filling",
+                OfficeAddress = "Homel, belickogo 9 1",
             };
     }
 }

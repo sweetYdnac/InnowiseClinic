@@ -10,6 +10,7 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
         public Guid Id { get; set; }
         public Guid PatientId { get; set; }
         public Guid DoctorId { get; set; }
+        public Guid SpecializationId { get; set; }
         public Guid ServiceId { get; set; }
         public Guid OfficeId { get; set; }
         public DateOnly Date { get; set; }
@@ -22,6 +23,7 @@ namespace Appointments.Read.Application.Features.Commands.Appointments
         public string DoctorFullName { get; set; }
         public string DoctorSpecializationName { get; set; }
         public string ServiceName { get; set; }
+        public string OfficeAddress { get; set; }
     }
 
     public class CreateAppointmentCommandHandler : IRequestHandler<CreateAppointmentCommand, int>

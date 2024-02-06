@@ -86,10 +86,6 @@ namespace Appointments.Write.Persistence.Migrations
             modelBuilder.Entity("Appointments.Write.Domain.Entities.AppointmentResult", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("AppointmentId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Complaints")
@@ -109,9 +105,6 @@ namespace Appointments.Write.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
-
                     b.ToTable("AppointmentsResults", t =>
                         {
                             t.HasCheckConstraint("CHK_Appointment_Date", "\"Date\" < CURRENT_TIMESTAMP");
@@ -120,8 +113,7 @@ namespace Appointments.Write.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("176999c3-035e-43e1-b68a-f9071dc7a016"),
-                            AppointmentId = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
+                            Id = new Guid("9cd00fb6-0a51-4aef-99bd-a1f6c00203c1"),
                             Complaints = "nothing new",
                             Conclusion = "healthy",
                             Date = new DateTime(2023, 3, 1, 13, 20, 10, 0, DateTimeKind.Unspecified),
@@ -129,8 +121,7 @@ namespace Appointments.Write.Persistence.Migrations
                         },
                         new
                         {
-                            Id = new Guid("16fc93ad-cb73-4a78-9538-f808f3e812cd"),
-                            AppointmentId = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
+                            Id = new Guid("51e15af0-a487-48aa-80bc-2c45abae4096"),
                             Complaints = "here we go",
                             Conclusion = "have a disease",
                             Date = new DateTime(2023, 3, 4, 15, 50, 30, 0, DateTimeKind.Unspecified),
@@ -142,7 +133,7 @@ namespace Appointments.Write.Persistence.Migrations
                 {
                     b.HasOne("Appointments.Write.Domain.Entities.Appointment", "Appointment")
                         .WithOne("AppointmentResult")
-                        .HasForeignKey("Appointments.Write.Domain.Entities.AppointmentResult", "AppointmentId")
+                        .HasForeignKey("Appointments.Write.Domain.Entities.AppointmentResult", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

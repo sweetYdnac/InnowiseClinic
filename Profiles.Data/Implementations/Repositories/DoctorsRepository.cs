@@ -24,7 +24,7 @@ namespace Profiles.Data.Implementations.Repositories
         public async Task<DoctorResponse> GetByIdAsync(Guid id)
         {
             var query = """
-                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationName, OfficeAddress, CareerStartYear, PhotoId, Status
+                            SELECT FirstName, LastName, MiddleName, DateOfBirth, SpecializationId, SpecializationName, OfficeId, OfficeAddress, CareerStartYear, PhotoId, Status
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
                             WHERE Doctors.Id = @id
@@ -45,16 +45,17 @@ namespace Profiles.Data.Implementations.Repositories
             var query = $"""
                             SELECT Doctors.Id,
                                    CONCAT(FirstName,' ', LastName, ' ', MiddleName) AS FullName,
+                                   SpecializationId,
                                    SpecializationName,
+                                   OfficeId,
                                    OfficeAddress,
-                                   DATEDIFF(YEAR, CareerStartYear, GETDATE()) + 1 AS Experience,
+                                   DATEDIFF(YEAR, DATEFROMPARTS(CareerStartYear, 1, 1), GETDATE()) + 1 AS Experience,
+                                   DateOfBirth,
                                    Status,
                                    PhotoId
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName) AND
+                            WHERE CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
                                   {statusFilter}
@@ -65,9 +66,7 @@ namespace Profiles.Data.Implementations.Repositories
                             SELECT COUNT(*)
                             FROM Doctors
                             JOIN DoctorsSummary On Doctors.Id = DoctorsSummary.Id
-                            WHERE (FirstName LIKE @FullName OR
-                                  LastName LIKE @FullName OR
-                                  MiddleName LIKE @FullName) AND
+                            WHERE CONCAT(FirstName, ' ' , LastName, ' ' ,MiddleName) LIKE @FullName AND
                                   SpecializationId LIKE @SpecializationId AND
                                   OfficeId LIKE @OfficeId
                                   {statusFilter}
@@ -91,7 +90,7 @@ namespace Profiles.Data.Implementations.Repositories
             var query = """
                             INSERT Doctors
                             VALUES
-                            (@Id, @FirstName, @LastName, @MiddleName, @AccountId, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear, @PhotoId);
+                            (@Id, @FirstName, @LastName, @MiddleName, @DateOfBirth, @SpecializationId, @OfficeId, @CareerStartYear, @PhotoId);
                         """;
 
             var parameters = new DynamicParameters();
@@ -99,7 +98,6 @@ namespace Profiles.Data.Implementations.Repositories
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
-            parameters.Add("AccountId", dto.AccountId, DbType.Guid);
             parameters.Add("DateOfBirth", dto.DateOfBirth, DbType.Date);
             parameters.Add("SpecializationId", dto.SpecializationId, DbType.Guid);
             parameters.Add("OfficeId", dto.OfficeId, DbType.Guid);
@@ -116,7 +114,8 @@ namespace Profiles.Data.Implementations.Repositories
         {
             var query = """
                             UPDATE Doctors
-                            SET FirstName = @FirstName,
+                            SET PhotoId = @PhotoId,
+                                FirstName = @FirstName,
                                 LastName = @LastName,
                                 MiddleName = @MiddleName,
                                 DateOfBirth = @DateOfBirth,
@@ -128,6 +127,7 @@ namespace Profiles.Data.Implementations.Repositories
 
             var parameters = new DynamicParameters();
             parameters.Add("Id", id, DbType.Guid);
+            parameters.Add("PhotoId",dto.PhotoId, DbType.Guid);
             parameters.Add("FirstName", dto.FirstName, DbType.String);
             parameters.Add("LastName", dto.LastName, DbType.String);
             parameters.Add("MiddleName", dto.MiddleName, DbType.String);
@@ -159,20 +159,6 @@ namespace Profiles.Data.Implementations.Repositories
         {
             var query = """
                             SELECT PhotoId
-                            FROM Doctors
-                            WHERE Id = @id
-                        """;
-
-            using (var connection = _db.CreateConnection())
-            {
-                return await connection.QueryFirstOrDefaultAsync<Guid>(query, new { id });
-            }
-        }
-
-        public async Task<Guid> GetAccountIdAsync(Guid id)
-        {
-            var query = """
-                            SELECT AccountId
                             FROM Doctors
                             WHERE Id = @id
                         """;

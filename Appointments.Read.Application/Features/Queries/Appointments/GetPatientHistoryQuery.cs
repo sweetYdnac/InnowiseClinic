@@ -13,6 +13,7 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
         public Guid PatientId { get; set; }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
+        public bool IsFinished { get; set; }
     }
 
     public class GetPatientHistoryQueryHandler : IRequestHandler<GetPatientHistoryQuery, PagedResponse<AppointmentHistoryResponse>>
@@ -40,6 +41,7 @@ namespace Appointments.Read.Application.Features.Queries.Appointments
                 new Expression<Func<Appointment, bool>>[]
                 {
                     appointment => appointment.PatientId.Equals(request.PatientId),
+                    appointment => !request.IsFinished || !appointment.AppointmentResult.Equals(null)
                 });
 
             return new PagedResponse<AppointmentHistoryResponse>(

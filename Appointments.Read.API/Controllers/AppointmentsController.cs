@@ -31,6 +31,26 @@ namespace Appointments.Read.API.Controllers
             (_mediator, _mapper) = (mediator, mapper);
 
         /// <summary>
+        /// Get appointment by Id
+        /// </summary>
+        /// <param name="id">Appointment's unique identifier</param>
+        /// <returns></returns>
+        [HttpGet("appointments/{id}")]
+        [Authorize]
+        [ProducesResponseType(typeof(RescheduleAppointmentResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValidationFailedResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(BaseResponse), StatusCodes.Status500InternalServerError)]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(RescheduleAppointmentResponseExample))]
+        public async Task<IActionResult> GetAppointment([FromRoute] Guid id)
+        {
+            var response = await _mediator.Send(new GetAppointmentByIdQuery() { Id = id });
+
+            return Ok(response);
+        }
+
+        /// <summary>
         /// Get appointment schedule by doctor
         /// </summary>
         /// <param name="id">Doctor's unique identifier</param>

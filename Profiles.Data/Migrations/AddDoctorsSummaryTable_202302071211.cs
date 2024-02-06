@@ -21,7 +21,7 @@ namespace Profiles.Data.Migrations
             Insert.IntoTable("DoctorsSummary")
                 .Row(new
                 {
-                    Id = new Guid("835CD971-9F41-4A81-A477-B88171671639"),
+                    Id = new Guid("A2361776-CC5A-45C2-BDCA-390C820AB7C7"),
                     SpecializationName = "Therapist",
                     OfficeAddress = "Homel Belickogo 9 1"
                 })

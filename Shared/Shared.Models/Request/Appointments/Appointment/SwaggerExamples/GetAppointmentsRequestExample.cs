@@ -11,7 +11,7 @@ namespace Shared.Models.Request.Appointments.Appointment.SwaggerExamples
                 PageSize = 3,
                 Date = new DateOnly(2023, 05,24),
                 DoctorFullName = "Ale",
-                ServiceName = "Filli",
+                ServiceId = Guid.NewGuid(),
                 OfficeId = Guid.NewGuid(),
                 IsApproved = true,
             };

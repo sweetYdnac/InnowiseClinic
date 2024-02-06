@@ -6,7 +6,6 @@
     <UserSecretsId>355a0c2e-2d0d-4258-9b23-f14645687ee7</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>D:\Work\InnowiseClinic\Profiles.API\Profiles.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

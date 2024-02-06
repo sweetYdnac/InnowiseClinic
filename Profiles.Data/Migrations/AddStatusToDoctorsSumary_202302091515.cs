@@ -18,7 +18,7 @@ namespace Profiles.Data.Migrations
                 .OnTable("DoctorsSummary")
                 .AsInt32()
                 .NotNullable()
-                .WithDefaultValue((int)AccountStatuses.Inactive);
+                .WithDefaultValue((int)AccountStatuses.AtWork);
         }
     }
 }

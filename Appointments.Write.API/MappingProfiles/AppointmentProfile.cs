@@ -3,6 +3,7 @@ using Appointments.Write.Domain.Entities;
 using AutoMapper;
 using Shared.Messages;
 using Shared.Models.Request.Appointments.Appointment;
+using Shared.Models.Response.Appointments.Appointment;
 
 namespace Appointments.Write.API.MappingProfiles
 {
